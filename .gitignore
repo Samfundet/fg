@@ -1,3 +1,4 @@
 /.idea
 /db.sqlite3
 temp
+src/angular_frontend/*
