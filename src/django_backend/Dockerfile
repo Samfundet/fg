@@ -19,4 +19,4 @@ RUN touch /var/log/uwsgi/django_fg.log
 WORKDIR /django
 RUN pip3 install -r requirements.txt
 
-CMD uwsgi --ini uwsgi.ini
+CMD uwsgi --socket :8000 --module fg.wsgi
