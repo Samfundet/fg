@@ -2,3 +2,5 @@
 /db.sqlite3
 temp
 src/angular_frontend/*
+
+.DS_Store
