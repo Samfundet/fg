@@ -11,7 +11,7 @@
 If everything worked you should be able to see the angular application at [127.0.0.1](http://127.0.0.1).
 
 # Hierarchy
-![docker_diagram](jhnoor.github.com/fg/README/docker_diagram.png)
+![docker_diagram](jhnoor.github.com/fg/DOCS/docker_diagram.png)
 
 
 # TODO
