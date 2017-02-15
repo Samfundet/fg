@@ -8,6 +8,7 @@
 ```docker-compose build```
 * Bring the containers up:
 ```docker-compose up```
+* Finally in src/angular_frontend run ```npm install && ng build```
 
 If everything worked you should be able to see the angular application at [127.0.0.1](http://127.0.0.1).
 
