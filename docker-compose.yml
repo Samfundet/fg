@@ -1,4 +1,5 @@
-version: '2'  
+version: '2'
+
 services:  
   nginx:
     restart: always
@@ -10,8 +11,8 @@ services:
       - ./config/nginx:/etc/nginx/conf.d
       - ./src/angular_frontend/dist:/static
       - ./temp/log:/var/log/uwsgi
-    depends_on:
-      - django
+    networks:
+      - webserver_network
   django:
     restart: always
     build: ./src/django_backend/
@@ -19,15 +20,24 @@ services:
     #environment:
     #  - DJANGO_PRODUCTION=false
     container_name: django
-    depends_on:
-      - postgres
     volumes:
       - ./src/django_backend:/src/django_backend
       - ./temp/log/uwsgi:/var/log/uwsgi
     expose:
       - "8000"
+    networks:
+      - webserver_network
+      - database_network
 
   postgres:
     restart: "no"
     image: postgres:latest
     container_name: postgres
+    networks:
+      - database_network
+
+networks:
+  webserver_network:
+    driver: bridge
+  database_network:
+    driver: bridge
