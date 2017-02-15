@@ -2,7 +2,7 @@
      
 * Get [docker](https://www.docker.com/products/overview).
 * Get [docker-compose](https://docs.docker.com/compose/install/).
-* Confirm that docker is installed (type 'docker' and 'docker-compose', if they both work you're good to go!)
+* Confirm that docker is installed (type 'docker -v' and 'docker-compose -v'), docker should be >=1.13 and docker-compose >=1.6
 * Clone the project, cd into the project directory.
 * Build the docker containers:
 ```docker-compose build```
