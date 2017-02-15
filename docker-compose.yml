@@ -21,7 +21,7 @@ services:
     #  - DJANGO_PRODUCTION=false
     container_name: django
     volumes:
-      - ./src/django_backend:/src/django_backend
+      - ./src/django_backend:/django
       - ./temp/log/uwsgi:/var/log/uwsgi
     expose:
       - "8000"
