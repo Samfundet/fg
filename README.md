@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jhnoor/fg.svg?branch=master)](https://travis-ci.org/jhnoor/fg)
+
 # Setup
      
 * Get [docker](https://www.docker.com/products/overview).
