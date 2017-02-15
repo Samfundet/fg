@@ -7,8 +7,8 @@ services:
 
 env:
     global:
-        - DOCKER_VERSION=1.13
-        - DOCKER_COMPOSE_VERSION=1.11
+        - DOCKER_VERSION=1.10.1-0~trusty
+        - DOCKER_COMPOSE_VERSION=1.6.0
 
 before_install:
     # list docker-engine versions
