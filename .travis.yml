@@ -14,11 +14,11 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
-  - docker-compose -v
-
 install:
-
+  - docker-compose build
+  - docker-compuse up
+  - docker ps | grep -q django
 
 script:
-    - docker version
-    - docker-compose version
+  - docker version
+  - docker-compose version
