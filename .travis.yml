@@ -5,18 +5,9 @@ python:
 services:
   - docker
 
-env:
-  DOCKER_COMPOSE_VERSION: 1.6
-
-before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-
 install:
-  - docker-compose build
-  - docker-compuse up
+  - docker build -t django ./src/django_backend/
+  - docker run -d -p 127.0.0.1:80:80 --name django django
 
 script:
   - docker ps | grep -q django
