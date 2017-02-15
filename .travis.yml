@@ -3,6 +3,11 @@ sudo: required
 env:
   DOCKER_COMPOSE_VERSION: 1.11
 
+services:
+  - docker
+  - docker-compose
+
 before_install:
-  - sudo apt-get update
+  - apt-get update
+  - apt-get install -y docker-engine
   - docker-compose -v
