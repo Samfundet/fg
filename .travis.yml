@@ -8,6 +8,9 @@ services:
 install:
   - docker build -t django ./src/django_backend/
   - docker run -d -p 127.0.0.1:80:80 --name django django
+  - docker build -t angular ./src/angular_frontend/
+  - docker run -d -p --name angular angular
 
 script:
   - docker ps | grep -q django
+  - docker ps | grep -q angular

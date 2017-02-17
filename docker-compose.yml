@@ -13,9 +13,10 @@ services:
       - ./temp/log:/var/log/uwsgi
     networks:
       - webserver_network
+
   django:
     restart: always
-    build: ./src/django_backend/
+    build: ./src/django_backend
     # Set the environment to production on deploy
     #environment:
     #  - DJANGO_PRODUCTION=false
