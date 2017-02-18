@@ -9,7 +9,7 @@ services:
       - "80:80"
     volumes:
       - ./config/nginx:/etc/nginx/conf.d
-      - ./src/angular_frontend/dist:/static
+      - ./src/angular_frontend:/static
       - ./temp/log:/var/log/uwsgi
     networks:
       - webserver_network
