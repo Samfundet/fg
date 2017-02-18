@@ -7,7 +7,6 @@ class Tag(models.Model):
 class Category(models.Model):
     category = models.CharField(max_length=80)
 
-
 class Media(models.Model):
     medium = models.CharField(max_length=80)
 
@@ -18,9 +17,9 @@ class Place(models.Model):
     place = models.CharField(max_length=80)
 
 class ImageModel(models.Model):
-    image_prod = models.ImageField()
-    image_web = models.ImageField()
-    image_thumb = models.ImageField()
+    #image_prod = models.ImageField()
+    #image_web = models.ImageField()
+    #image_thumb = models.ImageField()
 
     # Foreign keys
     tag = models.ForeignKey(Tag)

@@ -8,7 +8,6 @@ MAINTAINER Jamawadi Noor (jamawadi@gmail.com)
 #    curl \
 #    vim
 
-
 # Copy files from actual computer to a folder named root
 RUN mkdir /django
 ADD . /django
@@ -19,4 +18,4 @@ ADD . /django
 WORKDIR /django
 RUN pip3 install -r requirements.txt
 
-CMD uwsgi --socket :8000 --module fg.wsgi
+CMD ["uwsgi", "--ini", "uwsgi.ini"]
