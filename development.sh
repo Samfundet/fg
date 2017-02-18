@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 cyan() { echo "$(tput setaf 6)$*$(tput setaf 9)"; }
 red() { echo "$(tput setaf 1)$*$(tput setaf 9)"; }
 
@@ -9,4 +10,5 @@ echo docker-compose stop $(docker-compose stop)
 echo docker-compose build $(docker-compose build)
 echo docker-compose up -d $(docker-compose up -d)
 
-cyan "Make sure to run 'ng build --watch' in ./src/angular_frontend/"
+cyan "Running 'ng build --watch' in ./src/angular_frontend/"
+$(cd ./src/angular_frontend/; ng build --watch)
