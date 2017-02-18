@@ -2,3 +2,6 @@ Django==1.10
 djangorestframework==3.5.4
 uwsgi==2
 psycopg2==2.6
+django-filter==0.15.2
+docutils==0.12
+Markdown==2.6.7

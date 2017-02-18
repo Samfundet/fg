@@ -9,21 +9,17 @@ services:
       - "80:80"
     volumes:
       - ./config/nginx:/etc/nginx/conf.d
-      - ./src/angular_frontend:/static
-      - ./temp/log:/var/log/uwsgi
+      - ./src/angular_frontend:/static/angular
+      - ./src/django_backend/static:/static/django
     networks:
       - webserver_network
 
   django:
     restart: always
     build: ./src/django_backend
-    # Set the environment to production on deploy
-    #environment:
-    #  - DJANGO_PRODUCTION=false
     container_name: django
     volumes:
       - ./src/django_backend:/django
-      - ./temp/log/uwsgi:/var/log/uwsgi
     expose:
       - "8000"
     networks:
