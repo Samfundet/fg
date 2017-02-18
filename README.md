@@ -2,17 +2,18 @@
 
 # Setup
      
-* Get [docker](https://www.docker.com/products/overview).
-* Get [docker-compose](https://docs.docker.com/compose/install/).
-* Confirm that docker is installed (type 'docker -v' and 'docker-compose -v'), docker should be >=1.13 and docker-compose >=1.6
-* Clone the project, cd into the project directory.
-* Build the docker containers:
+1. Get [docker](https://www.docker.com/products/overview).
+2. Get [docker-compose](https://docs.docker.com/compose/install/).
+3. Confirm that docker is installed (type 'docker -v' and 'docker-compose -v'), docker should be >=1.13 and docker-compose >=1.6
+4. Clone the project, cd into the project directory.
+5. Build the docker containers:
 ```docker-compose build```
-* Bring the containers up:
+6. Bring the containers up:
 ```docker-compose up```
-* Finally in src/angular_frontend run ```npm install && ng build```
+7. Finally in src/angular_frontend run ```npm install && ng build```
 
 If everything worked you should be able to see the angular application at [127.0.0.1](http://127.0.0.1).
+You could alternatively use ```./development.sh``` after step 4.
 
 # Hierarchy
 ![docker_diagram](DOCS/docker_diagram.png)
