@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 
+import { ApiService } from './api.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,9 +20,9 @@ import { HomeComponent } from './home/home.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
   ],
-  providers: [],
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
