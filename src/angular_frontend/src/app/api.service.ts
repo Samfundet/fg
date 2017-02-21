@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'; //TODO why no work?
 import 'rxjs/add/operator/catch';
@@ -14,24 +14,25 @@ export class ApiService {
 
   public getUser(): Observable<any> {
     return this.http.get(`${this.baseUrl}/users`);
-    /* TODO clean this up
-      .map(this.jsonToObject)
+    /* TODO import map and catch properly
+      .map(this.handleResponse)
       .catch(this.handleError)
       */
   }
 
-  //TODO name this something less gitarded
-  private jsonToObject(res: Response | any) {
+  //TODO
+  private handleResponse(res: Response | any): any {
     if (res !instanceof Response) {
       console.error("res is not Response! returning void");
       return;
+    } else {
+      console.log(res);
+      return res.json();
     }
-    console.log(res);
-    return res.json();
   }
 
   //TODO "HANDLE IT"
-  private handleError(error: Response | any) {
+  private handleError(error: Response | any): Observable<Error> {
     if (error instanceof Response) {
       console.error("Error is response");
       console.error(error);
