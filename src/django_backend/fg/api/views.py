@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
+from . import models
 
-from .serializers import UserSerializer, GroupSerializer
+from .serializers import UserSerializer, GroupSerializer, TagSerializer
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -17,3 +19,11 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+
+
+class TagViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows tags to be viewed
+    """
+    queryset = models.Tag.objects.all().order_by('name')
+    serializer_class = TagSerializer

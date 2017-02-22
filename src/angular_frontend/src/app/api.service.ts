@@ -32,7 +32,7 @@ export class ApiService {
   }
 
   //TODO "HANDLE IT"
-  private handleError(error: Response | any): Observable<Error> {
+  private handleError(error: Response | any) {
     if (error instanceof Response) {
       console.error("Error is response");
       console.error(error);

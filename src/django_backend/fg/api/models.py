@@ -16,7 +16,7 @@ class Album(models.Model):
 class Place(models.Model):
     place = models.CharField(max_length=80)
 
-class ImageModel(models.Model):
+class Image(models.Model):
     #image_prod = models.ImageField()
     #image_web = models.ImageField()
     #image_thumb = models.ImageField()
