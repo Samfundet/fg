@@ -32,6 +32,8 @@ services:
     container_name: postgres
     networks:
       - database_network
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
 
 networks:
   webserver_network:
