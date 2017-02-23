@@ -11,4 +11,4 @@ echo docker-compose build $(docker-compose build)
 echo docker-compose up -d $(docker-compose up -d)
 
 cyan "Running 'ng build --watch' in ./src/angular_frontend/"
-$(cd ./src/angular_frontend/; ng build --watch)
+$(cd ./src/angular_frontend/; npm install && ng build --watch)

@@ -6,6 +6,12 @@ from .api import views
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
+router.register(r'tags', views.TagViewSet)
+router.register(r'categories', views.CategoryViewSet)
+router.register(r'media', views.MediaViewSet)
+router.register(r'album', views.AlbumViewSet)
+router.register(r'place', views.PlaceViewSet)
+router.register(r'images', views.ImageViewSet)
 
 urlpatterns = [
     # Admin page

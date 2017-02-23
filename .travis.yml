@@ -11,3 +11,4 @@ install:
 
 script:
   - docker ps | grep -q django
+  # Run tests in django application from here
