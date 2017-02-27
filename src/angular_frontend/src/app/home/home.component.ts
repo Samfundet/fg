@@ -7,10 +7,10 @@ import { ApiService } from '../api.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  private user;
+  private imageResult;
   constructor(private api: ApiService) { }
 
   ngOnInit() {
-    this.api.get('users').subscribe(user => this.user = JSON.stringify(user));
+    this.api.get('images').subscribe(result => this.imageResult = result);
   }
 }
