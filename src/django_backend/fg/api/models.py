@@ -39,7 +39,7 @@ class Place(models.Model):
 
 
 class Image(models.Model):
-    #image_prod = models.ImageField()
+    image_prod = models.ImageField()
     #image_web = models.ImageField()
     #image_thumb = models.ImageField()
 

@@ -1,5 +1,5 @@
 /.idea
-/db.sqlite3
+db_data
 temp
 *.log
 .DS_Store

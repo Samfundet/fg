@@ -19,7 +19,7 @@ export class ApiService {
   }
 
   //TODO
-  private handleResponse(res): any {
+  private handleResponse(res: Response): any {
     if (res.hasOwnProperty("ok")) {
       if (res.ok) {
         console.log(res);
