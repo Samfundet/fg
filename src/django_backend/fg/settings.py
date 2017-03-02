@@ -140,3 +140,10 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATIC_URL = '/django-static/'
+
+# MEDIA CONFIGURATION
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+# URL that handles the media served from MEDIA_ROOT.
+MEDIA_URL = '/media/'

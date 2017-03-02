@@ -10,7 +10,8 @@ services:
     volumes:
       - ./config/nginx:/etc/nginx/conf.d
       - ./src/angular_frontend:/static/angular
-      - ./src/django_backend/static:/static/django
+      - ./src/django_backend/static:/django/static
+      - ./src/django_backend/media:/media
     networks:
       - webserver_network
 
