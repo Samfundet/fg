@@ -1,8 +1,7 @@
 from django.db import models
-from datetime import datetime
 from django.utils.timezone import now
 
-# Create your models here.
+
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
@@ -40,8 +39,8 @@ class Place(models.Model):
 
 class Image(models.Model):
     image_prod = models.ImageField()
-    #image_web = models.ImageField()
-    #image_thumb = models.ImageField()
+    image_web = models.ImageField(null=True)
+    image_thumb = models.ImageField(null=True)
 
     # Foreign keys
     tag = models.ForeignKey(Tag)
@@ -50,4 +49,8 @@ class Image(models.Model):
     album = models.ForeignKey(Album)
     place = models.ForeignKey(Place)
     date_taken = models.DateTimeField(default=now)
-    date_modified = models.DateTimeField()
+    date_modified = models.DateTimeField(blank=True)
+
+    def save(self):
+        self.date_modified = now()
+        super(Image, self).save()
