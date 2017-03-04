@@ -7,11 +7,11 @@ services:
     container_name: nginx
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./config/nginx:/etc/nginx/conf.d
       - ./src/angular_frontend:/static/angular
-      - ./src/django_backend/static:/django/static
-      - ./src/django_backend/media:/media
+      - ./src/django_backend:/django
     networks:
       - webserver_network
 
