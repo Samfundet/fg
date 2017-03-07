@@ -1,6 +1,6 @@
 FROM python:3.6
 
-MAINTAINER Jamawadi Noor (jamawadi@gmail.com)
+MAINTAINER Jama Noor (jamawadi@gmail.com)
 
 # Copy files from actual computer to a folder named django
 RUN mkdir /django
