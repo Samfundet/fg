@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  angular:
+    build: ./src/angular_frontend
+    container_name: angular
+    volumes:
+      - ./src/angular_frontend:/home/app/angular
+    command: ng build --prod --aot --no-sourcemap
