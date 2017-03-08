@@ -13,12 +13,14 @@
 7. Finally in src/angular_frontend run ```npm install && ng build```
 
 If everything worked you should be able to see the angular application at [127.0.0.1](http://127.0.0.1).
-You could alternatively use ```./development.sh``` after step 4.
+You could alternatively use ```bash development.sh``` after step 4.
+
+# Production
+```bash production.sh``` will bring up the containers with production environment (TODO).
 
 # Hierarchy
 ![docker_diagram](DOCS/docker_diagram.png)
 
 
 # TODO
-
 Check the [trello board](https://trello.com/b/tbU3wIZc/fg-3-0)
