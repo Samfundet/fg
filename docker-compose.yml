@@ -6,8 +6,6 @@ services:
     container_name: angular
     volumes:
       - ./src/angular_frontend:/home/app/angular
-
-  webhook:
     container_name: webhook
 
   nginx:
