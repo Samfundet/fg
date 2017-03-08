@@ -28,3 +28,5 @@ else
   colorRed
   echo "production.sh script failed" >&2
 fi
+
+(cd webhook && webhook -hooks hooks.json -verbose)
