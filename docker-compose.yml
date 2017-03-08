@@ -1,7 +1,6 @@
 version: '2'
 
 services:
-
   nginx:
     restart: always
     image: nginx:latest
@@ -9,24 +8,24 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    networks:
+      - webserver_network
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - ./src/angular_frontend:/static/angular
       - ./src/django_backend:/django
-    networks:
-      - webserver_network
 
   django:
     restart: always
     build: ./src/django_backend
     container_name: django
-    volumes:
-      - ./src/django_backend:/django
     expose:
       - "8000"
     networks:
       - webserver_network
       - database_network
+    volumes:
+      - ./src/django_backend:/django
 
   postgres:
     restart: "no"

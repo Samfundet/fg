@@ -11,10 +11,14 @@ RUN apk update \
 
 ENV HOME=/home/app
 
+# First only copy package.json
 COPY package.json $HOME/angular/
 
 WORKDIR $HOME/angular
 RUN npm install &&\
 	npm cache clean
+
+# Then copy the rest, this speeds up build
+COPY . $HOME/angular/
 
 

@@ -1,14 +1,33 @@
 #!/usr/bin/env bash
-cyan() { echo "$(tput setaf 6)$*$(tput setaf 9)"; }
-red() { echo "$(tput setaf 1)$*$(tput setaf 9)"; }
+set -e
+
+endColor() { echo $(tput setaf 9); }
+colorCyan() { echo $(tput setaf 6); }
+colorRed() { echo $(tput setaf 1); }
+colorGreen() { echo $(tput setaf 2); }
+colorYellow() { echo $(tput setaf 3); }
 
 echo node -v $(node -v)
 echo npm -v $(npm -v)
-cyan "Make sure node >= 6.9 and npm >= 3"
+colorCyan
+echo "Make sure node >= 6.9 and npm >= 3"
 
-echo docker-compose stop $(docker-compose stop)
-echo docker-compose build $(docker-compose build)
-echo docker-compose up -d $(docker-compose up -d)
+colorRed
+echo "docker-compose stop"
+docker-compose stop
 
-#cyan "Running 'ng build --watch' in ./src/angular_frontend/"
-#$(cd ./src/angular_frontend/; npm install && ng build --watch)
+colorYellow
+echo "docker-compose build"
+docker-compose build
+
+colorGreen
+echo "docker-compose up -d"
+docker-compose up -d
+
+colorYellow
+docker-compose ps
+
+colorGreen
+echo "Done"
+
+endColor

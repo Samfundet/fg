@@ -1,3 +1,5 @@
+sudo: required
+
 language: python
 python:
   - 3.6
@@ -6,12 +8,13 @@ services:
   - docker
 
 install:
-  - docker build -t django ./src/django_backend/
-  - docker run -d -p 127.0.0.1:80:80 --name django django
-  - docker build -t angular ./src/angular_frontend/
-  - docker run -d --name angular angular
+  - bash production.sh
+
+#install:
+  #- docker build -t django ./src/django_backend/
+  #- docker run -d -p 127.0.0.1:80:80 --name django django
+  #- docker build -t angular ./src/angular_frontend/
+  #- docker run -d --name angular angular
 
 script:
-  - docker ps | grep -q django
-  - docker ps | grep -q angular
-  # Run tests in django application from here
+  - docker ps | grep -q django angular nginx postgres
