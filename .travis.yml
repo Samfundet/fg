@@ -7,11 +7,6 @@ python:
 services:
   - docker
 
-#install:
-  #- docker build -t django ./src/django_backend/
-  #- docker run -d -p 127.0.0.1:80:80 --name django django
-  #- docker build -t angular ./src/angular_frontend/
-  #- docker run -d --name angular angular
-
 script:
   - bash production.sh
+  - bash development.sh
