@@ -4,3 +4,10 @@ services:
   angular:
     command: ng build --prod --aot --no-sourcemap
 
+  webhook:
+    restart: always
+    build: ./webhook
+    container_name: webhook
+    ports:
+      - "9000:9000"
+
