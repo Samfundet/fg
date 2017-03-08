@@ -17,4 +17,4 @@ install:
   #- docker run -d --name angular angular
 
 script:
-  - docker ps | grep -q django angular nginx postgres
+  - docker-compose ps | grep -c "Exit 1"
