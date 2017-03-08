@@ -7,18 +7,18 @@ colorRed() { echo $(tput setaf 1); }
 
 colorRed
 echo "docker-compose -f docker-compose.prod.yml stop"
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml stop
+#docker-compose -f docker-compose.yml -f docker-compose.prod.yml stop
 
 colorYellow
 echo "docker-compose -f build"
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+#docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
 
 colorGreen
 echo "docker-compose up -fd"
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+#docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 colorYellow
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
+#docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
 
 if [ $? -eq 0 ]
 then
@@ -29,4 +29,11 @@ else
   echo "production.sh script failed" >&2
 fi
 
-(cd webhook && webhook -hooks hooks.json -verbose)
+# On staging server, active webhook by calling bash production.sh webhook
+for i in "$@" ; do
+    if [[ $i == "webhook" ]] ; then
+        echo "Setting up webhook"
+        (cd webhook && webhook -hooks hooks.json -verbose)
+        break
+    fi
+done
