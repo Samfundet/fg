@@ -7,18 +7,18 @@ colorRed() { echo $(tput setaf 1); }
 
 colorRed
 echo "docker-compose -f docker-compose.prod.yml stop"
-#docker-compose -f docker-compose.yml -f docker-compose.prod.yml stop
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml stop
 
 colorYellow
 echo "docker-compose -f build"
-#docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
 
 colorGreen
 echo "docker-compose up -fd"
-#docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 colorYellow
-#docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
 
 if [ $? -eq 0 ]
 then
