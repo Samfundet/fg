@@ -7,6 +7,9 @@ services:
     volumes:
       - ./src/angular_frontend:/home/app/angular
 
+  webhook:
+    container_name: webhook
+
   nginx:
     restart: always
     image: nginx:latest
