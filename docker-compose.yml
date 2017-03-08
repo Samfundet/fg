@@ -6,7 +6,7 @@ services:
     container_name: angular
     volumes:
       - ./src/angular_frontend:/home/app/angular
-    container_name: webhook
+    container_name: angular
 
   nginx:
     restart: always

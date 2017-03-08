@@ -21,7 +21,7 @@ colorYellow
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
 
 if [ $? -eq 0 ]
-ithen
+then
   colorGreen
   echo "Successfully built and upped docker containers"
 else
