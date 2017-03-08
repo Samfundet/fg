@@ -1,8 +1,9 @@
+# MV THIS EXAMPLE FILE AS hooks.json AND DELETE THIS LINE
 [
   {
     "id": "fg-staging",
-    "execute-command": "/home/fg/webhook/redeploy-go-webhook.sh",
-    "command-working-directory": "/home/fg/webhook",
+    "execute-command": "/home/fg/fg/webhook/redeploy-fg.sh",
+    "command-working-directory": "/home/fg/fg",
     "response-message": "I got the payload!",
     "response-headers":
     [
