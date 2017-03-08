@@ -2,7 +2,7 @@ version: '2'
 
 services:
   angular:
-    build: ./src/angular_frontend
+    image: jhnoor/angular-cli
     container_name: angular
     volumes:
       - ./src/angular_frontend:/home/app/angular

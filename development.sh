@@ -27,7 +27,13 @@ docker-compose up -d
 colorYellow
 docker-compose ps
 
-colorGreen
-echo "Done"
+if [ $? -eq 0 ]
+then
+  colorGreen
+  echo "Successfully built and upped docker containers"
+else
+  colorRed
+  echo "development.sh script failed" >&2
+fi
 
 endColor

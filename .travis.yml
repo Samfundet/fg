@@ -7,9 +7,6 @@ python:
 services:
   - docker
 
-install:
-  - bash production.sh
-
 #install:
   #- docker build -t django ./src/django_backend/
   #- docker run -d -p 127.0.0.1:80:80 --name django django
@@ -17,4 +14,4 @@ install:
   #- docker run -d --name angular angular
 
 script:
-  - docker-compose ps | grep -c "Exit 1"
+  - bash production.sh
