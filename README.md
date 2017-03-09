@@ -1,6 +1,6 @@
-Master [![Build Status](https://travis-ci.org/Samfundet/fg.svg?branch=master)](https://travis-ci.org/Samfundet/fg)
+[![Build Status](https://travis-ci.org/Samfundet/fg.svg?branch=master)](https://travis-ci.org/Samfundet/fg) Master 
 
-Development [![Build Status](https://travis-ci.org/Samfundet/fg.svg?branch=development)](https://travis-ci.org/Samfundet/fg)
+[![Build Status](https://travis-ci.org/Samfundet/fg.svg?branch=development)](https://travis-ci.org/Samfundet/fg) Development 
 
 # Setup
      
