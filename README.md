@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/jhnoor/fg.svg?branch=master)](https://travis-ci.org/jhnoor/fg)
+Master [![Build Status](https://travis-ci.org/samfundet/fg.svg?branch=master)](https://travis-ci.org/samfundet/fg)
+Development [![Build Status](https://travis-ci.org/samfundet/fg.svg?branch=development)](https://travis-ci.org/samfundet/fg)
 
 # Setup
      
