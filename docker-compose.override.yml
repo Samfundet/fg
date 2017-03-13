@@ -2,4 +2,6 @@ version: '2'
 
 services:
   angular:
-    command: ng build --watch
+    command: docker-entrypoint.dev.sh
+    #command: tail -f /dev/null
+

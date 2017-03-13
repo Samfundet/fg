@@ -2,5 +2,5 @@ version: '2'
 
 services:
   angular:
-    command: ng build --prod --aot --no-sourcemap
+    command: docker-entrypoint.prod.sh
 
