@@ -11,5 +11,3 @@ COPY . /django
 WORKDIR /django
 RUN pip3 install -r requirements.txt
 RUN python manage.py collectstatic --noinput
-
-CMD ["uwsgi", "--ini", "uwsgi.ini"]

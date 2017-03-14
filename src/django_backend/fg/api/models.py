@@ -1,5 +1,7 @@
+import os
+from ..settings import MEDIA_URL
+from . import helpers
 from django.db import models
-from django.utils.timezone import now
 
 
 class Tag(models.Model):
@@ -38,9 +40,9 @@ class Place(models.Model):
 
 
 class Image(models.Model):
-    image_prod = models.ImageField()
-    image_web = models.ImageField(null=True)
-    image_thumb = models.ImageField(null=True)
+    image_prod = models.ImageField(upload_to=helpers.path_and_rename)
+    url_web = models.CharField(default=(os.path.join(MEDIA_URL, 'web/default.jpg')), max_length=256)
+    url_thumb = models.CharField(default=(os.path.join(MEDIA_URL, 'thumb/default.jpg')), max_length=256)
 
     # Foreign keys
     tag = models.ForeignKey(Tag)
@@ -48,9 +50,17 @@ class Image(models.Model):
     media = models.ForeignKey(Media)
     album = models.ForeignKey(Album)
     place = models.ForeignKey(Place)
-    date_taken = models.DateTimeField(default=now)
-    date_modified = models.DateTimeField(blank=True)
+    date_taken = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
 
-    def save(self):
-        self.date_modified = now()
-        super(Image, self).save()
+    def set_web_and_thumb(self):
+        """If an image is saved (new or not), new web and thumb must be made and url_web and url_thumb updated"""
+        self.url_web = "TEST_WEB"
+        self.url_thumb = "TEST_THUMB"
+        self.image_prod
+
+    """Overriding save method"""
+    def save(self, *args, **kwargs):
+        self.set_web_and_thumb()
+        super(Image, self).save(*args, **kwargs)
+

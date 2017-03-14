@@ -5,3 +5,5 @@ services:
     #must run as sh, not bash due to alpine node
     command: sh docker-entrypoint.dev.sh
 
+  django:
+    command: uwsgi --ini uwsgi.dev.ini
