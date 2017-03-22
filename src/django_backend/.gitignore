@@ -17,5 +17,8 @@ tests/.coverage
 build/
 tests/report/
 
+# Migrations (Comment out if you're migrating with production)
+fg/api/migrations
+
 # Media files
 media
