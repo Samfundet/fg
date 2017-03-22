@@ -9,36 +9,39 @@ from django.core.files.storage import default_storage as storage
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    description = models.CharField(max_length=50, default="")
+    name = models.CharField(max_length=50, unique=True, db_index=True)
+    description = models.CharField(max_length=50, default="", db_index=True)
 
     def __str__(self):
         return self.name
 
 
 class Category(models.Model):
-    category = models.CharField(max_length=80, unique=True)
+    category = models.CharField(max_length=80, unique=True, db_index=True)
+
+    class Meta:
+        verbose_name_plural = 'categories'
 
     def __str__(self):
         return self.category
 
 
 class Media(models.Model):
-    medium = models.CharField(max_length=80, unique=True)
+    medium = models.CharField(max_length=80, unique=True, db_index=True)
 
     def __str__(self):
         return self.medium
 
 
 class Album(models.Model):
-    name = models.CharField(max_length=5, unique=True)
+    name = models.CharField(max_length=5, unique=True, db_index=True)
 
     def __str__(self):
         return self.name;
 
 
 class Place(models.Model):
-    place = models.CharField(max_length=80, unique=True)
+    place = models.CharField(max_length=80, unique=True, db_index=True)
 
     def __str__(self):
         return self.place;
@@ -50,7 +53,6 @@ class Photo(models.Model):
     thumbnail = models.CharField(max_length=128, unique=True)
 
     # Foreign keys
-    """
     tag = models.ForeignKey(Tag)
     category = models.ForeignKey(Category)
     media = models.ForeignKey(Media)
@@ -58,16 +60,15 @@ class Photo(models.Model):
     place = models.ForeignKey(Place)
     date_taken = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
-    """
 
 
     def save(self, *args, **kwargs):
         """Overriding save method"""
         super(Photo, self).save(*args, **kwargs)
         self.make_web_and_thumbnail_images()
-
+"""
     def make_web_and_thumbnail_images(self):
-        """If an image is saved (new or not), new web and thumb must be made and url_web and url_thumb updated"""
+        #If an image is saved (new or not), new web and thumb must be made and url_web and url_thumb updated
         thumb_size = (256, 256)
         prod_path = "/django"+self.prod.url
         thumb_path = "/django"+self.prod.name.split("/")[-1]
@@ -76,3 +77,4 @@ class Photo(models.Model):
         im.convert('RGB')
         im.thumbnail(thumb_size, Image.ANTIALIAS)
         self.thumbnail = im.save(thumb_path, 'JPEG', quality=80)
+"""
