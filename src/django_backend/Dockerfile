@@ -4,12 +4,11 @@ MAINTAINER Jama Noor (jamawadi@gmail.com)
 
 # Copy files from actual computer to a folder named django
 RUN mkdir /django
-COPY . /django
-
-#TODO logging?
-
 WORKDIR /django
-RUN pip3 install -r requirements.txt
+COPY requirements.txt /django
+RUN pip install -r requirements.txt
+
+COPY . /django
 RUN python manage.py collectstatic --noinput
 
 CMD ["uwsgi", "--ini", "uwsgi.ini"]

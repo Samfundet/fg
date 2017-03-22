@@ -1,0 +1,8 @@
+[
+  {
+    "id": "fg",
+    "execute-command": "/home/fg/fg/webhook/redeploy-fg.sh",
+    "command-working-directory": "/home/fg/fg",
+    "response-message": "I got the payload!"
+  }
+]

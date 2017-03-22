@@ -57,9 +57,9 @@ class PlaceViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PlaceSerializer
 
 
-class ImageViewSet(viewsets.ModelViewSet):
+class PhotoViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows image data to be viewed or edited
     """
-    queryset = models.Image.objects.all()
-    serializer_class = serializers.ImageSerializer
+    queryset = models.Photo.objects.all()
+    serializer_class = serializers.PhotoSerializer
