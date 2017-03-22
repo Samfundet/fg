@@ -20,3 +20,5 @@ else
   colorRed
   echo "production.sh script failed" >&2
 fi
+
+sudo chmod -R 777 db_data
