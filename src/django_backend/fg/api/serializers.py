@@ -49,5 +49,4 @@ class PlaceSerializer(serializers.HyperlinkedModelSerializer):
 class PhotoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Photo
-        exclude = ('image_web', 'image_thumb',)
-
+        fields = '__all__'

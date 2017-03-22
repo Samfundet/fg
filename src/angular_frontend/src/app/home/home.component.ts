@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../api.service';
+import { Response } from '@angular/http';
 
 @Component({
   selector: 'fg-home',
@@ -7,10 +8,13 @@ import { ApiService } from '../api.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  private imageResult;
-  constructor(private api: ApiService) { }
+  photoList = [];
+  constructor(private api: ApiService) {}
 
   ngOnInit() {
-    this.api.get('images').subscribe(result => this.imageResult = result);
+    this.api.get("photos").subscribe(response => {
+      console.log(response);
+      this.photoList = response.results;
+    });
   }
 }

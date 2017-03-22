@@ -1,5 +1,3 @@
-<div *ngIf="imageResult">
-  <p *ngFor="let image of imageResult.results">
-    <img src="{{image.image_prod}}">
-  </p>
+<div *ngFor="let photo of photoList">
+  <img src="{{photo.prod}}" width="500px">
 </div>
