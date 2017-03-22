@@ -49,8 +49,6 @@ class Place(models.Model):
 
 class Photo(models.Model):
     prod = models.ImageField(upload_to=helpers.path_and_rename)
-    web = models.CharField(max_length=128, unique=True)
-    thumbnail = models.CharField(max_length=128, unique=True)
 
     # Foreign keys
     tag = models.ForeignKey(Tag)
@@ -65,7 +63,7 @@ class Photo(models.Model):
     def save(self, *args, **kwargs):
         """Overriding save method"""
         super(Photo, self).save(*args, **kwargs)
-        self.make_web_and_thumbnail_images()
+        #self.make_web_and_thumbnail_images()
 """
     def make_web_and_thumbnail_images(self):
         #If an image is saved (new or not), new web and thumb must be made and url_web and url_thumb updated
