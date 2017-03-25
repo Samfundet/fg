@@ -11,7 +11,7 @@ router.register(r'categories', views.CategoryViewSet)
 router.register(r'mediums', views.MediaViewSet)
 router.register(r'albums', views.AlbumViewSet)
 router.register(r'places', views.PlaceViewSet)
-router.register(r'images', views.ImageViewSet)
+router.register(r'photos', views.PhotoViewSet)
 
 urlpatterns = [
     # Admin page

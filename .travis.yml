@@ -8,5 +8,5 @@ services:
   - docker
 
 script:
-  - bash production.sh
-  - bash development.sh
+  - sudo bash production.sh
+  - sudo bash development.sh

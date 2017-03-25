@@ -17,5 +17,6 @@ tests/.coverage
 build/
 tests/report/
 
+
 # Media files
 media

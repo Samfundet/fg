@@ -2,6 +2,7 @@ version: '2'
 
 services:
   angular:
+    restart: always
     #must run as sh, not bash due to alpine node
     command: sh docker-entrypoint.dev.sh
 

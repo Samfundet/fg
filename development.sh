@@ -1,4 +1,10 @@
 #!/usr/bin/env bash
+if [[ $UID != 0 ]]; then
+    echo "Please run this script with sudo:"
+    echo "sudo $0 $*"
+    exit 1
+fi
+
 set -e
 
 endColor() { echo $(tput setaf 9); }
@@ -30,5 +36,7 @@ else
   colorRed
   echo "development.sh script failed" >&2
 fi
+
+sudo chmod -R 700 db_data
 
 endColor

@@ -18,7 +18,6 @@ export class ApiService {
       .map(this.handleResponse)
   }
 
-  //TODO
   private handleResponse(res: Response): any {
     if (res.hasOwnProperty("ok")) {
       if (res.ok) {
@@ -29,7 +28,6 @@ export class ApiService {
     }
   }
 
-  //TODO "HANDLE IT"
   private handleError(error) {
     if (error.hasOwnProperty("ok")) {
       if(!error.ok) {
