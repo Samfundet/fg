@@ -2,6 +2,7 @@ version: '2'
 
 services:
   angular:
+    restart: always
     image: jhnoor/angular-cli
     container_name: angular
     volumes:
