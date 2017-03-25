@@ -2,7 +2,6 @@
 import os
 from uuid import uuid4
 
-
 def path_and_rename(instance, filename):
     """Used in Image model to determine filename and path"""
     upload_to = "prod"

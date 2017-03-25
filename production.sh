@@ -11,12 +11,20 @@ colorYellow() { echo $(tput setaf 3); }
 colorGreen() { echo $(tput setaf 2); }
 colorRed() { echo $(tput setaf 1); }
 
-docker-compose stop
-docker-compose build
+colorRed
+echo "docker-compose -f docker-compose.prod.yml stop"
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml stop
+
+colorYellow
+echo "docker-compose -f build"
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
+
+colorGreen
+echo "docker-compose up -fd"
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 colorYellow
-docker-compose ps
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml ps
 
 if [ $? -eq 0 ]
 then
@@ -27,4 +35,13 @@ else
   echo "production.sh script failed" >&2
 fi
 
-sudo chmod -R 777 db_data
+sudo chmod -R 700 db_data
+
+# On staging server, active webhook by calling bash production.sh webhook
+for i in "$@" ; do
+  if [[ $i == "webhook" ]] ; then
+    echo "Setting up webhook"
+    (cd webhook && webhook -hooks hooks.json -verbose &)
+    break
+  fi
+done

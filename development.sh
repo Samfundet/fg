@@ -37,6 +37,6 @@ else
   echo "development.sh script failed" >&2
 fi
 
-sudo chmod -R 777 db_data
+sudo chmod -R 700 db_data
 
 endColor
