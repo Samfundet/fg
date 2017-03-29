@@ -32,6 +32,4 @@ else
   echo "development.sh script failed" >&2
 fi
 
-chmod -R 700 db_data
-
 endColor

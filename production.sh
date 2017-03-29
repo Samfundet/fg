@@ -30,8 +30,6 @@ else
   echo "production.sh script failed" >&2
 fi
 
-chmod -R 700 db_data
-
 # On staging server, active webhook by calling bash production.sh webhook
 for i in "$@" ; do
   if [[ $i == "webhook" ]] ; then
