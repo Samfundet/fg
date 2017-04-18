@@ -23,9 +23,6 @@ docker-compose up -d
 colorYellow
 docker-compose ps
 
-colorYellow
-docker exec
-
 if [ $? -eq 0 ]
 then
   colorGreen
