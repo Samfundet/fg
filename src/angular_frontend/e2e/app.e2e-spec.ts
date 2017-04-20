@@ -1,14 +1,14 @@
-import { NgFgPage } from './app.po';
+import { TePage } from './app.po';
 
-describe('ng-fg App', function() {
-  let page: NgFgPage;
+describe('te App', () => {
+  let page: TePage;
 
   beforeEach(() => {
-    page = new NgFgPage();
+    page = new TePage();
   });
 
   it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(page.getParagraphText()).toEqual('fg works!');
   });
 });

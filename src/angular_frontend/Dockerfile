@@ -1,13 +1,6 @@
-FROM node:6-alpine
+FROM alexsuch/angular-cli:1.0.0
 
-RUN apk update \
-  && apk add --update alpine-sdk \
-  && npm install -g @angular/cli@1.0.0-rc.4 \
-  && ng set --global packageManager=yarn \
-  && apk del alpine-sdk \
-  && rm -rf /tmp/* /var/cache/apk/* *.tar.gz ~/.npm \
-  && npm cache clear \
-  && sed -i -e "s/bin\/ash/bin\/sh/" /etc/passwd
+RUN npm rebuild node-sass --force
 
 ENV HOME=/home/app
 COPY . $HOME/angular/
