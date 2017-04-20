@@ -9,7 +9,7 @@ services:
 
   nginx:
     restart: always
-    image: nginx:latest
+    image: nginx:1.11.13
     container_name: nginx
     ports:
       - "80:80"
@@ -35,7 +35,7 @@ services:
 
   postgres:
     restart: "no"
-    image: postgres:latest
+    image: postgres:9.6.2
     container_name: postgres
     networks:
       - database_network
