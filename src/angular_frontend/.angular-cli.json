@@ -1,14 +1,15 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "ng-fg"
+    "name": "te"
   },
   "apps": [
     {
       "root": "src",
       "outDir": "dist",
       "assets": [
-        "assets"
+        "assets",
+        "favicon.ico"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -18,11 +19,9 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "fg",
       "styles": [
-        "styles.css",
-        "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+        "styles.css"
       ],
-      "scripts": [
-      ],
+      "scripts": [],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

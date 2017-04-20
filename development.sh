@@ -9,8 +9,8 @@ colorGreen() { echo $(tput setaf 2); }
 colorYellow() { echo $(tput setaf 3); }
 
 colorRed
-echo "docker-compose stop"
-docker-compose stop
+echo "docker-compose down"
+docker-compose down
 
 colorYellow
 echo "docker-compose build"

@@ -4,29 +4,27 @@ language: python
 python:
   - 3.6
 
-env:
-  global:
-    secure: Ync8hXhMF6/3z+UKHg2Ha1MVywmVcyUkx9Md+xOElg/kNziF8Jyam3/rcfK02qrV8KPVAkuGbWo1UPANViY3MVmD0A0HdrKvsikxb5CN+m6sE7dR5k3uY02nCkmgV+M0LY2MM3fvzPtIwkODGwC6lNpZZs4l/ziKZFirwmYaLYfyjnwRWL4vT2bjIH3+NUTYcr7tvDVGoPOZPT/5Ge8UFH0hcpEGl5N7Ofc65ooppLj57yFvXdQYgBUGkCOdXcB+qRAqXcOAe1sLRmQhFzkQc/tryoAppM4vfsdlGsVjhSusLtv1okJ8Og62T1tRdsbueolU+hebceS+Uk+vUkUWRvl+iWVCDprErftSiyieYc18N0hD1pdlP1vkai/YFHmKto1n5iZSRth9L9G0uPkbk6/cBnRHWLkre3pOMv20d1kAuVFcMKfh6OWVAe+zg8vp4j3YRs0EK6SCXjPsdnwdXxsJZSCRNeYBlEJHYLCHU0NOZ+2o+DOT3F+O6OQrWN/+5sTc8wneNffmNDYYZ5nDDwCAOaZPtuBBd81kxk3MmrpDvXSewdfxoEDyliYbfgv3YtOYAq0nBgpOGATlbyKrJh/eE4Odu4EL8mUUL2uIWv/+dxLziSjvmQ+yXpK4zkvh+cqqHmVdcnm4vSp1Souu+CDLnYjoUc6zIoXctjroi1U=
-
 services:
   - docker
 
 addons:
-  ssh_known_hosts: 146.185.181.250
+  ssh_known_hosts: 146.185.181.250 # Our staging server is located here
 
 script:
   - bash production.sh
   - bash development.sh
 
+# This sets up the ssh key for travis, the deploy_rsa.enc is encrypted and can safely be stored on the git repo
 before_deploy:
   - openssl aes-256-cbc -K $encrypted_f56fe3551327_key -iv $encrypted_f56fe3551327_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
   - eval "$(ssh-agent -s)"
   - chmod 600 /tmp/deploy_rsa
   - ssh-add /tmp/deploy_rsa
 
+# This script is run by the travis CI machine given all previous steps are successful
 deploy:
   provider: script
   skip_cleanup: true
-  script: bash $TRAVIS_BUILD_DIR/dev_deploy.sh
+  script: bash $TRAVIS_BUILD_DIR/deploy_staging.sh
   on:
     branch: development

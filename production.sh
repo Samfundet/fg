@@ -7,15 +7,15 @@ colorGreen() { echo $(tput setaf 2); }
 colorRed() { echo $(tput setaf 1); }
 
 colorRed
-echo "docker-compose -f docker-compose.prod.yml stop"
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml stop
+echo "docker-compose -f docker-compose.prod.yml down"
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml down
 
 colorYellow
-echo "docker-compose -f build"
+echo "docker-compose -f docker-compose.yml -f docker-compose.prod.yml build"
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml build
 
 colorGreen
-echo "docker-compose up -fd"
+echo "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d"
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 colorYellow

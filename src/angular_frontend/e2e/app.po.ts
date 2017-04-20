@@ -1,11 +1,11 @@
 import { browser, element, by } from 'protractor';
 
-export class NgFgPage {
+export class TePage {
   navigateTo() {
     return browser.get('/');
   }
 
   getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+    return element(by.css('fg-root h1')).getText();
   }
 }
