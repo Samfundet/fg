@@ -9,7 +9,7 @@ services:
 
   nginx:
     restart: always
-    image: nginx:1.11.13
+    build: ./nginx
     container_name: nginx
     ports:
       - "80:80"
