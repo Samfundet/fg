@@ -10,7 +10,7 @@ from django.core.files.storage import default_storage as storage
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True, db_index=True)
-    description = models.CharField(max_length=50, default="", db_index=True)
+    description = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
