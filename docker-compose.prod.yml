@@ -2,8 +2,9 @@ version: '2'
 
 services:
   angular:
-    #must run as sh, not bash due to alpine node
+    #must run as sh, the node alpine image does not have bash
     command: sh docker-entrypoint.prod.sh
 
   django:
-    command: uwsgi --ini uwsgi.prod.ini
+    command: bash docker-entrypoint.prod.sh
+    #uwsgi --ini uwsgi.prod.ini

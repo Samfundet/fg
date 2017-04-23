@@ -7,4 +7,4 @@ services:
     command: sh docker-entrypoint.dev.sh
 
   django:
-    command: uwsgi --ini uwsgi.dev.ini
+    command: bash docker-entrypoint.dev.sh

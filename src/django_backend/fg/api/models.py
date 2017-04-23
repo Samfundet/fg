@@ -51,11 +51,11 @@ class Photo(models.Model):
     prod = models.ImageField(upload_to=helpers.path_and_rename)
 
     # Foreign keys
-    tag = models.ForeignKey(Tag)
-    category = models.ForeignKey(Category)
-    media = models.ForeignKey(Media)
-    album = models.ForeignKey(Album)
-    place = models.ForeignKey(Place)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    media = models.ForeignKey(Media, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    place = models.ForeignKey(Place, on_delete=models.CASCADE)
     date_taken = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
