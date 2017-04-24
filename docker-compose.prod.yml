@@ -7,4 +7,3 @@ services:
 
   django:
     command: bash docker-entrypoint.prod.sh
-    #uwsgi --ini uwsgi.prod.ini

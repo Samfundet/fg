@@ -90,8 +90,9 @@ WSGI_APPLICATION = 'fg.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
+        'NAME': 'fg_db',
+        'PASSWORD': 'qwer1234',
+        'USER': 'fg',
         'HOST': 'postgres',
         'PORT': '5432',
     }
