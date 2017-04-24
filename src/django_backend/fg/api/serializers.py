@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User, Group
 from . import models
+from versatileimagefield.serializers import VersatileImageFieldSerializer
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -47,6 +48,15 @@ class PlaceSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PhotoSerializer(serializers.HyperlinkedModelSerializer):
+    photo = VersatileImageFieldSerializer(
+        sizes=[
+            ('full_size', 'url'),
+            ('web2x', 'thumbnail__1200x1200'),
+            ('web', 'thumbnail__900x900'),
+            ('thumbnail', 'thumbnail__400x400')
+        ]
+    )
+
     class Meta:
         model = models.Photo
         fields = '__all__'

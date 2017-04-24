@@ -1,11 +1,6 @@
-import os
-from ..settings import BASE_DIR, MEDIA_ROOT
-from django.core.files.base import ContentFile
-from . import helpers
-from PIL import Image
+from fg.api import helpers
 from django.db import models
-from io import StringIO, BytesIO
-from django.core.files.storage import default_storage as storage
+from versatileimagefield.fields import VersatileImageField, PPOIField
 
 
 class Tag(models.Model):
@@ -48,7 +43,11 @@ class Place(models.Model):
 
 
 class Photo(models.Model):
-    prod = models.ImageField(upload_to=helpers.path_and_rename)
+    photo = VersatileImageField(
+        upload_to=helpers.path_and_rename,
+        ppoi_field='photo_ppoi'
+    )
+    photo_ppoi = PPOIField()
 
     # Foreign keys
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
@@ -59,20 +58,5 @@ class Photo(models.Model):
     date_taken = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
-
-    def save(self, *args, **kwargs):
-        """Overriding save method"""
-        super(Photo, self).save(*args, **kwargs)
-        #self.make_web_and_thumbnail_images()
-"""
-    def make_web_and_thumbnail_images(self):
-        #If an image is saved (new or not), new web and thumb must be made and url_web and url_thumb updated
-        thumb_size = (256, 256)
-        prod_path = "/django"+self.prod.url
-        thumb_path = "/django"+self.prod.name.split("/")[-1]
-
-        im = Image.open(prod_path)
-        im.convert('RGB')
-        im.thumbnail(thumb_size, Image.ANTIALIAS)
-        self.thumbnail = im.save(thumb_path, 'JPEG', quality=80)
-"""
+    def __str__(self):
+        return self.photo.name;
