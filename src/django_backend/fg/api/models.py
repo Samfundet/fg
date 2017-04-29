@@ -12,40 +12,41 @@ class Tag(models.Model):
 
 
 class Category(models.Model):
-    category = models.CharField(max_length=80, unique=True, db_index=True)
+    name = models.CharField(max_length=80, unique=True, db_index=True)
 
     class Meta:
         verbose_name_plural = 'categories'
 
     def __str__(self):
-        return self.category
+        return self.name
 
 
 class Media(models.Model):
-    medium = models.CharField(max_length=80, unique=True, db_index=True)
+    name = models.CharField(max_length=80, unique=True, db_index=True)
 
     def __str__(self):
-        return self.medium
+        return self.name
 
 
 class Album(models.Model):
     name = models.CharField(max_length=5, unique=True, db_index=True)
 
     def __str__(self):
-        return self.name;
+        return self.name
 
 
 class Place(models.Model):
-    place = models.CharField(max_length=80, unique=True, db_index=True)
+    name = models.CharField(max_length=80, unique=True, db_index=True)
 
     def __str__(self):
-        return self.place;
+        return self.name
 
 
 class Photo(models.Model):
     photo = VersatileImageField(
         upload_to=helpers.path_and_rename,
-        ppoi_field='photo_ppoi'
+        ppoi_field='photo_ppoi',
+        default='default.jpg'
     )
     photo_ppoi = PPOIField()
 

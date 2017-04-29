@@ -1,5 +1,5 @@
 """Helper file containing functions used in api"""
-import os
+import os, string, random
 from uuid import uuid4
 
 def path_and_rename(instance, filename):
@@ -13,3 +13,6 @@ def path_and_rename(instance, filename):
         filename = '{}.{}'.format(uuid4().hex, extension)
 
     return os.path.join(upload_to, filename)
+
+def get_rand_string(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
