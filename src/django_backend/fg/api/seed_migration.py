@@ -23,7 +23,6 @@ def load_photos(apps, schema_editor):
     seed_foreign_keys(apps)
     Photo = apps.get_model("api", "Photo")
     photo_test = Photo(
-        id=0,
         album=get_random_object(apps, "Album"),
         tag=get_random_object(apps, "Tag"),
         place=get_random_object(apps, "Place"),

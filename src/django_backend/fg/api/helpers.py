@@ -16,3 +16,7 @@ def path_and_rename(instance, filename):
 
 def get_rand_string(size=6, chars=string.ascii_uppercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
+
+
+def get_rand_default_photo():
+    return 'default.jpg' #TODO return random image

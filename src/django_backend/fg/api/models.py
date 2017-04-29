@@ -46,7 +46,7 @@ class Photo(models.Model):
     photo = VersatileImageField(
         upload_to=helpers.path_and_rename,
         ppoi_field='photo_ppoi',
-        default='default.jpg'
+        default="default.jpg"
     )
     photo_ppoi = PPOIField()
 

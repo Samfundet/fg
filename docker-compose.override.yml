@@ -8,3 +8,5 @@ services:
 
   django:
     command: bash docker-entrypoint.dev.sh
+    environment:
+    - DEVELOPMENT=true
