@@ -42,12 +42,12 @@ services:
     networks:
       - database_network
     volumes:
-      - ./db_data:/var/lib/postgresql/data
+      - ./postgres/data:/var/lib/postgresql/data/pgdata
     environment:
       - POSTGRES_USER=fg
       - POSTGRES_PASSWORD=qwer1234
       - POSTGRES_DB=fg_db
-      #- PGDATA='/var/lib/postgresql/data/pgdata' todo
+      - PGDATA=/var/lib/postgresql/data/pgdata
 
 networks:
   webserver_network:
