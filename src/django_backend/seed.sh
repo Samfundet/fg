@@ -5,9 +5,12 @@ if [ "$DEVELOPMENT" != "true" ]; then
   exit 1
 fi
 
-rm -f ./fg/api/migrations/dev_seed.py
+
+# Delete all migrations
+find . -path "./fg/api/migrations/*.py" -not -name "__init__.py" -delete
+find . -path "./fg/api/migrations/*.pyc"  -delete
+
 ./manage.py flush --no-input
-./manage.py migrate --fake api zero
 ./manage.py makemigrations
 ./manage.py migrate
 cp ./fg/api/seed_migration.py ./fg/api/migrations/dev_seed.py
