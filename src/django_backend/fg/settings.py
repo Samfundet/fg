@@ -86,11 +86,10 @@ WSGI_APPLICATION = 'fg.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'fg_db',
+        'NAME': os.environ.get('POSTGRES_DB'),
         'PASSWORD': 'qwer1234',
         'USER': 'fg',
         'HOST': 'postgres',

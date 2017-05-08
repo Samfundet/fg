@@ -29,12 +29,3 @@ else
   colorRed
   echo "production.sh script failed" >&2
 fi
-
-# On staging server, active webhook by calling bash production.sh webhook
-for i in "$@" ; do
-  if [[ $i == "webhook" ]] ; then
-    echo "Setting up webhook"
-    (cd webhook && webhook -hooks hooks.json -verbose &)
-    break
-  fi
-done

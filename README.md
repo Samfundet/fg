@@ -12,6 +12,12 @@
 
 If everything worked you should be able to see the angular application at [localhost and/or 127.0.0.1](http://127.0.0.1).
 
+# Seeding
+The database is seeded using migrations defined in 
+```./src/django_backend/fg/api/seed_migration.py```. 
+Simply bring the docker containers up and run ```droprecreatedb.sh```.
+Be careful when using this.
+
 # Production
 ```bash production.sh``` will bring up the containers with production environment. Use ```bash production.sh webhook``` on the
 staging server (requires [webhook](https://github.com/adnanh/webhook)).

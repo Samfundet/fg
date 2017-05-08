@@ -6,14 +6,17 @@ from django.db import migrations
 from django.core.files import File
 
 
-def get_random_image():
-    x, y = 300, 500
+def get_random_image(max_retries):
+    (x, y) = (random.randrange(800, 1200), random.randrange(800, 1200))
     URL = "https://unsplash.it/" + str(x) + "/" + str(y) + "?random"
     request = requests.get(URL, stream=True)
 
     # Was the request OK?
     if request.status_code != requests.codes.ok:
-        raise FileNotFoundError("Request to URL: "+URL+" failed");
+        if failure_threshold > 0:
+            return get_random_image(max_retries=max_retries-1)
+        else:
+            raise FileNotFoundError("Request to URL: "+URL+" failed, retried 5 times with different pixels");
 
     # Get the filename from the url, used for saving later
     file_name = "temp.jpg"
@@ -23,7 +26,6 @@ def get_random_image():
 
     # Read the streamed image in sections
     for block in request.iter_content(1024 * 8):
-
         # If no more file then stop
         if not block:
             break
@@ -49,10 +51,9 @@ def get_random_object(apps, model_string):
 
 def load_photos(apps, schema_editor):
     seed_foreign_keys(apps)
-
     Photo = apps.get_model("api", "Photo")
 
-    for i in range(100):
+    for i in range(25):
         photo_test = Photo(
             album=get_random_object(apps, "Album"),
             tag=get_random_object(apps, "Tag"),
@@ -60,7 +61,7 @@ def load_photos(apps, schema_editor):
             media=get_random_object(apps, "Media"),
             category=get_random_object(apps, "Category")
         )
-        img = get_random_image()
+        img = get_random_image(max_retries=5)
         photo_test.photo.save(os.path.basename(img['name']), File(img['file']))
         photo_test.save()
 

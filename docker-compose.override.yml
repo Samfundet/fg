@@ -9,4 +9,15 @@ services:
   django:
     command: bash docker-entrypoint.dev.sh
     environment:
-    - DEVELOPMENT=true
+      - DEVELOPMENT=true
+      - POSTGRES_DB=fg_dev_db
+
+  postgres:
+    volumes:
+      - ./postgres/scripts:/scripts
+    environment:
+      - DEVELOPMENT=true
+      - POSTGRES_USER=fg
+      - POSTGRES_PASSWORD=qwer1234
+      - POSTGRES_DB=fg_dev_db
+      - PGDATA=/var/lib/postgresql/data/pgdata

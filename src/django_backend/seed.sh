@@ -5,7 +5,6 @@ if [ "$DEVELOPMENT" != "true" ]; then
   exit 1
 fi
 
-
 # Delete all migrations
 find . -path "./fg/api/migrations/*.py" -not -name "__init__.py" -delete
 find . -path "./fg/api/migrations/*.pyc"  -delete
@@ -13,7 +12,7 @@ find . -path "./fg/api/migrations/*.pyc"  -delete
 ./manage.py flush --no-input
 ./manage.py makemigrations
 ./manage.py migrate
+./manage.py loaddata dev_auth.json
 cp ./fg/api/seed_migration.py ./fg/api/migrations/dev_seed.py
 ./manage.py migrate
-./manage.py loaddata dev_auth.json
 rm ./fg/api/migrations/dev_seed.py
