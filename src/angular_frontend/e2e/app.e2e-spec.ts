@@ -1,10 +1,10 @@
-import { TePage } from './app.po';
+import { FgPage } from './app.po';
 
-describe('te App', () => {
-  let page: TePage;
+describe('fg App', () => {
+  let page: FgPage;
 
   beforeEach(() => {
-    page = new TePage();
+    page = new FgPage();
   });
 
   it('should display message saying app works', () => {
