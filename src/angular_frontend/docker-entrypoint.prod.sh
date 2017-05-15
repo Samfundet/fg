@@ -1,2 +1,2 @@
 #@IgnoreInspection BashAddShebang
-npm prune && npm install --prod && ng build --prod --aot
+npm prune && npm install --prod && ng build --prod --aot --progress=false
