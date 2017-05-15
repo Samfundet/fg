@@ -7,9 +7,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 // Components, only available from barrel if exported in ./app/components/index.ts
-import { NavComponent, GalleryComponent } from 'app/components';
+import { NavComponent } from './components/nav/nav.component';
+import { GalleryComponent } from './components/gallery/gallery.component';
 // Services
-import { ApiService } from 'app/services';
+import { ApiService } from './services/api.service';
 
 
 @NgModule({

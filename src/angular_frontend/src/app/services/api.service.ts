@@ -18,25 +18,29 @@ export class ApiService {
   // GET
   public getSubscribable(path: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/${path}`)
-      .catch(this.httpCatcher);
+      .catch(this.httpCatcher)
+      .map(this.extractData);
   }
 
   // POST
   public postSubscribable(path: string, obj?: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/${path}`, obj, this.options)
-      .catch(this.httpCatcher);
+      .catch(this.httpCatcher)
+      .map(this.extractData);
   }
 
   // PUT
   public putSubscribable(path: string, obj?: any): Observable<any> {
     return this.http.put(`${this.baseUrl}/${path}`, obj, this.options)
-      .catch(this.httpCatcher);
+      .catch(this.httpCatcher)
+      .map(this.extractData);
   }
 
   // DELETE
   public deleteSubscribable(path: string): Observable<any> {
     return this.http.delete(`${this.baseUrl}/${path}`, this.options)
-      .catch(this.httpCatcher);
+      .catch(this.httpCatcher)
+      .map(this.extractData);
   }
 
 
@@ -44,4 +48,9 @@ export class ApiService {
     alert(error); //TODO
     return Observable.throw(error);
   }
+
+  private extractData(res: Response) {
+    return res.json();
+  }
+
 }
