@@ -5,12 +5,18 @@ import { HttpModule } from '@angular/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavComponent } from './components/nav/nav.component';
+
+// Components, only available from barrel if exported in ./app/components/index.ts
+import { NavComponent, GalleryComponent } from 'app/components';
+// Services
+import { ApiService } from 'app/services';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent
+    NavComponent,
+    GalleryComponent
   ],
   imports: [
     BrowserModule,
@@ -18,7 +24,7 @@ import { NavComponent } from './components/nav/nav.component';
     HttpModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
