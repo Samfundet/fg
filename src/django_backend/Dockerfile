@@ -9,5 +9,4 @@ COPY requirements.txt /django
 RUN pip install -r requirements.txt
 
 COPY . /django
-
-RUN python manage.py collectstatic --noinput
+ 
