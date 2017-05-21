@@ -49,6 +49,7 @@ class Photo(models.Model):
         default="default.jpg"
     )
     photo_ppoi = PPOIField()
+    description = models.CharField(max_length=256, db_index=True, blank=True, verbose_name='motiv')
 
     # Foreign keys
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)

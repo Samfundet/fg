@@ -1,7 +1,11 @@
 <div class="container p-t-2">
   <div *ngIf="root" class="p-a-2 col-xs-12 row between-xs">
     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 p-t-2" *ngFor="let photoresult of root.results">
-      <img class="col-xs-12" [src]="photoresult.photo.web" />
+      <img class="col-xs-12"
+           src="{{photoresult.photo.small}}"
+           srcset="{{photoresult.photo.medium}} 1000w, {{photoresult.photo.large}} 2000w"
+           alt="{{photoresult.description}}"/>
+      <!--TODO bug with iOS devices, seems to only pick first element in srcset no matter what-->
     </div>
   </div>
 </div>

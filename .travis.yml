@@ -10,9 +10,11 @@ services:
 addons:
   ssh_known_hosts: 146.185.181.250 # Our staging server is located here
 
-script:
-  - bash production.sh
+before_script:
   - bash development.sh
+
+script:
+  - docker exec -it django ./manage.py test # Runs the django tests
 
 # This sets up the ssh key for travis, the deploy_rsa.enc is encrypted and can safely be stored on the git repo
 before_deploy:

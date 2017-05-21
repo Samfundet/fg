@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import os, random, requests, tempfile
+import time, random, requests, tempfile
 from fg.api import models, helpers
 from django.db import migrations
 from django.core.files import File
@@ -13,7 +13,7 @@ def get_random_image(max_retries):
 
     # Was the request OK?
     if request.status_code != requests.codes.ok:
-        if failure_threshold > 0:
+        if max_retries > 0:
             return get_random_image(max_retries=max_retries-1)
         else:
             raise FileNotFoundError("Request to URL: "+URL+" failed, retried 5 times with different pixels");
@@ -33,6 +33,7 @@ def get_random_image(max_retries):
         # Write image block to temporary file
         lf.write(block)
 
+    time.sleep(3)
     return {'name': file_name, 'file': lf}
 
 def seed_foreign_keys(apps):
@@ -53,7 +54,7 @@ def load_photos(apps, schema_editor):
     seed_foreign_keys(apps)
     Photo = apps.get_model("api", "Photo")
 
-    for i in range(25):
+    for i in range(5):
         photo_test = Photo(
             album=get_random_object(apps, "Album"),
             tag=get_random_object(apps, "Tag"),
@@ -62,8 +63,7 @@ def load_photos(apps, schema_editor):
             category=get_random_object(apps, "Category")
         )
         img = get_random_image(max_retries=5)
-        photo_test.photo.save(os.path.basename(img['name']), File(img['file']))
-        photo_test.save()
+        photo_test.photo.save(img['name'], File(img['file']))
 
 class Migration(migrations.Migration):
 
