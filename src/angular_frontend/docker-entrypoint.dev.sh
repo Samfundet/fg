@@ -1,2 +1,2 @@
 #@IgnoreInspection BashAddShebang
-npm prune && npm install && ng build
+ng build

@@ -56,6 +56,7 @@ def load_photos(apps, schema_editor):
 
     for i in range(5):
         photo_test = Photo(
+            description=helpers.get_rand_string(size=20),
             album=get_random_object(apps, "Album"),
             tag=get_random_object(apps, "Tag"),
             place=get_random_object(apps, "Place"),

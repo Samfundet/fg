@@ -5,7 +5,8 @@ services:
     build: ./src/angular_frontend
     container_name: angular
     volumes:
-      - ./src/angular_frontend:/home/app/angular
+      - ./src:/home/app
+      - /home/app/angular_frontend/node_modules
 
   nginx:
     restart: always
