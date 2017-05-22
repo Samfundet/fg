@@ -1,4 +1,4 @@
-FROM alexsuch/angular-cli:1.0.1
+FROM alexsuch/angular-cli:1.0.3
 
 RUN npm rebuild node-sass --force
 

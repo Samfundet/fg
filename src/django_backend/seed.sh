@@ -15,4 +15,7 @@ find . -path "./fg/api/migrations/*.pyc"  -delete
 ./manage.py loaddata dev_auth.json
 cp ./fg/api/seed_migration.py ./fg/api/migrations/dev_seed.py
 ./manage.py migrate
-rm ./fg/api/migrations/dev_seed.py
+
+# Delete all migrations again
+find . -path "./fg/api/migrations/*.py" -not -name "__init__.py" -delete
+find . -path "./fg/api/migrations/*.pyc"  -delete
