@@ -7,7 +7,7 @@ from django.core.files import File
 
 
 def get_random_image(max_retries):
-    (x, y) = (random.randrange(800, 1200), random.randrange(800, 1200))
+    (x, y) = get_random_dimensions()
     URL = "https://unsplash.it/" + str(x) + "/" + str(y) + "?random"
     request = requests.get(URL, stream=True)
 
@@ -44,6 +44,10 @@ def seed_foreign_keys(apps):
             obj = Mod(name=helpers.get_rand_string(4))
             obj.save()
 
+def get_random_dimensions():
+    DEFAULT_IMAGE_SIZE = 2500
+    dimensions = [DEFAULT_IMAGE_SIZE, int(DEFAULT_IMAGE_SIZE*1.5)]
+    return (dimensions.pop(random.choice([0, 1])), dimensions[0])
 
 def get_random_object(apps, model_string):
     Mod = apps.get_model("api", model_string)
@@ -53,8 +57,11 @@ def get_random_object(apps, model_string):
 def load_photos(apps, schema_editor):
     seed_foreign_keys(apps)
     Photo = apps.get_model("api", "Photo")
+    images = []
+    for i in range(10):
+        images.append(get_random_image(max_retries=5))
 
-    for i in range(5):
+    for i in range(100):
         photo_test = Photo(
             description=helpers.get_rand_string(size=20),
             album=get_random_object(apps, "Album"),
@@ -63,7 +70,7 @@ def load_photos(apps, schema_editor):
             media=get_random_object(apps, "Media"),
             category=get_random_object(apps, "Category")
         )
-        img = get_random_image(max_retries=5)
+        img = random.choice(images)
         photo_test.photo.save(img['name'], File(img['file']))
 
 class Migration(migrations.Migration):

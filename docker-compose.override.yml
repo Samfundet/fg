@@ -1,9 +1,9 @@
 version: '2'
 
 services:
-  angular:
-    #must run as sh, not bash due to alpine node
-    command: sh docker-entrypoint.dev.sh
+  #angular:
+  #  #must run as sh, not bash due to alpine node
+  #  command: sh docker-entrypoint.dev.sh
 
   django:
     command: bash docker-entrypoint.dev.sh

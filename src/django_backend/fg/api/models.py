@@ -43,22 +43,29 @@ class Place(models.Model):
 
 
 class Photo(models.Model):
+    # The actual photo object
     photo = VersatileImageField(
         upload_to=helpers.path_and_rename,
         ppoi_field='photo_ppoi',
-        default="default.jpg"
+        default="default.jpg",
+        height_field='height',
+        width_field='width'
     )
-    photo_ppoi = PPOIField()
-    description = models.CharField(max_length=256, db_index=True, blank=True, verbose_name='motiv')
 
-    # Foreign keys
+    # Information describing the photo
+    height = models.IntegerField()
+    width = models.IntegerField()
+    description = models.CharField(max_length=256, db_index=True, blank=True, verbose_name='motiv')
+    date_taken = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+    photo_ppoi = PPOIField()
+
+    # Foreign keys describing meta-data
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     media = models.ForeignKey(Media, on_delete=models.CASCADE)
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
-    date_taken = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.photo.name;

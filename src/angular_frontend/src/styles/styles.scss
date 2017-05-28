@@ -1,3 +1,26 @@
+/* Responsive breakpoints, define here and use everywhere! */
+$breakpoints: (
+  'small'  : ( min-width:  576px ),
+  'medium' : ( min-width:  768px ),
+  'large'  : ( min-width: 992px ),
+  'xlarge' : ( min-width: 1200px )
+);
+
+@mixin respond-to($name) {
+  // If the key exists in the map
+  @if map-has-key($breakpoints, $name) {
+    // Prints a media query based on the value
+    @media #{inspect(map-get($breakpoints, $name))} {
+      @content;
+    }
+  }
+
+  // If the key doesn't exist in the map
+  @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+        + "Please make sure it is defined in `$breakpoints` map.";
+  }
+}
 
 /* Reset styling for the entire app, based on a scss reset based on Eric Meyer's css reset */
 

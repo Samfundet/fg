@@ -11,7 +11,7 @@ import { NavComponent } from './components/nav/nav.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
 // Services
 import { ApiService } from './services/api.service';
-
+import { StoreService } from './services/store.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,10 @@ import { ApiService } from './services/api.service';
     HttpModule,
     AppRoutingModule
   ],
-  providers: [ApiService],
+  providers: [
+    ApiService,
+    StoreService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

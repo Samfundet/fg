@@ -1,12 +1,12 @@
 version: '2'
 
 services:
-  angular:
-    build: ./src/angular_frontend
-    container_name: angular
-    volumes:
-      - ./src:/home/app
-      - /home/app/angular_frontend/node_modules
+  #angular:
+  #  build: ./src/angular_frontend
+  #  container_name: angular
+  #  volumes:
+  #    - ./src:/home/app
+  #    - /home/app/angular_frontend/node_modules
 
   nginx:
     restart: always
