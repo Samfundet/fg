@@ -1,1 +1,2 @@
-npm prune && npm install --prod && ng build --prod --aot --no-sourcemap
+#@IgnoreInspection BashAddShebang
+ng build --prod --progress=false

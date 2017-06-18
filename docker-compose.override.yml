@@ -1,10 +1,22 @@
-version: '2'
+version: '3'
 
 services:
-  angular:
-    restart: always
-    #must run as sh, not bash due to alpine node
-    command: sh docker-entrypoint.dev.sh
+  #angular:
+  #  #must run as sh, not bash due to alpine node
+  #  command: sh docker-entrypoint.dev.sh
 
   django:
-    command: uwsgi --ini uwsgi.dev.ini
+    command: bash docker-entrypoint.dev.sh
+    environment:
+      - DEVELOPMENT=true
+      - POSTGRES_DB=fg_dev_db
+
+  postgres:
+    volumes:
+      - ./postgres/scripts:/scripts
+    environment:
+      - DEVELOPMENT=true
+      - POSTGRES_USER=fg
+      - POSTGRES_PASSWORD=qwer1234
+      - POSTGRES_DB=fg_dev_db
+      - PGDATA=/var/lib/postgresql/data/pgdata

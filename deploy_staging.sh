@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
-ssh fg@146.185.181.250 "cd fg && git pull && bash production.sh"
+LOGFILE="travis-deploys.log"
+TIMESTAMP=`date "+%Y-%m-%d %H:%M:%S"`
+ssh fg@146.185.181.250 "cd fg && git reset --hard && git pull && bash development.sh && echo $TIMESTAMP >> $LOGFILE"

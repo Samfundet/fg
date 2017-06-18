@@ -1,1 +1,2 @@
-npm prune && npm install && ng build --watch
+#@IgnoreInspection BashAddShebang
+ng build

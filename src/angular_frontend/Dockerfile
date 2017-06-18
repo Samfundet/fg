@@ -1,10 +1,16 @@
-FROM alexsuch/angular-cli:1.0.0
+# DEPRECATED
+# FROM alexsuch/angular-cli:1.1.0
+# ENV HOME=/home/app
 
-RUN npm rebuild node-sass --force
+# # Copy only package.json in order to cache the npm install
+# COPY package.json $HOME/angular_frontend/
+# RUN cd $HOME/angular_frontend && npm install
 
-ENV HOME=/home/app
-COPY . $HOME/angular/
-WORKDIR $HOME/angular
+# # Then copy the rest of the folders
+# COPY . $HOME/angular_frontend/
+
+# # Now set the working directory
+# WORKDIR $HOME/angular_frontend
 
 
 

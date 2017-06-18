@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class TePage {
+export class FgPage {
   navigateTo() {
     return browser.get('/');
   }

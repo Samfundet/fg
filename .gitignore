@@ -1,5 +1,4 @@
 /.idea
-db_data
 temp
 *.log
 .DS_Store

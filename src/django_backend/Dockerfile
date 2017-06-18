@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.6.1
 
 MAINTAINER Jama Noor (jamawadi@gmail.com)
 
@@ -9,4 +9,4 @@ COPY requirements.txt /django
 RUN pip install -r requirements.txt
 
 COPY . /django
-RUN python manage.py collectstatic --noinput
+ 

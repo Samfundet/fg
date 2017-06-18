@@ -1,9 +1,0 @@
-version: '2'
-
-services:
-  angular:
-    #must run as sh, not bash due to alpine node
-    command: sh docker-entrypoint.prod.sh
-
-  django:
-    command: uwsgi --ini uwsgi.prod.ini

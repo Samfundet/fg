@@ -1,15 +1,17 @@
-version: '2'
+version: '3'
 
 services:
-  angular:
-    build: ./src/angular_frontend
-    container_name: angular
-    volumes:
-      - ./src/angular_frontend:/home/app/angular
+  # TODO DEPRECATED: Deploy via travis CI should handle static files
+  # angular:
+  #   build: ./src/angular_frontend
+  #   container_name: angular
+  #   volumes:
+  #     - ./src:/home/app
+  #     - /home/app/angular_frontend/node_modules
 
   nginx:
     restart: always
-    image: nginx:latest
+    build: ./nginx
     container_name: nginx
     ports:
       - "80:80"
@@ -32,15 +34,18 @@ services:
       - database_network
     volumes:
       - ./src/django_backend:/django
+    depends_on:
+      - postgres
 
   postgres:
-    restart: "no"
-    image: postgres:latest
+    restart: always
+    image: postgres:9.6.2
     container_name: postgres
     networks:
       - database_network
     volumes:
-      - ./db_data:/var/lib/postgresql/data
+      - ./postgres/data:/var/lib/postgresql/data/pgdata
+
 
 networks:
   webserver_network:

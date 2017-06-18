@@ -1,78 +1,71 @@
-import os
-from ..settings import BASE_DIR, MEDIA_ROOT
-from django.core.files.base import ContentFile
-from . import helpers
-from PIL import Image
+from fg.api import helpers
 from django.db import models
-from io import StringIO, BytesIO
-from django.core.files.storage import default_storage as storage
+from versatileimagefield.fields import VersatileImageField, PPOIField
 
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True, db_index=True)
-    description = models.CharField(max_length=50, default="", db_index=True)
+    description = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
 
 
 class Category(models.Model):
-    category = models.CharField(max_length=80, unique=True, db_index=True)
+    name = models.CharField(max_length=80, unique=True, db_index=True)
 
     class Meta:
         verbose_name_plural = 'categories'
 
     def __str__(self):
-        return self.category
+        return self.name
 
 
 class Media(models.Model):
-    medium = models.CharField(max_length=80, unique=True, db_index=True)
+    name = models.CharField(max_length=80, unique=True, db_index=True)
 
     def __str__(self):
-        return self.medium
+        return self.name
 
 
 class Album(models.Model):
     name = models.CharField(max_length=5, unique=True, db_index=True)
 
     def __str__(self):
-        return self.name;
+        return self.name
 
 
 class Place(models.Model):
-    place = models.CharField(max_length=80, unique=True, db_index=True)
+    name = models.CharField(max_length=80, unique=True, db_index=True)
 
     def __str__(self):
-        return self.place;
+        return self.name
 
 
 class Photo(models.Model):
-    prod = models.ImageField(upload_to=helpers.path_and_rename)
+    # The actual photo object
+    photo = VersatileImageField(
+        upload_to=helpers.path_and_rename,
+        ppoi_field='photo_ppoi',
+        default="default.jpg",
+        height_field='height',
+        width_field='width'
+    )
 
-    # Foreign keys
-    tag = models.ForeignKey(Tag)
-    category = models.ForeignKey(Category)
-    media = models.ForeignKey(Media)
-    album = models.ForeignKey(Album)
-    place = models.ForeignKey(Place)
+    # Information describing the photo
+    height = models.IntegerField()
+    width = models.IntegerField()
+    description = models.CharField(max_length=256, db_index=True, blank=True, verbose_name='motiv')
     date_taken = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    photo_ppoi = PPOIField()
 
+    # Foreign keys describing meta-data
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    media = models.ForeignKey(Media, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    place = models.ForeignKey(Place, on_delete=models.CASCADE)
 
-    def save(self, *args, **kwargs):
-        """Overriding save method"""
-        super(Photo, self).save(*args, **kwargs)
-        #self.make_web_and_thumbnail_images()
-"""
-    def make_web_and_thumbnail_images(self):
-        #If an image is saved (new or not), new web and thumb must be made and url_web and url_thumb updated
-        thumb_size = (256, 256)
-        prod_path = "/django"+self.prod.url
-        thumb_path = "/django"+self.prod.name.split("/")[-1]
-
-        im = Image.open(prod_path)
-        im.convert('RGB')
-        im.thumbnail(thumb_size, Image.ANTIALIAS)
-        self.thumbnail = im.save(thumb_path, 'JPEG', quality=80)
-"""
+    def __str__(self):
+        return self.photo.name;

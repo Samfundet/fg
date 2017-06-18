@@ -27,6 +27,8 @@ if [ $? -eq 0 ]
 then
   colorGreen
   echo "Successfully built and upped docker containers"
+  colorCyan
+  echo "Make sure you run ng build --watch on your actual host machine to watch file changes and retranspile"
 else
   colorRed
   echo "development.sh script failed" >&2

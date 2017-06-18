@@ -1,19 +1,18 @@
 <!doctype html>
 <html>
-
 <head>
-	<meta charset="utf-8">
-	<title>fotogjengen</title>
-	<base href="/">
+  <meta charset="utf-8">
+  <title>Fotogjengen - den har slengen</title>
+  <base href="/">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" type="image/x-icon" href="assets/images/fg-logo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="assets/images/fg-logo.png">
 </head>
-
 <body>
-	<fg-root>
-		<style type="text/css">
-			#pre-bootstrap {
+  <fg-root>
+    <style type="text/css">
+
+			.pre-bootstrap {
 				background-color: #fff;
 				bottom: 0px;
 				left: 0px;
@@ -22,8 +21,8 @@
 				top: 0px;
 				z-index: 999999;
 			}
-			
-			#pre-bootstrap img.logo-spin {
+
+			.pre-bootstrap img {
 				position: absolute;
 				top: 50%;
 				left: 50%;
@@ -34,19 +33,19 @@
 				-moz-animation: spin 4s linear infinite;
 				animation: spin 4s linear infinite;
 			}
-			
+
 			@-moz-keyframes spin {
 				100% {
 					-moz-transform: rotate(360deg);
 				}
 			}
-			
+
 			@-webkit-keyframes spin {
 				100% {
 					-webkit-transform: rotate(360deg);
 				}
 			}
-			
+
 			@keyframes spin {
 				100% {
 					-webkit-transform: rotate(360deg);
@@ -54,11 +53,9 @@
 				}
 			}
 		</style>
-
-		<div id="pre-bootstrap">
+    <div class="pre-bootstrap">
 			<img class="logo-spin" src="assets/images/fg-logo.png" alt="Fotogjengen sin logo!">
 		</div>
-	</fg-root>
+  </fg-root>
 </body>
-
 </html>
