@@ -19,7 +19,7 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 install:
-  - bash development.sh
+  - bash travis.sh
 
 addons:
   ssh_known_hosts: 146.185.181.250 # Our staging server is located here
