@@ -30,7 +30,6 @@ jobs:
         - cd src/angular_frontend && npm install
       script:
         - ng build
-    - stage: deploy
       before_deploy:
         - openssl aes-256-cbc -K $encrypted_f56fe3551327_key -iv $encrypted_f56fe3551327_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
         - eval "$(ssh-agent -s)"
@@ -42,6 +41,7 @@ jobs:
         script: bash $TRAVIS_BUILD_DIR/deploy_staging.sh
         on:
           branch: development
+      
 
 # This sets up the ssh key for travis, the deploy_rsa.enc is encrypted and can safely be stored on the git repo
 # before_deploy:
