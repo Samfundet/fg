@@ -30,6 +30,8 @@ jobs:
         - cd src/angular_frontend && npm install
       script:
         - ng build
+    - stage: deploy
+      script: skip
       before_deploy:
         - openssl aes-256-cbc -K $encrypted_f56fe3551327_key -iv $encrypted_f56fe3551327_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
         - eval "$(ssh-agent -s)"
