@@ -1,12 +1,13 @@
-version: '2'
+version: '3'
 
 services:
-  #angular:
-  #  build: ./src/angular_frontend
-  #  container_name: angular
-  #  volumes:
-  #    - ./src:/home/app
-  #    - /home/app/angular_frontend/node_modules
+  # TODO DEPRECATED: Deploy via travis CI should handle static files
+  # angular:
+  #   build: ./src/angular_frontend
+  #   container_name: angular
+  #   volumes:
+  #     - ./src:/home/app
+  #     - /home/app/angular_frontend/node_modules
 
   nginx:
     restart: always

@@ -77,19 +77,11 @@ export class GalleryComponent implements OnInit {
   }
 
   processMasonry() {
-
-
     // Arrange list of pictures into sets, 8 = two landscape stacked, 0 = portrait, O = landscape
     // 1. 8O
     // 2. O
     // 3. 0O
     // 4. O0
-
-    //lppllpppplpllplpllpppp
-    //[l-p][p-l][l-p][p-p-p][p-l][p-l][l-p][l-l]
-    //[l-p] AND [p-l] AND [p-p-p] = pattern 0
-    //[l-l] = pattern 1
-    //[p-p-l] = pattern large on first, pattern 0 on rest
 
     let photoListLength = this.root.results.length;
     for (let i = 0; i < photoListLength;) { //must explicitly increment
@@ -99,17 +91,17 @@ export class GalleryComponent implements OnInit {
 
         if (this.isLandscape(photoResult)) {
           if (this.isLandscape(nextPhotoResult)) { //[l-l]
-            photoResult.klass = 'thumbnail-landscape-landscape';
-            nextPhotoResult.klass = 'thumbnail-landscape-landscape';
+            photoResult.klass = 'thumbnail-l-l';
+            nextPhotoResult.klass = 'thumbnail-l-l';
           } else { //[l-p]
-            photoResult.klass = 'thumbnail-landscape-portrait';
-            nextPhotoResult.klass = 'thumbnail-landscape-portrait';
+            photoResult.klass = 'thumbnail-l-p';
+            nextPhotoResult.klass = 'thumbnail-l-p';
           }
           i += 2;
         } else { //portrait
           if (this.isLandscape(nextPhotoResult)) { //[p-l]
-            photoResult.klass = 'thumbnail-landscape-portrait';
-            nextPhotoResult.klass = 'thumbnail-landscape-portrait';
+            photoResult.klass = 'thumbnail-l-p';
+            nextPhotoResult.klass = 'thumbnail-l-p';
             i += 2;
           } else { //[p-p]
             if (i + 2 < photoListLength) {
@@ -121,32 +113,19 @@ export class GalleryComponent implements OnInit {
                 i += 3;
               } else { //[p-*p-l*]
                 // first portrait is large, increment one
-                photoResult.klass = 'thumbnail-large';
+                photoResult.klass = 'thumbnail-full';
                 i += 1;
               }
             } else {
-              photoResult.klass = 'thumbnail-large';
+              photoResult.klass = 'thumbnail-full';
               i += 1;
             }
           }
         }
       } else {
-        photoResult.klass = 'thumbnail-large';
+        photoResult.klass = 'thumbnail-full';
         i += 1;
       }
     }
   }
-
-
-  /*foo(photoResult: PhotoResult): string {
-   let classList = [
-   "thumbnail-pattern-0",
-   "thumbnail-pattern-1",
-   "thumbnail-pattern-2",
-   "thumbnail-pattern-3"
-   ]
-
-
-   return classList[0];
-   }*/
 }

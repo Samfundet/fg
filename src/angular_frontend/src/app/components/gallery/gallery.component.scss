@@ -1,19 +1,17 @@
+@import '../../../styles/styles.scss';
+
 $gutter: 0.5rem;
 $side-gutter: 0.5rem;
 $top-down-gutter: 0.5rem;
 $base-height: 600px; //change this based on @media queries
 
-@media only screen and (min-width: 700px) {
-  $base-height: 400px;
-}
-
 /* Describes the patterns employed */
 
-.thumbnail-landscape-portrait { //and portrait-landscape and portrait-portrait-portrait
+.thumbnail-l-p { //and portrait-landscape and portrait-portrait-portrait
   height: $base-height * 2/3;
   margin: $top-down-gutter $side-gutter;
 }
-.thumbnail-landscape-landscape {
+.thumbnail-l-l {
   height: $base-height * 289/600;
   margin: $top-down-gutter $side-gutter;
 }
@@ -25,8 +23,6 @@ $base-height: 600px; //change this based on @media queries
 }
 
 .thumbnail-full {
-  heigh: $base-height;
+  height: $base-height;
   margin: $top-down-gutter $side-gutter;
 }
-
-

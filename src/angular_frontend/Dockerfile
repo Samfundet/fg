@@ -1,4 +1,4 @@
-FROM alexsuch/angular-cli:1.0.3
+FROM alexsuch/angular-cli:1.1.0
 ENV HOME=/home/app
 
 # Copy only package.json in order to cache the npm install

@@ -1,10 +1,8 @@
 /* Responsive breakpoints, define here and use everywhere! */
-$breakpoints: (
-  'small'  : ( min-width:  576px ),
-  'medium' : ( min-width:  768px ),
-  'large'  : ( min-width: 992px ),
-  'xlarge' : ( min-width: 1200px )
-);
+$small: 576px;
+$medium: 768px;
+$large: 992px;
+$xlarge: 1200px;
 
 @mixin respond-to($name) {
   // If the key exists in the map
