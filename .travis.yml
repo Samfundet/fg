@@ -28,6 +28,7 @@ jobs:
   include:
     - stage: test django
       script:
+        - docker exec -it django python manage.py makemigrations
         - docker exec -it django python manage.py test
     - stage: test angular
       install:
