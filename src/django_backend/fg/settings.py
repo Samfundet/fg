@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'versatileimagefield',
 
     # Own apps
-    'fg.api'
+    'fg.api',
+    'fg.fg_auth'
 ]
 
 REST_FRAMEWORK = {
@@ -196,3 +197,12 @@ VERSATILEIMAGEFIELD_SETTINGS = {
             ('small', 'thumbnail__400x400')
     ]
 }
+
+# AUTH SETTINGS
+AUTH_USER_MODEL = 'fg_auth.User'
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'
+AUTHENTICATION_BACKENDS = (
+    'fg.fg_auth.auth.KerberosBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)

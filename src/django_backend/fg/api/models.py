@@ -1,4 +1,5 @@
 from fg.api import helpers
+from fg.fg_auth.models import SecurityLevel
 from django.db import models
 from versatileimagefield.fields import VersatileImageField, PPOIField
 
@@ -59,6 +60,15 @@ class Photo(models.Model):
     date_taken = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     photo_ppoi = PPOIField()
+
+    # Meta information
+    page = models.IntegerField(db_index=True)
+    image_number = models.PositiveIntegerField(db_index=True)
+    date = models.DateTimeField(db_index=True)
+    lapel = models.BooleanField(default=False, db_index=True)
+    scanned = models.BooleanField(default=False, db_index=True)
+    on_home_page = models.BooleanField(default=True, db_index=True)
+    security_level = models.ForeignKey(SecurityLevel, db_index=True)
 
     # Foreign keys describing meta-data
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
