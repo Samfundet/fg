@@ -42,13 +42,14 @@ class FgInfo(models.Model):
     hjemmeside = models.CharField(max_length=255, blank=True)
     uker = models.CharField(max_length=255, blank=True)
     fg_kallenavn = models.CharField(max_length=255, blank=True)
-    bilde = models.ImageField(max_length=255, blank=True, upload_to='alle/fg_profile_images')  # TODO?
+    bilde = models.ImageField(
+        max_length=255, blank=True, upload_to='alle/fg_profile_images')  # TODO?
     aktiv_pang = models.BooleanField(default=False)
     comments = models.CharField(max_length=255, blank=True)
 
 
 class User(AbstractUser):
-    #  fields in AbstractUser username, first_name, last_name, email
+    """fields in AbstractUser username, first_name, last_name, email"""
     address = models.CharField(max_length=100, blank=True)
     zip_code = models.IntegerField(null=True, blank=True)
     city = models.CharField(max_length=30, blank=True)
@@ -56,7 +57,8 @@ class User(AbstractUser):
     member_number = models.IntegerField(null=True, blank=True)
     security_level = models.ForeignKey(SecurityLevel, default=4, blank=True)
     fg_info = models.ForeignKey(FgInfo, null=True, blank=True)
-    downloaded_images = models.ManyToManyField("api.Photo", blank=True, through='DownloadedImages')
+    downloaded_images = models.ManyToManyField(
+        "api.Photo", blank=True, through='DownloadedImages')
 
     objects = FGUserManager()
 
