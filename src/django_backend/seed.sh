@@ -12,7 +12,7 @@ find . -path "./fg/api/migrations/*.pyc"  -delete
 ./manage.py flush --no-input
 ./manage.py makemigrations
 ./manage.py migrate
-./manage.py loaddata dev_auth.json
+#./manage.py loaddata dev_auth.json
 cp ./fg/api/seed_migration.py ./fg/api/migrations/dev_seed.py
 ./manage.py migrate
 

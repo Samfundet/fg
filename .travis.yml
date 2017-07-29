@@ -25,13 +25,16 @@ jobs:
         - docker exec -it django python manage.py makemigrations
         - docker exec -it django python manage.py test
     - stage: test angular
+      env:
+        - ANGULAR_CLI_VERSION=1.0.3
       install:
-        - npm install -g @angular/cli@1.0.3
+        - npm install -g @angular/cli@${ANGULAR_CLI_VERSION}
         - cd src/angular_frontend && npm install
       script:
         - ng build
+        - ng test
     - stage: deploy
-      script: skip
+      script: echo "Deploying to staging..."
       before_deploy:
         - openssl aes-256-cbc -K $encrypted_f56fe3551327_key -iv $encrypted_f56fe3551327_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
         - eval "$(ssh-agent -s)"
@@ -43,19 +46,3 @@ jobs:
         script: bash $TRAVIS_BUILD_DIR/deploy_staging.sh
         on:
           branch: development
-      
-
-# This sets up the ssh key for travis, the deploy_rsa.enc is encrypted and can safely be stored on the git repo
-# before_deploy:
-#   - openssl aes-256-cbc -K $encrypted_f56fe3551327_key -iv $encrypted_f56fe3551327_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
-#   - eval "$(ssh-agent -s)"
-#   - chmod 600 /tmp/deploy_rsa
-#   - ssh-add /tmp/deploy_rsa
-
-# # This script is run by the travis CI machine given all previous steps are successful
-# deploy:
-#   provider: script
-#   skip_cleanup: true
-#   script: bash $TRAVIS_BUILD_DIR/deploy_staging.sh
-#   on:
-#     branch: development
