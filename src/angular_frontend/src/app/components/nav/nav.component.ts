@@ -6,11 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-
+  isMenuOpen = false;
   searchInput = 'foo';
   constructor() { }
 
   ngOnInit() {
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
   }
 
 }

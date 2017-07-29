@@ -1,17 +1,25 @@
-@import '../../../styles/_colors.scss';
-
-nav {
-  position: fixed;
+.menu-closer {
+  position: absolute;
+  top: 10px;
+  left: 1rem;
   width: 100%;
-  background-color: $background_contrast2;
-  height: 60px;
-  box-sizing: border-box;
-  z-index: 100;
-  -moz-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-  -webkit-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  font-weight: bold;
 }
 
-img {
-  filter: grayscale(100%) invert(1);
-}
+// @import '../../../styles/_colors.scss';
+
+// nav {
+//   position: fixed;
+//   width: 100%;
+//   background-color: $background_contrast2;
+//   height: 60px;
+//   box-sizing: border-box;
+//   z-index: 100;
+//   -moz-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+//   -webkit-box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+//   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+// }
+
+// img {
+//   filter: grayscale(100%) invert(1);
+// }

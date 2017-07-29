@@ -1,11 +1,16 @@
-<nav>
-  <div class="row between-xs middle-xs p-a-h1 p-l-1 p-r-1">
-    <div>
-      <img height="45px" src="assets/images/fg-logo.png" title="Fotogjengens logo"/>
-    </div>
-    <div>
-      <input class="ui-inputtext ui-g" type="text" pInputText [(ngModel)]="searchInput"/>
-    </div>
-  </div>
+<!-- Header -->
+<header id="header">
+  <h1><a href="#">fotogjengen</a></h1>
+  <a (click)="toggleMenu()" href="#menu">Menu</a>
+</header>
+
+<!-- Nav -->
+<nav [ngClass]="[isMenuOpen ? 'visible':'close']" id="menu">
+  <a class="menu-closer" (click)="toggleMenu()" href="#menu">LUKK</a>
+  <ul class="links">
+    <li><a [routerLink]="main">Forside</a></li>
+    <li><a [routerLink]="info">Info</a></li>
+    <li><a [routerLink]="kontakt">Kontakt</a></li>
+    <li><a [routerLink]="intern">Intern</a></li>
+  </ul>
 </nav>
-<div class="p-b-3"></div>
