@@ -1,28 +1,33 @@
-@import '../../../styles/styles.scss';
+// @import '../../../styles/styles.scss';
 
-$gutter: 0.5rem;
-$side-gutter: 0.5rem;
-$top-down-gutter: 0.5rem;
-$base-height: 600px; //change this based on @media queries
-
-/* Describes the patterns employed */
-
-.thumbnail-l-p { //and portrait-landscape and portrait-portrait-portrait
-  height: $base-height * 2/3;
-  margin: $top-down-gutter $side-gutter;
-}
-.thumbnail-l-l {
-  height: $base-height * 289/600;
-  margin: $top-down-gutter $side-gutter;
+.masonry-item {
+  width: 250px;
+  margin: 15px;
 }
 
+// $gutter: 0.5rem;
+// $side-gutter: 0.5rem;
+// $top-down-gutter: 0.5rem;
+// $base-height: 600px; //change this based on @media queries
 
-.thumbnail-p-p-p { //portrait portrait portrait
-  height: $base-height * 425/600;
-  margin: $top-down-gutter $side-gutter;
-}
+// /* Describes the patterns employed */
 
-.thumbnail-full {
-  height: $base-height;
-  margin: $top-down-gutter $side-gutter;
-}
+// .thumbnail-l-p { //and portrait-landscape and portrait-portrait-portrait
+//   height: $base-height * 2/3;
+//   margin: $top-down-gutter $side-gutter;
+// }
+// .thumbnail-l-l {
+//   height: $base-height * 289/600;
+//   margin: $top-down-gutter $side-gutter;
+// }
+
+
+// .thumbnail-p-p-p { //portrait portrait portrait
+//   height: $base-height * 425/600;
+//   margin: $top-down-gutter $side-gutter;
+// }
+
+// .thumbnail-full {
+//   height: $base-height;
+//   margin: $top-down-gutter $side-gutter;
+// }

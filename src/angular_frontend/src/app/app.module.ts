@@ -12,12 +12,20 @@ import { GalleryComponent } from './components/gallery/gallery.component';
 // Services
 import { ApiService } from './services/api.service';
 import { StoreService } from './services/store.service';
+import { BannerComponent } from './components/banner/banner.component';
+import { MainComponent } from './components/main/main.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { MasonryLayoutDirective } from './directives/masonry-layout.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    GalleryComponent
+    GalleryComponent,
+    BannerComponent,
+    MainComponent,
+    FooterComponent,
+    MasonryLayoutDirective
   ],
   imports: [
     BrowserModule,
