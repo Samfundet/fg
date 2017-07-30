@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA }          from '@angular/core';
 
-import { MainComponent } from './main.component';
+import {
+  MainComponent, BannerComponent, GalleryComponent
+} from 'app/components';
+import { MasonryLayoutDirective } from 'app/directives';
+
 
 describe('MainComponent', () => {
   let component: MainComponent;
@@ -8,9 +13,9 @@ describe('MainComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MainComponent ]
-    })
-    .compileComponents();
+      declarations: [MainComponent],
+      schemas:      [ NO_ERRORS_SCHEMA ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
