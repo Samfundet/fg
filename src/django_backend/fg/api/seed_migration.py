@@ -2,8 +2,7 @@
 from __future__ import unicode_literals
 import time, random, requests, tempfile, glob
 from fg import settings
-from fg.api import models, helpers
-from fg.fg_auth import models
+from fg.api import helpers
 from django.db import migrations
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
@@ -60,6 +59,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('api', '0001_initial'),
+        ('fg_auth', '0001_initial'),
     ]
 
     operations = [

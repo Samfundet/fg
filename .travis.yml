@@ -21,8 +21,8 @@ jobs:
         - sudo mv docker-compose /usr/local/bin
         - bash travis.sh
       script:
-        - docker exec -it django python manage.py makemigrations
-        - docker exec -it django python manage.py test
+        - docker exec -i django python manage.py makemigrations
+        - docker exec -i django python manage.py test
     - stage: test angular
       install:
         - npm install -g @angular/cli@1.2.0
