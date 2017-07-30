@@ -26,7 +26,8 @@ jobs:
         - bash travis.sh
       script:
         - docker exec -i django python manage.py makemigrations
-        - docker exec -i django python manage.py test fg.api fg.fg_auth
+        - docker exec -i django python manage.py test fg.api
+        - docker exec -i django python manage.py test fg.fg_auth
 
     - stage: test angular
       install:

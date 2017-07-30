@@ -13,7 +13,7 @@ services:
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - ./src/angular_frontend:/static/angular:ro # read only: ro
-      - django_volume:/django
+      - ./src/django_backend:/django
 
   django:
     restart: always
@@ -26,7 +26,6 @@ services:
       - database_network
     volumes:
       - ./src/django_backend:/django
-      - django_volume:/django
     depends_on:
       - postgres
 

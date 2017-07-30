@@ -31,6 +31,20 @@ export interface IPhotoResponse {
   results: IPhotoResult[];
 }
 
+export class PhotoResponse implements IPhotoResponse {
+  count: number;
+  next: string;
+  previous?: any;
+  results: IPhotoResult[];
+
+  constructor(response: IPhotoResponse) {
+    this.count = response.count;
+    this.next = response.next;
+    this.previous = response.previous ? response.previous : undefined;
+    this.results = response.results;
+  }
+}
+
 export const testData: IPhotoResponse = {
   count: 1,
   next: "foo",

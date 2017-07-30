@@ -6,13 +6,13 @@ from django.apps import apps
 from django.core.files import File
 
 
-def get_random_object(apps, app_name, model_string):
+def get_random_object(app_name, model_string):
     Mod = apps.get_model(app_name, model_string)
     random_index = random.randint(0, Mod.objects.count() - 1)
     return Mod.objects.all()[random_index]
 
 
-def seed_foreign_keys(apps):
+def seed_foreign_keys():
     apps_models_dict = {
         "api": ["Album", "Tag", "Category", "Media", "Place"],
         "fg_auth": ["SecurityLevel"]
@@ -35,17 +35,17 @@ class PhotoTestCase(TestCase):
     sizes = VERSATILEIMAGEFIELD_SETTINGS['sizes']
 
     def setUp(self):
-        seed_foreign_keys(apps)
+        seed_foreign_keys()
 
         self.test_photo = models.Photo(
-            album=get_random_object(apps, "api", "Album"),
-            tag=get_random_object(apps, "api", "Tag"),
-            place=get_random_object(apps, "api", "Place"),
-            media=get_random_object(apps, "api", "Media"),
-            category=get_random_object(apps, "api", "Category"),
+            album=get_random_object("api", "Album"),
+            tag=get_random_object("api", "Tag"),
+            place=get_random_object("api", "Place"),
+            media=get_random_object("api", "Media"),
+            category=get_random_object("api", "Category"),
             page=13,
             image_number=37,
-            security_level=get_random_object(apps, "fg_auth", "SecurityLevel")
+            security_level=get_random_object("fg_auth", "SecurityLevel")
         )
 
     def test_new_photo_is_saved(self):

@@ -49,7 +49,6 @@ def load_photos(apps, schema_editor):
             image_number=i,
             security_level=get_random_object(apps, "fg_auth", "SecurityLevel")
         )
-        image_path = random.choice(image_paths)
         with open(image_path, 'rb') as f:
             photo_test.photo.save(image_path, File(f))
             print("Success")
