@@ -5,6 +5,10 @@ node_js:
 services:
   - docker
 
+cache:
+  directories:
+    - src/angular_frontend/node_modules
+
 addons:
   ssh_known_hosts: 146.185.181.250 # Our staging server is located here
 
@@ -27,11 +31,18 @@ jobs:
     - stage: test angular
       install:
         - npm install -g @angular/cli@1.2.0
+        - export CHROME_BIN=/usr/bin/google-chrome
+        - export DISPLAY=:99.0
+        - sh -e /etc/init.d/xvfb start
+        - sudo apt-get update
+        - sudo apt-get install -y libappindicator1 fonts-liberation
+        - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        - sudo dpkg -i google-chrome*.deb
         - cd src/angular_frontend && npm install
       script:
         - ng build
         - ng test --watch=false
-        
+
     - stage: deploy
       script: echo "Deploying to staging..."
       before_deploy:
