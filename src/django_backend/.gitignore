@@ -16,3 +16,8 @@ tests/coverage_html/
 tests/.coverage
 build/
 tests/report/
+
+# TODO temporary
+api/migrations
+fg_auth/migrations
+**/migrations/**

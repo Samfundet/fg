@@ -144,6 +144,9 @@ STATIC_URL = '/django-static/'
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
+# Photo root (development only)
+PHOTO_ROOT = os.path.join(BASE_DIR, 'development_images/')
+
 # URL that handles the media served from MEDIA_ROOT.
 MEDIA_URL = '/media/'
 

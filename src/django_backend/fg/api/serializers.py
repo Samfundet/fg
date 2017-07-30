@@ -55,4 +55,5 @@ class PhotoSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Photo
-        fields = '__all__'
+        exclude = ['security_level']
+        #fields = '__all__' # TODO

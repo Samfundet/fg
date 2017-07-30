@@ -1,0 +1,405 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+0001_initial.py	../src/django_backend/fg/api/migrations/0001_initial.py	1;"	kind:file	line:1
+0001_initial.py	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	1;"	kind:file	line:1
+0002_auto_20170729_1707.py	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	1;"	kind:file	line:1
+0003_merge_20170729_1709.py	../src/django_backend/fg/api/migrations/0003_merge_20170729_1709.py	1;"	kind:file	line:1
+ALLOWED_HOSTS	../src/django_backend/fg/settings.py	/^ALLOWED_HOSTS = ['*']  # Added wildcard so all hosts are allowed$/;"	kind:variable	line:28
+AUTHENTICATION_BACKENDS	../src/django_backend/fg/settings.py	/^AUTHENTICATION_BACKENDS = ($/;"	kind:variable	line:205
+AUTH_PASSWORD_VALIDATORS	../src/django_backend/fg/settings.py	/^AUTH_PASSWORD_VALIDATORS = [$/;"	kind:variable	line:107
+AUTH_USER_MODEL	../src/django_backend/fg/settings.py	/^AUTH_USER_MODEL = 'fg_auth.User'$/;"	kind:variable	line:202
+AbstractUser	../src/django_backend/fg/fg_auth/models.py	/^from django.contrib.auth.models import AbstractUser$/;"	kind:namespace	line:1
+Album	../src/django_backend/fg/api/models.py	/^class Album(models.Model):$/;"	kind:class	line:32
+AlbumSerializer	../src/django_backend/fg/api/serializers.py	/^class AlbumSerializer(serializers.HyperlinkedModelSerializer):$/;"	kind:class	line:39
+AlbumViewSet	../src/django_backend/fg/api/views.py	/^class AlbumViewSet(viewsets.ModelViewSet):$/;"	kind:class	line:46
+ApiConfig	../src/django_backend/fg/api/apps.py	/^class ApiConfig(AppConfig):$/;"	kind:class	line:4
+AppConfig	../src/django_backend/fg/api/apps.py	/^from django.apps import AppConfig$/;"	kind:namespace	line:1
+BASE_DIR	../src/django_backend/fg/settings.py	/^BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))$/;"	kind:variable	line:16
+BaseUserManager	../src/django_backend/fg/fg_auth/models.py	/^from django.contrib.auth.models import BaseUserManager$/;"	kind:namespace	line:3
+Category	../src/django_backend/fg/api/models.py	/^class Category(models.Model):$/;"	kind:class	line:15
+CategorySerializer	../src/django_backend/fg/api/serializers.py	/^class CategorySerializer(serializers.HyperlinkedModelSerializer):$/;"	kind:class	line:27
+CategoryViewSet	../src/django_backend/fg/api/views.py	/^class CategoryViewSet(viewsets.ModelViewSet):$/;"	kind:class	line:31
+DATABASES	../src/django_backend/fg/settings.py	/^DATABASES = {$/;"	kind:variable	line:91
+DEBUG	../src/django_backend/fg/settings.py	/^DEBUG = True$/;"	kind:variable	line:26
+DownloadedImages	../src/django_backend/fg/fg_auth/models.py	/^class DownloadedImages(models.Model):$/;"	kind:class	line:80
+FGUserManager	../src/django_backend/fg/fg_auth/models.py	/^class FGUserManager(BaseUserManager):$/;"	kind:class	line:7
+FgInfo	../src/django_backend/fg/fg_auth/models.py	/^class FgInfo(models.Model):$/;"	kind:class	line:37
+File	../src/django_backend/fg/api/migrations/dev_seed.py	/^from django.core.files import File$/;"	kind:namespace	line:6
+File	../src/django_backend/fg/api/seed_migration.py	/^from django.core.files import File$/;"	kind:namespace	line:6
+File	../src/django_backend/fg/api/tests.py	/^from django.core.files import File$/;"	kind:namespace	line:6
+Group	../src/django_backend/fg/api/serializers.py	/^from django.contrib.auth.models import User, Group$/;"	kind:namespace	line:2
+Group	../src/django_backend/fg/api/views.py	/^from django.contrib.auth.models import Group$/;"	kind:namespace	line:1
+GroupSerializer	../src/django_backend/fg/api/serializers.py	/^class GroupSerializer(serializers.HyperlinkedModelSerializer):$/;"	kind:class	line:14
+GroupViewSet	../src/django_backend/fg/api/views.py	/^class GroupViewSet(viewsets.ModelViewSet):$/;"	kind:class	line:16
+INSTALLED_APPS	../src/django_backend/fg/settings.py	/^INSTALLED_APPS = [$/;"	kind:variable	line:32
+KerberosBackend	../src/django_backend/fg/fg_auth/auth.py	/^class KerberosBackend:$/;"	kind:class	line:8
+LANGUAGE_CODE	../src/django_backend/fg/settings.py	/^LANGUAGE_CODE = 'en-us'$/;"	kind:variable	line:126
+LOGIN_REDIRECT_URL	../src/django_backend/fg/settings.py	/^LOGIN_REDIRECT_URL = '\/'$/;"	kind:variable	line:204
+LOGIN_URL	../src/django_backend/fg/settings.py	/^LOGIN_URL = '\/login'$/;"	kind:variable	line:203
+MEDIA_ROOT	../src/django_backend/fg/settings.py	/^MEDIA_ROOT = os.path.join(BASE_DIR, 'media\/')$/;"	kind:variable	line:145
+MEDIA_URL	../src/django_backend/fg/settings.py	/^MEDIA_URL = '\/media\/'$/;"	kind:variable	line:148
+MIDDLEWARE	../src/django_backend/fg/settings.py	/^MIDDLEWARE = [$/;"	kind:variable	line:57
+Media	../src/django_backend/fg/api/models.py	/^class Media(models.Model):$/;"	kind:class	line:25
+MediaSerializer	../src/django_backend/fg/api/serializers.py	/^class MediaSerializer(serializers.HyperlinkedModelSerializer):$/;"	kind:class	line:33
+MediaViewSet	../src/django_backend/fg/api/views.py	/^class MediaViewSet(viewsets.ModelViewSet):$/;"	kind:class	line:38
+Meta	../src/django_backend/fg/api/models.py	/^    class Meta:$/;"	kind:class	line:18
+Meta	../src/django_backend/fg/api/serializers.py	/^    class Meta:$/;"	kind:class	line:15
+Meta	../src/django_backend/fg/api/serializers.py	/^    class Meta:$/;"	kind:class	line:22
+Meta	../src/django_backend/fg/api/serializers.py	/^    class Meta:$/;"	kind:class	line:28
+Meta	../src/django_backend/fg/api/serializers.py	/^    class Meta:$/;"	kind:class	line:34
+Meta	../src/django_backend/fg/api/serializers.py	/^    class Meta:$/;"	kind:class	line:40
+Meta	../src/django_backend/fg/api/serializers.py	/^    class Meta:$/;"	kind:class	line:46
+Meta	../src/django_backend/fg/api/serializers.py	/^    class Meta:$/;"	kind:class	line:56
+Meta	../src/django_backend/fg/api/serializers.py	/^    class Meta:$/;"	kind:class	line:9
+Migration	../src/django_backend/fg/api/migrations/0001_initial.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:11
+Migration	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:9
+Migration	../src/django_backend/fg/api/migrations/0003_merge_20170729_1709.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:8
+Migration	../src/django_backend/fg/api/migrations/dev_seed.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:66
+Migration	../src/django_backend/fg/api/seed_migration.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:76
+Migration	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^class Migration(migrations.Migration):$/;"	kind:class	line:12
+PPOIField	../src/django_backend/fg/api/models.py	/^from versatileimagefield.fields import VersatileImageField, PPOIField$/;"	kind:namespace	line:4
+Photo	../src/django_backend/fg/api/models.py	/^class Photo(models.Model):$/;"	kind:class	line:46
+PhotoSerializer	../src/django_backend/fg/api/serializers.py	/^class PhotoSerializer(serializers.HyperlinkedModelSerializer):$/;"	kind:class	line:51
+PhotoTestCase	../src/django_backend/fg/api/tests.py	/^class PhotoTestCase(TestCase):$/;"	kind:class	line:28
+PhotoViewSet	../src/django_backend/fg/api/views.py	/^class PhotoViewSet(viewsets.ModelViewSet):$/;"	kind:class	line:62
+Place	../src/django_backend/fg/api/models.py	/^class Place(models.Model):$/;"	kind:class	line:39
+PlaceSerializer	../src/django_backend/fg/api/serializers.py	/^class PlaceSerializer(serializers.HyperlinkedModelSerializer):$/;"	kind:class	line:45
+PlaceViewSet	../src/django_backend/fg/api/views.py	/^class PlaceViewSet(viewsets.ModelViewSet):$/;"	kind:class	line:54
+REST_FRAMEWORK	../src/django_backend/fg/settings.py	/^REST_FRAMEWORK = {$/;"	kind:variable	line:50
+ROOT_URLCONF	../src/django_backend/fg/settings.py	/^ROOT_URLCONF = 'fg.urls'$/;"	kind:variable	line:67
+SECRET_KEY	../src/django_backend/fg/settings.py	/^SECRET_KEY = 'bt40n#17gu(ezts9d9z)k+1as!fq01@_c)%_iw37iaa#m8++(4'$/;"	kind:variable	line:23
+STATIC_ROOT	../src/django_backend/fg/settings.py	/^STATIC_ROOT = os.path.join(BASE_DIR, 'static\/')$/;"	kind:variable	line:140
+STATIC_URL	../src/django_backend/fg/settings.py	/^STATIC_URL = '\/django-static\/'$/;"	kind:variable	line:141
+SecurityLevel	../src/django_backend/fg/api/models.py	/^from fg.fg_auth.models import SecurityLevel$/;"	kind:namespace	line:2
+SecurityLevel	../src/django_backend/fg/fg_auth/auth.py	/^from fg.fg_auth.models import SecurityLevel, User$/;"	kind:namespace	line:5
+SecurityLevel	../src/django_backend/fg/fg_auth/models.py	/^class SecurityLevel(models.Model):$/;"	kind:class	line:30
+TEMPLATES	../src/django_backend/fg/settings.py	/^TEMPLATES = [$/;"	kind:variable	line:69
+TIME_ZONE	../src/django_backend/fg/settings.py	/^TIME_ZONE = 'UTC'$/;"	kind:variable	line:128
+Tag	../src/django_backend/fg/api/models.py	/^class Tag(models.Model):$/;"	kind:class	line:7
+TagSerializer	../src/django_backend/fg/api/serializers.py	/^class TagSerializer(serializers.HyperlinkedModelSerializer):$/;"	kind:class	line:21
+TagViewSet	../src/django_backend/fg/api/views.py	/^class TagViewSet(viewsets.ModelViewSet):$/;"	kind:class	line:24
+TestCase	../src/django_backend/fg/api/tests.py	/^from django.test import TestCase$/;"	kind:namespace	line:2
+USERNAME_FIELD	../src/django_backend/fg/fg_auth/models.py	/^    USERNAME_FIELD = 'username'$/;"	kind:variable	line:65
+USE_I18N	../src/django_backend/fg/settings.py	/^USE_I18N = True$/;"	kind:variable	line:130
+USE_L10N	../src/django_backend/fg/settings.py	/^USE_L10N = True$/;"	kind:variable	line:132
+USE_TZ	../src/django_backend/fg/settings.py	/^USE_TZ = True$/;"	kind:variable	line:134
+User	../src/django_backend/fg/api/serializers.py	/^from django.contrib.auth.models import User, Group$/;"	kind:namespace	line:2
+User	../src/django_backend/fg/api/views.py	/^    User = get_user_model()$/;"	kind:variable	line:11
+User	../src/django_backend/fg/fg_auth/auth.py	/^from fg.fg_auth.models import SecurityLevel, User$/;"	kind:namespace	line:5
+User	../src/django_backend/fg/fg_auth/models.py	/^class User(AbstractUser):$/;"	kind:class	line:51
+UserSerializer	../src/django_backend/fg/api/serializers.py	/^class UserSerializer(serializers.HyperlinkedModelSerializer):$/;"	kind:class	line:8
+UserViewSet	../src/django_backend/fg/api/views.py	/^class UserViewSet(viewsets.ModelViewSet):$/;"	kind:class	line:7
+VERSATILEIMAGEFIELD_SETTINGS	../src/django_backend/fg/api/serializers.py	/^from fg.settings import VERSATILEIMAGEFIELD_SETTINGS$/;"	kind:namespace	line:4
+VERSATILEIMAGEFIELD_SETTINGS	../src/django_backend/fg/api/tests.py	/^from fg.settings import VERSATILEIMAGEFIELD_SETTINGS$/;"	kind:namespace	line:4
+VERSATILEIMAGEFIELD_SETTINGS	../src/django_backend/fg/settings.py	/^VERSATILEIMAGEFIELD_SETTINGS = {$/;"	kind:variable	line:152
+VersatileImageField	../src/django_backend/fg/api/models.py	/^from versatileimagefield.fields import VersatileImageField, PPOIField$/;"	kind:namespace	line:4
+VersatileImageFieldSerializer	../src/django_backend/fg/api/serializers.py	/^from versatileimagefield.serializers import VersatileImageFieldSerializer$/;"	kind:namespace	line:5
+WSGI_APPLICATION	../src/django_backend/fg/settings.py	/^WSGI_APPLICATION = 'fg.wsgi.application'$/;"	kind:variable	line:85
+__init__.py	../src/__init__.py	1;"	kind:file	line:1
+__init__.py	../src/django_backend/__init__.py	1;"	kind:file	line:1
+__init__.py	../src/django_backend/fg/__init__.py	1;"	kind:file	line:1
+__init__.py	../src/django_backend/fg/api/__init__.py	1;"	kind:file	line:1
+__init__.py	../src/django_backend/fg/api/migrations/__init__.py	1;"	kind:file	line:1
+__init__.py	../src/django_backend/fg/fg_auth/__init__.py	1;"	kind:file	line:1
+__init__.py	../src/django_backend/fg/fg_auth/migrations/__init__.py	1;"	kind:file	line:1
+__str__	../src/django_backend/fg/api/models.py	/^    def __str__(self):$/;"	kind:member	line:11
+__str__	../src/django_backend/fg/api/models.py	/^    def __str__(self):$/;"	kind:member	line:21
+__str__	../src/django_backend/fg/api/models.py	/^    def __str__(self):$/;"	kind:member	line:28
+__str__	../src/django_backend/fg/api/models.py	/^    def __str__(self):$/;"	kind:member	line:35
+__str__	../src/django_backend/fg/api/models.py	/^    def __str__(self):$/;"	kind:member	line:42
+__str__	../src/django_backend/fg/api/models.py	/^    def __str__(self):$/;"	kind:member	line:80
+__str__	../src/django_backend/fg/fg_auth/models.py	/^    def __str__(self):$/;"	kind:member	line:33
+__str__	../src/django_backend/fg/fg_auth/models.py	/^    def __str__(self):$/;"	kind:member	line:67
+address	../src/django_backend/fg/fg_auth/models.py	/^    address = models.CharField(max_length=100, blank=True)$/;"	kind:variable	line:53
+admin	../src/django_backend/fg/api/admin.py	/^from django.contrib import admin$/;"	kind:namespace	line:1
+admin	../src/django_backend/fg/urls.py	/^from django.contrib import admin$/;"	kind:namespace	line:1
+admin.py	../src/django_backend/fg/api/admin.py	1;"	kind:file	line:1
+aktiv_pang	../src/django_backend/fg/fg_auth/models.py	/^    aktiv_pang = models.BooleanField(default=False)$/;"	kind:variable	line:47
+album	../src/django_backend/fg/api/models.py	/^    album = models.ForeignKey(Album, on_delete=models.CASCADE)$/;"	kind:variable	line:77
+api	../src/django_backend/fg/api/migrations/0001_initial.py	/^import fg.api.helpers$/;"	kind:namespace	line:7
+application	../src/django_backend/fg/wsgi.py	/^application = get_wsgi_application()$/;"	kind:variable	line:16
+apps	../src/django_backend/fg/api/tests.py	/^from django.apps import apps$/;"	kind:namespace	line:5
+apps.py	../src/django_backend/fg/api/apps.py	1;"	kind:file	line:1
+auth	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^import django.contrib.auth.validators$/;"	kind:namespace	line:6
+auth.py	../src/django_backend/fg/fg_auth/auth.py	1;"	kind:file	line:1
+authenticate	../src/django_backend/fg/fg_auth/auth.py	/^    def authenticate(self, request=None, remote_user=None):$/;"	kind:member	line:9
+bilde	../src/django_backend/fg/fg_auth/models.py	/^    bilde = models.ImageField($/;"	kind:variable	line:45
+category	../src/django_backend/fg/api/models.py	/^    category = models.ForeignKey(Category, on_delete=models.CASCADE)$/;"	kind:variable	line:75
+city	../src/django_backend/fg/fg_auth/models.py	/^    city = models.CharField(max_length=30, blank=True)$/;"	kind:variable	line:55
+clean_username	../src/django_backend/fg/fg_auth/auth.py	/^    def clean_username(self, username):$/;"	kind:member	line:16
+comments	../src/django_backend/fg/fg_auth/models.py	/^    comments = models.CharField(max_length=255, blank=True)$/;"	kind:variable	line:48
+configure_user	../src/django_backend/fg/fg_auth/auth.py	/^    def configure_user(self, user):$/;"	kind:member	line:36
+contrib	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^import django.contrib.auth.validators$/;"	kind:namespace	line:6
+create_superuser	../src/django_backend/fg/fg_auth/models.py	/^    def create_superuser(self, username, email, password, **extra_fields):$/;"	kind:member	line:21
+create_user	../src/django_backend/fg/fg_auth/models.py	/^    def create_user(self, username, email=None, password=None, **extra_fields):$/;"	kind:member	line:8
+date	../src/django_backend/fg/api/models.py	/^    date = models.DateTimeField(db_index=True)$/;"	kind:variable	line:67
+date_downloaded	../src/django_backend/fg/fg_auth/models.py	/^    date_downloaded = models.DateField(auto_now_add=True, blank=True)$/;"	kind:variable	line:83
+date_modified	../src/django_backend/fg/api/models.py	/^    date_modified = models.DateTimeField(auto_now=True)$/;"	kind:variable	line:61
+date_taken	../src/django_backend/fg/api/models.py	/^    date_taken = models.DateTimeField(auto_now_add=True)$/;"	kind:variable	line:60
+db	../src/django_backend/fg/api/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:6
+db	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^import django.db.models.deletion$/;"	kind:namespace	line:6
+db	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:8
+default	../src/django_backend/fg/api/models.py	/^        default="default.jpg",$/;"	kind:variable	line:51
+deletion	../src/django_backend/fg/api/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:6
+deletion	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^import django.db.models.deletion$/;"	kind:namespace	line:6
+deletion	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:8
+dependencies	../src/django_backend/fg/api/migrations/0001_initial.py	/^    dependencies = [$/;"	kind:variable	line:15
+dependencies	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^    dependencies = [$/;"	kind:variable	line:13
+dependencies	../src/django_backend/fg/api/migrations/0003_merge_20170729_1709.py	/^    dependencies = [$/;"	kind:variable	line:10
+dependencies	../src/django_backend/fg/api/migrations/dev_seed.py	/^    dependencies = [$/;"	kind:variable	line:68
+dependencies	../src/django_backend/fg/api/seed_migration.py	/^    dependencies = [$/;"	kind:variable	line:78
+dependencies	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^    dependencies = [$/;"	kind:variable	line:16
+description	../src/django_backend/fg/api/models.py	/^    description = models.CharField(max_length=255)$/;"	kind:variable	line:9
+description	../src/django_backend/fg/api/models.py	/^    description = models.CharField(max_length=256, db_index=True, blank=True, verbose_name='motiv')$/;"	kind:variable	line:59
+dev_seed.py	../src/django_backend/fg/api/migrations/dev_seed.py	1;"	kind:file	line:1
+django	../src/django_backend/fg/api/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:6
+django	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^import django.db.models.deletion$/;"	kind:namespace	line:6
+django	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^import django.contrib.auth.validators$/;"	kind:namespace	line:6
+django	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:8
+django	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^import django.utils.timezone$/;"	kind:namespace	line:9
+django	../src/django_backend/manage.py	/^            import django$/;"	kind:namespace	line:14
+downloaded_images	../src/django_backend/fg/fg_auth/models.py	/^    downloaded_images = models.ManyToManyField($/;"	kind:variable	line:60
+execute_from_command_line	../src/django_backend/manage.py	/^        from django.core.management import execute_from_command_line$/;"	kind:namespace	line:8
+fg	../src/django_backend/fg/api/migrations/0001_initial.py	/^import fg.api.helpers$/;"	kind:namespace	line:7
+fg_info	../src/django_backend/fg/fg_auth/models.py	/^    fg_info = models.ForeignKey(FgInfo, null=True, blank=True)$/;"	kind:variable	line:59
+fg_kallenavn	../src/django_backend/fg/fg_auth/models.py	/^    fg_kallenavn = models.CharField(max_length=255, blank=True)$/;"	kind:variable	line:44
+field	../src/django_backend/fg/api/migrations/0001_initial.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.Place'),$/;"	kind:variable	line:83
+field	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.Tag'),$/;"	kind:variable	line:27
+field	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='fg_auth.SecurityLevel'),$/;"	kind:variable	line:22
+field	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            field=models.ForeignKey(blank=True, default=4, on_delete=django.db.models.deletion.CASCADE, to='fg_auth.SecurityLevel'),$/;"	kind:variable	line:98
+field	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='fg_auth.FgInfo'),$/;"	kind:variable	line:88
+field	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            field=models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions'),$/;"	kind:variable	line:103
+field	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            field=models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.Group', verbose_name='groups'),$/;"	kind:variable	line:93
+field	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            field=models.ManyToManyField(blank=True, through='fg_auth.DownloadedImages', to='api.Photo'),$/;"	kind:variable	line:83
+fields	../src/django_backend/fg/api/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:21
+fields	../src/django_backend/fg/api/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:28
+fields	../src/django_backend/fg/api/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:38
+fields	../src/django_backend/fg/api/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:45
+fields	../src/django_backend/fg/api/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:67
+fields	../src/django_backend/fg/api/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:74
+fields	../src/django_backend/fg/api/migrations/0001_initial.py	/^import versatileimagefield.fields$/;"	kind:namespace	line:8
+fields	../src/django_backend/fg/api/serializers.py	/^        fields = '__all__'$/;"	kind:variable	line:24
+fields	../src/django_backend/fg/api/serializers.py	/^        fields = '__all__'$/;"	kind:variable	line:30
+fields	../src/django_backend/fg/api/serializers.py	/^        fields = '__all__'$/;"	kind:variable	line:36
+fields	../src/django_backend/fg/api/serializers.py	/^        fields = '__all__'$/;"	kind:variable	line:42
+fields	../src/django_backend/fg/api/serializers.py	/^        fields = '__all__'$/;"	kind:variable	line:48
+fields	../src/django_backend/fg/api/serializers.py	/^        fields = '__all__'$/;"	kind:variable	line:58
+fields	../src/django_backend/fg/api/serializers.py	/^        fields = ('url', 'name')$/;"	kind:variable	line:17
+fields	../src/django_backend/fg/api/serializers.py	/^        fields = ('url', 'username', 'email', 'groups')$/;"	kind:variable	line:11
+fields	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:24
+fields	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:50
+fields	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:59
+fields	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            fields=[$/;"	kind:variable	line:75
+get_default_image	../src/django_backend/fg/api/tests.py	/^def get_default_image():$/;"	kind:function	line:24
+get_or_create_user	../src/django_backend/fg/fg_auth/auth.py	/^    def get_or_create_user(self, username):$/;"	kind:member	line:25
+get_rand_default_photo	../src/django_backend/fg/api/helpers.py	/^def get_rand_default_photo():$/;"	kind:function	line:21
+get_rand_string	../src/django_backend/fg/api/helpers.py	/^def get_rand_string(size=6, chars=string.ascii_uppercase + string.digits):$/;"	kind:function	line:17
+get_random_dimensions	../src/django_backend/fg/api/migrations/dev_seed.py	/^def get_random_dimensions():$/;"	kind:function	line:37
+get_random_dimensions	../src/django_backend/fg/api/seed_migration.py	/^def get_random_dimensions():$/;"	kind:function	line:47
+get_random_image	../src/django_backend/fg/api/migrations/dev_seed.py	/^def get_random_image(max_retries):$/;"	kind:function	line:9
+get_random_image	../src/django_backend/fg/api/seed_migration.py	/^def get_random_image(max_retries):$/;"	kind:function	line:9
+get_random_object	../src/django_backend/fg/api/migrations/dev_seed.py	/^def get_random_object(apps, model_string):$/;"	kind:function	line:42
+get_random_object	../src/django_backend/fg/api/seed_migration.py	/^def get_random_object(apps, model_string):$/;"	kind:function	line:52
+get_random_object	../src/django_backend/fg/api/tests.py	/^def get_random_object(model_string):$/;"	kind:function	line:9
+get_user	../src/django_backend/fg/fg_auth/auth.py	/^    def get_user(self, user_id):$/;"	kind:member	line:19
+get_user_model	../src/django_backend/fg/api/views.py	/^from django.contrib.auth import get_user_model$/;"	kind:namespace	line:2
+get_wsgi_application	../src/django_backend/fg/wsgi.py	/^from django.core.wsgi import get_wsgi_application$/;"	kind:namespace	line:12
+gjengjobb1	../src/django_backend/fg/fg_auth/models.py	/^    gjengjobb1 = models.CharField(max_length=255, blank=True)$/;"	kind:variable	line:39
+gjengjobb2	../src/django_backend/fg/fg_auth/models.py	/^    gjengjobb2 = models.CharField(max_length=255, blank=True)$/;"	kind:variable	line:40
+gjengjobb3	../src/django_backend/fg/fg_auth/models.py	/^    gjengjobb3 = models.CharField(max_length=255, blank=True)$/;"	kind:variable	line:41
+has_perm	../src/django_backend/fg/fg_auth/auth.py	/^    def has_perm(self, user_obj, perm, obj=None):$/;"	kind:member	line:60
+height	../src/django_backend/fg/api/models.py	/^    height = models.IntegerField()$/;"	kind:variable	line:57
+height_field	../src/django_backend/fg/api/models.py	/^        height_field='height',$/;"	kind:variable	line:52
+helpers	../src/django_backend/fg/api/migrations/0001_initial.py	/^import fg.api.helpers$/;"	kind:namespace	line:7
+helpers	../src/django_backend/fg/api/migrations/dev_seed.py	/^from fg.api import models, helpers$/;"	kind:namespace	line:4
+helpers	../src/django_backend/fg/api/models.py	/^from fg.api import helpers$/;"	kind:namespace	line:1
+helpers	../src/django_backend/fg/api/seed_migration.py	/^from fg.api import models, helpers$/;"	kind:namespace	line:4
+helpers	../src/django_backend/fg/api/tests.py	/^from fg.api import models, helpers$/;"	kind:namespace	line:3
+helpers.py	../src/django_backend/fg/api/helpers.py	1;"	kind:file	line:1
+hjemmeside	../src/django_backend/fg/fg_auth/models.py	/^    hjemmeside = models.CharField(max_length=255, blank=True)$/;"	kind:variable	line:42
+image	../src/django_backend/fg/fg_auth/models.py	/^    image = models.ForeignKey("api.Photo")$/;"	kind:variable	line:81
+image_number	../src/django_backend/fg/api/models.py	/^    image_number = models.PositiveIntegerField(db_index=True)$/;"	kind:variable	line:66
+include	../src/django_backend/fg/urls.py	/^from django.conf.urls import url, include$/;"	kind:namespace	line:2
+initial	../src/django_backend/fg/api/migrations/0001_initial.py	/^    initial = True$/;"	kind:variable	line:13
+initial	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^    initial = True$/;"	kind:variable	line:11
+initial	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^    initial = True$/;"	kind:variable	line:14
+is_fg	../src/django_backend/fg/fg_auth/models.py	/^    def is_fg(self):$/;"	kind:member	line:70
+is_husfolk	../src/django_backend/fg/fg_auth/models.py	/^    def is_husfolk(self):$/;"	kind:member	line:73
+is_power	../src/django_backend/fg/fg_auth/models.py	/^    def is_power(self):$/;"	kind:member	line:76
+itkacl	../src/django_backend/fg/fg_auth/auth.py	/^            import itkacl$/;"	kind:namespace	line:51
+itkacl	../src/django_backend/fg/fg_auth/auth.py	/^            import itkacl$/;"	kind:namespace	line:62
+lapel	../src/django_backend/fg/api/models.py	/^    lapel = models.BooleanField(default=False, db_index=True)$/;"	kind:variable	line:68
+load_photos	../src/django_backend/fg/api/migrations/dev_seed.py	/^def load_photos(apps, schema_editor):$/;"	kind:function	line:47
+load_photos	../src/django_backend/fg/api/seed_migration.py	/^def load_photos(apps, schema_editor):$/;"	kind:function	line:57
+manage.py	../src/django_backend/manage.py	1;"	kind:file	line:1
+media	../src/django_backend/fg/api/models.py	/^    media = models.ForeignKey(Media, on_delete=models.CASCADE)$/;"	kind:variable	line:76
+member_number	../src/django_backend/fg/fg_auth/models.py	/^    member_number = models.IntegerField(null=True, blank=True)$/;"	kind:variable	line:57
+migrations	../src/django_backend/fg/api/migrations/0001_initial.py	/^from django.db import migrations, models$/;"	kind:namespace	line:5
+migrations	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^from django.db import migrations, models$/;"	kind:namespace	line:5
+migrations	../src/django_backend/fg/api/migrations/0003_merge_20170729_1709.py	/^from django.db import migrations$/;"	kind:namespace	line:5
+migrations	../src/django_backend/fg/api/migrations/dev_seed.py	/^from django.db import migrations$/;"	kind:namespace	line:5
+migrations	../src/django_backend/fg/api/seed_migration.py	/^from django.db import migrations$/;"	kind:namespace	line:5
+migrations	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^from django.db import migrations, models$/;"	kind:namespace	line:7
+model	../src/django_backend/fg/api/serializers.py	/^        model = Group$/;"	kind:variable	line:16
+model	../src/django_backend/fg/api/serializers.py	/^        model = User$/;"	kind:variable	line:10
+model	../src/django_backend/fg/api/serializers.py	/^        model = models.Album$/;"	kind:variable	line:41
+model	../src/django_backend/fg/api/serializers.py	/^        model = models.Category$/;"	kind:variable	line:29
+model	../src/django_backend/fg/api/serializers.py	/^        model = models.Media$/;"	kind:variable	line:35
+model	../src/django_backend/fg/api/serializers.py	/^        model = models.Photo$/;"	kind:variable	line:57
+model	../src/django_backend/fg/api/serializers.py	/^        model = models.Place$/;"	kind:variable	line:47
+model	../src/django_backend/fg/api/serializers.py	/^        model = models.Tag$/;"	kind:variable	line:23
+model_name	../src/django_backend/fg/api/migrations/0001_initial.py	/^            model_name='photo',$/;"	kind:variable	line:81
+model_name	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^            model_name='photo',$/;"	kind:variable	line:20
+model_name	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^            model_name='photo',$/;"	kind:variable	line:25
+model_name	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            model_name='user',$/;"	kind:variable	line:101
+model_name	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            model_name='user',$/;"	kind:variable	line:81
+model_name	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            model_name='user',$/;"	kind:variable	line:86
+model_name	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            model_name='user',$/;"	kind:variable	line:91
+model_name	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            model_name='user',$/;"	kind:variable	line:96
+models	../src/django_backend/fg/api/admin.py	/^from . import models$/;"	kind:namespace	line:2
+models	../src/django_backend/fg/api/migrations/0001_initial.py	/^from django.db import migrations, models$/;"	kind:namespace	line:5
+models	../src/django_backend/fg/api/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:6
+models	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^from django.db import migrations, models$/;"	kind:namespace	line:5
+models	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^import django.db.models.deletion$/;"	kind:namespace	line:6
+models	../src/django_backend/fg/api/migrations/dev_seed.py	/^from fg.api import models, helpers$/;"	kind:namespace	line:4
+models	../src/django_backend/fg/api/models.py	/^from django.db import models$/;"	kind:namespace	line:3
+models	../src/django_backend/fg/api/seed_migration.py	/^from fg.api import models, helpers$/;"	kind:namespace	line:4
+models	../src/django_backend/fg/api/serializers.py	/^from fg.api import models$/;"	kind:namespace	line:3
+models	../src/django_backend/fg/api/tests.py	/^from fg.api import models, helpers$/;"	kind:namespace	line:3
+models	../src/django_backend/fg/api/views.py	/^from . import models, serializers$/;"	kind:namespace	line:4
+models	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^from django.db import migrations, models$/;"	kind:namespace	line:7
+models	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	kind:namespace	line:8
+models	../src/django_backend/fg/fg_auth/models.py	/^from django.db import models$/;"	kind:namespace	line:2
+models.py	../src/django_backend/fg/api/models.py	1;"	kind:file	line:1
+models.py	../src/django_backend/fg/fg_auth/models.py	1;"	kind:file	line:1
+name	../src/django_backend/fg/api/apps.py	/^    name = 'api'$/;"	kind:variable	line:5
+name	../src/django_backend/fg/api/migrations/0001_initial.py	/^            name='Album',$/;"	kind:variable	line:20
+name	../src/django_backend/fg/api/migrations/0001_initial.py	/^            name='Category',$/;"	kind:variable	line:27
+name	../src/django_backend/fg/api/migrations/0001_initial.py	/^            name='Media',$/;"	kind:variable	line:37
+name	../src/django_backend/fg/api/migrations/0001_initial.py	/^            name='Photo',$/;"	kind:variable	line:44
+name	../src/django_backend/fg/api/migrations/0001_initial.py	/^            name='Place',$/;"	kind:variable	line:66
+name	../src/django_backend/fg/api/migrations/0001_initial.py	/^            name='Tag',$/;"	kind:variable	line:73
+name	../src/django_backend/fg/api/migrations/0001_initial.py	/^            name='place',$/;"	kind:variable	line:82
+name	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^            name='security_level',$/;"	kind:variable	line:21
+name	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^            name='tag',$/;"	kind:variable	line:26
+name	../src/django_backend/fg/api/models.py	/^    name = models.CharField(max_length=5, unique=True, db_index=True)$/;"	kind:variable	line:33
+name	../src/django_backend/fg/api/models.py	/^    name = models.CharField(max_length=50, unique=True, db_index=True)$/;"	kind:variable	line:8
+name	../src/django_backend/fg/api/models.py	/^    name = models.CharField(max_length=80, unique=True, db_index=True)$/;"	kind:variable	line:16
+name	../src/django_backend/fg/api/models.py	/^    name = models.CharField(max_length=80, unique=True, db_index=True)$/;"	kind:variable	line:26
+name	../src/django_backend/fg/api/models.py	/^    name = models.CharField(max_length=80, unique=True, db_index=True)$/;"	kind:variable	line:40
+name	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            name='DownloadedImages',$/;"	kind:variable	line:49
+name	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            name='FgInfo',$/;"	kind:variable	line:58
+name	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            name='SecurityLevel',$/;"	kind:variable	line:74
+name	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            name='User',$/;"	kind:variable	line:23
+name	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            name='downloaded_images',$/;"	kind:variable	line:82
+name	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            name='fg_info',$/;"	kind:variable	line:87
+name	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            name='groups',$/;"	kind:variable	line:92
+name	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            name='security_level',$/;"	kind:variable	line:97
+name	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            name='user_permissions',$/;"	kind:variable	line:102
+name	../src/django_backend/fg/fg_auth/models.py	/^    name = models.CharField(max_length=50, unique=True, db_index=True)$/;"	kind:variable	line:31
+objects	../src/django_backend/fg/fg_auth/models.py	/^    objects = FGUserManager()$/;"	kind:variable	line:63
+on_home_page	../src/django_backend/fg/api/models.py	/^    on_home_page = models.BooleanField(default=True, db_index=True)$/;"	kind:variable	line:70
+operations	../src/django_backend/fg/api/migrations/0001_initial.py	/^    operations = [$/;"	kind:variable	line:18
+operations	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^    operations = [$/;"	kind:variable	line:18
+operations	../src/django_backend/fg/api/migrations/0003_merge_20170729_1709.py	/^    operations = [$/;"	kind:variable	line:15
+operations	../src/django_backend/fg/api/migrations/dev_seed.py	/^    operations = [$/;"	kind:variable	line:72
+operations	../src/django_backend/fg/api/seed_migration.py	/^    operations = [$/;"	kind:variable	line:82
+operations	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^    operations = [$/;"	kind:variable	line:21
+opptaksaar	../src/django_backend/fg/fg_auth/models.py	/^    opptaksaar = models.IntegerField(null=True, blank=True)$/;"	kind:variable	line:38
+options	../src/django_backend/fg/api/migrations/0001_initial.py	/^            options={$/;"	kind:variable	line:32
+options	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^            options={$/;"	kind:variable	line:42
+os	../src/django_backend/fg/api/helpers.py	/^import os, string, random$/;"	kind:namespace	line:2
+os	../src/django_backend/fg/settings.py	/^import os, sys$/;"	kind:namespace	line:13
+os	../src/django_backend/fg/wsgi.py	/^import os$/;"	kind:namespace	line:10
+os	../src/django_backend/manage.py	/^import os$/;"	kind:namespace	line:2
+page	../src/django_backend/fg/api/models.py	/^    page = models.IntegerField(db_index=True)$/;"	kind:variable	line:65
+path_and_rename	../src/django_backend/fg/api/helpers.py	/^def path_and_rename(instance, filename):$/;"	kind:function	line:5
+phone	../src/django_backend/fg/fg_auth/models.py	/^    phone = models.CharField(max_length=15, blank=True, null=True)$/;"	kind:variable	line:56
+photo	../src/django_backend/fg/api/models.py	/^    photo = VersatileImageField($/;"	kind:variable	line:48
+photo	../src/django_backend/fg/api/serializers.py	/^    photo = VersatileImageFieldSerializer($/;"	kind:variable	line:52
+photo_ppoi	../src/django_backend/fg/api/models.py	/^    photo_ppoi = PPOIField()$/;"	kind:variable	line:62
+place	../src/django_backend/fg/api/models.py	/^    place = models.ForeignKey(Place, on_delete=models.CASCADE)$/;"	kind:variable	line:78
+ppoi_field	../src/django_backend/fg/api/models.py	/^        ppoi_field='photo_ppoi',$/;"	kind:variable	line:50
+pwd	../src/django_backend/fg/fg_auth/auth.py	/^import pwd$/;"	kind:namespace	line:1
+queryset	../src/django_backend/fg/api/views.py	/^    queryset = Group.objects.all()$/;"	kind:variable	line:20
+queryset	../src/django_backend/fg/api/views.py	/^    queryset = User.objects.all().order_by('-date_joined')$/;"	kind:variable	line:12
+queryset	../src/django_backend/fg/api/views.py	/^    queryset = models.Album.objects.all()$/;"	kind:variable	line:50
+queryset	../src/django_backend/fg/api/views.py	/^    queryset = models.Category.objects.all()$/;"	kind:variable	line:35
+queryset	../src/django_backend/fg/api/views.py	/^    queryset = models.Media.objects.all()$/;"	kind:variable	line:42
+queryset	../src/django_backend/fg/api/views.py	/^    queryset = models.Photo.objects.all()$/;"	kind:variable	line:66
+queryset	../src/django_backend/fg/api/views.py	/^    queryset = models.Place.objects.all()$/;"	kind:variable	line:58
+queryset	../src/django_backend/fg/api/views.py	/^    queryset = models.Tag.objects.all().order_by('name')$/;"	kind:variable	line:28
+random	../src/django_backend/fg/api/helpers.py	/^import os, string, random$/;"	kind:namespace	line:2
+random	../src/django_backend/fg/api/migrations/dev_seed.py	/^import time, random, requests, tempfile$/;"	kind:namespace	line:3
+random	../src/django_backend/fg/api/seed_migration.py	/^import time, random, requests, tempfile$/;"	kind:namespace	line:3
+random	../src/django_backend/fg/api/tests.py	/^import random$/;"	kind:namespace	line:1
+requests	../src/django_backend/fg/api/migrations/dev_seed.py	/^import time, random, requests, tempfile$/;"	kind:namespace	line:3
+requests	../src/django_backend/fg/api/seed_migration.py	/^import time, random, requests, tempfile$/;"	kind:namespace	line:3
+router	../src/django_backend/fg/urls.py	/^router = routers.DefaultRouter()$/;"	kind:variable	line:6
+routers	../src/django_backend/fg/urls.py	/^from rest_framework import routers$/;"	kind:namespace	line:3
+scanned	../src/django_backend/fg/api/models.py	/^    scanned = models.BooleanField(default=False, db_index=True)$/;"	kind:variable	line:69
+security_level	../src/django_backend/fg/api/models.py	/^    security_level = models.ForeignKey(SecurityLevel, db_index=True)$/;"	kind:variable	line:71
+security_level	../src/django_backend/fg/fg_auth/models.py	/^    security_level = models.ForeignKey(SecurityLevel, default=4, blank=True)$/;"	kind:variable	line:58
+seed_foreign_keys	../src/django_backend/fg/api/migrations/dev_seed.py	/^def seed_foreign_keys(apps):$/;"	kind:function	line:29
+seed_foreign_keys	../src/django_backend/fg/api/seed_migration.py	/^def seed_foreign_keys(apps):$/;"	kind:function	line:39
+seed_foreign_keys	../src/django_backend/fg/api/tests.py	/^def seed_foreign_keys():$/;"	kind:function	line:15
+seed_migration.py	../src/django_backend/fg/api/seed_migration.py	1;"	kind:file	line:1
+serializer_class	../src/django_backend/fg/api/views.py	/^    serializer_class = serializers.AlbumSerializer$/;"	kind:variable	line:51
+serializer_class	../src/django_backend/fg/api/views.py	/^    serializer_class = serializers.CategorySerializer$/;"	kind:variable	line:36
+serializer_class	../src/django_backend/fg/api/views.py	/^    serializer_class = serializers.GroupSerializer$/;"	kind:variable	line:21
+serializer_class	../src/django_backend/fg/api/views.py	/^    serializer_class = serializers.MediaSerializer$/;"	kind:variable	line:43
+serializer_class	../src/django_backend/fg/api/views.py	/^    serializer_class = serializers.PhotoSerializer/;"	kind:variable	line:67
+serializer_class	../src/django_backend/fg/api/views.py	/^    serializer_class = serializers.PlaceSerializer$/;"	kind:variable	line:59
+serializer_class	../src/django_backend/fg/api/views.py	/^    serializer_class = serializers.TagSerializer$/;"	kind:variable	line:29
+serializer_class	../src/django_backend/fg/api/views.py	/^    serializer_class = serializers.UserSerializer$/;"	kind:variable	line:13
+serializers	../src/django_backend/fg/api/serializers.py	/^from rest_framework import serializers$/;"	kind:namespace	line:1
+serializers	../src/django_backend/fg/api/views.py	/^from . import models, serializers$/;"	kind:namespace	line:4
+serializers.py	../src/django_backend/fg/api/serializers.py	1;"	kind:file	line:1
+setUp	../src/django_backend/fg/api/tests.py	/^    def setUp(self):$/;"	kind:member	line:32
+settings	../src/django_backend/fg/fg_auth/auth.py	/^from django.conf import settings$/;"	kind:namespace	line:3
+settings	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^from django.conf import settings$/;"	kind:namespace	line:5
+settings.py	../src/django_backend/fg/settings.py	1;"	kind:file	line:1
+sizes	../src/django_backend/fg/api/serializers.py	/^        sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes']$/;"	kind:variable	line:53
+sizes	../src/django_backend/fg/api/tests.py	/^    sizes = VERSATILEIMAGEFIELD_SETTINGS['sizes']$/;"	kind:variable	line:30
+string	../src/django_backend/fg/api/helpers.py	/^import os, string, random$/;"	kind:namespace	line:2
+sys	../src/django_backend/fg/settings.py	/^import os, sys$/;"	kind:namespace	line:13
+sys	../src/django_backend/manage.py	/^import sys$/;"	kind:namespace	line:3
+tag	../src/django_backend/fg/api/models.py	/^    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)$/;"	kind:variable	line:74
+tempfile	../src/django_backend/fg/api/migrations/dev_seed.py	/^import time, random, requests, tempfile$/;"	kind:namespace	line:3
+tempfile	../src/django_backend/fg/api/seed_migration.py	/^import time, random, requests, tempfile$/;"	kind:namespace	line:3
+test_new_photo_is_saved	../src/django_backend/fg/api/tests.py	/^    def test_new_photo_is_saved(self):$/;"	kind:member	line:43
+test_new_photo_saves_file_in_correct_directory	../src/django_backend/fg/api/tests.py	/^    def test_new_photo_saves_file_in_correct_directory(self):$/;"	kind:member	line:53
+test_photo	../src/django_backend/fg/api/tests.py	/^    test_photo = None$/;"	kind:variable	line:29
+tests.py	../src/django_backend/fg/api/tests.py	1;"	kind:file	line:1
+time	../src/django_backend/fg/api/migrations/dev_seed.py	/^import time, random, requests, tempfile$/;"	kind:namespace	line:3
+time	../src/django_backend/fg/api/seed_migration.py	/^import time, random, requests, tempfile$/;"	kind:namespace	line:3
+timezone	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^import django.utils.timezone$/;"	kind:namespace	line:9
+timezone	../src/django_backend/fg/fg_auth/models.py	/^from django.utils import timezone$/;"	kind:namespace	line:4
+uker	../src/django_backend/fg/fg_auth/models.py	/^    uker = models.CharField(max_length=255, blank=True)$/;"	kind:variable	line:43
+unicode_literals	../src/django_backend/fg/api/migrations/0001_initial.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:3
+unicode_literals	../src/django_backend/fg/api/migrations/0002_auto_20170729_1707.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:3
+unicode_literals	../src/django_backend/fg/api/migrations/0003_merge_20170729_1709.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:3
+unicode_literals	../src/django_backend/fg/api/migrations/dev_seed.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:2
+unicode_literals	../src/django_backend/fg/api/seed_migration.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:2
+unicode_literals	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^from __future__ import unicode_literals$/;"	kind:namespace	line:3
+upload_to	../src/django_backend/fg/api/models.py	/^        upload_to=helpers.path_and_rename,$/;"	kind:variable	line:49
+url	../src/django_backend/fg/urls.py	/^from django.conf.urls import url, include$/;"	kind:namespace	line:2
+urlpatterns	../src/django_backend/fg/urls.py	/^urlpatterns = [$/;"	kind:variable	line:16
+urls.py	../src/django_backend/fg/urls.py	1;"	kind:file	line:1
+user	../src/django_backend/fg/fg_auth/models.py	/^    user = models.ForeignKey(User)$/;"	kind:variable	line:82
+utils	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^import django.utils.timezone$/;"	kind:namespace	line:9
+uuid4	../src/django_backend/fg/api/helpers.py	/^from uuid import uuid4$/;"	kind:namespace	line:3
+validators	../src/django_backend/fg/fg_auth/migrations/0001_initial.py	/^import django.contrib.auth.validators$/;"	kind:namespace	line:6
+verbose_name_plural	../src/django_backend/fg/api/models.py	/^        verbose_name_plural = 'categories'$/;"	kind:variable	line:19
+versatileimagefield	../src/django_backend/fg/api/migrations/0001_initial.py	/^import versatileimagefield.fields$/;"	kind:namespace	line:8
+views	../src/django_backend/fg/urls.py	/^from .api import views$/;"	kind:namespace	line:4
+views.py	../src/django_backend/fg/api/views.py	1;"	kind:file	line:1
+viewsets	../src/django_backend/fg/api/views.py	/^from rest_framework import viewsets$/;"	kind:namespace	line:3
+width	../src/django_backend/fg/api/models.py	/^    width = models.IntegerField()$/;"	kind:variable	line:58
+width_field	../src/django_backend/fg/api/models.py	/^        width_field='width'$/;"	kind:variable	line:53
+wsgi.py	../src/django_backend/fg/wsgi.py	1;"	kind:file	line:1
+zip_code	../src/django_backend/fg/fg_auth/models.py	/^    zip_code = models.IntegerField(null=True, blank=True)$/;"	kind:variable	line:54
