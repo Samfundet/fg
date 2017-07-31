@@ -1,9 +1,14 @@
-<ng-container *ngIf="root?.results">
-  <div [masonryLayout]="250" [masonryLength]="root.results.length" class="masonry-grid" #masonry="masonryLayout">
-    <img *ngFor="let photoResult of root.results" src="{{photoResult.photo.small}}" class="masonry-item" alt="{{photoResult.description}}"
+<div class="row center-xs">
+  <div *ngIf="root?.results" masonryLayout [masonryOptions]="masonryOptions" class="grid p-t-2">
+    <img
+      *ngFor="let photoResult of root.results; let i = index"
+      src="{{photoResult.photo.medium}}"
+      class="grid-item"
+      alt="{{photoResult.description}}"
     />
   </div>
-</ng-container>
+</div>
+
 
 <!-- <span *ngFor="let photoResult of root.results" class="image fit">
   <img  src="{{photoResult.photo.medium}}"

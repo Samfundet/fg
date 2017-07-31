@@ -55,6 +55,6 @@ jobs:
       deploy:
         provider: script
         skip_cleanup: true
-        script: bash $TRAVIS_BUILD_DIR/deploy_staging.sh
+        script: cat $TRAVIS_BUILD_DIR/deploy_staging.sh | ssh fg@146.185.181.250 /bin/bash
         on:
           branch: development

@@ -10,15 +10,13 @@ import {
 // use @types for these
 import * as imagesLoaded from 'imagesloaded';
 import * as Masonry from 'masonry-layout';
+import { Options } from 'masonry-layout';
 
 @Directive({
   selector: '[masonryLayout]',
-  exportAs: 'masonryLayout'
 })
 export class MasonryLayoutDirective implements OnChanges {
-  @Input('masonryLayout') columnWidth: number;
-  @Input('masonryLength') length: number;
-
+  @Input('masonryOptions') options: Options;
   private masonry: Masonry;
 
   constructor(private el: ElementRef) {
@@ -37,12 +35,7 @@ export class MasonryLayoutDirective implements OnChanges {
     } else {
       imagesLoaded(this.el.nativeElement, () => {
         console.log('Images have loaded for the first time')
-        this.masonry = new Masonry(this.el.nativeElement, {
-          itemSelector: '.masonry-item',
-          columnWidth: this.columnWidth,
-          gutter: 30,
-          transitionDuration: 0,
-        })
+        this.masonry = new Masonry(this.el.nativeElement, this.options)
       });
     }
   }
