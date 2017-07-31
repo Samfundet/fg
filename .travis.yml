@@ -43,6 +43,7 @@ jobs:
       script:
         - ng build
         - ng test --watch=false
+        - ng lint
 
     - stage: deploy
       script: echo "Deploying to staging..."

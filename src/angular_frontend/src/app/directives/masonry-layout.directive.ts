@@ -19,7 +19,7 @@ export class MasonryLayoutDirective implements OnChanges {
   @Input('masonryLayout') columnWidth: number;
   @Input('masonryLength') length: number;
 
-  private masonry: any;
+  private masonry: Masonry;
 
   constructor(private el: ElementRef) {
   }
@@ -30,16 +30,19 @@ export class MasonryLayoutDirective implements OnChanges {
 
   updateLayout(): void {
     if (this.masonry) {
-      this.masonry.reloadItems();
-      imagesLoaded(this.el.nativeElement).on('progress', () => {
-        this.masonry.layout();
+      imagesLoaded(this.el.nativeElement, () => {
+        console.log('Images have loaded again!');
+        this.masonry.reloadItems();
       });
     } else {
-      this.masonry = new Masonry(this.el.nativeElement, {
-        itemSelector: '.masonry-item',
-        columnWidth: this.columnWidth,
-        gutter: 30,
-        transitionDuration: 0,
+      imagesLoaded(this.el.nativeElement, () => {
+        console.log('Images have loaded for the first time')
+        this.masonry = new Masonry(this.el.nativeElement, {
+          itemSelector: '.masonry-item',
+          columnWidth: this.columnWidth,
+          gutter: 30,
+          transitionDuration: 0,
+        })
       });
     }
   }

@@ -47,25 +47,25 @@ export class PhotoResponse implements IPhotoResponse {
 
 export const testData: IPhotoResponse = {
   count: 1,
-  next: "foo",
+  next: 'foo',
   results: [
     {
-      url: "foo.bar",
-      photo: { prod: "p", large: "l", small: "s", medium: "m" },
-      description: "desc",
+      url: 'foo.bar',
+      photo: { prod: 'p', large: 'l', small: 's', medium: 'm' },
+      description: 'desc',
       date_taken: new Date(),
       date_modified: new Date(),
-      photo_ppoi: "ppoi",
+      photo_ppoi: 'ppoi',
       page: 13,
       image_number: 37,
       lapel: false,
       scanned: false,
       on_home_page: false,
-      tag: "tag",
-      category: "cat",
-      media: "med",
-      album: "alb",
-      place: "plc"
+      tag: 'tag',
+      category: 'cat',
+      media: 'med',
+      album: 'alb',
+      place: 'plc'
     }
   ]
 }
