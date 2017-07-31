@@ -2,6 +2,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AppComponent } from './app.component';
+import { NavComponent, FooterComponent } from 'app/components';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -10,7 +11,9 @@ describe('AppComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        NavComponent,
+        FooterComponent
       ],
     }).compileComponents();
   }));
@@ -21,16 +24,15 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   }));
 
-  it(`should have as title 'fg works!'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('fg works!');
+  it(`should have a fg-nav component`, async(() => {
+    const fixture = TestBed.createComponent(NavComponent);
+    const nav = fixture.debugElement.componentInstance;
+    expect(nav).toBeTruthy();
   }));
 
-  it('should render title in a h1 tag', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('fg works!');
+  it(`should have a fg-footer component`, async(() => {
+    const fixture = TestBed.createComponent(FooterComponent);
+    const footer = fixture.debugElement.componentInstance;
+    expect(footer).toBeTruthy();
   }));
 });

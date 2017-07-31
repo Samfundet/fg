@@ -7,15 +7,13 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
+// use @types for these
 import * as imagesLoaded from 'imagesloaded';
-
 import * as Masonry from 'masonry-layout';
-// the above does not work for some reasons
-//const Masonry = require('masonry-layout');
 
 @Directive({
   selector: '[masonryLayout]',
-  exportAs: 'masonryLayout',
+  exportAs: 'masonryLayout'
 })
 export class MasonryLayoutDirective implements OnChanges {
   @Input('masonryLayout') columnWidth: number;

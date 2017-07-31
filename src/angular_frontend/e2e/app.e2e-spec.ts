@@ -7,8 +7,8 @@ describe('fg App', () => {
     page = new FgPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should have a title saying "fotogjengen"', async () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('fg works!');
+    expect(page.getHeaderText).toBe('fotogjengen', page.getHeaderText());
   });
 });

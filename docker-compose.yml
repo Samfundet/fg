@@ -1,14 +1,6 @@
 version: '3'
 
 services:
-  # TODO DEPRECATED: Deploy via travis CI should handle static files
-  # angular:
-  #   build: ./src/angular_frontend
-  #   container_name: angular
-  #   volumes:
-  #     - ./src:/home/app
-  #     - /home/app/angular_frontend/node_modules
-
   nginx:
     restart: always
     build: ./nginx
@@ -20,7 +12,7 @@ services:
       - webserver_network
     volumes:
       - ./nginx:/etc/nginx/conf.d
-      - ./src/angular_frontend:/static/angular
+      - ./src/angular_frontend:/static/angular:ro # read only: ro
       - ./src/django_backend:/django
 
   django:
@@ -46,6 +38,9 @@ services:
     volumes:
       - ./postgres/data:/var/lib/postgresql/data/pgdata
 
+volumes:
+  django_volume:
+  static_volume:
 
 networks:
   webserver_network:

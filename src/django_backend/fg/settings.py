@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'versatileimagefield',
 
     # Own apps
-    'fg.api'
+    'fg.api',
+    'fg.fg_auth'
 ]
 
 REST_FRAMEWORK = {
@@ -143,6 +144,9 @@ STATIC_URL = '/django-static/'
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
+# Photo root (development only)
+PHOTO_ROOT = os.path.join(BASE_DIR, 'development_images/')
+
 # URL that handles the media served from MEDIA_ROOT.
 MEDIA_URL = '/media/'
 
@@ -196,3 +200,12 @@ VERSATILEIMAGEFIELD_SETTINGS = {
             ('small', 'thumbnail__400x400')
     ]
 }
+
+# AUTH SETTINGS
+AUTH_USER_MODEL = 'fg_auth.User'
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'
+AUTHENTICATION_BACKENDS = (
+    'fg.fg_auth.auth.KerberosBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)

@@ -5,7 +5,7 @@ export class FgPage {
     return browser.get('/');
   }
 
-  getParagraphText() {
-    return element(by.css('fg-root h1')).getText();
+  getHeaderText() {
+    return element(by.css('fg-root fg-nav header#header h1 a')).getText();
   }
 }
