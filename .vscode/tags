@@ -92,7 +92,6 @@ VERSATILEIMAGEFIELD_SETTINGS	../src/django_backend/fg/settings.py	/^VERSATILEIMA
 VersatileImageField	../src/django_backend/fg/api/models.py	/^from versatileimagefield.fields import VersatileImageField, PPOIField$/;"	kind:namespace	line:4
 VersatileImageFieldSerializer	../src/django_backend/fg/api/serializers.py	/^from versatileimagefield.serializers import VersatileImageFieldSerializer$/;"	kind:namespace	line:5
 WSGI_APPLICATION	../src/django_backend/fg/settings.py	/^WSGI_APPLICATION = 'fg.wsgi.application'$/;"	kind:variable	line:85
-__init__.py	../src/__init__.py	1;"	kind:file	line:1
 __init__.py	../src/django_backend/__init__.py	1;"	kind:file	line:1
 __init__.py	../src/django_backend/fg/__init__.py	1;"	kind:file	line:1
 __init__.py	../src/django_backend/fg/api/__init__.py	1;"	kind:file	line:1

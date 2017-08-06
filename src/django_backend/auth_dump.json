@@ -1,0 +1,97 @@
+[
+    {
+        "model": "fg_auth.securitylevel",
+        "pk": 1,
+        "fields": {
+            "name": "2MEC"
+        }
+    },
+    {
+        "model": "fg_auth.securitylevel",
+        "pk": 2,
+        "fields": {
+            "name": "MP9L"
+        }
+    },
+    {
+        "model": "fg_auth.securitylevel",
+        "pk": 3,
+        "fields": {
+            "name": "T3FK"
+        }
+    },
+    {
+        "model": "fg_auth.securitylevel",
+        "pk": 4,
+        "fields": {
+            "name": "UDAT"
+        }
+    },
+    {
+        "model": "fg_auth.securitylevel",
+        "pk": 5,
+        "fields": {
+            "name": "EQ73"
+        }
+    },
+    {
+        "model": "fg_auth.securitylevel",
+        "pk": 6,
+        "fields": {
+            "name": "WXD3"
+        }
+    },
+    {
+        "model": "fg_auth.securitylevel",
+        "pk": 7,
+        "fields": {
+            "name": "FTT3"
+        }
+    },
+    {
+        "model": "fg_auth.securitylevel",
+        "pk": 8,
+        "fields": {
+            "name": "PDQV"
+        }
+    },
+    {
+        "model": "fg_auth.securitylevel",
+        "pk": 9,
+        "fields": {
+            "name": "SPS2"
+        }
+    },
+    {
+        "model": "fg_auth.securitylevel",
+        "pk": 10,
+        "fields": {
+            "name": "AGMU"
+        }
+    },
+    {
+        "model": "fg_auth.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$36000$JqAh7EOzGIlW$gyXNSx1BS6U8kuXoM0cbgNXLyoE46/58Cts4sxQaKSg=",
+            "last_login": "2017-08-06T19:47:04.606Z",
+            "is_superuser": true,
+            "username": "fg",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2017-08-06T19:47:04.606Z",
+            "address": "",
+            "zip_code": null,
+            "city": "",
+            "phone": null,
+            "member_number": null,
+            "security_level": 4,
+            "fg_info": null,
+            "groups": [],
+            "user_permissions": []
+        }
+    }
+]

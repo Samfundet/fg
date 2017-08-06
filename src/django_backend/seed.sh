@@ -6,21 +6,15 @@ if [ "$DEVELOPMENT" != "true" ]; then
 fi
 
 # Delete all migrations
-find . -path "./fg/api/migrations/*.py" -not -name "__init__.py" -delete
-find . -path "./fg/api/migrations/*.pyc"  -delete
-find . -path "./fg/fg_auth/migrations/*.py" -not -name "__init__.py" -delete
-find . -path "./fg/fg_auth/migrations/*.pyc"  -delete
+bash ./remove-migrations.sh
 
 ./manage.py flush --no-input
 ./manage.py makemigrations
 ./manage.py migrate
-# ./manage.py loaddata dev_auth.json
+./manage.py loaddata auth_dump.json
 cp ./fg/api/seed_migration.py ./fg/api/migrations/dev_seed.py
 ./manage.py makemigrations --merge --no-input
 ./manage.py migrate
 
 # # Delete all migrations again
-find . -path "./fg/api/migrations/*.py" -not -name "__init__.py" -delete
-find . -path "./fg/api/migrations/*.pyc"  -delete
-find . -path "./fg/fg_auth/migrations/*.py" -not -name "__init__.py" -delete
-find . -path "./fg/fg_auth/migrations/*.pyc"  -delete
+#bash ./remove-migrations.sh

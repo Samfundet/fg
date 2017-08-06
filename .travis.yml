@@ -25,6 +25,7 @@ jobs:
         - sudo mv docker-compose /usr/local/bin
         - bash travis.sh
       script:
+        - docker exec -i django bash remove-migrations.sh
         - docker exec -i django python manage.py makemigrations
         - docker exec -i django python manage.py test fg.api
         - docker exec -i django python manage.py test fg.fg_auth
