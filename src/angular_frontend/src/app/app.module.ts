@@ -16,6 +16,7 @@ import { BannerComponent } from './components/banner/banner.component';
 import { MainComponent } from './components/main/main.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MasonryLayoutDirective } from './directives/masonry-layout.directive';
+import { InfoComponent } from './components/info/info.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MasonryLayoutDirective } from './directives/masonry-layout.directive';
     BannerComponent,
     MainComponent,
     FooterComponent,
-    MasonryLayoutDirective
+    MasonryLayoutDirective,
+    InfoComponent
   ],
   imports: [
     BrowserModule,

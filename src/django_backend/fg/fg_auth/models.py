@@ -65,7 +65,7 @@ class User(AbstractUser):
     USERNAME_FIELD = 'username'
 
     def __str__(self):
-        return '%s %s' % (self.first_name, self.last_name)
+        return '%s %s - (username: %s, security_level: %s)' % (self.first_name, self.last_name, self.username, self.security_level)
 
     def is_fg(self):
         return self.security_level.name.lower() == "fg"
@@ -81,3 +81,6 @@ class DownloadedImages(models.Model):
     image = models.ForeignKey("api.Photo")
     user = models.ForeignKey(User)
     date_downloaded = models.DateField(auto_now_add=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Downloaded images'

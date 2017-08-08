@@ -1,16 +1,16 @@
 <!-- Header -->
 <header id="header">
-  <h1><a href="#">fotogjengen</a></h1>
-  <a (click)="toggleMenu()" href="#menu">Menu</a>
+  <h1><a href="/">fotogjengen</a></h1>
+  <button style="background-color: transparent;" (click)="toggleMenu()">Menu</button>
 </header>
 
 <!-- Nav -->
 <nav [ngClass]="[isMenuOpen ? 'visible':'close']" id="menu">
-  <a class="menu-closer" (click)="toggleMenu()" href="#menu">LUKK</a>
+  <button class="menu-closer" (click)="toggleMenu()">LUKK</button>
   <ul class="links">
-    <li><a [routerLink]="main">Forside</a></li>
-    <li><a [routerLink]="info">Info</a></li>
-    <li><a [routerLink]="kontakt">Kontakt</a></li>
-    <li><a [routerLink]="intern">Intern</a></li>
+    <li><a routerLink="forside" (click)="toggleMenu()">Forside</a></li>
+    <li><a routerLink="info" (click)="toggleMenu()">Info</a></li>
+    <li><a routerLink="kontakt" (click)="toggleMenu()">Kontakt</a></li>
+    <li><a routerLink="intern" (click)="toggleMenu()">Intern</a></li>
   </ul>
 </nav>
