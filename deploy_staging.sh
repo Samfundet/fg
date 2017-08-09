@@ -6,5 +6,6 @@ git reset --hard # TODO git clean -xdf? but that will remove node_modules and ev
 git pull
 bash development.sh
 cd src/angular_frontend
+npm install
 ng build  
 echo $TIMESTAMP >> $LOGFILE
