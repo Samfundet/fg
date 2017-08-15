@@ -4,6 +4,7 @@
       *ngFor="let photoResult of root.results; let i = index"
       src="{{photoResult.photo.medium}}"
       class="grid-item"
+      [ngClass]="[i % 8 === 0 ? 'grid-item-2':'']"
       alt="{{photoResult.description}}"
     />
   </div>

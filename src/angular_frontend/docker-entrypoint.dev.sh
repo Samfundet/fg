@@ -1,2 +1,0 @@
-#@IgnoreInspection BashAddShebang
-ng build

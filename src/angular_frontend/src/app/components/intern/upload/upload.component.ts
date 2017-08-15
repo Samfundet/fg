@@ -16,10 +16,10 @@ export class UploadComponent implements OnInit {
   }
 
   upload() {
-    let fileBrowser = this.fileInput.nativeElement;
+    const fileBrowser = this.fileInput.nativeElement;
     if (fileBrowser.files && fileBrowser.files[0]) {
       const formData = new FormData();
-      formData.append("image", fileBrowser.files[0]);
+      formData.append('image', fileBrowser.files[0]);
       this.api.uploadPhotos(formData).subscribe(x => {
         console.log(x);
       });

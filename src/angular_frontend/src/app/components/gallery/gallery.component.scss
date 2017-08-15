@@ -1,5 +1,3 @@
-// @import '../../../styles/styles.scss';
-
 .grid-item, .grid-item-2 {
   margin: 15px;
 }
@@ -8,33 +6,11 @@
   width: 400px;
 }
 
+.grid-item.grid-item-2 {
+  // width: 830px;
+  // TODO FIX
+}
+
 .grid {
   margin: 0 auto;
 }
-
-// $gutter: 0.5rem;
-// $side-gutter: 0.5rem;
-// $top-down-gutter: 0.5rem;
-// $base-height: 600px; //change this based on @media queries
-
-// /* Describes the patterns employed */
-
-// .thumbnail-l-p { //and portrait-landscape and portrait-portrait-portrait
-//   height: $base-height * 2/3;
-//   margin: $top-down-gutter $side-gutter;
-// }
-// .thumbnail-l-l {
-//   height: $base-height * 289/600;
-//   margin: $top-down-gutter $side-gutter;
-// }
-
-
-// .thumbnail-p-p-p { //portrait portrait portrait
-//   height: $base-height * 425/600;
-//   margin: $top-down-gutter $side-gutter;
-// }
-
-// .thumbnail-full {
-//   height: $base-height;
-//   margin: $top-down-gutter $side-gutter;
-// }

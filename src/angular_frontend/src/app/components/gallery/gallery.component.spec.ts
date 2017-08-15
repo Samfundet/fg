@@ -5,10 +5,9 @@ import { GalleryComponent } from './gallery.component';
 import { IPhotoResponse, testData } from './gallery.model';
 import { MasonryLayoutDirective } from 'app/directives';
 import { ApiService } from 'app/services';
-import {} from './gallery.model';
 
 class MockApiService {
-  getImages(): Observable<IPhotoResponse> {
+  getPhotos(): Observable<IPhotoResponse> {
     return Observable.of(testData);
   }
 }

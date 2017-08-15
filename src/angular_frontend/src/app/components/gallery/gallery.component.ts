@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-// import { ApiService, StoreService } from 'app/services';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'app/services/api.service';
-import { StoreService } from 'app/services/store.service';
+import { Router } from '@angular/router';
 import { PhotoResponse, IPhotoResponse } from './gallery.model';
 import { Options } from 'masonry-layout';
 import { MasonryLayoutDirective } from 'app/directives';
@@ -18,9 +17,8 @@ export class GalleryComponent implements OnInit {
     itemSelector: '.grid-item',
     fitWidth: true
   }
-  @ViewChild(MasonryLayoutDirective) masonryDirective: MasonryLayoutDirective;
 
-  constructor(public apiService: ApiService, private store: StoreService) { }
+  constructor(public apiService: ApiService, private router: Router) { }
 
   /* TODO, move to own method with default parameter and create listen to scroll to bottom
    * http://stackoverflow.com/questions/40664766/angular2-how-to-detect-scroll-to-bottom-of-html-element */
@@ -29,7 +27,6 @@ export class GalleryComponent implements OnInit {
   }
 
   storePhotos(photos: IPhotoResponse) {
-
     if (this.root) {
       // We already have photos, lets add the previous into the new one
       const oldPhotoResultList = this.root.results;
@@ -42,7 +39,14 @@ export class GalleryComponent implements OnInit {
 
   foo() {
     if (this.root && this.root.next) {
-      this.apiService.getPhotos(2).subscribe(p => this.storePhotos(p));
+      this.apiService.getPhotos(2).subscribe(p => this.setPhotosAndUrl(p));
     }
+  }
+
+  setPhotosAndUrl(photos: IPhotoResponse) {
+    this.storePhotos(photos);
+    this.router.navigate([], {
+      queryParams: {page: 2}
+    })
   }
 }
