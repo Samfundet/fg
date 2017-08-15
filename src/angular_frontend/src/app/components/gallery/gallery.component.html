@@ -1,5 +1,5 @@
-<div class="row center-xs">
-  <div *ngIf="root?.results" masonryLayout [masonryOptions]="masonryOptions" class="grid p-t-2">
+<div class="col center-xs">
+  <div *ngIf="root?.results" masonryLayout [masonryOptions]="masonryOptions" [input]="root" class="grid p-t-2">
     <img
       *ngFor="let photoResult of root.results; let i = index"
       src="{{photoResult.photo.medium}}"
@@ -7,24 +7,13 @@
       alt="{{photoResult.description}}"
     />
   </div>
+  <div class="p-t-1">
+    <button class="big alt" (click)="foo()">Mer</button>
+  </div>
 </div>
-
 
 <!-- <span *ngFor="let photoResult of root.results" class="image fit">
   <img  src="{{photoResult.photo.medium}}"
         srcset="{{photoResult.photo.small}} 400w, {{photoResult.photo.medium}} 900w, {{photoResult.photo.large}} 1200w"
         alt="{{photoResult.description}}"/>
 </span> -->
-
-<!--
-
-<!--
-<div class="col-xs-12 row center-xs p-t-2">
-  <div *ngIf="root" class="col-xs-12">
-    <div class="row center-xs">
-      <img *ngFor="let photoResult of root.results" [class]="photoResult.klass" src="{{photoResult.photo.small}}" srcset="{{photoResult.photo.small}} 400w, {{photoResult.photo.medium}} 900w, {{photoResult.photo.large}} 1200w"
-        alt="{{photoResult.description}}" />
-    </div>
-    <!--TODO bug with iOS devices, seems to only pick first element in srcset no matter what
-  </div>
-</div> -->

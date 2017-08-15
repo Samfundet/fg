@@ -1,0 +1,14 @@
+footer {
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  grid-gap: 20px;
+  justify-content: center;
+}
+
+footer > .item {
+  max-width: 400px;
+}
+
+footer > .copyright {
+  grid-column: 1 / -1;
+}

@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -19,6 +19,7 @@ import { MasonryLayoutDirective } from './directives/masonry-layout.directive';
 import { InfoComponent } from './components/info/info.component';
 import { InternComponent } from './components/intern/intern.component';
 import { KontaktComponent } from './components/kontakt/kontakt.component';
+import { UploadComponent } from './components/intern/upload/upload.component';
 
 @NgModule({
   declarations: [
@@ -31,11 +32,12 @@ import { KontaktComponent } from './components/kontakt/kontakt.component';
     MasonryLayoutDirective,
     InfoComponent,
     InternComponent,
-    KontaktComponent
+    KontaktComponent,
+    UploadComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule
   ],

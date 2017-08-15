@@ -27,14 +27,14 @@ export interface IPhotoResult {
 export interface IPhotoResponse {
   count: number;
   next: string;
-  previous?: any;
+  previous: any;
   results: IPhotoResult[];
 }
 
 export class PhotoResponse implements IPhotoResponse {
   count: number;
   next: string;
-  previous?: any;
+  previous: string;
   results: IPhotoResult[];
 
   constructor(response: IPhotoResponse) {
@@ -47,7 +47,8 @@ export class PhotoResponse implements IPhotoResponse {
 
 export const testData: IPhotoResponse = {
   count: 1,
-  next: 'foo',
+  next: null,
+  previous: null,
   results: [
     {
       url: 'foo.bar',
