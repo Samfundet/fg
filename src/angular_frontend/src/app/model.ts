@@ -7,7 +7,7 @@ export interface IResponse<T> {
 }
 
 // Photo model
-export type Photo = {
+export interface PhotoType {
   prod: string;
   small: string;
   large: string;
@@ -15,7 +15,7 @@ export type Photo = {
 }
 export interface IPhoto {
   url: string;
-  photo: Photo;
+  photo: PhotoType;
   description: string;
   date_taken: Date;
   date_modified: Date;
