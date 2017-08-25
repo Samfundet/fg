@@ -20,6 +20,7 @@ import { InfoComponent } from './components/info/info.component';
 import { InternComponent } from './components/intern/intern.component';
 import { KontaktComponent } from './components/kontakt/kontakt.component';
 import { UploadComponent } from './components/intern/upload/upload.component';
+import { PersonComponent } from './components/kontakt/person/person.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { UploadComponent } from './components/intern/upload/upload.component';
     InfoComponent,
     InternComponent,
     KontaktComponent,
-    UploadComponent
+    UploadComponent,
+    PersonComponent
   ],
   imports: [
     BrowserModule,

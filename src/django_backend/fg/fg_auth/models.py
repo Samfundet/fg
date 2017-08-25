@@ -33,8 +33,15 @@ class SecurityLevel(models.Model):
     def __str__(self):
         return self.name
 
-
-class FgInfo(models.Model):
+class User(AbstractUser):
+    """fields in AbstractUser username, first_name, last_name, email"""
+    # Personal info
+    address = models.CharField(max_length=100, blank=True)
+    zip_code = models.IntegerField(null=True, blank=True)
+    city = models.CharField(max_length=30, blank=True)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    member_number = models.IntegerField(null=True, blank=True)
+    # fg info
     opptaksaar = models.IntegerField(null=True, blank=True)
     gjengjobb1 = models.CharField(max_length=255, blank=True)
     gjengjobb2 = models.CharField(max_length=255, blank=True)
@@ -47,16 +54,7 @@ class FgInfo(models.Model):
     aktiv_pang = models.BooleanField(default=False)
     comments = models.CharField(max_length=255, blank=True)
 
-
-class User(AbstractUser):
-    """fields in AbstractUser username, first_name, last_name, email"""
-    address = models.CharField(max_length=100, blank=True)
-    zip_code = models.IntegerField(null=True, blank=True)
-    city = models.CharField(max_length=30, blank=True)
-    phone = models.CharField(max_length=15, blank=True, null=True)
-    member_number = models.IntegerField(null=True, blank=True)
     security_level = models.ForeignKey(SecurityLevel, default=4, blank=True)
-    fg_info = models.ForeignKey(FgInfo, null=True, blank=True)
     downloaded_images = models.ManyToManyField(
         "api.Photo", blank=True, through='DownloadedImages')
 

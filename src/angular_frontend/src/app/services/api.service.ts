@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Headers, RequestOptions } from '@angular/http';
-import { IPhotoResponse } from '../components/gallery/gallery.model';
+import { IResponse, IPhoto, IUser } from 'app/model';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { StoreService } from 'app/services';
@@ -18,19 +18,15 @@ export class ApiService {
   constructor(
     private http: HttpClient,
     private store: StoreService
-  ) {
-  }
+  ) {}
 
-  public getPhotos(page?: number): Observable<IPhotoResponse> {
+  public getPhotos(page?: number): Observable<IResponse<IPhoto>> {
     const query = page ? `?page=${page}` : '';
-    return this.http.get<IPhotoResponse>(`${this.baseUrl}/photos${query}`);
+    return this.http.get<IResponse<IPhoto>>(`${this.baseUrl}/photos/${query}`);
   }
 
-  /* Generic retrieval of object and storage into store */
-  public getObjectToStore<T>(url: string, subject: Subject<T>): void {
-    this.http.get<T>(`${url}`).subscribe(x => {
-      subject.next(x);
-    });
+  public getUsers(): Observable<IResponse<IUser>> {
+    return this.http.get<IResponse<IUser>>(`${this.baseUrl}/users/`);
   }
 
   public uploadPhotos(formData) {

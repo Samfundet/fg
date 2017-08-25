@@ -1,13 +1,21 @@
-export interface IPhoto {
+// All responses from the backend have the following shape
+export interface IResponse<T> {
+  count: number;
+  next: string;
+  previous: any;
+  results: T[];
+}
+
+// Photo model
+export type Photo = {
   prod: string;
   small: string;
   large: string;
   medium: string;
 }
-
-export interface IPhotoResult {
+export interface IPhoto {
   url: string;
-  photo: IPhoto;
+  photo: Photo;
   description: string;
   date_taken: Date;
   date_modified: Date;
@@ -23,21 +31,13 @@ export interface IPhotoResult {
   album: string;
   place: string;
 }
-
-export interface IPhotoResponse {
-  count: number;
-  next: string;
-  previous: any;
-  results: IPhotoResult[];
-}
-
-export class PhotoResponse implements IPhotoResponse {
+export class PhotoResponse implements IResponse<IPhoto> {
   count: number;
   next: string;
   previous: string;
-  results: IPhotoResult[];
+  results: IPhoto[];
 
-  constructor(response: IPhotoResponse) {
+  constructor(response: IResponse<IPhoto>) {
     this.count = response.count;
     this.next = response.next;
     this.previous = response.previous ? response.previous : undefined;
@@ -45,7 +45,27 @@ export class PhotoResponse implements IPhotoResponse {
   }
 }
 
-export const testData: IPhotoResponse = {
+// User model
+export interface IUser {
+  username: string;
+  address?: string;
+  zip_code?: any;
+  city?: string;
+  phone?: any;
+  member_number?: any;
+  opptaksaar?: any;
+  gjengjobb1?: string;
+  gjengjobb2?: string;
+  gjengjobb3?: string;
+  hjemmeside?: string;
+  uker?: string;
+  fg_kallenavn?: string;
+  bilde?: string;
+  aktiv_pang?: boolean;
+  comments?: string;
+}
+
+export const testData: IResponse<IPhoto> = {
   count: 1,
   next: null,
   previous: null,

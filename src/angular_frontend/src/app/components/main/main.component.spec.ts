@@ -15,7 +15,7 @@ describe('MainComponent', () => {
     TestBed.configureTestingModule({
       declarations: [MainComponent],
       schemas: [NO_ERRORS_SCHEMA]
-    }).compileComponents();
+    });
   }));
 
   beforeEach(() => {
