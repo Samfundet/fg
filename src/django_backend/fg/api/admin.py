@@ -7,5 +7,5 @@ admin.site.register(models.Category)
 admin.site.register(models.Media)
 admin.site.register(models.Album)
 admin.site.register(models.Place)
+admin.site.register(models.SecurityLevel)
 admin.site.register(models.Photo)
-

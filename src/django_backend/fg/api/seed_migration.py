@@ -11,14 +11,14 @@ from PIL import Image
 
 def seed_foreign_keys(apps):
     apps_models_dict = {
-        "api": ["Album", "Tag", "Category", "Media", "Place"], 
-        "fg_auth": ["SecurityLevel"]
+        "api": ["Album", "Tag", "Category", "Media", "Place"],
+        "fg_auth": []
     }
 
     for app_name, models in apps_models_dict.items():
         for model_name in models:
             Mod = apps.get_model(app_name, model_name)
-            for i in range(10):
+            for i in range(3):
                 obj = Mod(name=helpers.get_rand_string(4))
                 obj.save()
 
@@ -33,7 +33,7 @@ def load_photos(apps, schema_editor):
     image_paths = []
     for image_path in glob.glob(settings.PHOTO_ROOT+'*.jpg', recursive=True):
         image_paths.append(image_path)
-    
+
     if not image_paths:
         raise ImportError("Could not find any photos in PHOTO_ROOT: "+settings.PHOTO_ROOT+". Add images to development_images directory")
 
@@ -47,7 +47,7 @@ def load_photos(apps, schema_editor):
             category=get_random_object(apps, "api", "Category"),
             page=i,
             image_number=i,
-            security_level=get_random_object(apps, "fg_auth", "SecurityLevel")
+            security_level=get_random_object(apps, "api", "SecurityLevel")
         )
         with open(image_path, 'rb') as f:
             photo_test.photo.save(image_path, File(f))

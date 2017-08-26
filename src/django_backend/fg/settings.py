@@ -209,3 +209,10 @@ AUTHENTICATION_BACKENDS = (
     'fg.fg_auth.auth.KerberosBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+# Groups
+GROUPS = {
+    "FG": "FG",
+    "HUSFOLK": "HUSFOLK",
+    "POWER": "POWER"
+}

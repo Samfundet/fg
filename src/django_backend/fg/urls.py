@@ -13,6 +13,7 @@ router.register(r'categories', api_views.CategoryViewSet)
 router.register(r'mediums', api_views.MediaViewSet)
 router.register(r'albums', api_views.AlbumViewSet)
 router.register(r'places', api_views.PlaceViewSet)
+router.register(r'security-level', api_views.SecurityLevelViewSet)
 router.register(r'photos', api_views.PhotoViewSet)
 
 urlpatterns = [

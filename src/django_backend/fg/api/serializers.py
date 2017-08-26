@@ -35,12 +35,20 @@ class PlaceSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
+class SecurityLevelSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.SecurityLevel
+        fields = '__all__'
+
+
 class PhotoSerializer(serializers.HyperlinkedModelSerializer):
     photo = VersatileImageFieldSerializer(
         sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes']
     )
 
+    security_level = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = models.Photo
-        exclude = ['security_level']
-        #fields = '__all__' # TODO
+        #exclude = ['security_level']
+        fields = '__all__'

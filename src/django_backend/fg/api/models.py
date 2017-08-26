@@ -1,5 +1,4 @@
 from fg.api import helpers
-from fg.fg_auth.models import SecurityLevel
 from django.db import models
 from versatileimagefield.fields import VersatileImageField, PPOIField
 
@@ -43,14 +42,19 @@ class Place(models.Model):
         return self.name
 
 
+class SecurityLevel(models.Model):
+    name = models.CharField(max_length=16, unique=True, db_index=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Photo(models.Model):
     # The actual photo object
     photo = VersatileImageField(
         upload_to=helpers.path_and_rename,
         ppoi_field='photo_ppoi',
-        default="default.jpg"
-        # height_field='height',
-        # width_field='width'
+        default='default.jpg'
     )
 
     # Information describing the photo
@@ -67,9 +71,9 @@ class Photo(models.Model):
     lapel = models.BooleanField(default=False, db_index=True)
     scanned = models.BooleanField(default=False, db_index=True)
     on_home_page = models.BooleanField(default=True, db_index=True)
-    security_level = models.ForeignKey(SecurityLevel, db_index=True)
 
     # Foreign keys describing meta-data
+    security_level = models.ForeignKey(SecurityLevel, on_delete=models.PROTECT)  # models.Protect protects against cascading deletion. You cant delete a security level that has photos associated with it
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     media = models.ForeignKey(Media, on_delete=models.CASCADE)
@@ -77,4 +81,4 @@ class Photo(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.photo.name;
+        return self.photo.name

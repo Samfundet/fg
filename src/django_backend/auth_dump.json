@@ -1,72 +1,30 @@
 [
     {
-        "model": "fg_auth.securitylevel",
+        "model": "api.securitylevel",
         "pk": 1,
         "fields": {
-            "name": "2MEC"
+            "name": "FG"
         }
     },
     {
-        "model": "fg_auth.securitylevel",
+        "model": "api.securitylevel",
         "pk": 2,
         "fields": {
-            "name": "MP9L"
+            "name": "HUSFOLK"
         }
     },
     {
-        "model": "fg_auth.securitylevel",
+        "model": "api.securitylevel",
         "pk": 3,
         "fields": {
-            "name": "T3FK"
+            "name": "POWER"
         }
     },
     {
-        "model": "fg_auth.securitylevel",
+        "model": "api.securitylevel",
         "pk": 4,
         "fields": {
-            "name": "UDAT"
-        }
-    },
-    {
-        "model": "fg_auth.securitylevel",
-        "pk": 5,
-        "fields": {
-            "name": "EQ73"
-        }
-    },
-    {
-        "model": "fg_auth.securitylevel",
-        "pk": 6,
-        "fields": {
-            "name": "WXD3"
-        }
-    },
-    {
-        "model": "fg_auth.securitylevel",
-        "pk": 7,
-        "fields": {
-            "name": "FTT3"
-        }
-    },
-    {
-        "model": "fg_auth.securitylevel",
-        "pk": 8,
-        "fields": {
-            "name": "PDQV"
-        }
-    },
-    {
-        "model": "fg_auth.securitylevel",
-        "pk": 9,
-        "fields": {
-            "name": "SPS2"
-        }
-    },
-    {
-        "model": "fg_auth.securitylevel",
-        "pk": 10,
-        "fields": {
-            "name": "AGMU"
+            "name": "ALLE"
         }
     },
     {
@@ -88,8 +46,6 @@
             "city": "",
             "phone": null,
             "member_number": null,
-            "security_level": 4,
-            "fg_info": null,
             "groups": [],
             "user_permissions": []
         }

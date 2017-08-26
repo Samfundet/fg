@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.models import BaseUserManager, Group
 from django.utils import timezone
 
 
@@ -23,15 +23,10 @@ class FGUserManager(BaseUserManager):
         user.is_staff = True
         user.is_active = True
         user.is_superuser = True
+        user.groups.add(Group.objects.get_or_create(name="FG"))
         user.save()
         return user
 
-
-class SecurityLevel(models.Model):
-    name = models.CharField(max_length=50, unique=True, db_index=True)
-
-    def __str__(self):
-        return self.name
 
 class User(AbstractUser):
     """fields in AbstractUser username, first_name, last_name, email"""
@@ -54,7 +49,6 @@ class User(AbstractUser):
     aktiv_pang = models.BooleanField(default=False)
     comments = models.CharField(max_length=255, blank=True)
 
-    security_level = models.ForeignKey(SecurityLevel, default=4, blank=True)
     downloaded_images = models.ManyToManyField(
         "api.Photo", blank=True, through='DownloadedImages')
 
@@ -63,16 +57,8 @@ class User(AbstractUser):
     USERNAME_FIELD = 'username'
 
     def __str__(self):
-        return '%s %s - (username: %s, security_level: %s)' % (self.first_name, self.last_name, self.username, self.security_level)
+        return '%s %s - (%s)' % (self.first_name, self.last_name, self.username)
 
-    def is_fg(self):
-        return self.security_level.name.lower() == "fg"
-
-    def is_husfolk(self):
-        return self.security_level.name.lower() == "husfolk" or self.is_fg()
-
-    def is_power(self):
-        return self.security_level.name.lower() == "power" or self.is_fg()
 
 
 class DownloadedImages(models.Model):
