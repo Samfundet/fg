@@ -71,6 +71,7 @@ class Photo(models.Model):
     lapel = models.BooleanField(default=False, db_index=True)
     scanned = models.BooleanField(default=False, db_index=True)
     on_home_page = models.BooleanField(default=True, db_index=True)
+    splash = models.BooleanField(default=False)
 
     # Foreign keys describing meta-data
     security_level = models.ForeignKey(SecurityLevel, on_delete=models.PROTECT)  # models.Protect protects against cascading deletion. You cant delete a security level that has photos associated with it

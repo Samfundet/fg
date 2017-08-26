@@ -14,8 +14,8 @@ def get_random_object(app_name, model_string):
 
 def seed_foreign_keys():
     apps_models_dict = {
-        "api": ["Album", "Tag", "Category", "Media", "Place"],
-        "fg_auth": ["SecurityLevel"]
+        "api": ["Album", "Tag", "Category", "Media", "Place", "SecurityLevel"],
+        "fg_auth": []
     }
 
     for app_name, models in apps_models_dict.items():
@@ -45,7 +45,7 @@ class PhotoTestCase(TestCase):
             category=get_random_object("api", "Category"),
             page=13,
             image_number=37,
-            security_level=get_random_object("fg_auth", "SecurityLevel")
+            security_level=get_random_object("api", "SecurityLevel")
         )
 
     def test_new_photo_is_saved(self):
