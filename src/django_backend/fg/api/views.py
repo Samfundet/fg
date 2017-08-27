@@ -69,6 +69,6 @@ class PhotoViewSet(ModelViewSet):
                     # FG gets to see it all
                     return models.Photo.objects.all()
                 elif g.name in ["HUSFOLK", "POWER"]:  # TODO test permissions
-                    return models.Photo.objects.filter(security_level__name__iexact="ALLE")
+                    return models.Photo.objects.filter(security_level__name__in=("ALLE", "HUSFOLK"))
         else:
             return models.Photo.objects.filter(security_level__name__iexact="ALLE")
