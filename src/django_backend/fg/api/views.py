@@ -50,12 +50,6 @@ class PlaceViewSet(ModelViewSet):
     permission_classes = [IsFGOrReadOnly]
 
 
-class SecurityLevelViewSet(ModelViewSet):
-    queryset = models.Place.objects.all()
-    serializer_class = serializers.SecurityLevelSerializer
-    permission_classes = [IsAdminUser, IsFGOrReadOnly]  # Only admin users should be able to change security levels
-
-
 class PhotoViewSet(ModelViewSet):
     """
     API endpoint that allows image data to be viewed or edited

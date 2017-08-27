@@ -35,12 +35,6 @@ class PlaceSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 
-class SecurityLevelSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.SecurityLevel
-        fields = '__all__'
-
-
 class PhotoSerializer(serializers.HyperlinkedModelSerializer):
     photo = VersatileImageFieldSerializer(
         sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes']

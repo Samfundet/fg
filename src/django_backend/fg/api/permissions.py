@@ -14,3 +14,4 @@ class IsFGOrReadOnly(BasePermission):
             return True
 
         return request.user.groups.filter(name="FG").exists()
+
