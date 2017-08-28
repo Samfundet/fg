@@ -1,4 +1,5 @@
-from fg.api import helpers
+import os
+from .. import settings
 from django.db import models
 from versatileimagefield.fields import VersatileImageField, PPOIField
 
@@ -49,18 +50,29 @@ class SecurityLevel(models.Model):
         return self.name
 
 
+PROD_PATH = "alle/prod/"
+
+def path_and_rename(instance, filename):
+    image_type = '.%s' % filename.split('.')[-1]
+    album = instance.album.name.upper()
+    page = str(instance.page).zfill(2)
+    image_number = str(instance.image_number).zfill(2)
+    return PROD_PATH+"%s/%s" % (album, album + page + image_number + image_type)
+
+
 class Photo(models.Model):
     # The actual photo object
     photo = VersatileImageField(
-        upload_to=helpers.path_and_rename,
+        upload_to=path_and_rename,
+        blank=True,
         ppoi_field='photo_ppoi',
-        default='default.jpg'
+        default=settings.MEDIA_ROOT + 'default.jpg'
     )
 
     # Information describing the photo
     # height = models.IntegerField()
     # width = models.IntegerField()
-    description = models.CharField(max_length=256, db_index=True, blank=True, verbose_name='motiv')
+    motive = models.CharField(max_length=256, db_index=True, blank=True, verbose_name='motiv')
     date_taken = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     photo_ppoi = PPOIField()
@@ -74,7 +86,8 @@ class Photo(models.Model):
     splash = models.BooleanField(default=False)
 
     # Foreign keys describing meta-data
-    security_level = models.ForeignKey(SecurityLevel, on_delete=models.PROTECT)  # models.Protect protects against cascading deletion. You cant delete a security level that has photos associated with it
+    security_level = models.ForeignKey(SecurityLevel, on_delete=models.PROTECT)
+    # models.Protect protects against cascading deletion. You cant delete a security level that has photos
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     media = models.ForeignKey(Media, on_delete=models.CASCADE)
@@ -83,3 +96,51 @@ class Photo(models.Model):
 
     def __str__(self):
         return self.photo.name
+
+    def save(self, *args, **kwargs):
+        if self.pk is not None:
+            orig = Photo.objects.get(pk=self.pk)
+            if orig.album != self.album:
+                self.move_image_file_location()
+            elif orig.page != self.page:
+                self.move_image_file_location()
+            elif orig.image_number != self.image_number:
+                self.move_image_file_location()
+
+        super(Photo, self).save(*args, **kwargs)
+
+    def move_image_file_location(self):
+        import shutil
+        try:
+            if '.' in self.image_prod.name:
+                image_type = ".%s" % self.image_prod.name.split('.')[-1]
+            else:
+                image_type = '.jpg'
+            url_new = os.path.join(settings.MEDIA_ROOT, self.relative_url(image_type))
+            url_orig = os.path.join(settings.MEDIA_ROOT, self.image_prod.name)
+            if os.path.exists(url_orig) and 'default' not in url_orig:
+                self.create_dirs(url_new)
+                shutil.move(url_orig, url_new)
+                self.image_prod = self.relative_url(image_type)
+
+        except IOError as e:
+            print(e)
+
+    def relative_url(self, image_type='.jpg'):
+        album = self.album.name.upper()
+        return PROD_PATH+"%s/%s" % (album, self.file_name(image_type=image_type))
+
+    def file_name(self, image_type=".jpg"):
+        album = self.album.name.lower()
+        page = str(self.page).zfill(2)
+        image_number = str(self.image_number).zfill(2)
+        return album + page + image_number + image_type
+
+    @staticmethod
+    def create_dirs(dest):
+        dest_dir = os.path.dirname(dest)
+        if not os.path.exists(dest_dir):
+            try:
+                os.makedirs(dest_dir)
+            except IOError:
+                pass  # TODO i smell a foul stench from this snippet

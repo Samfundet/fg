@@ -5,7 +5,7 @@
       src="{{photoResult.photo.medium}}"
       class="grid-item"
       [ngClass]="[i % 8 === 0 ? 'grid-item-2':'']"
-      alt="{{photoResult.description}}"
+      alt="{{photoResult.motive}}"
     />
   </div>
   <div class="p-t-1">
@@ -16,5 +16,5 @@
 <!-- <span *ngFor="let photoResult of root.results" class="image fit">
   <img  src="{{photoResult.photo.medium}}"
         srcset="{{photoResult.photo.small}} 400w, {{photoResult.photo.medium}} 900w, {{photoResult.photo.large}} 1200w"
-        alt="{{photoResult.description}}"/>
+        alt="{{photoResult.motive}}"/>
 </span> -->

@@ -16,7 +16,7 @@ export interface PhotoType {
 export interface IPhoto {
   url: string;
   photo: PhotoType;
-  description: string;
+  motive: string;
   date_taken: Date;
   date_modified: Date;
   photo_ppoi: string;
@@ -73,7 +73,7 @@ export const testData: IResponse<IPhoto> = {
     {
       url: 'foo.bar',
       photo: { prod: 'p', large: 'l', small: 's', medium: 'm' },
-      description: 'desc',
+      motive: 'desc',
       date_taken: new Date(),
       date_modified: new Date(),
       photo_ppoi: 'ppoi',

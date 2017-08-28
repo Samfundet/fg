@@ -17,13 +17,6 @@
         "model": "api.securitylevel",
         "pk": 3,
         "fields": {
-            "name": "POWER"
-        }
-    },
-    {
-        "model": "api.securitylevel",
-        "pk": 4,
-        "fields": {
             "name": "ALLE"
         }
     },

@@ -4,14 +4,14 @@ from rest_framework.test import APIRequestFactory, force_authenticate, APITestCa
 from rest_framework import status
 from .api import models, helpers
 from .api.views import PhotoViewSet
-from .settings import VERSATILEIMAGEFIELD_SETTINGS
+from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT
 from django.apps import apps
 from django.core.files import File
 from django.contrib.auth.models import Group
 from .fg_auth.models import User
 
 GROUPS = ["FG", "HUSFOLK", "POWER"]
-SECURITY_LEVELS = ["FG", "HUSFOLK", "POWER", "ALLE"]
+SECURITY_LEVELS = ["FG", "HUSFOLK", "ALLE"]
 
 
 def get_random_object(app_name, model_string):
@@ -77,7 +77,7 @@ def seed_users():
 
 
 def get_default_image():
-    return {'name': 'default.jpg', 'file': open('media/default.jpg', 'rb')}
+    return {'name': 'default.jpg', 'file': open(MEDIA_ROOT+'default.jpg', 'rb')}
 
 
 class PhotoTestCase(TestCase):
@@ -111,8 +111,7 @@ class PhotoTestCase(TestCase):
         self.assertEqual(self.test_photo.photo, retrieved_photo.photo)
 
     def test_new_photo_saves_file_in_correct_directory(self):
-        # TODO
-        pass
+        """Tests if photos are saved to the correct folder"""
 
 
 class UserPermissionTestCase(APITestCase):

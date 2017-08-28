@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import time, random, requests, tempfile, glob
+import random, glob
 from fg import settings
 from fg.api import helpers
 from django.db import migrations
@@ -22,24 +22,27 @@ def seed_foreign_keys(apps):
                 obj = Mod(name=helpers.get_rand_string(4))
                 obj.save()
 
+
 def get_random_object(apps, app_name, model_string):
     Mod = apps.get_model(app_name, model_string)
     random_index = random.randint(0, Mod.objects.count() - 1)
     return Mod.objects.all()[random_index]
 
+
 def load_photos(apps, schema_editor):
     seed_foreign_keys(apps)
     Photo = apps.get_model("api", "Photo")
     image_paths = []
-    for image_path in glob.glob(settings.PHOTO_ROOT+'*.jpg', recursive=True):
+    for image_path in glob.glob(settings.PHOTO_ROOT + '*.jpg', recursive=True):
         image_paths.append(image_path)
 
     if not image_paths:
-        raise ImportError("Could not find any photos in PHOTO_ROOT: "+settings.PHOTO_ROOT+". Add images to development_images directory")
+        raise ImportError(
+            "Could not find any photos in PHOTO_ROOT: " + settings.PHOTO_ROOT + ". Add images to development_images directory")
 
     for i, image_path in enumerate(image_paths):
         photo_test = Photo(
-            description=helpers.get_rand_string(size=20),
+            motive=helpers.get_rand_string(size=20),
             album=get_random_object(apps, "api", "Album"),
             tag=get_random_object(apps, "api", "Tag"),
             place=get_random_object(apps, "api", "Place"),
@@ -55,7 +58,6 @@ def load_photos(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('api', '0001_initial'),
         ('fg_auth', '0001_initial'),
