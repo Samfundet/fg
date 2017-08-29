@@ -13,6 +13,13 @@ export interface PhotoType {
   large: string;
   medium: string;
 }
+
+export interface IMetaData {
+  url: string;
+  name: string;
+  description?: string;
+}
+
 export interface IPhoto {
   url: string;
   photo: PhotoType;
@@ -26,11 +33,11 @@ export interface IPhoto {
   scanned: boolean;
   on_home_page: boolean;
   splash: boolean;
-  tag: string;
-  category: string;
-  media: string;
-  album: string;
-  place: string;
+  tag: IMetaData;
+  category: IMetaData;
+  media: IMetaData;
+  album: IMetaData;
+  place: IMetaData;
 }
 export class PhotoResponse implements IResponse<IPhoto> {
   count: number;
@@ -88,11 +95,11 @@ export const testData: IResponse<IPhoto> = {
       scanned: false,
       on_home_page: false,
       splash: false,
-      tag: 'tag',
-      category: 'cat',
-      media: 'med',
-      album: 'alb',
-      place: 'plc'
+      tag: {url: '...', name: 'tag'},
+      category: {url: '...', name: 'cat'},
+      media: {url: '...', name: 'med'},
+      album: {url: '...', name: 'alb'},
+      place: {url: '...', name: 'plc'},
     }
   ]
 }

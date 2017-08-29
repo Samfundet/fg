@@ -26,7 +26,7 @@ class MediaSerializer(serializers.HyperlinkedModelSerializer):
 class AlbumSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Album
-        fields = '__all__'
+        fields = ('name',)
 
 
 class PlaceSerializer(serializers.HyperlinkedModelSerializer):
@@ -46,3 +46,4 @@ class PhotoSerializer(serializers.HyperlinkedModelSerializer):
         model = models.Photo
         #exclude = ['security_level']
         fields = '__all__'
+        depth = 2
