@@ -1,10 +1,10 @@
-import random
+import random, os
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 from rest_framework import status
 from .api import models, helpers
 from .api.views import PhotoViewSet
-from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT
+from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, PROD_PATH
 from django.apps import apps
 from django.core.files import File
 from django.contrib.auth.models import Group
@@ -77,7 +77,7 @@ def seed_users():
 
 
 def get_default_image():
-    return {'name': 'default.jpg', 'file': open(MEDIA_ROOT+'default.jpg', 'rb')}
+    return {'name': 'default.jpg', 'file': open(MEDIA_ROOT + 'default.jpg', 'rb')}
 
 
 class PhotoTestCase(TestCase):
@@ -99,19 +99,26 @@ class PhotoTestCase(TestCase):
             image_number=37,
             security_level=get_random_object("api", "SecurityLevel")
         )
-
-    def test_new_photo_is_saved(self):
-        """Tests if new photo is saved to the database"""
         img = get_default_image()
         self.test_photo.photo = File(img['file'])
         self.test_photo.save()
 
+    def test_new_photo_is_saved(self):
+        """Tests if new photo is saved to the database"""
         retrieved_photo = models.Photo.objects.all()[0]
         self.assertEqual(self.test_photo, retrieved_photo)
         self.assertEqual(self.test_photo.photo, retrieved_photo.photo)
 
     def test_new_photo_saves_file_in_correct_directory(self):
-        """Tests if photos are saved to the correct folder"""
+        """Tests if photos are saved to the correct album folder with appropriate filename"""
+        retrieved_photo = models.Photo.objects.all()[0]
+        expected_path = os.path.join(
+            MEDIA_ROOT,
+            PROD_PATH,
+            retrieved_photo.album.name,
+            retrieved_photo.album.name + str(retrieved_photo.page) + str(retrieved_photo.image_number) + '.jpg'
+        )
+        self.assertEqual(retrieved_photo.photo.path, expected_path)
 
 
 class UserPermissionTestCase(APITestCase):

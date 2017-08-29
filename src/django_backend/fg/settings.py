@@ -148,6 +148,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'files/media/')
 # Photo root (development only)
 PHOTO_ROOT = os.path.join(BASE_DIR, 'development_images/')
 
+# Folder where production images are
+PROD_PATH = "alle/prod/"
+
 # URL that handles the media served from MEDIA_ROOT.
 MEDIA_URL = '/media/'
 

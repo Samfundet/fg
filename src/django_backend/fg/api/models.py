@@ -50,14 +50,12 @@ class SecurityLevel(models.Model):
         return self.name
 
 
-PROD_PATH = "alle/prod/"
-
 def path_and_rename(instance, filename):
     image_type = '.%s' % filename.split('.')[-1]
     album = instance.album.name.upper()
     page = str(instance.page).zfill(2)
     image_number = str(instance.image_number).zfill(2)
-    return PROD_PATH+"%s/%s" % (album, album + page + image_number + image_type)
+    return settings.PROD_PATH+"%s/%s" % (album, album + page + image_number + image_type)
 
 
 class Photo(models.Model):
@@ -128,7 +126,7 @@ class Photo(models.Model):
 
     def relative_url(self, image_type='.jpg'):
         album = self.album.name.upper()
-        return PROD_PATH+"%s/%s" % (album, self.file_name(image_type=image_type))
+        return settings.PROD_PATH+"%s/%s" % (album, self.file_name(image_type=image_type))
 
     def file_name(self, image_type=".jpg"):
         album = self.album.name.lower()
