@@ -25,6 +25,7 @@ export interface IPhoto {
   lapel: boolean;
   scanned: boolean;
   on_home_page: boolean;
+  splash: boolean;
   tag: string;
   category: string;
   media: string;
@@ -65,6 +66,10 @@ export interface IUser {
   comments?: string;
 }
 
+export interface IFilters {
+  page: string;
+}
+
 export const testData: IResponse<IPhoto> = {
   count: 1,
   next: null,
@@ -82,6 +87,7 @@ export const testData: IResponse<IPhoto> = {
       lapel: false,
       scanned: false,
       on_home_page: false,
+      splash: false,
       tag: 'tag',
       category: 'cat',
       media: 'med',

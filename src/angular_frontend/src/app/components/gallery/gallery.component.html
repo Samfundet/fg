@@ -1,7 +1,7 @@
 <div class="col center-xs">
-  <div *ngIf="root?.results" masonryLayout [masonryOptions]="masonryOptions" [input]="root" class="grid p-t-2">
+  <div *ngIf="store.photos$ | async" masonryLayout [masonryOptions]="masonryOptions" [input]="store.photos$ | async" class="grid p-t-2">
     <img
-      *ngFor="let photoResult of root.results; let i = index"
+      *ngFor="let photoResult of (store.photos$ | async)?.results; let i = index"
       src="{{photoResult.photo.medium}}"
       class="grid-item"
       [ngClass]="[i % 8 === 0 ? 'grid-item-2':'']"

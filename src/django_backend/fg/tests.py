@@ -30,7 +30,7 @@ def seed_foreign_keys():
         for model_name in models:
             Mod = apps.get_model(app_name, model_name)
             for i in range(10):
-                obj = Mod(name=helpers.get_rand_string(4))
+                obj = Mod(name="TEST_" + helpers.get_rand_string(4))
                 obj.save()
 
 
@@ -47,6 +47,7 @@ def seed_security_levels():
 
 
 def seed_photos():
+    photos = []
     for i in range(10):
         photo = models.Photo(
             album=get_random_object("api", "Album"),
@@ -61,6 +62,9 @@ def seed_photos():
         img = get_default_image()
         photo.photo = File(img['file'])
         photo.save()
+        photos.append(photo)
+
+    return photos
 
 
 def seed_users():
@@ -75,9 +79,27 @@ def seed_users():
         user.save()
         user.groups.add(group)
 
+    admin = User(
+        id=100,
+        username="ADMIN",
+        email="test@user.com",
+        password="qwert1234",
+        is_superuser=True,
+        is_staff=True,
+        is_active=True
+    )
+    admin.save()
+
 
 def get_default_image():
     return {'name': 'default.jpg', 'file': open(MEDIA_ROOT + 'default.jpg', 'rb')}
+
+
+def delete_photos(photos):
+    """Deletes all the photos from the media folder"""
+    for photo in photos:
+        photo_object = models.Photo.objects.get(pk=photo.pk)
+        photo_object.photo.delete_all_created_images()
 
 
 class PhotoTestCase(TestCase):
@@ -103,6 +125,9 @@ class PhotoTestCase(TestCase):
         self.test_photo.photo = File(img['file'])
         self.test_photo.save()
 
+    def tearDown(self):
+        delete_photos([self.test_photo])
+
     def test_new_photo_is_saved(self):
         """Tests if new photo is saved to the database"""
         retrieved_photo = models.Photo.objects.all()[0]
@@ -126,13 +151,29 @@ class UserPermissionTestCase(APITestCase):
     Test that Users in groups FG, POWER, HUSFOLK and anonymous users have correct permissions
     """
     factory = APIRequestFactory()
+    photos = None
 
     def setUp(self):
         seed_foreign_keys()
         seed_groups()
         seed_security_levels()
-        seed_photos()
+        self.photos = seed_photos()
         seed_users()
+
+    def tearDown(self):
+        delete_photos(self.photos)
+
+    def test_admin_user_can_see_all_photos(self):
+        expected_count = models.Photo.objects.count()
+        user = User.objects.get(username="ADMIN")
+        view = PhotoViewSet.as_view({'get': 'list'})
+
+        request = self.factory.get('/api/photos')
+        force_authenticate(request, user=user)
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data["results"]), expected_count)
 
     def test_fg_user_can_see_all_photos(self):
         expected_count = models.Photo.objects.count()

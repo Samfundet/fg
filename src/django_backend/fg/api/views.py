@@ -1,9 +1,8 @@
-from django.contrib.auth.models import Group
-from django.contrib.auth import get_user_model
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAdminUser
+from rest_framework.filters import OrderingFilter
 from . import models, serializers
 from .permissions import IsFGOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
 
 class TagViewSet(ModelViewSet):
     """
@@ -58,17 +57,24 @@ class PhotoViewSet(ModelViewSet):
     serializer_class = serializers.PhotoSerializer
     permission_classes = [IsFGOrReadOnly]
 
+    # Filters and ordering
+    filter_backends = (OrderingFilter,)
+    ordering_fields = '__all__'  # TODO might be bad, might be ok
+    ordering = ('-date_taken',)
+
     def get_queryset(self):
         user = self.request.user
 
         # Filter the photos based on user group
         # No group == "Alle"
-        if user.groups.exists():
+        if user.groups.exists() and user.is_active:
             for g in user.groups.all():
                 if g.name == "FG":
                     # FG gets to see it all
                     return models.Photo.objects.all()
                 elif g.name in ["HUSFOLK", "POWER"]:  # TODO test permissions
                     return models.Photo.objects.filter(security_level__name__in=("ALLE", "HUSFOLK"))
+        elif user.is_superuser and user.is_active:
+            return models.Photo.objects.all()
         else:
             return models.Photo.objects.filter(security_level__name__iexact="ALLE")
