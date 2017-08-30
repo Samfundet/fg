@@ -51,7 +51,6 @@ def seed_photos():
     for i in range(10):
         photo = models.Photo(
             album=get_random_object("api", "Album"),
-            tag=get_random_object("api", "Tag"),
             place=get_random_object("api", "Place"),
             media=get_random_object("api", "Media"),
             category=get_random_object("api", "Category"),
@@ -59,6 +58,8 @@ def seed_photos():
             image_number=37,
             security_level=get_random_object("api", "SecurityLevel")
         )
+        photo.save()
+        photo.tags.add(get_random_object("api", "Tag"))
         img = get_default_image()
         photo.photo = File(img['file'])
         photo.save()
@@ -113,7 +114,6 @@ class PhotoTestCase(TestCase):
 
         self.test_photo = models.Photo(
             album=get_random_object("api", "Album"),
-            tag=get_random_object("api", "Tag"),
             place=get_random_object("api", "Place"),
             media=get_random_object("api", "Media"),
             category=get_random_object("api", "Category"),
@@ -121,6 +121,8 @@ class PhotoTestCase(TestCase):
             image_number=37,
             security_level=get_random_object("api", "SecurityLevel")
         )
+        self.test_photo.save()
+        self.test_photo.tags.add(get_random_object("api", "Tag"))
         img = get_default_image()
         self.test_photo.photo = File(img['file'])
         self.test_photo.save()

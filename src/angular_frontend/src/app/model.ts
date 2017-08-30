@@ -33,7 +33,7 @@ export interface IPhoto {
   scanned: boolean;
   on_home_page: boolean;
   splash: boolean;
-  tag: IMetaData;
+  tags: IMetaData[];
   category: IMetaData;
   media: IMetaData;
   album: IMetaData;
@@ -95,7 +95,7 @@ export const testData: IResponse<IPhoto> = {
       scanned: false,
       on_home_page: false,
       splash: false,
-      tag: {url: '...', name: 'tag'},
+      tags: [{url: '...', name: 'tag'}, {url: '...', name: 'tag2'}],
       category: {url: '...', name: 'cat'},
       media: {url: '...', name: 'med'},
       album: {url: '...', name: 'alb'},

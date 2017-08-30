@@ -86,11 +86,11 @@ class Photo(models.Model):
     # Foreign keys describing meta-data
     security_level = models.ForeignKey(SecurityLevel, on_delete=models.PROTECT)
     # models.Protect protects against cascading deletion. You cant delete a security level that has photos
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    media = models.ForeignKey(Media, on_delete=models.CASCADE)
-    album = models.ForeignKey(Album, on_delete=models.CASCADE)
-    place = models.ForeignKey(Place, on_delete=models.CASCADE)
+    tags = models.ManyToManyField(Tag, blank=True)
+    category = models.ForeignKey(Category)
+    media = models.ForeignKey(Media)
+    album = models.ForeignKey(Album)
+    place = models.ForeignKey(Place)
 
     def __str__(self):
         return self.photo.name

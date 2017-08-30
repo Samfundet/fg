@@ -44,7 +44,6 @@ def load_photos(apps, schema_editor):
         photo_test = Photo(
             motive=helpers.get_rand_string(size=20),
             album=get_random_object(apps, "api", "Album"),
-            tag=get_random_object(apps, "api", "Tag"),
             place=get_random_object(apps, "api", "Place"),
             media=get_random_object(apps, "api", "Media"),
             category=get_random_object(apps, "api", "Category"),
@@ -52,6 +51,8 @@ def load_photos(apps, schema_editor):
             image_number=i,
             security_level=get_random_object(apps, "api", "SecurityLevel")
         )
+        photo_test.save()
+        photo_test.tags.add(get_random_object(apps, "api", "Tag"))
         with open(image_path, 'rb') as f:
             photo_test.photo.save(image_path, File(f))
             print("Success")

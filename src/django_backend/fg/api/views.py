@@ -4,6 +4,7 @@ from . import models, serializers
 from .permissions import IsFGOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 
+
 class TagViewSet(ModelViewSet):
     """
     API endpoint that allows tags to be viewed or edited
@@ -66,15 +67,15 @@ class PhotoViewSet(ModelViewSet):
         user = self.request.user
 
         # Filter the photos based on user group
-        # No group == "Alle"
+
         if user.groups.exists() and user.is_active:
             for g in user.groups.all():
                 if g.name == "FG":
                     # FG gets to see it all
                     return models.Photo.objects.all()
-                elif g.name in ["HUSFOLK", "POWER"]:  # TODO test permissions
+                elif g.name in ["HUSFOLK", "POWER"]:
                     return models.Photo.objects.filter(security_level__name__in=("ALLE", "HUSFOLK"))
         elif user.is_superuser and user.is_active:
             return models.Photo.objects.all()
-        else:
+        else:  # No group == "ALLE"
             return models.Photo.objects.filter(security_level__name__iexact="ALLE")
