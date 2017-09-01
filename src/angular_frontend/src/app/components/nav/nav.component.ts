@@ -7,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
   isMenuOpen = false;
-  searchInput = 'foo';
+  searchInput = '';
+
   constructor() { }
 
   ngOnInit() {
