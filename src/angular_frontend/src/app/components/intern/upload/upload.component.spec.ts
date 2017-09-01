@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
 import { UploadComponent } from './upload.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 class MockApiService {
   uploadPhotos(formData) {
@@ -19,9 +20,9 @@ describe('UploadComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ UploadComponent ],
-      providers: [{ provide: ApiService, useValue: mockApiService }]
-    })
-    .compileComponents();
+      providers: [{ provide: ApiService, useValue: mockApiService }],
+      schemas: [NO_ERRORS_SCHEMA]
+    });
   }));
 
   beforeEach(() => {

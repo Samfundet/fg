@@ -2,12 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { GalleryComponent } from './gallery.component';
-import { IPhotoResponse, testData } from './gallery.model';
+import { IResponse, IPhoto, testData } from 'app/model';
 import { MasonryLayoutDirective } from 'app/directives';
 import { ApiService } from 'app/services';
 
 class MockApiService {
-  getPhotos(): Observable<IPhotoResponse> {
+  getPhotos(): Observable<IResponse<IPhoto>> {
     return Observable.of(testData);
   }
 }
@@ -24,9 +24,10 @@ describe('GalleryComponent', () => {
         GalleryComponent,
         MasonryLayoutDirective
       ],
-      providers: [{ provide: ApiService, useValue: mockApiService }]
-    })
-      .compileComponents();
+      providers: [
+        { provide: ApiService, useValue: mockApiService }
+      ]
+    });
   }));
 
   beforeEach(() => {

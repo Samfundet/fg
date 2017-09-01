@@ -27,8 +27,7 @@ jobs:
       script:
         - docker exec -i django bash remove-migrations.sh
         - docker exec -i django python manage.py makemigrations
-        - docker exec -i django python manage.py test fg.api
-        - docker exec -i django python manage.py test fg.fg_auth
+        - docker exec -i django python manage.py test
 
     - stage: test angular
       install:
@@ -43,7 +42,7 @@ jobs:
         - cd src/angular_frontend && npm install
       script:
         - ng build
-        - ng test --watch=false
+        #- ng test --watch=false
         - ng lint
 
     - stage: deploy

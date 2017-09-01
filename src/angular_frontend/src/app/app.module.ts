@@ -24,6 +24,7 @@ import { HistoryComponent } from './components/history/history.component';
 import { CreditComponent } from './components/credit/credit.component';
 import { PricepointsComponent } from './components/pricepoints/pricepoints.component';
 import { FaqComponent } from './components/faq/faq.component';
+import { PersonComponent } from './components/kontakt/person/person.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { FaqComponent } from './components/faq/faq.component';
     HistoryComponent,
     CreditComponent,
     PricepointsComponent,
-    FaqComponent
+    FaqComponent,
+    PersonComponent
   ],
   imports: [
     BrowserModule,

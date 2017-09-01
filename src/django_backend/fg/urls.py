@@ -1,17 +1,19 @@
 from django.contrib import admin
 from django.conf.urls import url, include
 from rest_framework import routers
-from .api import views
+from .api import views as api_views
+from .fg_auth import views as auth_views
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
-router.register(r'tags', views.TagViewSet)
-router.register(r'categories', views.CategoryViewSet)
-router.register(r'mediums', views.MediaViewSet)
-router.register(r'albums', views.AlbumViewSet)
-router.register(r'places', views.PlaceViewSet)
-router.register(r'photos', views.PhotoViewSet)
+# Auth
+router.register(r'users', auth_views.UserViewSet)
+# Api
+router.register(r'tags', api_views.TagViewSet)
+router.register(r'categories', api_views.CategoryViewSet)
+router.register(r'mediums', api_views.MediaViewSet)
+router.register(r'albums', api_views.AlbumViewSet)
+router.register(r'places', api_views.PlaceViewSet)
+router.register(r'photos', api_views.PhotoViewSet)
 
 urlpatterns = [
     # Admin page

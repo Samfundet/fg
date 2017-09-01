@@ -15,7 +15,7 @@ describe('AppComponent', () => {
         NavComponent,
         FooterComponent
       ],
-    }).compileComponents();
+    });
   }));
 
   it('should create the app', async(() => {

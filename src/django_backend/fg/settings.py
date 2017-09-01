@@ -15,7 +15,6 @@ import os, sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -25,7 +24,7 @@ SECRET_KEY = 'bt40n#17gu(ezts9d9z)k+1as!fq01@_c)%_iw37iaa#m8++(4'
 # SECURITY WARNING: don't run with debug turned on in production! TODO
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']  # Added wildcard so all hosts are allowed
+ALLOWED_HOSTS = ['*']  # Added wildcard so all hosts are allowed TODO
 
 # Application definition
 
@@ -49,8 +48,9 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework.permissions.AllowAny',
     ],
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'PAGE_SIZE': 25
 }
 
@@ -83,7 +83,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'fg.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -119,13 +118,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'nb-no'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Oslo'
 
 USE_I18N = True
 
@@ -133,6 +131,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+# The ID, as an integer, of the current site in the django_site database table.
+# This is used so that application data can hook into specific site(s) and a
+# single database can manage content for multiple sites.
+SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
@@ -142,14 +144,16 @@ STATIC_URL = '/django-static/'
 
 # MEDIA CONFIGURATION
 # Absolute filesystem path to the directory that will hold user-uploaded files.
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'files/media/')
 
 # Photo root (development only)
 PHOTO_ROOT = os.path.join(BASE_DIR, 'development_images/')
 
+# Folder where production images are
+PROD_PATH = "alle/prod/"
+
 # URL that handles the media served from MEDIA_ROOT.
 MEDIA_URL = '/media/'
-
 
 # Dictionary for versatile image
 VERSATILEIMAGEFIELD_SETTINGS = {
@@ -194,10 +198,10 @@ VERSATILEIMAGEFIELD_SETTINGS = {
     # here: https://optimus.io/support/progressive-jpeg/
     'progressive_jpeg': True,
     'sizes': [
-            ('prod', 'url'),
-            ('large', 'thumbnail__1200x1200'),
-            ('medium', 'thumbnail__900x900'),
-            ('small', 'thumbnail__400x400')
+        ('prod', 'url'),
+        ('large', 'thumbnail__1200x1200'),
+        ('medium', 'thumbnail__900x900'),
+        ('small', 'thumbnail__400x400')
     ]
 }
 
@@ -209,3 +213,10 @@ AUTHENTICATION_BACKENDS = (
     'fg.fg_auth.auth.KerberosBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+# Groups
+GROUPS = {
+    "FG": "FG",
+    "HUSFOLK": "HUSFOLK",
+    "POWER": "POWER"
+}
