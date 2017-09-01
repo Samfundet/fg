@@ -13,5 +13,5 @@ class IsFGOrReadOnly(BasePermission):
         if request.method in SAFE_METHODS:
             return True
 
-        return request.user.groups.filter(name="FG").exists()
+        return request.user.groups.filter(name="FG").exists() or request.user.is_superuser
 

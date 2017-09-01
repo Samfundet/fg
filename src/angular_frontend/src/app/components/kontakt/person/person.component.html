@@ -1,4 +1,5 @@
-<div *ngIf="user" style="background-color: black; border: 1px solid white;">
+<div *ngIf="user" class="user">
   <img [src]="user.bilde" [alt]="user.fg_kallenavn">
   Username: {{user.username}}
+  Email: {{user.email}}
 </div>
