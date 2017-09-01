@@ -15,7 +15,6 @@ export interface PhotoType {
 }
 
 export interface IMetaData {
-  url: string;
   name: string;
   description?: string;
 }
@@ -71,6 +70,7 @@ export interface IUser {
   bilde?: string;
   aktiv_pang?: boolean;
   comments?: string;
+  email?: string;
 }
 
 export interface IFilters {
@@ -95,11 +95,11 @@ export const testData: IResponse<IPhoto> = {
       scanned: false,
       on_home_page: false,
       splash: false,
-      tags: [{url: '...', name: 'tag'}, {url: '...', name: 'tag2'}],
-      category: {url: '...', name: 'cat'},
-      media: {url: '...', name: 'med'},
-      album: {url: '...', name: 'alb'},
-      place: {url: '...', name: 'plc'},
+      tags: [{ name: 'tag' }, { name: 'tag2' }],
+      category: { name: 'cat' },
+      media: { name: 'med' },
+      album: { name: 'alb' },
+      place: { name: 'plc' },
     }
   ]
 }

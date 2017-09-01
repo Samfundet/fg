@@ -13,7 +13,9 @@ export class KontaktComponent implements OnInit {
   constructor(private api: ApiService) { }
 
     ngOnInit() {
-      this.api.getUsers().subscribe(users => this.users = users.results);
+      this.api.getUsers().subscribe(users => {
+        this.users = users.results
+      });
     }
 
 }

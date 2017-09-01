@@ -1,4 +1,4 @@
-import random, os
+import random, os, io
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 from rest_framework import status
@@ -9,6 +9,8 @@ from django.apps import apps
 from django.core.files import File
 from django.contrib.auth.models import Group
 from .fg_auth.models import User
+from PIL import Image
+from django.test.client import encode_multipart, BOUNDARY
 
 GROUPS = ["FG", "HUSFOLK", "POWER"]
 SECURITY_LEVELS = ["FG", "HUSFOLK", "ALLE"]
@@ -228,3 +230,44 @@ class UserPermissionTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data["results"]), expected_count)
+
+
+class PhotoPostPutDeleteTestCase(APITestCase):
+    def setUp(self):
+        seed_foreign_keys()
+        seed_groups()
+        seed_security_levels()
+        seed_users()
+
+    def generate_photo_file(self):
+        file = io.BytesIO()
+        image = Image.new('RGBA', size=(100, 100), color=(155, 0, 0))
+        image.name = 'test.jpg'
+        image.seek(0)
+        return file
+
+    def test_fg_user_can_post_new_photo(self):
+        user = User.objects.get(username="FG")
+        view = PhotoViewSet.as_view({'post': 'create'})
+
+        photo_file = self.generate_photo_file()
+
+        data = {
+            'motive': 'TEST_motive',
+            'security_level': 'ALLE',
+            'category': 'TEST_category',
+            'media': 'TEST_media',
+            'album': 'TEST_album',
+            'place': 'TEST_place',
+            'image_number': 1,
+            'page': 1,
+            'photo': photo_file
+        }
+
+        content = encode_multipart(BOUNDARY, data)
+
+        request = self.client.post(path='/api/photos', data=content)
+        force_authenticate(request, user=user)
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK, msg=response.data)

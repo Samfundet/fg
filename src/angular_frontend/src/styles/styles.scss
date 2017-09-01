@@ -69,7 +69,7 @@
 	@media screen and (max-width: 480px) {
 
 		html, body {
-			min-width: 320px;
+			min-width: 480px;
 		}
 
 	}
@@ -430,7 +430,7 @@
 			input[type="button"],
 			button,
 			.button {
-				padding: 0;
+				// padding: 0; TODO
 			}
 
 		}
