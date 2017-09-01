@@ -6,3 +6,7 @@ export * from './main/main.component';
 export * from './info/info.component';
 export * from './kontakt/kontakt.component';
 export * from './intern/intern.component';
+export * from './history/history.component';
+export * from './credit/credit.component';
+export * from './faq/faq.component';
+export * from './pricepoints/pricepoints.component';

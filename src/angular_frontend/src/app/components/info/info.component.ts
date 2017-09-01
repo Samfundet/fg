@@ -12,4 +12,8 @@ export class InfoComponent implements OnInit {
   ngOnInit() {
   }
 
+  printTest() {
+    console.log("works");
+  }
+
 }

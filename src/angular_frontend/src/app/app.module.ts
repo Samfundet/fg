@@ -20,6 +20,10 @@ import { InfoComponent } from './components/info/info.component';
 import { InternComponent } from './components/intern/intern.component';
 import { KontaktComponent } from './components/kontakt/kontakt.component';
 import { UploadComponent } from './components/intern/upload/upload.component';
+import { HistoryComponent } from './components/history/history.component';
+import { CreditComponent } from './components/credit/credit.component';
+import { PricepointsComponent } from './components/pricepoints/pricepoints.component';
+import { FaqComponent } from './components/faq/faq.component';
 import { PersonComponent } from './components/kontakt/person/person.component';
 
 @NgModule({
@@ -35,6 +39,10 @@ import { PersonComponent } from './components/kontakt/person/person.component';
     InternComponent,
     KontaktComponent,
     UploadComponent,
+    HistoryComponent,
+    CreditComponent,
+    PricepointsComponent,
+    FaqComponent,
     PersonComponent
   ],
   imports: [
