@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { StoreService } from 'app/services';
 
 @Component({
   selector: 'fg-nav',
@@ -10,7 +11,7 @@ export class NavComponent implements OnInit {
   isMenuOpen = false;
   searchInput = '';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, public store: StoreService) {  }
 
   ngOnInit() {
   }

@@ -9,6 +9,7 @@ export class StoreService {
   // The state of the application
   private _photos$ = new BehaviorSubject<IResponse<IPhoto>>(null);
   private _filters$ = new Subject<IFilters>();
+  public  photoRouteActive$ = new Subject<boolean>();
 
   constructor(private api: ApiService) {
     this._filters$.subscribe(f => {

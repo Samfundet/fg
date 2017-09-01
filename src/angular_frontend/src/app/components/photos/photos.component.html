@@ -1,7 +1,7 @@
 <div class="p-a-2">
   <!-- Search info and suggested -->
   <section id="search" class="p-t-1">
-    <label class="search-icon-button" for="photo-search-input" (click)="onSearchEnter(photoSearchBox.value)">
+    <label class="search-icon-button" for="photo-search-input" (click)="search(photoSearchBox.value)">
         <i class="fa fa-search" aria-hidden="true"></i>
     </label>
     <input
@@ -9,7 +9,7 @@
       class="photo-search-input"
       id="photo-search-input" type="text"
       [(ngModel)]="searchInput"
-      (keyup.enter)="onSearchEnter(photoSearchBox.value)"
+      (keyup.enter)="search(photoSearchBox.value)"
       />
   </section>
 </div>
