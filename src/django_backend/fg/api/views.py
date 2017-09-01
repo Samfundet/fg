@@ -1,5 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.filters import OrderingFilter
+from rest_framework.filters import OrderingFilter, SearchFilter
 from . import models, serializers
 from .permissions import IsFGOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
@@ -59,8 +59,9 @@ class PhotoViewSet(ModelViewSet):
     permission_classes = [IsFGOrReadOnly]
 
     # Filters and ordering
-    filter_backends = (OrderingFilter,)
+    filter_backends = (OrderingFilter, SearchFilter)
     ordering_fields = '__all__'  # TODO might be bad, might be ok
+    search_fields = ('motive', )
     ordering = ('-date_taken',)
 
     def get_queryset(self):

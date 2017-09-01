@@ -74,7 +74,8 @@ export interface IUser {
 }
 
 export interface IFilters {
-  page: string;
+  page?: string;
+  search?: string;
 }
 
 export const testData: IResponse<IPhoto> = {

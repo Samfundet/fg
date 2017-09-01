@@ -1,38 +1,38 @@
 /* This for loop creates css rules of the structure p-a-1 */
-/* e.g. p (padding) a (all) and 1 (1em) */
+/* e.g. p (padding) a (all) and 1 (1rem) */
 /* There is also p-a-h1 (half), which removes half an em */
 /* p-t-h2 = padding-top: 1.5em */
 @for $i from 1 through 3 {
   $hi: ($i - 0.5);
 
   .p-a-#{$i} {
-    padding: 1em * $i;
+    padding: 1rem * $i;
   }
   .p-a-h#{$i} {
-    padding: 1em * $hi;
+    padding: 1rem * $hi;
   }
   .p-b-#{$i} {
-    padding-bottom: 1em * $i;
+    padding-bottom: 1rem * $i;
   }
   .p-b-h#{$i} {
-    padding-bottom: 1em * $hi;
+    padding-bottom: 1rem * $hi;
   }
   .p-t-#{$i} {
-    padding-top: 1em * $i;
+    padding-top: 1rem * $i;
   }
   .p-t-h#{$i} {
-    padding-top: 1em * $hi;
+    padding-top: 1rem * $hi;
   }
   .p-r-#{$i} {
-    padding-right: 1em * $i;
+    padding-right: 1rem * $i;
   }
   .p-r-h#{$i} {
-    padding-right: 1em * $hi;
+    padding-right: 1rem * $hi;
   }
   .p-l-#{$i} {
-    padding-left: 1em * $i;
+    padding-left: 1rem * $i;
   }
   .p-l-h#{$i} {
-    padding-left: 1em * $hi;
+    padding-left: 1rem * $hi;
   }
 }

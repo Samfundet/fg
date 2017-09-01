@@ -1,0 +1,14 @@
+<div
+  masonryLayout
+  [masonryOptions]="masonryOptions"
+  [input]="photos"
+  class="grid">
+    <img
+      *ngFor="let photo of photos; let i = index"
+      src="{{photo.photo.medium}}"
+      class="grid-item"
+      [ngClass]="[i % 8 === 0 ? 'grid-item-2':'']"
+      alt="{{photo.motive}}"
+    />
+</div>
+

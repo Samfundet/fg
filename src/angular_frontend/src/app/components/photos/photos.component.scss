@@ -1,26 +1,19 @@
-.menu-closer {
-  position: absolute;
-  top: 10px;
-  left: 1rem;
-  width: 100%;
-  font-weight: bold;
-}
-
-.search-input {
+.photo-search-input {
   padding: 1rem 3rem;
   border-radius: 3rem;
   margin: 0.2rem;
-  height: 2rem;
+  height: 3rem;
+  width: 50%;
 }
 
 .search-icon-button {
   cursor: pointer;
-  position: relative;
-  left: 38px;
-  top: -1px;
+  position: absolute;
+  left: 22px;
+  top: 54px;
 }
 
-#search-input label {
+#photo-search-input label {
   position: absolute;
   left: 17px;
   top: 51px;
@@ -31,6 +24,13 @@ label {
   max-width: 100%;
   margin-bottom: 5px;
   font-weight: bold;
+}
+
+#search {
+  position: relative;
+  font-size: 18px;
+  padding-top: 40px;
+  margin: -20px auto 0;
 }
 
 input:focus {

@@ -10,3 +10,5 @@ export * from './history/history.component';
 export * from './credit/credit.component';
 export * from './faq/faq.component';
 export * from './pricepoints/pricepoints.component';
+export * from './photos/photos.component';
+export * from './photo-masonry/photo-masonry.component';

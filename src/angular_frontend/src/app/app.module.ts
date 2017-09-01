@@ -25,6 +25,8 @@ import { CreditComponent } from './components/credit/credit.component';
 import { PricepointsComponent } from './components/pricepoints/pricepoints.component';
 import { FaqComponent } from './components/faq/faq.component';
 import { PersonComponent } from './components/kontakt/person/person.component';
+import { PhotosComponent } from './components/photos/photos.component';
+import { PhotoMasonryComponent } from './components/photo-masonry/photo-masonry.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { PersonComponent } from './components/kontakt/person/person.component';
     CreditComponent,
     PricepointsComponent,
     FaqComponent,
-    PersonComponent
+    PersonComponent,
+    PhotosComponent,
+    PhotoMasonryComponent
   ],
   imports: [
     BrowserModule,

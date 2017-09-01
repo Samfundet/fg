@@ -15,9 +15,14 @@ export class ApiService {
     private http: HttpClient) { }
 
   public getPhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
-    return this.http.get<IResponse<IPhoto>>(`/api/photos/`, {
-      params: new HttpParams().set('page', filters.page)
-    });
+    let params = new HttpParams();
+    if (filters.page) {
+      params = params.append('page', filters.page);
+    }
+    if (filters.search) {
+      params = params.append('search', filters.search);
+    }
+    return this.http.get<IResponse<IPhoto>>(`/api/photos/`, {params: params});
   }
 
   public getUsers(): Observable<IResponse<IUser>> {

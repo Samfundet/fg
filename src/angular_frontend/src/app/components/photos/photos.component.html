@@ -1,0 +1,18 @@
+<div class="p-a-2">
+  <!-- Search info and suggested -->
+  <section id="search" class="p-t-1">
+    <label class="search-icon-button" for="photo-search-input" (click)="onSearchEnter(photoSearchBox.value)">
+        <i class="fa fa-search" aria-hidden="true"></i>
+    </label>
+    <input
+      #photoSearchBox
+      class="photo-search-input"
+      id="photo-search-input" type="text"
+      [(ngModel)]="searchInput"
+      (keyup.enter)="onSearchEnter(photoSearchBox.value)"
+      />
+  </section>
+</div>
+<div class="col center-xs">
+  <fg-photo-masonry [photos]="photos"></fg-photo-masonry>
+</div>
