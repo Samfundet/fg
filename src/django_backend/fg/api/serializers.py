@@ -40,7 +40,8 @@ class SecurityLevelSerializer(serializers.HyperlinkedModelSerializer):
         model = models.SecurityLevel
         fields = ('name',)
 
-class PhotoSerializer(serializers.HyperlinkedModelSerializer):
+
+class PhotoListSerializer(serializers.ModelSerializer):
     photo = VersatileImageFieldSerializer(
         sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes']
     )
@@ -57,22 +58,27 @@ class PhotoSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
         depth = 2
 
-    def create(self, validated_data):
-        tags = validated_data.pop('tags')
-        category = validated_data.pop('category')
-        media = validated_data.pop('media')
-        album = validated_data.pop('album')
-        place = validated_data.pop('place')
 
-        photo_meta_data = []
-        photo_meta_data['category'], created = models.Category.objects.get_or_create(**category)
-        photo_meta_data['media'], created = models.Media.objects.get_or_create(**media)
-        photo_meta_data['album'], created = models.Album.objects.get_or_create(**album)
-        photo_meta_data['place'], created = models.Place.objects.get_or_create(**place)
+class PhotoCreateSerializer(serializers.ModelSerializer):
+    photo = VersatileImageFieldSerializer(
+        sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes']
+    )
+    tags = TagSerializer(many=True)
 
-        photo_object = models.Photo.objects.create(**validated_data)
-        photo_object.tags.add(tags)
+    class Meta:
+        model = models.Photo
+        fields = (
+            'photo',
+            'motive',
+            'security_level',
+            'category',
+            'media',
+            'album',
+            'place',
+            'image_number',
+            'page',
+            'tags'
+        )
 
-        print("#########")
-        print(validated_data)
-        return photo_object
+    def create(self, validated_data):  # TODO
+        pass

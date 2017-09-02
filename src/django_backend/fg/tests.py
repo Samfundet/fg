@@ -238,6 +238,7 @@ class PhotoPostPutDeleteTestCase(APITestCase):
         seed_groups()
         seed_security_levels()
         seed_users()
+        self.factory = APIRequestFactory()
 
     def generate_photo_file(self):
         file = io.BytesIO()
@@ -264,10 +265,8 @@ class PhotoPostPutDeleteTestCase(APITestCase):
             'photo': photo_file
         }
 
-        content = encode_multipart(BOUNDARY, data)
-
-        request = self.client.post(path='/api/photos', data=content)
+        request = self.factory.post(path='/api/photos', data=data)
         force_authenticate(request, user=user)
         response = view(request)
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK, msg=response.data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED, msg=response.data)

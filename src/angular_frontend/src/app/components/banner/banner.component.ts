@@ -17,8 +17,9 @@ export class BannerComponent implements OnInit {
   sanitizedImage;
 
   constructor(private store: StoreService, private sanitizer: DomSanitizer) {
+    this.sanitizedImage = this.sanitizer.bypassSecurityTrustStyle(`url(${this.backgroundImageUrl}`);
     this.store.photos$
-      .first(p => !!p) // First that isn't null
+      .first(p => !!p && !!p.results) // First that isn't null or empty
       .map(pr => pr.results.find(p => p.splash))
       .subscribe(p => this.setBackgroundImage(p));
   }

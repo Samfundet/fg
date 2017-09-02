@@ -29,8 +29,4 @@ export class PhotosComponent implements OnInit, OnDestroy {
       this.photos = response.results;
     });
   }
-
-  onSearchEnter(value: string) {
-    console.log(value);
-  }
 }

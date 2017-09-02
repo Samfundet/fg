@@ -1,5 +1,9 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ViewSet
+from rest_framework.mixins import ListModelMixin
+from rest_framework.generics import ListAPIView, ListCreateAPIView, CreateAPIView
 from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from . import models, serializers
 from .permissions import IsFGOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
@@ -52,17 +56,28 @@ class PlaceViewSet(ModelViewSet):
 
 class PhotoViewSet(ModelViewSet):
     """
-    API endpoint that allows image data to be viewed or edited
+    API endpoint that allows photo CRUD (Create, Read, Update, Delete)
     """
-    queryset = models.Photo.objects.none()
-    serializer_class = serializers.PhotoSerializer
     permission_classes = [IsFGOrReadOnly]
+    serializer_class = None
 
-    # Filters and ordering
+    # Filters and search
     filter_backends = (OrderingFilter, SearchFilter)
-    ordering_fields = '__all__'  # TODO might be bad, might be ok
-    search_fields = ('motive', )
+    ordering_fields = '__all__'
+    search_fields = ('motive', 'tags__name')
     ordering = ('-date_taken',)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        self.serializer_class = serializers.PhotoListSerializer
+        serialized_list = serializers.PhotoListSerializer(page, many=True)
+
+        return self.get_paginated_response(serialized_list.data)
+
+    def create(self, request, *args, **kwargs):
+        self.serializer_class = serializers.PhotoCreateSerializer
+        return super().create(request, *args, **kwargs)
 
     def get_queryset(self):
         user = self.request.user
