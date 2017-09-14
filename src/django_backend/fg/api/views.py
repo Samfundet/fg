@@ -1,12 +1,7 @@
-from rest_framework.viewsets import ModelViewSet, ViewSet
-from rest_framework.mixins import ListModelMixin
-from rest_framework.generics import ListAPIView, ListCreateAPIView, CreateAPIView
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import OrderingFilter, SearchFilter
-from rest_framework.response import Response
-from rest_framework.pagination import PageNumberPagination
 from . import models, serializers
 from .permissions import IsFGOrReadOnly
-from django_filters.rest_framework import DjangoFilterBackend
 
 
 class TagViewSet(ModelViewSet):
@@ -67,11 +62,15 @@ class PhotoViewSet(ModelViewSet):
     search_fields = ('motive', 'tags__name')
     ordering = ('-date_taken',)
 
+    def retrieve(self, request, *args, **kwargs):
+        self.serializer_class = serializers.PhotoSerializer
+        return super(PhotoViewSet, self).retrieve(request, *args, **kwargs)
+
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+        queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
-        self.serializer_class = serializers.PhotoListSerializer
-        serialized_list = serializers.PhotoListSerializer(page, many=True)
+        self.serializer_class = serializers.PhotoSerializer
+        serialized_list = serializers.PhotoSerializer(page, many=True)
 
         return self.get_paginated_response(serialized_list.data)
 
@@ -79,11 +78,22 @@ class PhotoViewSet(ModelViewSet):
         self.serializer_class = serializers.PhotoCreateSerializer
         return super().create(request, *args, **kwargs)
 
+    def destroy(self, request, *args, **kwargs):
+        self.serializer_class = serializers.PhotoSerializer
+        return super().destroy(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        self.serializer_class = serializers.PhotoUpdateSerializer
+        return super().update(request, *args, **kwargs)
+
+    def options(self, request, *args, **kwargs):
+        self.serializer_class = serializers.PhotoSerializer
+        return super().options(request, *args, **kwargs)
+
     def get_queryset(self):
         user = self.request.user
 
         # Filter the photos based on user group
-
         if user.groups.exists() and user.is_active:
             for g in user.groups.all():
                 if g.name == "FG":
@@ -94,4 +104,4 @@ class PhotoViewSet(ModelViewSet):
         elif user.is_superuser and user.is_active:
             return models.Photo.objects.all()
         else:  # No group == "ALLE"
-            return models.Photo.objects.filter(security_level__name__iexact="ALLE")
+            return models.Photo.objects.filter(security_level__name="ALLE")

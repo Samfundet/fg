@@ -110,16 +110,16 @@ class Photo(models.Model):
     def move_image_file_location(self):
         import shutil
         try:
-            if '.' in self.image_prod.name:
-                image_type = ".%s" % self.image_prod.name.split('.')[-1]
+            if '.' in self.photo.name:
+                image_type = ".%s" % self.photo.name.split('.')[-1]
             else:
                 image_type = '.jpg'
             url_new = os.path.join(settings.MEDIA_ROOT, self.relative_url(image_type))
-            url_orig = os.path.join(settings.MEDIA_ROOT, self.image_prod.name)
+            url_orig = os.path.join(settings.MEDIA_ROOT, self.photo.name)
             if os.path.exists(url_orig) and 'default' not in url_orig:
                 self.create_dirs(url_new)
                 shutil.move(url_orig, url_new)
-                self.image_prod = self.relative_url(image_type)
+                self.photo = self.relative_url(image_type)
 
         except IOError as e:
             print(e)

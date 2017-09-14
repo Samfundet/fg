@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService, StoreService } from 'app/services';
+import { IPhoto } from 'app/model';
 
 @Component({
   selector: 'fg-photos',
@@ -9,7 +10,7 @@ import { ApiService, StoreService } from 'app/services';
 })
 export class PhotosComponent implements OnInit, OnDestroy {
   searchInput;
-  photos;
+  photos: any[];
 
   constructor(private route: ActivatedRoute, private api: ApiService, private store: StoreService) {
     route.queryParamMap.subscribe(params => this.search(params.get('search') || ''));

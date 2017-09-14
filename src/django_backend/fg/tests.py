@@ -1,8 +1,8 @@
-import random, os, io
+import random, os, string, tempfile
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 from rest_framework import status
-from .api import models, helpers
+from .api import models
 from .api.views import PhotoViewSet
 from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, PROD_PATH
 from django.apps import apps
@@ -10,7 +10,6 @@ from django.core.files import File
 from django.contrib.auth.models import Group
 from .fg_auth.models import User
 from PIL import Image
-from django.test.client import encode_multipart, BOUNDARY
 
 GROUPS = ["FG", "HUSFOLK", "POWER"]
 SECURITY_LEVELS = ["FG", "HUSFOLK", "ALLE"]
@@ -20,6 +19,10 @@ def get_random_object(app_name, model_string):
     Mod = apps.get_model(app_name, model_string)
     random_index = random.randint(0, Mod.objects.count() - 1)
     return Mod.objects.all()[random_index]
+
+
+def get_rand_string(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
 
 
 def seed_foreign_keys():
@@ -32,7 +35,7 @@ def seed_foreign_keys():
         for model_name in models:
             Mod = apps.get_model(app_name, model_name)
             for i in range(10):
-                obj = Mod(name="TEST_" + helpers.get_rand_string(4))
+                obj = Mod(name="TEST_" + get_rand_string(4))
                 obj.save()
 
 
@@ -101,8 +104,12 @@ def get_default_image():
 def delete_photos(photos):
     """Deletes all the photos from the media folder"""
     for photo in photos:
-        photo_object = models.Photo.objects.get(pk=photo.pk)
-        photo_object.photo.delete_all_created_images()
+        try:
+            photo_object = models.Photo.objects.get(pk=photo.pk)
+            photo_object.photo.delete_all_created_images()
+            photo_object.photo.delete()
+        except models.Photo.DoesNotExist:
+            print("No photo object with pk: " + str(photo.pk))
 
 
 class PhotoTestCase(TestCase):
@@ -148,6 +155,24 @@ class PhotoTestCase(TestCase):
             retrieved_photo.album.name + str(retrieved_photo.page) + str(retrieved_photo.image_number) + '.jpg'
         )
         self.assertEqual(retrieved_photo.photo.path, expected_path)
+
+    def test_exact_motive_search_retrieves_single_image(self):
+        seed_photos()
+        seed_users()
+        factory = APIRequestFactory()
+
+        motive = random.choice(models.Photo.objects.all()).motive
+        expected_count = models.Photo.objects.filter(motive=motive).count()
+
+        user = User.objects.get(username="FG")
+        view = PhotoViewSet.as_view({'get': 'list'})
+
+        request = factory.get('/api/photos?search=' + motive)
+        force_authenticate(request, user=user)
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['results']), expected_count)
 
 
 class UserPermissionTestCase(APITestCase):
@@ -233,6 +258,8 @@ class UserPermissionTestCase(APITestCase):
 
 
 class PhotoPostPutDeleteTestCase(APITestCase):
+    photos = None
+
     def setUp(self):
         seed_foreign_keys()
         seed_groups()
@@ -240,11 +267,15 @@ class PhotoPostPutDeleteTestCase(APITestCase):
         seed_users()
         self.factory = APIRequestFactory()
 
-    def generate_photo_file(self):
-        file = io.BytesIO()
-        image = Image.new('RGBA', size=(100, 100), color=(155, 0, 0))
-        image.name = 'test.jpg'
-        image.seek(0)
+    def tearDown(self):
+        if self.photos:
+            delete_photos(self.photos)
+
+    @staticmethod
+    def generate_photo_file():
+        image = Image.new('RGBA', size=(50, 50), color=(155, 0, 0))
+        file = tempfile.NamedTemporaryFile(suffix='.jpg')
+        image.save(file)
         return file
 
     def test_fg_user_can_post_new_photo(self):
@@ -253,20 +284,84 @@ class PhotoPostPutDeleteTestCase(APITestCase):
 
         photo_file = self.generate_photo_file()
 
+        with open(photo_file.name, 'rb') as file:
+            data = {
+                'motive': 'TEST_motive',
+                'security_level': 1,
+                'category': 1,
+                'media': 1,
+                'album': 1,
+                'place': 1,
+                'image_number': 1,
+                'page': 1,
+                'photo': file
+            }
+
+            request = self.factory.post(path='/api/photos', data=data)
+            force_authenticate(request, user=user)
+            response = view(request)
+
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED, msg=response.data)
+            self.assertEqual(models.Photo.objects.count(), 1)
+
+            self.photos = models.Photo.objects.all()
+            for key, value in data.items():
+                self.assertTrue(
+                    True if getattr(self.photos[0], key) == value
+                    else True if key == 'photo'  # TODO test if image is same
+                    else True if getattr(self.photos[0], key).id == value
+                    else False
+                )
+
+    def test_fg_user_can_delete_photo(self):
+        user = User.objects.get(username="FG")
+        view = PhotoViewSet.as_view({'delete': 'destroy'})
+        self.photos = seed_photos()
+        original_photo_count = models.Photo.objects.count()
+
+        request = self.factory.delete(path='/api/photos')
+        force_authenticate(request, user=user)
+        response = view(request, pk=1)
+
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT, msg=response.data)
+        self.assertEqual(models.Photo.objects.count(), original_photo_count - 1)
+
+    def test_fg_user_can_update_photo(self):
+        self.photos = seed_photos()
+        user = User.objects.get(username="FG")
+        view = PhotoViewSet.as_view({'put': 'update'})
+
+        new_category = models.Category.objects.create(name="NEW_CAT")
+        new_album = models.Category.objects.create(name="NALB")
+        new_media = models.Category.objects.create(name="NEW_MEDIA")
+        new_place = models.Category.objects.create(name="NEW_PLACE")
+        random_security = random.choice(models.SecurityLevel.objects.all())
+
         data = {
-            'motive': 'TEST_motive',
-            'security_level': 'ALLE',
-            'category': 'TEST_category',
-            'media': 'TEST_media',
-            'album': 'TEST_album',
-            'place': 'TEST_place',
-            'image_number': 1,
-            'page': 1,
-            'photo': photo_file
+            'motive': 'NEW_MOTIVE',
+            'album': new_album.pk,
+            'security_level': random_security.pk,
+            'category': new_category.pk,
+            'media': new_media.pk,
+            'place': new_place.pk,
+            'image_number': 24,
+            'page': 48
         }
 
-        request = self.factory.post(path='/api/photos', data=data)
+        request = self.factory.put(path='/api/photos', data=data)
         force_authenticate(request, user=user)
-        response = view(request)
+        response = view(request, pk=1)
+        photo = models.Photo.objects.get(pk=1)
 
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED, msg=response.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK, msg=response.data)
+        for key, value in data.items():
+            self.assertTrue(
+                True if getattr(photo, key) == value
+                else True if getattr(photo, key).id == value
+                else False,
+                msg=(
+                        str(getattr(photo, key).id)
+                        if hasattr(getattr(photo, key), 'id')
+                        else str(getattr(photo, key))
+                    ) + " not equal to " + str(value)
+            )

@@ -41,7 +41,7 @@ class SecurityLevelSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('name',)
 
 
-class PhotoListSerializer(serializers.ModelSerializer):
+class PhotoSerializer(serializers.ModelSerializer):
     photo = VersatileImageFieldSerializer(
         sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes']
     )
@@ -61,9 +61,10 @@ class PhotoListSerializer(serializers.ModelSerializer):
 
 class PhotoCreateSerializer(serializers.ModelSerializer):
     photo = VersatileImageFieldSerializer(
-        sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes']
+        sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes'],
+        required=False
     )
-    tags = TagSerializer(many=True)
+    tags = TagSerializer(many=True, required=False)
 
     class Meta:
         model = models.Photo
@@ -80,5 +81,94 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
             'tags'
         )
 
-    def create(self, validated_data):  # TODO
-        pass
+    def create(self, validated_data):
+        album_data = validated_data.pop('album')
+        album, _ = models.Album.objects.get_or_create(name=album_data)
+
+        place_data = validated_data.pop('place')
+        place, _ = models.Place.objects.get_or_create(name=place_data)
+
+        category_data = validated_data.pop('category')
+        category, _ = models.Category.objects.get_or_create(name=category_data)
+
+        media_data = validated_data.pop('media')
+        media, _ = models.Media.objects.get_or_create(name=media_data)
+
+        photo = models.Photo.objects.create(
+            motive=validated_data.pop('motive'),
+            photo=validated_data.pop('photo'),
+            album=album,
+            place=place,
+            category=category,
+            media=media,
+            image_number=validated_data.pop('image_number'),
+            page=validated_data.pop('page'),
+            security_level=validated_data.pop('security_level')
+        )
+        photo.save()
+
+        for tag_data in validated_data.pop('tags'):
+            tag = models.Tag.objects.get_or_create(**tag_data)
+            photo.tags.add(tag)
+
+        return photo
+
+
+class PhotoUpdateSerializer(serializers.ModelSerializer):
+    photo = VersatileImageFieldSerializer(
+        sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes'],
+        required=False
+    )
+    tags = TagSerializer(many=True, required=False)
+    security_level = SecurityLevelSerializer(required=True)
+    category = CategorySerializer(required=True)
+    media = MediaSerializer(required=True)
+    album = AlbumSerializer(required=True)
+    place = PlaceSerializer(required=True)
+    motive = serializers.CharField(required=True)
+    page = serializers.IntegerField(required=True)
+    image_number = serializers.IntegerField(required=True)
+
+    class Meta:
+        model = models.Photo
+        fields = (
+            'photo',
+            'motive',
+            'security_level',
+            'category',
+            'media',
+            'album',
+            'place',
+            'image_number',
+            'page',
+            'tags'
+        )
+
+    def update(self, instance, validated_data):
+        instance.motive = validated_data.get('motive', instance.motive)
+        instance.image_number = validated_data.get('image_number', instance.image_number)
+        instance.page = validated_data.get('page', instance.page)
+
+        album_data = validated_data.get('album', None)
+        if album_data:
+            album, _ = models.Album.objects.get_or_create(name=album_data.name)
+
+        place_data = validated_data.get('place', None)
+        if place_data:
+            place, _ = models.Place.objects.get_or_create(name=place_data.name)
+
+        category_data = validated_data.get('category', None)
+        if category_data:
+            category, _ = models.Category.objects.get_or_create(name=category_data.name)
+
+        media_data = validated_data.get('media', None)
+        if media_data:
+            media, _ = models.Media.objects.get_or_create(name=media_data.name)
+
+        for tag_data in validated_data.get('tags', []):
+            tag = models.Tag.objects.get_or_create(**tag_data)
+            instance.tags.add(tag)
+
+        instance.save()
+
+        return instance

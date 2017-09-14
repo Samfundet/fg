@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import random, glob
+import random, glob, string
 from fg import settings
-from fg.api import helpers
 from django.db import migrations
 from django.core.files import File
 from django.core.files.temp import NamedTemporaryFile
 from PIL import Image
+
+
+def get_rand_string(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for _ in range(size))
 
 
 def seed_foreign_keys(apps):
@@ -19,7 +22,7 @@ def seed_foreign_keys(apps):
         for model_name in models:
             Mod = apps.get_model(app_name, model_name)
             for i in range(3):
-                obj = Mod(name=helpers.get_rand_string(4))
+                obj = Mod(name=get_rand_string(4))
                 obj.save()
 
 
@@ -42,7 +45,7 @@ def load_photos(apps, schema_editor):
 
     for i, image_path in enumerate(image_paths):
         photo_test = Photo(
-            motive=helpers.get_rand_string(size=20),
+            motive=get_rand_string(size=20),
             album=get_random_object(apps, "api", "Album"),
             place=get_random_object(apps, "api", "Place"),
             media=get_random_object(apps, "api", "Media"),
