@@ -13,7 +13,7 @@ import 'rxjs/add/operator/find';
 })
 export class BannerComponent implements OnInit {
   photo: IPhoto;
-  backgroundImageUrl = '../assets/images/banner.jpg'; // default image
+  backgroundImageUrl = ''; // default image
   sanitizedImage;
 
   constructor(private store: StoreService, private sanitizer: DomSanitizer) {

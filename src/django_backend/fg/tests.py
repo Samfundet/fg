@@ -331,10 +331,13 @@ class PhotoPostPutDeleteTestCase(APITestCase):
         user = User.objects.get(username="FG")
         view = PhotoViewSet.as_view({'put': 'update'})
 
+        tags = []
+        for i in range(3):
+            tags.append(models.Tag.objects.create(name="NEW_TAG_"+str(i)))
         new_category = models.Category.objects.create(name="NEW_CAT")
-        new_album = models.Category.objects.create(name="NALB")
-        new_media = models.Category.objects.create(name="NEW_MEDIA")
-        new_place = models.Category.objects.create(name="NEW_PLACE")
+        new_album = models.Album.objects.create(name="NALB")
+        new_media = models.Media.objects.create(name="NEW_MEDIA")
+        new_place = models.Place.objects.create(name="NEW_PLACE")
         random_security = random.choice(models.SecurityLevel.objects.all())
 
         data = {
@@ -344,6 +347,7 @@ class PhotoPostPutDeleteTestCase(APITestCase):
             'category': new_category.pk,
             'media': new_media.pk,
             'place': new_place.pk,
+            'tags': [t.name for t in tags],
             'image_number': 24,
             'page': 48
         }
@@ -354,14 +358,9 @@ class PhotoPostPutDeleteTestCase(APITestCase):
         photo = models.Photo.objects.get(pk=1)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK, msg=response.data)
-        for key, value in data.items():
-            self.assertTrue(
-                True if getattr(photo, key) == value
-                else True if getattr(photo, key).id == value
-                else False,
-                msg=(
-                        str(getattr(photo, key).id)
-                        if hasattr(getattr(photo, key), 'id')
-                        else str(getattr(photo, key))
-                    ) + " not equal to " + str(value)
-            )
+        self.assertEqual(new_album.pk, photo.album.pk, msg=photo.album)
+        self.assertEqual(new_category.pk, photo.category.pk, msg=photo.category)
+        self.assertEqual(new_media.pk, photo.media.pk, msg=photo.media)
+        self.assertEqual(new_place.pk, photo.place.pk, msg=photo.place)
+        for tag in tags:
+            self.assertIn(tag.pk, [t.pk for t in photo.tags.all()])

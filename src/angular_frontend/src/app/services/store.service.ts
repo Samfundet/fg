@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import { Subject } from 'rxjs/Subject'
-import { ApiService } from 'app/services';
+import { ApiService } from 'app/services/api.service';
 import { IResponse, IPhoto, IFilters } from 'app/model';
 
 @Injectable()

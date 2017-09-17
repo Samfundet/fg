@@ -114,20 +114,17 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
         return photo
 
 
+
+class TagListField(serializers.StringRelatedField):
+    def to_internal_value(self, value):
+        return value
+
 class PhotoUpdateSerializer(serializers.ModelSerializer):
     photo = VersatileImageFieldSerializer(
         sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes'],
         required=False
     )
-    tags = TagSerializer(many=True, required=False)
-    security_level = SecurityLevelSerializer(required=True)
-    category = CategorySerializer(required=True)
-    media = MediaSerializer(required=True)
-    album = AlbumSerializer(required=True)
-    place = PlaceSerializer(required=True)
-    motive = serializers.CharField(required=True)
-    page = serializers.IntegerField(required=True)
-    image_number = serializers.IntegerField(required=True)
+    tags = TagListField(many=True)
 
     class Meta:
         model = models.Photo
@@ -152,21 +149,25 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
         album_data = validated_data.get('album', None)
         if album_data:
             album, _ = models.Album.objects.get_or_create(name=album_data.name)
+            instance.album = album
 
         place_data = validated_data.get('place', None)
         if place_data:
             place, _ = models.Place.objects.get_or_create(name=place_data.name)
+            instance.place = place
 
         category_data = validated_data.get('category', None)
         if category_data:
             category, _ = models.Category.objects.get_or_create(name=category_data.name)
+            instance.category = category
 
         media_data = validated_data.get('media', None)
         if media_data:
             media, _ = models.Media.objects.get_or_create(name=media_data.name)
+            instance.media = media
 
-        for tag_data in validated_data.get('tags', []):
-            tag = models.Tag.objects.get_or_create(**tag_data)
+        for tag_name in validated_data.get('tags', []):
+            tag, _ = models.Tag.objects.get_or_create(name=tag_name)
             instance.tags.add(tag)
 
         instance.save()
