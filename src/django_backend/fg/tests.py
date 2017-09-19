@@ -284,6 +284,8 @@ class PhotoCRUDTestCase(APITestCase):
 
         photo_file = self.generate_photo_file()
 
+        tags = ['ass', 'dick', 'tourettes']
+
         with open(photo_file.name, 'rb') as file:
             data = {
                 'motive': 'TEST_motive',
@@ -292,6 +294,7 @@ class PhotoCRUDTestCase(APITestCase):
                 'media': 1,
                 'album': 1,
                 'place': 1,
+                'tags': tags,
                 'image_number': 1,
                 'page': 1,
                 'photo': file
@@ -304,14 +307,19 @@ class PhotoCRUDTestCase(APITestCase):
             self.assertEqual(response.status_code, status.HTTP_201_CREATED, msg=response.data)
             self.assertEqual(models.Photo.objects.count(), 1)
 
-            self.photos = models.Photo.objects.all()
-            for key, value in data.items():
-                self.assertTrue(
-                    True if getattr(self.photos[0], key) == value
-                    else True if key == 'photo'  # TODO test if image is same
-                    else True if getattr(self.photos[0], key).id == value
-                    else False
-                )
+            latest_photo = models.Photo.objects.latest()
+
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED, msg=response.data)
+            self.assertEqual(data['motive'], latest_photo.motive, msg=latest_photo.motive)
+            self.assertEqual(data['image_number'], latest_photo.image_number, msg=latest_photo.image_number)
+            self.assertEqual(data['page'], latest_photo.page, msg=latest_photo.page)
+            self.assertEqual(data['security_level'], latest_photo.page, msg=latest_photo.page)
+            self.assertEqual(data['album'], latest_photo.album.pk, msg=latest_photo.album)
+            self.assertEqual(data['category'], latest_photo.category.pk, msg=latest_photo.category)
+            self.assertEqual(data['media'], latest_photo.media.pk, msg=latest_photo.media)
+            self.assertEqual(data['place'], latest_photo.place.pk, msg=latest_photo.place)
+            for tag in tags:
+                self.assertIn(tag, [t.name for t in latest_photo.tags.all()])
 
     def test_fg_user_can_delete_photo(self):
         user = User.objects.get(username="FG")
@@ -333,7 +341,7 @@ class PhotoCRUDTestCase(APITestCase):
 
         tags = []
         for i in range(3):
-            tags.append(models.Tag.objects.create(name="NEW_TAG_"+str(i)))
+            tags.append(models.Tag.objects.create(name="NEW_TAG_" + str(i)))
         new_category = models.Category.objects.create(name="NEW_CAT")
         new_album = models.Album.objects.create(name="NALB")
         new_media = models.Media.objects.create(name="NEW_MEDIA")
@@ -382,15 +390,13 @@ class PhotoCRUDTestCase(APITestCase):
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_200_OK, msg=response.data)
 
-        self.assertEqual(expected, response.data, msg=response.data)
+        self.assertEqual(expected, response.data['photo'], msg=response.data)
 
-        expected = random.choice(self.photos)
+        expected = models.Photo.objects.filter(security_level__name='ALLE')[0]
         expected.splash = True
         expected.save()
 
         expected = models.Photo.objects.latest('splash')
         request = self.factory.get(path='/api/photos/latest-splash')
         response = view(request)
-        self.assertEqual(expected, response.data, msg=response.data)
-
-
+        self.assertEqual(expected.motive, response.data['motive'], msg=response.data)

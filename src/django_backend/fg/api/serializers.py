@@ -59,12 +59,17 @@ class PhotoSerializer(serializers.ModelSerializer):
         depth = 2
 
 
+class TagListField(serializers.StringRelatedField):
+    def to_internal_value(self, value):
+        return value
+
+
 class PhotoCreateSerializer(serializers.ModelSerializer):
     photo = VersatileImageFieldSerializer(
         sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes'],
         required=False
     )
-    tags = TagSerializer(many=True, required=False)
+    tags = TagListField(many=True)
 
     class Meta:
         model = models.Photo
@@ -82,31 +87,15 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
-        album_data = validated_data.pop('album')
-        album, _ = models.Album.objects.get_or_create(name=album_data)
-
-        place_data = validated_data.pop('place')
-        place, _ = models.Place.objects.get_or_create(name=place_data)
-
-        category_data = validated_data.pop('category')
-        category, _ = models.Category.objects.get_or_create(name=category_data)
-
-        media_data = validated_data.pop('media')
-        media, _ = models.Media.objects.get_or_create(name=media_data)
+        tags = validated_data.pop('tags')
 
         photo = models.Photo.objects.create(**validated_data)
+        for tag_name in tags:
+            tag, _ = models.Tag.objects.get_or_create(name=tag_name)
+            photo.tags.add(tag)
         photo.save()
 
-        for tag_data in validated_data.pop('tags'):
-            tag = models.Tag.objects.get_or_create(**tag_data)
-            photo.tags.add(tag)
-
         return photo
-
-
-class TagListField(serializers.StringRelatedField):
-    def to_internal_value(self, value):
-        return value
 
 
 class PhotoUpdateSerializer(serializers.ModelSerializer):
@@ -136,27 +125,12 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
         instance.image_number = validated_data.get('image_number', instance.image_number)
         instance.page = validated_data.get('page', instance.page)
 
-        album_data = validated_data.get('album', None)
-        if album_data:
-            album, _ = models.Album.objects.get_or_create(name=album_data.name)
-            instance.album = album
+        instance.album = validated_data.get('album', instance.album)
+        instance.place = validated_data.get('place', instance.place)
+        instance.category = validated_data.get('category', instance.category)
+        instance.media = validated_data.get('media', instance.media)
 
-        place_data = validated_data.get('place', None)
-        if place_data:
-            place, _ = models.Place.objects.get_or_create(name=place_data.name)
-            instance.place = place
-
-        category_data = validated_data.get('category', None)
-        if category_data:
-            category, _ = models.Category.objects.get_or_create(name=category_data.name)
-            instance.category = category
-
-        media_data = validated_data.get('media', None)
-        if media_data:
-            media, _ = models.Media.objects.get_or_create(name=media_data.name)
-            instance.media = media
-
-        for tag_name in validated_data.get('tags', []):
+        for tag_name in validated_data.get('tags', instance.tags):
             tag, _ = models.Tag.objects.get_or_create(name=tag_name)
             instance.tags.add(tag)
 

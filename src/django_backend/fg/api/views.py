@@ -109,13 +109,27 @@ class PhotoViewSet(ModelViewSet):
 
 
 class LatestSplashPhotoView(RetrieveAPIView):
-    queryset = models.Photo.objects.all()
     serializer_class = serializers.PhotoSerializer
 
     def get_object(self):
-        latest = PhotoViewSet.get_queryset(self).latest('splash')
+        latest = self.get_queryset().latest('splash')
         if latest.splash:
             return latest
         else:
-            return []
+            return None
 
+    def get_queryset(self):
+        user = self.request.user
+
+        # Filter the photos based on user group
+        if user.groups.exists() and user.is_active:
+            for g in user.groups.all():
+                if g.name == "FG":
+                    # FG gets to see it all
+                    return models.Photo.objects.all()
+                elif g.name in ["HUSFOLK", "POWER"]:
+                    return models.Photo.objects.filter(security_level__name__in=("ALLE", "HUSFOLK"))
+        elif user.is_superuser and user.is_active:
+            return models.Photo.objects.all()
+        else:  # No group == "ALLE"
+            return models.Photo.objects.filter(security_level__name="ALLE")
