@@ -20,5 +20,7 @@ urlpatterns = [
     url(r'^api/admin/', admin.site.urls),
     # API endpoints
     url(r'^api/', include(router.urls)),
-    url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # APIVIEW endpoints
+    url(r'^api/photos/latest-splash', api_views.LatestSplashPhotoView.as_view(), name="latest-splash")
 ]

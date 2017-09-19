@@ -1,5 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework.generics import RetrieveAPIView
 from . import models, serializers
 from .permissions import IsFGOrReadOnly
 
@@ -105,3 +106,16 @@ class PhotoViewSet(ModelViewSet):
             return models.Photo.objects.all()
         else:  # No group == "ALLE"
             return models.Photo.objects.filter(security_level__name="ALLE")
+
+
+class LatestSplashPhotoView(RetrieveAPIView):
+    queryset = models.Photo.objects.all()
+    serializer_class = serializers.PhotoSerializer
+
+    def get_object(self):
+        latest = PhotoViewSet.get_queryset(self).latest('splash')
+        if latest.splash:
+            return latest
+        else:
+            return []
+

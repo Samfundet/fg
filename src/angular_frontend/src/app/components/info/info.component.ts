@@ -13,7 +13,7 @@ export class InfoComponent implements OnInit {
   }
 
   printTest() {
-    console.log("works");
+    console.log('works');
   }
 
 }

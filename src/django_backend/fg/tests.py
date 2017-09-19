@@ -3,7 +3,7 @@ from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 from rest_framework import status
 from .api import models
-from .api.views import PhotoViewSet
+from .api.views import PhotoViewSet, LatestSplashPhotoView
 from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, PROD_PATH
 from django.apps import apps
 from django.core.files import File
@@ -257,7 +257,7 @@ class UserPermissionTestCase(APITestCase):
         self.assertEqual(len(response.data["results"]), expected_count)
 
 
-class PhotoPostPutDeleteTestCase(APITestCase):
+class PhotoCRUDTestCase(APITestCase):
     photos = None
 
     def setUp(self):
@@ -364,3 +364,33 @@ class PhotoPostPutDeleteTestCase(APITestCase):
         self.assertEqual(new_place.pk, photo.place.pk, msg=photo.place)
         for tag in tags:
             self.assertIn(tag.pk, [t.pk for t in photo.tags.all()])
+
+    def test_fg_user_can_update_list_of_photos(self):  # TODO
+        pass
+
+    def test_latest_splash_retrieved(self):
+        self.photos = seed_photos()
+        view = LatestSplashPhotoView.as_view()
+
+        for photo in self.photos:
+            photo.splash = False
+            photo.save()
+
+        expected = None
+
+        request = self.factory.get(path='/api/photos/latest-splash')
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK, msg=response.data)
+
+        self.assertEqual(expected, response.data, msg=response.data)
+
+        expected = random.choice(self.photos)
+        expected.splash = True
+        expected.save()
+
+        expected = models.Photo.objects.latest('splash')
+        request = self.factory.get(path='/api/photos/latest-splash')
+        response = view(request)
+        self.assertEqual(expected, response.data, msg=response.data)
+
+

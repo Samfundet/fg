@@ -6,7 +6,6 @@ from versatileimagefield.fields import VersatileImageField, PPOIField
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True, db_index=True)
-    description = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
@@ -142,3 +141,6 @@ class Photo(models.Model):
                 os.makedirs(dest_dir)
             except IOError:
                 pass  # TODO i smell a foul stench from this snippet
+
+    class Meta:
+        get_latest_by = 'date_taken'

@@ -8,7 +8,7 @@ from versatileimagefield.serializers import VersatileImageFieldSerializer
 class TagSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Tag
-        fields = ('name', 'description')
+        fields = ('name',)
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
@@ -94,17 +94,7 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
         media_data = validated_data.pop('media')
         media, _ = models.Media.objects.get_or_create(name=media_data)
 
-        photo = models.Photo.objects.create(
-            motive=validated_data.pop('motive'),
-            photo=validated_data.pop('photo'),
-            album=album,
-            place=place,
-            category=category,
-            media=media,
-            image_number=validated_data.pop('image_number'),
-            page=validated_data.pop('page'),
-            security_level=validated_data.pop('security_level')
-        )
+        photo = models.Photo.objects.create(**validated_data)
         photo.save()
 
         for tag_data in validated_data.pop('tags'):
@@ -114,10 +104,10 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
         return photo
 
 
-
 class TagListField(serializers.StringRelatedField):
     def to_internal_value(self, value):
         return value
+
 
 class PhotoUpdateSerializer(serializers.ModelSerializer):
     photo = VersatileImageFieldSerializer(
