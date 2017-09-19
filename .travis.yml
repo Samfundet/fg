@@ -31,7 +31,7 @@ jobs:
 
     - stage: test angular
       install:
-        - npm install -g @angular/cli@1.2.0
+        - npm install -g @angular/cli@1.4.2
         - export CHROME_BIN=/usr/bin/google-chrome
         - export DISPLAY=:99.0
         - sh -e /etc/init.d/xvfb start
@@ -41,9 +41,9 @@ jobs:
         - sudo dpkg -i google-chrome*.deb
         - cd src/angular_frontend && npm install
       script:
-        - ng build
-        #- ng test --watch=false
         - ng lint
+        - ng build --prod
+        #- ng test --watch=false
 
     - stage: deploy
       script: echo "Deploying to staging..."
@@ -55,6 +55,8 @@ jobs:
       deploy:
         provider: script
         skip_cleanup: true
-        script: cat $TRAVIS_BUILD_DIR/deploy_staging.sh | ssh fg@146.185.181.250 /bin/bash
+        script:
+            - cat $TRAVIS_BUILD_DIR/deploy_staging.sh | ssh fg@146.185.181.250 /bin/bash
+            - rsync -a $TRAVIS_BUILD_DIR/src/angular_frontend/dist fg@146.185.181.250:./fg/src/angular_frontend/dist
         on:
           branch: development
