@@ -400,3 +400,17 @@ class PhotoCRUDTestCase(APITestCase):
         request = self.factory.get(path='/api/photos/latest-splash')
         response = view(request)
         self.assertEqual(expected.motive, response.data['motive'], msg=response.data)
+
+        expected = None
+        for photo in self.photos:
+            photo.splash = False
+            photo.save()
+
+        p = models.Photo.objects.get(pk=1)
+        p.security_level = models.SecurityLevel.objects.get(name="FG")
+        p.splash = True
+        p.save()
+
+        request = self.factory.get(path='/api/photos/latest-splash')
+        response = view(request)
+        self.assertEqual(expected, response.data['photo'])
