@@ -11,6 +11,8 @@ export class StoreService {
   private _photos$ = new BehaviorSubject<IResponse<IPhoto>>(null);
   private _filters$ = new Subject<IFilters>();
   public photoRouteActive$ = new Subject<boolean>();
+  public photoShoppingCart$ = new BehaviorSubject<IPhoto[]>(null);
+  public photoModal$ = new BehaviorSubject<IPhoto>(null);
 
   constructor(private api: ApiService) {
     this._filters$.subscribe(f => {
@@ -36,6 +38,12 @@ export class StoreService {
 
   getSplashPhotoAction(): Observable<IPhoto> {
     return this.api.getSplashPhoto()
+  }
+
+  addPhotoToCartAction(photo: IPhoto): void {
+    const cart = this.photoShoppingCart$.getValue();
+    cart.push(photo);
+    this.photoShoppingCart$.next(cart);
   }
 
   // getters for observables of the datastreams

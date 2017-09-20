@@ -1,3 +1,5 @@
+@import '../../../styles/breakpoints.scss';
+
 :host {
   width: 100%;
   display: block;
@@ -12,6 +14,8 @@
   width: 400px;
 }
 
+
+
 .grid-item.grid-item-2 {
   // width: 830px;
   // TODO FIX
@@ -21,3 +25,12 @@
   margin: 0 auto;
 }
 
+.clickable {
+  outline: 2px solid rgba(0, 0, 0, 0);
+  cursor: pointer;
+}
+
+.clickable:hover {
+  outline: 2px solid white;
+  transition: 0.7s all;
+}

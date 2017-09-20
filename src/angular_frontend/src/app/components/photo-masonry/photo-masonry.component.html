@@ -5,8 +5,9 @@
   class="grid">
     <img
       *ngFor="let photo of photos; let i = index"
+      (click)="onPhotoClick(photo)"
       src="{{photo.photo.medium}}"
-      class="grid-item"
+      class="grid-item clickable"
       [ngClass]="[i % 8 === 0 ? 'grid-item-2':'']"
       alt="{{photo.motive}}"
     />

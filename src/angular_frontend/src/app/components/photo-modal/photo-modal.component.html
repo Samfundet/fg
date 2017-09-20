@@ -1,0 +1,4 @@
+<div (click)="shown = !shown" class="modal" *ngIf="photo?.photo && shown">
+  <img src="{{photo.photo.large}}" class="auto-width" alt="{{photo.motive}}" />
+  <button class="photo-button">Foo</button>
+</div>

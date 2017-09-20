@@ -27,6 +27,7 @@ import { FaqComponent } from './components/faq/faq.component';
 import { PersonComponent } from './components/kontakt/person/person.component';
 import { PhotosComponent } from './components/photos/photos.component';
 import { PhotoMasonryComponent } from './components/photo-masonry/photo-masonry.component';
+import { PhotoModalComponent } from './components/photo-modal/photo-modal.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { PhotoMasonryComponent } from './components/photo-masonry/photo-masonry.
     FaqComponent,
     PersonComponent,
     PhotosComponent,
-    PhotoMasonryComponent
+    PhotoMasonryComponent,
+    PhotoModalComponent
   ],
   imports: [
     BrowserModule,
