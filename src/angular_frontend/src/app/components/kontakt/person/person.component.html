@@ -1,5 +1,44 @@
-<div *ngIf="user" class="user">
-  <img [src]="user.bilde" [alt]="user.fg_kallenavn">
-  Username: {{user.username}}
-  Email: {{user.email}}
+<div *ngIf="user" class="user" [ngClass]="[isEven ? 'even':'']">
+  <div class="flex-wrapper">
+
+    <div class="user-name-verv">
+      <div class="user-name">
+        <label class="person" for="name-{{ user.username }}">Navn</label>
+        <div class="user-info" id="name-{{ user.username }}">{{ user.first_name }} {{ user.last_name }}</div>
+      </div>
+      <div class="user-verv">
+        <label class="person" for="verv-{{ user.username }}">Verv</label>
+        <div class="user-info" id="verv-{{ user.username }}">{{ 'user.gjengjobb1' }} </div>
+      </div>
+    </div>
+
+    <div class="user-photo">
+      <img class="img-class" [src]="user.bilde" [alt]="'BILDE'">
+    </div>
+  </div>
+
+
+  <div class="user-email">
+    <label class="person" for="email-{{ user.username }}">Epost</label>
+    <div class="user-info" id="email-{{ user.username }}">{{ 'mikkel.sandsbraategdsfsdfasfsdn@gmail.com' }}</div>
+  </div>
+
+  <div class="user-phone">
+    <label class="person" for="phone-{{ user.username }}">Telefon</label>
+    <div class="user-info" id="phone-{{ user.username }}">{{ '94812815' }}</div>
+  </div>
+
+  <div class="empty"></div>
+
+  <div *ngIf=user.comments>
+    <div class="user-comment">
+      <hr>
+      Ta kontakt med meg hvis du lurer på {{ 'user.comments' }}
+    </div>
+  </div>
+  <!--   <div class="user-comment">
+    <hr>
+    Ta kontakt med meg hvis du lurer på {{ user.comments }}dadsadasdasdasdasdasdasdasd
+  </div> -->
+
 </div>

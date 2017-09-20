@@ -8,13 +8,15 @@ import { IResponse, IUser } from 'app/model';
   styleUrls: ['./kontakt.component.scss']
 })
 export class KontaktComponent implements OnInit {
-  users: IUser[];
+  aktivePanger: IUser[];
+  aktive: IUser[];
 
   constructor(private api: ApiService) { }
 
     ngOnInit() {
       this.api.getUsers().subscribe(users => {
-        this.users = users.results
+        this.aktivePanger = users.results.filter(u => u.aktiv_pang);
+        this.aktive = users.results.filter(u => u.aktiv_pang !== true);
       });
     }
 

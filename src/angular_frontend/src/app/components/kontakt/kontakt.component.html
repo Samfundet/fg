@@ -36,7 +36,17 @@
   </section>
   <section class="wrapper style2">
     <div class="inner">
-      <fg-person *ngFor="let user of users" [user]="user"></fg-person>
+
+      <div *ngIf="aktive.length > 0">
+        <h2>Aktive</h2>
+        <fg-person *ngFor="let user of aktive; let i = index" [isEven]="i % 2 === 0" [user]="user"></fg-person>
+      </div>
+
+      <div *ngIf="aktivePanger.length > 0">
+        <h2>Aktive panger</h2>
+        <fg-person *ngFor="let user of aktivePanger; let i = index" [isEven]="i % 2 === 0" [user]="user"></fg-person>
+      </div>
+
     </div>
   </section>
 </div>
