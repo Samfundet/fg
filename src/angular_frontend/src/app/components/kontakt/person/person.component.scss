@@ -1,6 +1,90 @@
 .user {
-  background-color: black;
   border: 1px solid white;
-  border-radius: 5px;
+  border-radius: 20px;
   padding: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+
+.user {
+  overflow: ellipsis;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  
+  grid-template-areas: 
+    "flex-wrapper"
+    "user-email"
+    "user-phone"
+    "user-comment";
+}
+
+
+/* @media screen and (min-width: 701px) {
+  .user {
+    display: grid;
+    grid-auto-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+
+    grid-template-areas: 
+      "user-name-verv user-phone user-photo"
+      "user-email user-email user-email"
+      "user-comment user-comment user-comment "
+  }
+} */
+
+.even {
+  background-color: rgba(255, 255, 255, 0.075);
+}
+
+.flex-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.empty {
+  grid-area: empty;
+}
+.user-email {
+  grid-area: user-email;
+  margin-top: 2rem;
+}
+.user-phone {
+  grid-area: user-phone;
+  margin-top: 1rem;
+}
+
+.user-name {
+  
+}
+
+.user-verv {
+  margin-top: 2rem;
+}
+
+.user-name-verv {
+  grid-area: user-name-verv;
+  margin-right: auto;
+}
+
+.user-comment {
+  grid-area: user-comment;
+  margin-top: 1rem;
+}
+
+.user-photo {
+  grid-area: user-photo;
+}
+
+.img-class {
+  border-radius: 50%;  
+}
+
+label.person {
+  margin-bottom: 0;
+}
+
+hr {
+  margin: 1rem;
 }

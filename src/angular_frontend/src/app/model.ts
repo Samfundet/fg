@@ -70,8 +70,11 @@ export interface IUser {
   fg_kallenavn?: string;
   bilde?: string;
   aktiv_pang?: boolean;
+  aktiv?: boolean;
   comments?: string;
   email?: string;
+  first_name?: string;
+  last_name?: string;
 }
 
 export interface IFilters {

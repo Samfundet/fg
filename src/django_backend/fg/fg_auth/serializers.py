@@ -24,5 +24,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'bilde',
             'aktiv_pang',
             'comments',
-            'email'
+            'email',
+            'first_name',
+            'last_name',
         ]

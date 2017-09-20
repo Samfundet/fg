@@ -8,6 +8,7 @@ import { IUser } from 'app/model';
 })
 export class PersonComponent implements OnInit {
   @Input() user: IUser;
+  @Input() isEven: boolean;
 
   constructor() { }
 
