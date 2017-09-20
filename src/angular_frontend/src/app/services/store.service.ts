@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import { Subject } from 'rxjs/Subject'
+import { Observable } from 'rxjs/Observable'
 import { ApiService } from 'app/services/api.service';
 import { IResponse, IPhoto, IFilters } from 'app/model';
 
@@ -9,7 +10,9 @@ export class StoreService {
   // The state of the application
   private _photos$ = new BehaviorSubject<IResponse<IPhoto>>(null);
   private _filters$ = new Subject<IFilters>();
-  public  photoRouteActive$ = new Subject<boolean>();
+  public photoRouteActive$ = new Subject<boolean>();
+  public photoShoppingCart$ = new BehaviorSubject<IPhoto[]>(null);
+  public photoModal$ = new BehaviorSubject<IPhoto>(null);
 
   constructor(private api: ApiService) {
     this._filters$.subscribe(f => {
@@ -31,6 +34,16 @@ export class StoreService {
       }
       return null;
     }
+  }
+
+  getSplashPhotoAction(): Observable<IPhoto> {
+    return this.api.getSplashPhoto()
+  }
+
+  addPhotoToCartAction(photo: IPhoto): void {
+    const cart = this.photoShoppingCart$.getValue();
+    cart.push(photo);
+    this.photoShoppingCart$.next(cart);
   }
 
   // getters for observables of the datastreams

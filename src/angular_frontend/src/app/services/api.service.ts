@@ -14,7 +14,7 @@ export class ApiService {
   constructor(
     private http: HttpClient) { }
 
-  public getPhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
+  getPhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
     let params = new HttpParams();
     if (filters.page) {
       params = params.append('page', filters.page);
@@ -25,11 +25,15 @@ export class ApiService {
     return this.http.get<IResponse<IPhoto>>(`/api/photos/`, {params: params});
   }
 
-  public getUsers(): Observable<IResponse<IUser>> {
+  getSplashPhoto(): Observable<IPhoto> {
+    return this.http.get<IPhoto>(`api/photos/latest-splash`);
+  }
+
+  getUsers(): Observable<IResponse<IUser>> {
     return this.http.get<IResponse<IUser>>(`/api/users/`);
   }
 
-  public uploadPhotos(formData) {
+  uploadPhotos(formData) {
     return this.http.post(`/api/photos`, formData);
   }
 }

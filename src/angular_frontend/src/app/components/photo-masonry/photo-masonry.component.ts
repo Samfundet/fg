@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Options } from 'masonry-layout';
 import { MasonryLayoutDirective } from 'app/directives';
 import { IPhoto, IFilters } from 'app/model';
+import { StoreService } from 'app/services/store.service';
 
 @Component({
   selector: 'fg-photo-masonry',
@@ -16,6 +17,11 @@ export class PhotoMasonryComponent {
     fitWidth: true
   }
 
-  constructor() { }
+  constructor(private store: StoreService) { }
+
+  onPhotoClick(photo: IPhoto) {
+    console.log('Hi');
+    this.store.photoModal$.next(photo);
+  }
 
 }

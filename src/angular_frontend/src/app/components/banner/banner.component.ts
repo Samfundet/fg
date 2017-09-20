@@ -11,28 +11,24 @@ import 'rxjs/add/operator/find';
   templateUrl: './banner.component.html',
   styleUrls: ['./banner.component.scss']
 })
-export class BannerComponent implements OnInit {
+export class BannerComponent {
   photo: IPhoto;
   backgroundImageUrl = ''; // default image
   sanitizedImage;
 
   constructor(private store: StoreService, private sanitizer: DomSanitizer) {
     this.sanitizedImage = this.sanitizer.bypassSecurityTrustStyle(`url(${this.backgroundImageUrl}`);
-    this.store.photos$
-      .first(p => !!p && !!p.results) // First that isn't null or empty
-      .map(pr => pr.results.find(p => p.splash))
-      .subscribe(p => this.setBackgroundImage(p));
+    this.store.getSplashPhotoAction().subscribe(p => {
+      this.photo = p;
+      this.setBackgroundImage(p);
+    })
   }
 
   setBackgroundImage(p: IPhoto)  {
-    if (p != null) {
+    if (p != null && p.photo != null) {
       this.backgroundImageUrl = p.photo.large;
       this.photo = p;
     }
     this.sanitizedImage = this.sanitizer.bypassSecurityTrustStyle(`url(${this.backgroundImageUrl}`);
   }
-
-  ngOnInit() {
-  }
-
 }
