@@ -11,7 +11,7 @@ export class StoreService {
   private _photos$ = new BehaviorSubject<IResponse<IPhoto>>(null);
   private _filters$ = new Subject<IFilters>();
   public photoRouteActive$ = new Subject<boolean>();
-  public photoShoppingCart$ = new BehaviorSubject<IPhoto[]>(null);
+  public photoShoppingCart$ = new BehaviorSubject<IPhoto[]>([]);
   public photoModal$ = new BehaviorSubject<IPhoto>(null);
 
   constructor(private api: ApiService) {

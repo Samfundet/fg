@@ -1,4 +1,7 @@
-<div (click)="shown = !shown" class="modal" *ngIf="photo?.photo && shown">
-  <img src="{{photo.photo.large}}" class="auto-width" alt="{{photo.motive}}" />
-  <button class="photo-button">Foo</button>
-</div>
+<ng-container *ngIf="photo?.photo && shown">
+  <div (click)="shown = !shown" class="modal fixed">
+    <img src="{{photo.photo.large}}" class="auto-width" alt="{{photo.motive}}" />
+  </div>
+  <button class="photo-button fixed z-over" (click)="addToShoppingCart()" *ngIf="!photo.addedToCart">Legg til handlekurv</button>
+  <button class="photo-button fixed z-over" (click)="removeFromShoppingCart()" *ngIf="photo.addedToCart">Fjern fra handlekurv</button>
+</ng-container>
