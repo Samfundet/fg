@@ -1,8 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { MainComponent, InfoComponent, KontaktComponent, InternComponent, HistoryComponent,
-  PricepointsComponent, FaqComponent, CreditComponent, PhotosComponent } from 'app/components';
+import {
+  MainComponent,
+  InfoComponent,
+  KontaktComponent,
+  InternComponent,
+  HistoryComponent,
+  PricepointsComponent,
+  FaqComponent,
+  CreditComponent,
+  PhotosComponent,
+  UploadComponent,
+  NotFoundComponent
+} from 'app/components';
 
 const routes: Routes = [
   {
@@ -24,7 +35,14 @@ const routes: Routes = [
   },
   {
     path: 'intern',
-    component: InternComponent
+    // canActivate: [AuthGuardService], TODO
+    component: InternComponent,
+    children: [
+      {
+        path: 'opplasting',
+        component: UploadComponent
+      }
+    ]
   },
   {
     path: 'foto',
@@ -45,6 +63,10 @@ const routes: Routes = [
   {
     path: 'info/priser',
     component: PricepointsComponent
+  },
+  { // 404 If not recognized
+    path: '**',
+    component: NotFoundComponent
   }
 ];
 

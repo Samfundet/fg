@@ -52,7 +52,6 @@ export class PhotoResponse implements IResponse<IPhoto> {
   }
 }
 
-// User model
 export interface IUser {
   username: string;
   address?: string;

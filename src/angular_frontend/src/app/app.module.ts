@@ -12,22 +12,25 @@ import { GalleryComponent } from './components/gallery/gallery.component';
 // Services
 import { ApiService } from './services/api.service';
 import { StoreService } from './services/store.service';
-import { BannerComponent } from './components/banner/banner.component';
-import { MainComponent } from './components/main/main.component';
-import { FooterComponent } from './components/footer/footer.component';
 import { MasonryLayoutDirective } from './directives/masonry-layout.directive';
-import { InfoComponent } from './components/info/info.component';
-import { InternComponent } from './components/intern/intern.component';
-import { KontaktComponent } from './components/kontakt/kontakt.component';
-import { UploadComponent } from './components/intern/upload/upload.component';
-import { HistoryComponent } from './components/history/history.component';
-import { CreditComponent } from './components/credit/credit.component';
-import { PricepointsComponent } from './components/pricepoints/pricepoints.component';
-import { FaqComponent } from './components/faq/faq.component';
-import { PersonComponent } from './components/kontakt/person/person.component';
-import { PhotosComponent } from './components/photos/photos.component';
-import { PhotoMasonryComponent } from './components/photo-masonry/photo-masonry.component';
-import { PhotoModalComponent } from './components/photo-modal/photo-modal.component';
+import {
+  BannerComponent,
+  MainComponent,
+  FooterComponent,
+  InfoComponent,
+  InternComponent,
+  KontaktComponent,
+  UploadComponent,
+  HistoryComponent,
+  CreditComponent,
+  PricepointsComponent,
+  FaqComponent,
+  PersonComponent,
+  PhotosComponent,
+  PhotoMasonryComponent,
+  PhotoModalComponent,
+  NotFoundComponent
+} from 'app/components';
 
 @NgModule({
   declarations: [
@@ -49,7 +52,8 @@ import { PhotoModalComponent } from './components/photo-modal/photo-modal.compon
     PersonComponent,
     PhotosComponent,
     PhotoMasonryComponent,
-    PhotoModalComponent
+    PhotoModalComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
