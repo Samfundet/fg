@@ -1,26 +1,5 @@
 [
     {
-        "model": "api.securitylevel",
-        "pk": 1,
-        "fields": {
-            "name": "FG"
-        }
-    },
-    {
-        "model": "api.securitylevel",
-        "pk": 2,
-        "fields": {
-            "name": "HUSFOLK"
-        }
-    },
-    {
-        "model": "api.securitylevel",
-        "pk": 3,
-        "fields": {
-            "name": "ALLE"
-        }
-    },
-    {
         "model": "fg_auth.user",
         "pk": 1,
         "fields": {

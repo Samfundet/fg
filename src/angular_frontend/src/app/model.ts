@@ -107,3 +107,9 @@ export const testData: IResponse<IPhoto> = {
     }
   ]
 }
+
+export interface IForeignKey {
+  name: string;
+  id: number;
+  date_created?: Date;
+}

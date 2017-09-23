@@ -1,8 +1,14 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.pagination import BasePagination
 from . import models, serializers
-from .permissions import IsFGOrReadOnly
+from .permissions import IsFGOrReadOnly, IsFG
+
+
+class UnlimitedPagination(BasePagination):
+    def paginate_queryset(self, queryset, request, view=None):
+        pass
 
 
 class TagViewSet(ModelViewSet):
@@ -14,6 +20,7 @@ class TagViewSet(ModelViewSet):
     permission_classes = [IsFGOrReadOnly]
 
 
+
 class CategoryViewSet(ModelViewSet):
     """
     API endpoint that allows categories to be viewed or edited
@@ -21,6 +28,7 @@ class CategoryViewSet(ModelViewSet):
     queryset = models.Category.objects.all()
     serializer_class = serializers.CategorySerializer
     permission_classes = [IsFGOrReadOnly]
+    pagination_class = UnlimitedPagination
 
 
 class MediaViewSet(ModelViewSet):
@@ -30,6 +38,8 @@ class MediaViewSet(ModelViewSet):
     queryset = models.Media.objects.all()
     serializer_class = serializers.MediaSerializer
     permission_classes = [IsFGOrReadOnly]
+    pagination_class = UnlimitedPagination
+
 
 
 class AlbumViewSet(ModelViewSet):
@@ -39,6 +49,7 @@ class AlbumViewSet(ModelViewSet):
     queryset = models.Album.objects.all()
     serializer_class = serializers.AlbumSerializer
     permission_classes = [IsFGOrReadOnly]
+    pagination_class = UnlimitedPagination
 
 
 class PlaceViewSet(ModelViewSet):
@@ -48,6 +59,16 @@ class PlaceViewSet(ModelViewSet):
     queryset = models.Place.objects.all()
     serializer_class = serializers.PlaceSerializer
     permission_classes = [IsFGOrReadOnly]
+    pagination_class = UnlimitedPagination
+
+class SecurityLevelViewSet(ModelViewSet):
+    """
+    API endpoint that allows SecurityLevels to be viewed or edited
+    """
+    queryset = models.SecurityLevel.objects.all()
+    serializer_class = serializers.SecurityLevelSerializer
+    permission_classes = [IsFG]
+    pagination_class = UnlimitedPagination
 
 
 class PhotoViewSet(ModelViewSet):

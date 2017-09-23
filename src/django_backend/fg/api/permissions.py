@@ -15,3 +15,7 @@ class IsFGOrReadOnly(BasePermission):
 
         return request.user.groups.filter(name="FG").exists() or request.user.is_superuser
 
+
+class IsFG(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return request.user.groups.filter(name="FG").exists() or request.user.is_superuser

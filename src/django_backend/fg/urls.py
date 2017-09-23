@@ -13,6 +13,7 @@ router.register(r'categories', api_views.CategoryViewSet)
 router.register(r'mediums', api_views.MediaViewSet)
 router.register(r'albums', api_views.AlbumViewSet)
 router.register(r'places', api_views.PlaceViewSet)
+router.register(r'security-levels', api_views.SecurityLevelViewSet)
 router.register(r'photos', api_views.PhotoViewSet, base_name='photo')
 
 urlpatterns = [
@@ -22,5 +23,5 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
     # APIVIEW endpoints
-    url(r'^api/photos/latest-splash', api_views.LatestSplashPhotoView.as_view(), name="latest-splash")
+    url(r'^api/photos/latest-splash/', api_views.LatestSplashPhotoView.as_view(), name="latest-splash")
 ]

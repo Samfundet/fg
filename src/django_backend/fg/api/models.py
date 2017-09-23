@@ -30,6 +30,7 @@ class Media(models.Model):
 
 class Album(models.Model):
     name = models.CharField(max_length=5, unique=True, db_index=True)
+    date_created = models.DateTimeField(blank=True, auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -62,8 +63,7 @@ class Photo(models.Model):
     photo = VersatileImageField(
         upload_to=path_and_rename,
         blank=True,
-        ppoi_field='photo_ppoi',
-        default=settings.MEDIA_ROOT + 'default.jpg'
+        ppoi_field='photo_ppoi'
     )
 
     # Information describing the photo

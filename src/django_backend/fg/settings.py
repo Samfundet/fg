@@ -221,3 +221,6 @@ GROUPS = {
     "HUSFOLK": "HUSFOLK",
     "POWER": "POWER"
 }
+
+# Security levels
+SECURITY_LEVELS = ["ALLE", "HUSFOLK", "FG"]

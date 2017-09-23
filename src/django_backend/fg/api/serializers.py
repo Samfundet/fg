@@ -14,31 +14,31 @@ class TagSerializer(serializers.HyperlinkedModelSerializer):
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Category
-        fields = ('name',)
+        fields = ('name', 'id')
 
 
 class MediaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Media
-        fields = ('name',)
+        fields = ('name', 'id')
 
 
 class AlbumSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Album
-        fields = ('name',)
+        fields = ('name', 'id', 'date_created')
 
 
 class PlaceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Place
-        fields = ('name',)
+        fields = ('name', 'id')
 
 
 class SecurityLevelSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.SecurityLevel
-        fields = ('name',)
+        fields = ('name', 'id')
 
 
 class PhotoSerializer(serializers.ModelSerializer):

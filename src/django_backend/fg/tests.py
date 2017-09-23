@@ -4,7 +4,7 @@ from rest_framework.test import APIRequestFactory, force_authenticate, APITestCa
 from rest_framework import status
 from .api import models
 from .api.views import PhotoViewSet, LatestSplashPhotoView
-from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, PROD_PATH
+from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, PROD_PATH, SECURITY_LEVELS
 from django.apps import apps
 from django.core.files import File
 from django.contrib.auth.models import Group
@@ -12,7 +12,6 @@ from .fg_auth.models import User
 from PIL import Image
 
 GROUPS = ["FG", "HUSFOLK", "POWER"]
-SECURITY_LEVELS = ["FG", "HUSFOLK", "ALLE"]
 
 
 def get_random_object(app_name, model_string):

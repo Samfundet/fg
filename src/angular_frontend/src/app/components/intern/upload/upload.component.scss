@@ -1,0 +1,49 @@
+@import '../../../../styles/_colors.scss';
+
+.preview {
+  padding-top: 20px;
+
+  &--file {
+    background-size:cover;
+    background-repeat:no-repeat;
+    width:100px;
+    height:100px;
+  }
+}
+
+.preview+.preview {
+  border-top: 1px solid #9B9B9B;
+}
+
+.hover-zone {
+  text-align: center;
+  padding: 2rem;
+  border: 3px dashed #9B9B9B;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.hover-zone:hover {
+  background-color: rgb(40, 60, 74);
+}
+
+.hover-safe-zone {
+  background-color: #487B48;
+}
+
+.hover-danger-zone {
+  background-color: #721717;
+}
+
+.btn.btn-remove {
+  background-color: $brand;
+}
+
+.btn.btn-remove:hover {
+  background-color: $brand;
+}
+
+.btn:hover {
+  outline: 2px solid white;
+}

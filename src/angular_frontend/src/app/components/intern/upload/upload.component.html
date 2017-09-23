@@ -1,3 +1,99 @@
-<input type="file" #fileInput multiple>
+<!-- Container -->
+<div fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="25px">
+  <form [formGroup]="uploadForm" (ngSubmit)="uploadAll()" fxLayout="column" fxFlex="<grow>" fxLayoutGap="15px">
+    <div fxLayout="column">
+      <label>album</label>
+      <!-- <input formControlName="album"> -->
+      <select formControlName="album">
+      <option [ngValue]="album.id" *ngFor="let album of albums">{{album.name}}</option>
+    </select>
+    </div>
+    <div fxLayout="column">
+      <label>page</label>
+      <input type="number" formControlName="page">
+    </div>
 
-<div class="upload--preview"></div>
+    <div fxLayout="column">
+      <label>image_number</label>
+      <input type="number" formControlName="image_number">
+    </div>
+    <div fxLayout="column">
+      <label>motive</label>
+      <input formControlName="motive">
+    </div>
+    <div fxLayout="column">
+      <label>tags</label>
+      <input formControlName="tags">
+    </div>
+    <div fxLayout="column">
+      <label>date_taken</label>
+      <input formControlName="date_taken">
+    </div>
+    <div fxLayout="column">
+      <label>media</label>
+      <!-- <input formControlName="media"> -->
+      <select formControlName="media">
+      <option [ngValue]="media.id" *ngFor="let media of mediums">{{media.name}}</option>
+    </select>
+    </div>
+    <div fxLayout="column">
+      <label>category</label>
+      <!-- <input formControlName="category"> -->
+      <select formControlName="category">
+      <option [ngValue]="category.id" *ngFor="let category of categories">{{category.name}}</option>
+    </select>
+    </div>
+    <div fxLayout="column">
+      <label>place</label>
+      <!-- <input formControlName="place"> -->
+      <select formControlName="place">
+      <option [ngValue]="place.id" *ngFor="let place of places">{{place.name}}</option>
+    </select>
+    </div>
+    <div fxLayout="column">
+      <label>security_level</label>
+      <!-- <input formControlName="security_level"> -->
+      <select formControlName="security_level">
+      <option [ngValue]="securityLevel.id" *ngFor="let securityLevel of securityLevels">{{securityLevel.name}}</option>
+    </select>
+    </div>
+
+    <!-- TODO for each picture -->
+    <div fxLayout="column">
+      <label>lapel</label>
+      <input type="checkbox" formControlName="lapel">
+    </div>
+    <div fxLayout="column">
+      <label>on_home_page</label>
+      <input type="checkbox" formControlName="on_home_page">
+    </div>
+    <div fxLayout="column">
+      <label>splash</label>
+      <input type="checkbox" formControlName="splash">
+    </div>
+
+    <button class="btn" type="submit" [disabled]="!uploadForm.valid">
+      Start alle
+    </button>
+
+    <p>{{uploadForm.value | json}}</p>
+    <p>{{uploadForm.valid | json}}</p>
+  </form>
+
+  <!-- Preview box -->
+  <div fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
+    <div class="hover-zone" ngfDrop selectable="1" multiple="1" [(files)]="files" [(validDrag)]="validComboDrag" [(invalidDrag)]="invalidComboDrag"
+      [ngClass]="{'hover-safe-zone': validComboDrag, 'hover-danger-zone': invalidComboDrag}" accept="image/*">
+      Klikk her eller dra bilder til dette feltet
+    </div>
+
+    <div *ngFor="let file of files" class="preview" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10px">
+      <div [ngfBackground]="file" class="preview--file"></div>
+      <span>{{file.name}}</span>
+      <span>{{file.size | megabytes}}</span>
+      <button class="btn btn-remove" (click)="removeFile(file)">Fjern</button>
+      <button class="btn" (click)="uploadFile(file)" [disabled]="!uploadForm.valid">Start</button>
+    </div>
+  </div>
+
+</div>

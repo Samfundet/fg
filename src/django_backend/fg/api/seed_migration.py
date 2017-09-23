@@ -33,15 +33,23 @@ def seed_foreign_keys(apps):
                 obj = Mod(name=get_rand_string(4))
                 obj.save()
 
+def seed_security_levels(apps):
+    SecurityLevel = apps.get_model("api", "SecurityLevel")
+    for sec_name in settings.SECURITY_LEVELS:
+        sec = SecurityLevel(name=sec_name)
+        sec.save()
 
 def get_random_object(apps, app_name, model_string):
     Mod = apps.get_model(app_name, model_string)
+    if Mod.objects.count() == 0:
+        raise RuntimeError(str(Mod) + " does not have any objects!")
     random_index = random.randint(0, Mod.objects.count() - 1)
     return Mod.objects.all()[random_index]
 
 
 def load_photos(apps, schema_editor):
     seed_foreign_keys(apps)
+    seed_security_levels(apps)
     Photo = apps.get_model("api", "Photo")
     image_paths = []
     for image_path in glob.glob(settings.PHOTO_ROOT + '*.jpg', recursive=True):
@@ -68,6 +76,7 @@ def load_photos(apps, schema_editor):
         with open(image_path, 'rb') as f:
             photo_test.photo.save(image_path, File(f))
             print("Success")
+
 
 def generate_photo_file():
     image = Image.new('RGBA', size=(200, 200), color=(155, 0, 0))
