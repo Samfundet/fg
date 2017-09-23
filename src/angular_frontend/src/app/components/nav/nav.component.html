@@ -1,19 +1,24 @@
 <!-- Header -->
-<header id="header">
-  <h1><a href="/">fotogjengen</a></h1>
-  <ng-container *ngIf="!(store.photoRouteActive$ | async)">
-    <label class="search-icon-button" for="search-input" (click)="onSearchEnter(searchBox.value)">
+<header fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+  <a href="/" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+    <div class="brand">
+      <img class="brand--logo" src="assets/images/fg-logo.png">
+    </div>
+    <div fxHide fxShow.gt-sm class="brand">
+      <span class="brand--title" >fotogjengen</span>
+    </div>
+  </a>
+
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <div *ngIf="!(store.photoRouteActive$ | async)" fxLayout="row">
+      <label class="search-icon-button" for="search-input" (click)="onSearchEnter(searchBox.value)">
         <i class="fa fa-search" aria-hidden="true"></i>
     </label>
-    <input
-      #searchBox
-      class="search-input"
-      id="search-input" type="text"
-      [(ngModel)]="searchInput"
-      (keyup.enter)="onSearchEnter(searchBox.value)"
+      <input #searchBox class="search-input" id="search-input" type="text" [(ngModel)]="searchInput" (keyup.enter)="onSearchEnter(searchBox.value)"
       />
-  </ng-container>
-  <button style="background-color: transparent;" (click)="toggleMenu()">Menu</button>
+    </div>
+    <button class="transparent" (click)="toggleMenu()"><i class="fa fa-bars"></i> Meny</button>
+  </div>
 </header>
 
 <!-- Nav -->

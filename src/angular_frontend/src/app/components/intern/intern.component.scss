@@ -5,7 +5,12 @@
 }
 
 .tab {
+  color: #BABABA;
   padding: 1em;
-  font-size: 16px;
+  font-size: 1em;
   background-color: $interactive_dark;
+}
+
+.tab:hover {
+  color: white;
 }
