@@ -26,7 +26,7 @@ export class ApiService {
   }
 
   getSplashPhoto(): Observable<IPhoto> {
-    return this.http.get<IPhoto>(`api/photos/latest-splash/`);
+    return this.http.get<IPhoto>(`api/photos/latest-splash`);
   }
 
   getUsers(): Observable<IResponse<IUser>> {
@@ -50,7 +50,9 @@ export class ApiService {
   }
 
   uploadPhotos(data) {
-    const headers = new HttpHeaders().set('Content-Type', 'application/octet-stream');
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'multipart/form-data; boundary=LKJAIUSHDUIHPIUN2345678876543ASDBPUIBASDJGASPDHB');
     return this.http.post(`/api/photos/`, data, { headers: headers, reportProgress: true });
   }
 }

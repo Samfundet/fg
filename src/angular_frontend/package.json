@@ -31,7 +31,6 @@
     "font-awesome": "^4.7.0",
     "imagesloaded": "^4.1.1",
     "masonry-layout": "^4.2.0",
-    "primeng": "^4.0.0",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },

@@ -130,6 +130,9 @@ class PhotoViewSet(ModelViewSet):
 
 
 class LatestSplashPhotoView(RetrieveAPIView):
+    """
+    Retrieves the latest photo with splash set to True
+    """
     serializer_class = serializers.PhotoSerializer
 
     def get_object(self):

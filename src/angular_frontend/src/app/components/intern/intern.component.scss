@@ -1,3 +1,11 @@
-a.active {
-  color: red;
+@import '../../../styles/_colors.scss';
+
+.active {
+  outline: white;
+}
+
+.tab {
+  padding: 1em;
+  font-size: 16px;
+  background-color: $interactive_dark;
 }

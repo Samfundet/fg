@@ -23,21 +23,21 @@ export class PhotoModalComponent implements OnInit {
   }
 
   addToShoppingCart() {
-    let cart = this.store.photoShoppingCart$.getValue();
-    if(!(cart.indexOf(this.photo)>-1)){
+    const cart = this.store.photoShoppingCart$.getValue();
+    if (!(cart.indexOf(this.photo) > -1)) {
       this.photo.addedToCart = true;
       cart.push(this.photo);
       this.store.photoShoppingCart$.next(cart);
       console.log(this.store.photoShoppingCart$.getValue());
     }
   }
-  removeFromShoppingCart(){
-    let cart = this.store.photoShoppingCart$.getValue();
+  removeFromShoppingCart() {
+    const cart = this.store.photoShoppingCart$.getValue();
     this.photo.addedToCart = false;
-    cart.splice(cart.indexOf(this.photo),1);
+    cart.splice(cart.indexOf(this.photo), 1);
     this.store.photoShoppingCart$.next(cart);
-    
+
     console.log(this.store.photoShoppingCart$.getValue());
-    
+
   }
 }

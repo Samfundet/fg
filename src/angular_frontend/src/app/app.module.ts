@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ngfModule } from 'angular-file';
@@ -63,6 +64,7 @@ import {
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
@@ -71,6 +73,7 @@ import {
     FlexLayoutModule
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: 'nb-NO' },
     ApiService,
     StoreService
   ],

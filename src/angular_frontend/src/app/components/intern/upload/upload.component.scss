@@ -25,7 +25,7 @@
 }
 
 .hover-zone:hover {
-  background-color: rgb(40, 60, 74);
+  background-color: rgba(255, 255, 255, 0.075);
 }
 
 .hover-safe-zone {
@@ -46,4 +46,19 @@
 
 .btn:hover {
   outline: 2px solid white;
+}
+
+.chip {
+  color: white;
+  background-color: $primary;
+  border-radius: 3px;
+
+  vertical-align: middle;
+  overflow: hidden;
+  padding: .125em .5em;
+  white-space: nowrap;
+  position: relative;
+  margin-left: 1em;
+  border: 0 none;
+  font-size: .7em;
 }

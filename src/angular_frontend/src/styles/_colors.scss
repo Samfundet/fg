@@ -1,9 +1,9 @@
-/* Theme colors */
+/* Theme */
 $brand: rgba(180, 32, 37, 1);
-$background: rgba(247, 247, 242, 1);
-$background_contrast: rgba(34, 34, 34, 1);
-$background2: rgba(207, 219, 213, 1);
-$background-contrast2: rgba(49, 57, 60, 1);
+$background: #020B13;
+$interactive_dark: #041625;
+$background-gradient-left: #062038;
+$background-gradient-right: #41484f;
 
 /* Bootstraplike theme */
 $info: rgba(0, 117, 162, 1);
@@ -11,3 +11,4 @@ $warning: rgba(247, 240, 82, 1);
 $success: rgba(94, 243, 140, 1);
 $primary: rgba(55, 114, 255, 1);
 $danger: rgba(223, 41, 53, 1);
+

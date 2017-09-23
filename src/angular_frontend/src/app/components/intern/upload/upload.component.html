@@ -2,73 +2,70 @@
 <div fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="25px">
   <form [formGroup]="uploadForm" (ngSubmit)="uploadAll()" fxLayout="column" fxFlex="<grow>" fxLayoutGap="15px">
     <div fxLayout="column">
-      <label>album</label>
-      <!-- <input formControlName="album"> -->
+      <label>Album</label>
       <select formControlName="album">
       <option [ngValue]="album.id" *ngFor="let album of albums">{{album.name}}</option>
     </select>
     </div>
     <div fxLayout="column">
-      <label>page</label>
+      <label>Side</label>
       <input type="number" formControlName="page">
     </div>
 
     <div fxLayout="column">
-      <label>image_number</label>
+      <label>Bildenummer</label>
       <input type="number" formControlName="image_number">
     </div>
     <div fxLayout="column">
-      <label>motive</label>
-      <input formControlName="motive">
+      <label>Motiv</label>
+      <input type="text" formControlName="motive">
     </div>
     <div fxLayout="column">
-      <label>tags</label>
-      <input formControlName="tags">
+      <label>Tag</label>
+      <input type="text" formControlName="tags">
     </div>
     <div fxLayout="column">
-      <label>date_taken</label>
-      <input formControlName="date_taken">
+      <label>Dato</label>
+      <input type="text" formControlName="date_taken">
     </div>
     <div fxLayout="column">
-      <label>media</label>
-      <!-- <input formControlName="media"> -->
+      <label>Media</label>
       <select formControlName="media">
       <option [ngValue]="media.id" *ngFor="let media of mediums">{{media.name}}</option>
     </select>
     </div>
     <div fxLayout="column">
-      <label>category</label>
-      <!-- <input formControlName="category"> -->
+      <label>Kategori</label>
       <select formControlName="category">
       <option [ngValue]="category.id" *ngFor="let category of categories">{{category.name}}</option>
     </select>
     </div>
     <div fxLayout="column">
-      <label>place</label>
-      <!-- <input formControlName="place"> -->
+      <label>Sted</label>
       <select formControlName="place">
       <option [ngValue]="place.id" *ngFor="let place of places">{{place.name}}</option>
     </select>
     </div>
     <div fxLayout="column">
-      <label>security_level</label>
-      <!-- <input formControlName="security_level"> -->
+      <label>Sikkerhetsnivå</label>
       <select formControlName="security_level">
       <option [ngValue]="securityLevel.id" *ngFor="let securityLevel of securityLevels">{{securityLevel.name}}</option>
     </select>
     </div>
 
-    <!-- TODO for each picture -->
     <div fxLayout="column">
-      <label>lapel</label>
+      <label>Oppslagsbilde</label>
       <input type="checkbox" formControlName="lapel">
     </div>
     <div fxLayout="column">
-      <label>on_home_page</label>
+      <label>Vises på forsiden</label>
       <input type="checkbox" formControlName="on_home_page">
     </div>
     <div fxLayout="column">
-      <label>splash</label>
+      <div fxLayout="row">
+        <label>Sett som bannerbilde</label>
+        <div class="chip"><i class="fa fa-certificate"></i> Ny!</div>
+      </div>
       <input type="checkbox" formControlName="splash">
     </div>
 

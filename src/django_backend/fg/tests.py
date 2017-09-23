@@ -283,7 +283,7 @@ class PhotoCRUDTestCase(APITestCase):
 
         photo_file = self.generate_photo_file()
 
-        tags = ['ass', 'dick', 'tourettes']
+        tags = ['foo', 'bar', 'tourettes']
 
         with open(photo_file.name, 'rb') as file:
             data = {
