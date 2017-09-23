@@ -37,6 +37,7 @@ export interface IPhoto {
   media: IMetaData;
   album: IMetaData;
   place: IMetaData;
+  addedToCart?: boolean;
 }
 export class PhotoResponse implements IResponse<IPhoto> {
   count: number;
