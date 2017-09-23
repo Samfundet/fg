@@ -23,6 +23,8 @@
         "../node_modules/font-awesome/css/font-awesome.min.css",
         "styles/styles.scss",
         "styles/_colors.scss",
+        "styles/breakpoints.scss",
+        "styles/pad-marg.scss",
         "styles/flexboxgrid.css"
       ],
       "scripts": [],
