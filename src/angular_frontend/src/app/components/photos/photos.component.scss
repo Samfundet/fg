@@ -1,32 +1,13 @@
 .photo-search-input {
-  padding: 1rem 3rem;
+  padding: 0em 0em 0em 1.5em;
   border-radius: 3rem;
+  font-size: 1.3em;
   margin: 0.2rem;
   height: 3rem;
   width: 50%;
 }
 
-.search-icon-button {
-  cursor: pointer;
-  position: absolute;
-  left: 22px;
-  top: 54px;
-}
-
-#photo-search-input label {
-  position: absolute;
-  left: 17px;
-  top: 51px;
-}
-
-label {
-  display: inline-block;
-  max-width: 100%;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-#search {
+.search {
   position: relative;
   font-size: 18px;
   padding-top: 40px;

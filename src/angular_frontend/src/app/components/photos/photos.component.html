@@ -1,18 +1,15 @@
-<div class="p-a-2">
-  <!-- Search info and suggested -->
-  <section id="search" class="p-t-1">
-    <label class="search-icon-button" for="photo-search-input" (click)="search(photoSearchBox.value)">
-        <i class="fa fa-search" aria-hidden="true"></i>
-    </label>
-    <input
-      #photoSearchBox
-      class="photo-search-input"
-      id="photo-search-input" type="text"
-      [(ngModel)]="searchInput"
-      (keyup.enter)="search(photoSearchBox.value)"
-      />
-  </section>
-</div>
-<div class="col center-xs">
+<!-- Search info and suggested -->
+<section class="search" class="p-t-1" fxFlexFill fxLayout="row" fxLayoutAlign="center center">
+  <input
+    #photoSearchBox
+    class="photo-search-input"
+    id="photo-search-input" type="text"
+    [(ngModel)]="searchInput"
+    (keyup.enter)="search(photoSearchBox.value)"
+    />
+</section>
+<div fxFlexFill fxLayout="column" fxLayoutAlign="center">
+  <hr>
+  <h4 class="p-l-2" *ngIf="!photos?.length">Ingen treff</h4>
   <fg-photo-masonry [photos]="photos"></fg-photo-masonry>
 </div>
