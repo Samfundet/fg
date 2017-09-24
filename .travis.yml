@@ -56,7 +56,7 @@ jobs:
         provider: script
         skip_cleanup: true
         script:
-            - cat $TRAVIS_BUILD_DIR/deploy_staging.sh | ssh fg@146.185.181.250 /bin/bash
-            - rsync -a $TRAVIS_BUILD_DIR/src/angular_frontend/dist fg@146.185.181.250:./fg/src/angular_frontend/
+            - ssh fg@fgbeta.samfundet.no 'bash -s' < $TRAVIS_BUILD_DIR/deploy_staging.sh
+            - rsync -r $TRAVIS_BUILD_DIR/src/angular_frontend/dist fg@146.185.181.250:./fg/src/angular_frontend/
         on:
           branch: development
