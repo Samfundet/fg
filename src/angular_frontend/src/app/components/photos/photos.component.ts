@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService, StoreService } from 'app/services';
 import { IPhoto } from 'app/model';
 
@@ -12,7 +12,12 @@ export class PhotosComponent implements OnInit, OnDestroy {
   searchInput;
   photos: any[];
 
-  constructor(private route: ActivatedRoute, private api: ApiService, private store: StoreService) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private api: ApiService,
+    private store: StoreService
+  ) {
     route.queryParamMap.subscribe(params => this.search(params.get('search') || ''));
   }
 
@@ -26,6 +31,9 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
   search(value: string) {
     this.searchInput = value;
+    this.router.navigate([], {
+      queryParams: {search: value}
+    });
     this.api.getPhotos({ search: value }).subscribe(response => {
       this.photos = response.results;
     });

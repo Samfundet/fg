@@ -83,7 +83,11 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
             'place',
             'image_number',
             'page',
-            'tags'
+            'tags',
+            'scanned',
+            'on_home_page',
+            'splash',
+            'lapel'
         )
 
     def create(self, validated_data):
@@ -117,7 +121,11 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
             'place',
             'image_number',
             'page',
-            'tags'
+            'tags',
+            'scanned',
+            'on_home_page',
+            'splash',
+            'lapel'
         )
 
     def update(self, instance, validated_data):
@@ -129,6 +137,10 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
         instance.place = validated_data.get('place', instance.place)
         instance.category = validated_data.get('category', instance.category)
         instance.media = validated_data.get('media', instance.media)
+
+        instance.scanned = validated_data.get('scanned', instance.scanned)
+        instance.on_home_page = validated_data.get('on_home_page', instance.on_home_page)
+        instance.splash = validated_data.get('splash', instance.splash)
 
         for tag_name in validated_data.get('tags', instance.tags):
             tag, _ = models.Tag.objects.get_or_create(name=tag_name)

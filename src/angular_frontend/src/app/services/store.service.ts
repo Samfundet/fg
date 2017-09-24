@@ -16,7 +16,7 @@ export class StoreService {
 
   constructor(private api: ApiService) {
     this._filters$.subscribe(f => {
-      api.getPhotos(f).subscribe(pr => this.storePhotos(pr))
+      api.getHomePagePhotos(f).subscribe(pr => this.storePhotos(pr))
     })
   }
 

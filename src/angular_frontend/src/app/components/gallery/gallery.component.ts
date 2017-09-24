@@ -41,7 +41,4 @@ export class GalleryComponent {
       })
     }
   }
-
-  /* TODO, move to own method with default parameter and create listen to scroll to bottom
-   * http://stackoverflow.com/questions/40664766/angular2-how-to-detect-scroll-to-bottom-of-html-element */
 }

@@ -2,6 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.pagination import BasePagination
+from django_filters.rest_framework import DjangoFilterBackend
 from . import models, serializers
 from .permissions import IsFGOrReadOnly, IsFG
 
@@ -79,10 +80,11 @@ class PhotoViewSet(ModelViewSet):
     serializer_class = None
 
     # Filters and search
-    filter_backends = (OrderingFilter, SearchFilter)
+    filter_backends = (OrderingFilter, SearchFilter, DjangoFilterBackend)
     ordering_fields = '__all__'
     search_fields = ('motive', 'tags__name')
     ordering = ('-date_taken',)
+    filter_fields = ('on_home_page',)
 
     def retrieve(self, request, *args, **kwargs):
         self.serializer_class = serializers.PhotoSerializer

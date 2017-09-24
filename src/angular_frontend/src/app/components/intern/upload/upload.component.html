@@ -81,15 +81,22 @@
   <div fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
     <div class="hover-zone" ngfDrop selectable="1" multiple="1" [(files)]="files" [(validDrag)]="validComboDrag" [(invalidDrag)]="invalidComboDrag"
       [ngClass]="{'hover-safe-zone': validComboDrag, 'hover-danger-zone': invalidComboDrag}" accept="image/*">
-      Klikk her eller dra bilder til dette feltet
+      <i class="fa fa-plus fa-lg"></i>  Klikk her eller dra bilder til dette feltet
     </div>
 
     <div *ngFor="let file of files" class="preview" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10px">
       <div [ngfBackground]="file" class="preview--file"></div>
-      <span>{{file.name}}</span>
-      <span>{{file.size | megabytes}}</span>
-      <button class="btn btn-remove" (click)="removeFile(file)">Fjern</button>
-      <button class="btn" (click)="uploadFile(file)" [disabled]="!uploadForm.valid">Start</button>
+      <div fxLayout="column" fxFlex fxLayoutAlign="space-between" fxLayoutGap="10px">
+        <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10px">
+          <span>{{file.name}}</span>
+          <span>{{file.size | megabytes}}</span>
+          <button [disabled]="file.uploading" class="btn btn-remove" (click)="removeFile(file)">Fjern</button>
+          <button [disabled]="file.uploading" class="btn" (click)="uploadFile(file)" [disabled]="!uploadForm.valid">Start</button>
+        </div>
+        <div class="progress">
+          <div style.width="{{file.progress}}%" class="progress--completion"></div>
+        </div>
+      </div>
     </div>
   </div>
 

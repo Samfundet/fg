@@ -1,7 +1,15 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { HttpEvent } from '@angular/common/http';
 import { ApiService } from 'app/services';
 import { IForeignKey } from 'app/model';
+
+interface IFile extends File {
+  uploading: boolean;
+  completed: boolean;
+  errored: boolean;
+  progress: number;
+}
 
 @Component({
   selector: 'fg-upload',
@@ -9,7 +17,7 @@ import { IForeignKey } from 'app/model';
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
-  files: File[];
+  files: IFile[];
   validComboDrag = false;
   invalidComboDrag = false;
   uploadForm: FormGroup;
@@ -50,19 +58,29 @@ export class UploadComponent implements OnInit {
 
   uploadAll() {
     if (this.uploadForm.valid) {
-
+      for (const file of this.files.filter(f => !f.completed)) {
+        this.uploadFile(file);
+      }
     }
   }
 
-  uploadFile(file: File) {
+  uploadFile(file: IFile) {
     if (this.uploadForm.valid) {
-      const formValue = this.uploadForm.value;
-      formValue.photo = file;
-      this.api.uploadPhotos(formValue).subscribe();
+      file.uploading = true;
+      this.api.uploadPhotos({ ...this.uploadForm.value, photo: file })
+        .subscribe(() => {
+          console.log('Completed: ' + file.name);
+          file.completed = true;
+          file.progress = 100;
+        },
+        error => {
+          file.errored = true;
+          console.error(error);
+        });
     }
   }
 
-  removeFile(file: File) {
+  removeFile(file: IFile) {
     this.files.splice(this.files.indexOf(file), 1);
   }
 }

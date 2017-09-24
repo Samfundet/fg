@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'PIL',
     'versatileimagefield',
+    'django_filters',
 
     # Own apps
     'fg.api',

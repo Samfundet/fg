@@ -16,12 +16,18 @@ export class ApiService {
 
   getPhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
     let params = new HttpParams();
-    if (filters.page) {
-      params = params.append('page', filters.page);
+    for (const key of Object.keys(filters)) {
+      params = params.append(key, filters[key]);
     }
-    if (filters.search) {
-      params = params.append('search', filters.search);
+    return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
+  }
+
+  getHomePagePhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
+    let params = new HttpParams();
+    for (const key of Object.keys(filters)) {
+      params = params.append(key, filters[key]);
     }
+    params = params.append('on_home_page', 'true');
     return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
   }
 
@@ -50,9 +56,10 @@ export class ApiService {
   }
 
   uploadPhotos(data) {
-    const headers = new HttpHeaders()
-      .set('Accept', 'application/json')
-      .set('Content-Type', 'multipart/form-data; boundary=LKJAIUSHDUIHPIUN2345678876543ASDBPUIBASDJGASPDHB');
-    return this.http.post(`/api/photos/`, data, { headers: headers, reportProgress: true });
+    const formData = new FormData();
+    for (const key of Object.keys(data)) {
+      formData.append(key, data[key]);
+    }
+    return this.http.post(`/api/photos/`, formData, {reportProgress: true});
   }
 }
