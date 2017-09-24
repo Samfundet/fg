@@ -67,6 +67,7 @@ export class UploadComponent implements OnInit {
   uploadFile(file: IFile) {
     if (this.uploadForm.valid) {
       file.uploading = true;
+      file.progress = 20;
       this.api.uploadPhotos({ ...this.uploadForm.value, photo: file })
         .subscribe(() => {
           console.log('Completed: ' + file.name);
