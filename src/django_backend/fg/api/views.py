@@ -138,7 +138,7 @@ class LatestSplashPhotoView(RetrieveAPIView):
     serializer_class = serializers.PhotoSerializer
 
     def get_object(self):
-        latest = self.get_queryset().latest('splash')
+        latest = self.get_queryset().filter(splash=True).latest('date_taken')
         if latest.splash:
             return latest
         else:

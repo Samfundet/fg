@@ -8,8 +8,16 @@ $outline: rgba(255, 255, 255, 0.075);
 
 /* Bootstraplike theme */
 $info: rgba(0, 117, 162, 1);
+$info-contrast: #fff;
 $warning: rgba(247, 240, 82, 1);
+$warning-contrast: #000;
 $success: rgba(94, 243, 140, 1);
+$success-contrast: #000;
 $primary: rgba(55, 114, 255, 1);
+$primary-contrast: #fff;
 $danger: rgba(223, 41, 53, 1);
+$danger-contrast: #fff;
 
+// Utility
+$lighten-percent: 20%;
+$darken-percent: 15%;

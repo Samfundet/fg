@@ -3,13 +3,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { HttpEvent } from '@angular/common/http';
 import { ApiService } from 'app/services';
 import { IForeignKey } from 'app/model';
-
-interface IFile extends File {
-  uploading: boolean;
-  completed: boolean;
-  errored: boolean;
-  progress: number;
-}
+import { FileUploader, FileUploaderOptions, FileItem } from 'angular-file';
 
 @Component({
   selector: 'fg-upload',
@@ -17,7 +11,7 @@ interface IFile extends File {
   styleUrls: ['./upload.component.scss']
 })
 export class UploadComponent implements OnInit {
-  files: IFile[];
+  public uploader: FileUploader = new FileUploader();
   validComboDrag = false;
   invalidComboDrag = false;
   uploadForm: FormGroup;
@@ -56,32 +50,40 @@ export class UploadComponent implements OnInit {
     });
   }
 
-  uploadAll() {
+  uploadItem(item: FileItem) {
+    console.log(item);
     if (this.uploadForm.valid) {
-      for (const file of this.files.filter(f => !f.completed)) {
-        this.uploadFile(file);
-      }
-    }
-  }
-
-  uploadFile(file: IFile) {
-    if (this.uploadForm.valid) {
-      file.uploading = true;
-      file.progress = 20;
-      this.api.uploadPhotos({ ...this.uploadForm.value, photo: file })
-        .subscribe(() => {
-          console.log('Completed: ' + file.name);
-          file.completed = true;
-          file.progress = 100;
+      item.isUploading = true;
+      item.progress = 20;
+      this.api.uploadPhotos({ ...this.uploadForm.value, photo: item._file })
+        .subscribe(event => {
+          console.log('Completed: ' + item._file.name);
+          item.progress = 100;
+          item.isUploaded = true;
+          item.isUploading = false;
+          item.isSuccess = true;
         },
         error => {
-          file.errored = true;
+          item.isError = true;
+          item.isUploading = false;
           console.error(error);
         });
     }
   }
 
-  removeFile(file: IFile) {
-    this.files.splice(this.files.indexOf(file), 1);
+  removeItem(item: FileItem) {
+    this.uploader.removeFromQueue(item);
+    if (this.uploader.queue.length === 0) {
+      this.uploader = new FileUploader();
+    }
+  }
+
+  uploadAll() {
+    console.log('Uploading all');
+    if (this.uploadForm.valid) {
+      for (const item of this.uploader.queue.filter(i => !i.isSuccess)) {
+        this.uploadItem(item);
+      }
+    }
   }
 }

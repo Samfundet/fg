@@ -1,16 +1,19 @@
 @import '../../../styles/_colors.scss';
 
-.active {
-  outline: white;
-}
 
 .tab {
   color: #BABABA;
   padding: 1em;
   font-size: 1em;
   background-color: $interactive_dark;
-}
+  border-bottom: 5px solid $interactive_dark;
+  transition: all 0.5s;
 
-.tab:hover {
-  color: white;
+  &.active {
+    border-color: white;
+  }
+
+  &:hover {
+    filter: brightness(150%);
+  }
 }

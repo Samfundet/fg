@@ -213,31 +213,73 @@ hr {
 }
 /* Button */
 
-input[type="submit"],
-input[type="reset"],
-input[type="button"],
-button,
-.button {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    -ms-appearance: none;
-    appearance: none;
-    -moz-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    -webkit-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    -ms-transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    border-radius: 4px;
-    border: 0;
-    cursor: pointer;
-    display: inline-block;
+// Btn
+
+.btn {
+ padding: 5px 10px;
+ font-size: 18px;
+ border-radius: 3px;
+ text-align: center;
+ vertical-align: middle;
+ cursor: pointer;
+ transition: all 0.3s;
+ letter-spacing: 1px;
+
+ border: 1px solid $outline;
+ display: inline-block;
+ color: #fff;
+ background-color: $interactive_dark;
+ text-decoration: none;
+ text-shadow: rgba(0, 0, 0, 0.3) 1px 1px;
+
+  &:disabled {
+    filter: opacity(30%);
+    cursor: default;
+    pointer-events: none;
+  }
+
+  &:hover {
+    filter: brightness(120%);
+  }
+
+  &:active, &.active {
+
+  }
+
+  &-large {
+    font-size: 24px;
+    padding: 25px 50px;
     font-weight: 700;
-    height: 2.85em;
-    line-height: 2.95em;
-    padding: 0 1.5em;
-    text-align: center;
-    text-decoration: none;
-    white-space: nowrap;
+    border-radius: 5px;
+  }
+
+  &-success {
+    background-color: $success;
+    color: $success-contrast;
+  }
+
+  &-info {
+    background-color: $info;
+    color: $info-contrast;
+  }
+
+  &-primary {
+    background-color: $primary;
+    color: $primary-contrast;
+  }
+
+  &-danger {
+    background-color: $danger;
+    color: $danger-contrast;
+  }
+
+  &-warning {
+    background-color: $warning;
+    color: $warning-contrast;
+  }
 }
+
+
 input[type="submit"].icon,
 input[type="reset"].icon,
 input[type="button"].icon,
@@ -275,96 +317,7 @@ button.big,
 .button.big {
     font-size: 1.35em;
 }
-input[type="submit"].disabled,
-input[type="submit"]:disabled,
-input[type="reset"].disabled,
-input[type="reset"]:disabled,
-input[type="button"].disabled,
-input[type="button"]:disabled,
-button.disabled,
-button:disabled,
-.button.disabled,
-.button:disabled {
-    -moz-pointer-events: none;
-    -webkit-pointer-events: none;
-    -ms-pointer-events: none;
-    pointer-events: none;
-    opacity: 0.25;
-}
-@media screen and (max-width: 480px) {} input[type="submit"],
-input[type="reset"],
-input[type="button"],
-button,
-.button {
-    background-color: #041625;
-    color: #ffffff !important;
-}
-input[type="submit"]:hover,
-input[type="reset"]:hover,
-input[type="button"]:hover,
-button:hover,
-.button:hover {
-    background-color: #06243c;
-}
-input[type="submit"]:active,
-input[type="reset"]:active,
-input[type="button"]:active,
-button:active,
-.button:active {
-    background-color: #02080e;
-}
-input[type="submit"].alt,
-input[type="reset"].alt,
-input[type="button"].alt,
-button.alt,
-.button.alt {
-    background-color: transparent;
-    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.15);
-    color: #ffffff !important;
-}
-input[type="submit"].alt:hover,
-input[type="reset"].alt:hover,
-input[type="button"].alt:hover,
-button.alt:hover,
-.button.alt:hover {
-    background-color: rgba(255, 255, 255, 0.075);
-}
-input[type="submit"].alt:active,
-input[type="reset"].alt:active,
-input[type="button"].alt:active,
-button.alt:active,
-.button.alt:active {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-input[type="submit"].alt.icon:before,
-input[type="reset"].alt.icon:before,
-input[type="button"].alt.icon:before,
-button.alt.icon:before,
-.button.alt.icon:before {
-    color: #676d71;
-}
-input[type="submit"].special,
-input[type="reset"].special,
-input[type="button"].special,
-button.special,
-.button.special {
-    background-color: #062038;
-    color: #ffffff !important;
-}
-input[type="submit"].special:hover,
-input[type="reset"].special:hover,
-input[type="button"].special:hover,
-button.special:hover,
-.button.special:hover {
-    background-color: #082d4f;
-}
-input[type="submit"].special:active,
-input[type="reset"].special:active,
-input[type="button"].special:active,
-button.special:active,
-.button.special:active {
-    background-color: #041321;
-}
+
 /* Form */
 
 form {
@@ -817,9 +770,7 @@ table.alt tbody tr td {
 .wrapper.style1 a {
     color: #ffffff;
 }
-.wrapper.style1 a:hover {
-    color: rgba(255, 255, 255, 0.5);
-}
+
 .wrapper.style1 strong,
 .wrapper.style1 b {
     color: #ffffff;
@@ -845,66 +796,7 @@ table.alt tbody tr td {
 .wrapper.style1 .box {
     border-color: rgba(255, 255, 255, 0.15);
 }
-.wrapper.style1 input[type="submit"],
-.wrapper.style1 input[type="reset"],
-.wrapper.style1 input[type="button"],
-.wrapper.style1 button,
-.wrapper.style1 .button {
-    background-color: #041625;
-    color: #ffffff !important;
-}
-.wrapper.style1 input[type="submit"]:hover,
-.wrapper.style1 input[type="reset"]:hover,
-.wrapper.style1 input[type="button"]:hover,
-.wrapper.style1 button:hover,
-.wrapper.style1 .button:hover {
-    background-color: #06243c;
-}
-.wrapper.style1 input[type="submit"]:active,
-.wrapper.style1 input[type="reset"]:active,
-.wrapper.style1 input[type="button"]:active,
-.wrapper.style1 button:active,
-.wrapper.style1 .button:active {
-    background-color: #02080e;
-}
-.wrapper.style1 input[type="submit"].alt,
-.wrapper.style1 input[type="reset"].alt,
-.wrapper.style1 input[type="button"].alt,
-.wrapper.style1 button.alt,
-.wrapper.style1 .button.alt {
-    background-color: transparent;
-    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.15);
-    color: #ffffff !important;
-}
-.wrapper.style1 input[type="submit"].alt:hover,
-.wrapper.style1 input[type="reset"].alt:hover,
-.wrapper.style1 input[type="button"].alt:hover,
-.wrapper.style1 button.alt:hover,
-.wrapper.style1 .button.alt:hover {
-    background-color: rgba(255, 255, 255, 0.075);
-}
-.wrapper.style1 input[type="submit"].alt:active,
-.wrapper.style1 input[type="reset"].alt:active,
-.wrapper.style1 input[type="button"].alt:active,
-.wrapper.style1 button.alt:active,
-.wrapper.style1 .button.alt:active {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-.wrapper.style1 input[type="submit"].alt.icon:before,
-.wrapper.style1 input[type="reset"].alt.icon:before,
-.wrapper.style1 input[type="button"].alt.icon:before,
-.wrapper.style1 button.alt.icon:before,
-.wrapper.style1 .button.alt.icon:before {
-    color: #9ba6af;
-}
-.wrapper.style1 input[type="submit"].special,
-.wrapper.style1 input[type="reset"].special,
-.wrapper.style1 input[type="button"].special,
-.wrapper.style1 button.special,
-.wrapper.style1 .button.special {
-    background-color: #ffffff;
-    color: #062038 !important;
-}
+
 .wrapper.style1 label {
     color: #ffffff;
 }
@@ -1024,66 +916,7 @@ textarea:focus {
 .wrapper.style2 .box {
     border-color: rgba(255, 255, 255, 0.15);
 }
-.wrapper.style2 input[type="submit"],
-.wrapper.style2 input[type="reset"],
-.wrapper.style2 input[type="button"],
-.wrapper.style2 button,
-.wrapper.style2 .button {
-    background-color: #ffffff;
-    color: #041625 !important;
-}
-.wrapper.style2 input[type="submit"].alt,
-.wrapper.style2 input[type="reset"].alt,
-.wrapper.style2 input[type="button"].alt,
-.wrapper.style2 button.alt,
-.wrapper.style2 .button.alt {
-    background-color: transparent;
-    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.15);
-    color: #ffffff !important;
-}
-.wrapper.style2 input[type="submit"].alt:hover,
-.wrapper.style2 input[type="reset"].alt:hover,
-.wrapper.style2 input[type="button"].alt:hover,
-.wrapper.style2 button.alt:hover,
-.wrapper.style2 .button.alt:hover {
-    background-color: rgba(255, 255, 255, 0.075);
-}
-.wrapper.style2 input[type="submit"].alt:active,
-.wrapper.style2 input[type="reset"].alt:active,
-.wrapper.style2 input[type="button"].alt:active,
-.wrapper.style2 button.alt:active,
-.wrapper.style2 .button.alt:active {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-.wrapper.style2 input[type="submit"].alt.icon:before,
-.wrapper.style2 input[type="reset"].alt.icon:before,
-.wrapper.style2 input[type="button"].alt.icon:before,
-.wrapper.style2 button.alt.icon:before,
-.wrapper.style2 .button.alt.icon:before {
-    color: #9ba2a8;
-}
-.wrapper.style2 input[type="submit"].special,
-.wrapper.style2 input[type="reset"].special,
-.wrapper.style2 input[type="button"].special,
-.wrapper.style2 button.special,
-.wrapper.style2 .button.special {
-    background-color: #062038;
-    color: #ffffff !important;
-}
-.wrapper.style2 input[type="submit"].special:hover,
-.wrapper.style2 input[type="reset"].special:hover,
-.wrapper.style2 input[type="button"].special:hover,
-.wrapper.style2 button.special:hover,
-.wrapper.style2 .button.special:hover {
-    background-color: #082d4f;
-}
-.wrapper.style2 input[type="submit"].special:active,
-.wrapper.style2 input[type="reset"].special:active,
-.wrapper.style2 input[type="button"].special:active,
-.wrapper.style2 button.special:active,
-.wrapper.style2 .button.special:active {
-    background-color: #041321;
-}
+
 .wrapper.style2 label {
     color: #ffffff;
 }

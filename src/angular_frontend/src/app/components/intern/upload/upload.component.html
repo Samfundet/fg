@@ -54,47 +54,59 @@
     </div>
 
     <div fxLayout="column">
-      <label>Oppslagsbilde</label>
-      <input type="checkbox" formControlName="lapel">
+      <label for="lapel">Oppslagsbilde</label>
+      <input id="lapel" type="checkbox" formControlName="lapel">
     </div>
     <div fxLayout="column">
-      <label>Vises på forsiden</label>
-      <input type="checkbox" formControlName="on_home_page">
+      <label for="on_home_page">Vises på forsiden</label>
+      <input id="on_home_page" type="checkbox" formControlName="on_home_page">
     </div>
     <div fxLayout="column">
       <div fxLayout="row">
-        <label>Sett som bannerbilde</label>
+        <label for="splash">Sett som bannerbilde</label>
         <div class="chip"><i class="fa fa-certificate"></i> Ny!</div>
       </div>
-      <input type="checkbox" formControlName="splash">
+      <input id="splash" type="checkbox" formControlName="splash">
     </div>
 
-    <button class="btn" type="submit" [disabled]="!uploadForm.valid">
-      Start alle
+    <button class="btn btn-primary" type="submit" [disabled]="!uploadForm.valid">
+        <i class="fa fa-upload"></i> Start alle
     </button>
 
-    <p>{{uploadForm.value | json}}</p>
-    <p>{{uploadForm.valid | json}}</p>
+    <!-- <p>{{uploadForm.value | json}}</p>
+    <p>{{uploadForm.valid | json}}</p> -->
   </form>
 
   <!-- Preview box -->
   <div fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
-    <div class="hover-zone" ngfDrop selectable="1" multiple="1" [(files)]="files" [(validDrag)]="validComboDrag" [(invalidDrag)]="invalidComboDrag"
+    <div class="hover-zone" #ngfUploader ngfDrop selectable="1" multiple="1" [uploader]="uploader" [(validDrag)]="validComboDrag" [(invalidDrag)]="invalidComboDrag"
       [ngClass]="{'hover-safe-zone': validComboDrag, 'hover-danger-zone': invalidComboDrag}" accept="image/*">
       <i class="fa fa-plus fa-lg"></i>  Klikk her eller dra bilder til dette feltet
     </div>
 
-    <div *ngFor="let file of files" class="preview" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10px">
-      <div [ngfBackground]="file" class="preview--file"></div>
-      <div fxLayout="column" fxFlex fxLayoutAlign="space-between" fxLayoutGap="10px">
+    <div *ngFor="let item of uploader.queue" class="preview" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10px">
+      <div *ngIf="['image/png','image/jpeg'].indexOf(item._file.type)>=0">
+        <div class="preview--icon" [ngfBackground]="item._file"></div>
+      </div>
+
+      <div fxLayout="column" fxFlex fxLayoutAlign="space-between" fxLayoutGap="5px">
         <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10px">
-          <span>{{file.name}}</span>
-          <span>{{file.size | megabytes}}</span>
-          <button [disabled]="file.uploading" class="btn btn-remove" (click)="removeFile(file)">Fjern</button>
-          <button [disabled]="file.uploading" class="btn" (click)="uploadFile(file)" [disabled]="!uploadForm.valid">Start</button>
+          <span>{{item?.file?.name }}</span>
+          <span>{{item._file?.size | megabytes}}</span>
+          <button
+            type="button"
+            [disabled]="item.isUploading || item.isSuccess || !uploadForm.valid"
+            class="btn btn-primary"
+            (click)="uploadItem(item)"
+            >
+            <i class="fa fa-upload"></i> Start
+          </button>
+          <button type="button" class="btn btn-danger" (click)="removeItem(item)" [disabled]="!uploadForm.valid">
+            <i class="fa fa-times"></i>Fjern
+          </button>
         </div>
         <div class="progress">
-          <div style.width="{{file.progress}}%" class="progress--completion"></div>
+          <div [ngStyle]="{ 'width': item.progress + '%' }" class="progress--bar"></div>
         </div>
       </div>
     </div>

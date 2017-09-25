@@ -1,5 +1,5 @@
 <!-- Header -->
-<header fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+<header fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px">
   <a href="/" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
     <div class="brand">
       <img class="brand--logo" src="assets/images/fg-logo.png">
@@ -17,13 +17,13 @@
       <input #searchBox class="search-input" id="search-input" type="text" [(ngModel)]="searchInput" (keyup.enter)="onSearchEnter(searchBox.value)"
       />
     </div>
-    <button class="transparent" (click)="toggleMenu()"><i class="fa fa-bars"></i> Meny</button>
+    <button  class="btn transparent" (click)="toggleMenu()"><i class="fa fa-bars"></i> Meny</button>
   </div>
 </header>
 
 <!-- Nav -->
 <nav [ngClass]="[isMenuOpen ? 'visible':'close']" id="menu">
-  <button class="menu-closer" (click)="toggleMenu()">LUKK</button>
+  <button class="btn menu-closer" (click)="toggleMenu()">LUKK</button>
   <ul class="links">
     <li><a routerLink="forside" (click)="toggleMenu()">Forside</a></li>
     <li><a routerLink="info" (click)="toggleMenu()">Info</a></li>
