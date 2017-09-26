@@ -10,7 +10,9 @@ cache:
     - src/angular_frontend/node_modules
 
 addons:
-  ssh_known_hosts: 146.185.181.250 # Our staging server is located here
+  ssh_known_hosts:
+    - 146.185.181.250 # Our staging server is located here
+    - fg@fgbeta.samfundet.no
 
 jobs:
   include:
