@@ -419,11 +419,11 @@ class PhotoCRUDTestCase(APITestCase):
 
         self.assertEqual(expected, response.data['photo'], msg=response.data)
 
-        expected = models.Photo.objects.filter(security_level__name='ALLE').filter(splash=True).latest('date_taken')
+        expected = models.Photo.objects.filter(security_level__name='ALLE').latest()
         expected.splash = True
         expected.save()
 
-        expected = models.Photo.objects.latest('splash')
+        expected = models.Photo.objects.filter(security_level__name='ALLE').filter(splash=True).latest('date_taken')
         request = self.factory.get(path='/api/photos/latest-splash')
         response = view(request)
         self.assertEqual(expected.motive, response.data['motive'], msg=response.data)

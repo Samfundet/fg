@@ -3,6 +3,7 @@ from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.pagination import BasePagination
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import ObjectDoesNotExist
 from . import models, serializers
 from .permissions import IsFGOrReadOnly, IsFG
 
@@ -138,7 +139,10 @@ class LatestSplashPhotoView(RetrieveAPIView):
     serializer_class = serializers.PhotoSerializer
 
     def get_object(self):
-        latest = self.get_queryset().filter(splash=True).latest('date_taken')
+        try:
+            latest = self.get_queryset().filter(splash=True).latest('date_taken')
+        except ObjectDoesNotExist:
+            return None
         if latest.splash:
             return latest
         else:
