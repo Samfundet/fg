@@ -3,7 +3,7 @@ from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.pagination import BasePagination
 from django_filters.rest_framework import DjangoFilterBackend
-from django.db.models import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist
 from . import models, serializers
 from .permissions import IsFGOrReadOnly, IsFG
 
