@@ -12,13 +12,12 @@
 
 .grid-item {
   width: 300px;
-}
 
-
-
-.grid-item.grid-item-2 {
-  // width: 830px;
-  // TODO FIX
+  @media (max-width: $mobile-width) {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+  }
 }
 
 .grid {

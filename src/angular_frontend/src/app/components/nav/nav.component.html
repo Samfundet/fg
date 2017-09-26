@@ -17,7 +17,7 @@
       <input #searchBox class="search-input" id="search-input" type="text" [(ngModel)]="searchInput" (keyup.enter)="onSearchEnter(searchBox.value)"
       />
     </div>
-    <button  class="btn transparent" (click)="toggleMenu()"><i class="fa fa-bars"></i> Meny</button>
+    <button  class="btn transparent" (click)="toggleMenu()"><i class="fa fa-bars"></i> <span fxHide.lt-sm="true">Meny</span></button>
   </div>
 </header>
 
