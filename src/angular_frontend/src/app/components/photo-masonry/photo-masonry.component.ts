@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Options } from 'masonry-layout';
 import { MasonryLayoutDirective } from 'app/directives';
-import { IPhoto, IFilters } from 'app/model';
+import { IPhoto, IFilters, IMasonryOptions } from 'app/model';
 import { StoreService } from 'app/services/store.service';
 
 @Component({
@@ -12,9 +11,10 @@ import { StoreService } from 'app/services/store.service';
 export class PhotoMasonryComponent {
   @Input() photos: IPhoto[];
 
-  masonryOptions: Options = {
+  masonryOptions: IMasonryOptions = {
     itemSelector: '.grid-item',
-    fitWidth: true
+    fitWidth: true,
+    stagger: 120
   }
 
   constructor(private store: StoreService) { }

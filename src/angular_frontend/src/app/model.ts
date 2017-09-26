@@ -113,3 +113,21 @@ export interface IForeignKey {
   id: number;
   date_created?: Date;
 }
+
+export interface IMasonryOptions {
+  // layout
+  itemSelector?: string;
+  columnWidth?: any;
+  percentPosition?: boolean;
+  gutter?: any;
+  stamp?: string;
+  fitWidth?: boolean;
+  originLeft?: boolean;
+  originTop?: boolean;
+
+  // setup
+  containerStyle?: {};
+  transitionDuration?: any;
+  resize?: boolean;
+  initLayout?: boolean;
+}
