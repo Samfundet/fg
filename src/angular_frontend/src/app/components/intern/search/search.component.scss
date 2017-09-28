@@ -1,0 +1,51 @@
+@import '../../../../styles/_colors.scss';
+
+.search-table-container {
+  overflow-x: scroll;
+}
+
+.search-table {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: smaller;
+  border-bottom: 2px solid $outline;
+
+  &--head {
+
+
+    &--row > td + td {
+      border-left: 2px solid $outline;
+    }
+  }
+
+  &--body {
+
+    &--row > td + td {
+      border-left: none;
+    }
+
+    font-size: smaller;
+
+  }
+
+  &--img {
+    object-fit: contain;
+    width: 100px;
+  }
+
+  &--link {
+    text-decoration: underline;
+  }
+  &--link:link {
+    color: #58C5FF;
+  }
+  &--link:visited {
+    color: #58C5FF;
+  }
+  &--link:hover {
+    color: #A29DFF;
+  }
+}
+
+table td {
+  padding: 0.01rem 0.5rem;
+}

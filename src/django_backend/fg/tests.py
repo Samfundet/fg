@@ -182,14 +182,13 @@ class PhotoTestCase(TestCase):
         factory = APIRequestFactory()
         view = PhotoViewSet.as_view({'get': 'list'})
 
-        expected_count = models.Photo.objects.filter(on_home_page=True).count()
+        expected_count = models.Photo.objects.filter(security_level__name="ALLE").filter(on_home_page=True).count()
         request = factory.get('/api/photos?on_home_page=true')
 
         response = view(request)
 
-        # self.assertEqual(response.status_code, status.HTTP_200_OK)
-        # self.assertEqual(len(response.data['results']), expected_count)
-        # TODO why does this test fail?
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['results']), expected_count)
 
 
 

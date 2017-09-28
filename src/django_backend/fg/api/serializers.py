@@ -76,6 +76,7 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
         fields = (
             'photo',
             'motive',
+            'date_taken',
             'security_level',
             'category',
             'media',
@@ -114,6 +115,7 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
         fields = (
             'photo',
             'motive',
+            'date_taken',
             'security_level',
             'category',
             'media',

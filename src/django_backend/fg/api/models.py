@@ -70,7 +70,7 @@ class Photo(models.Model):
     # height = models.IntegerField()
     # width = models.IntegerField()
     motive = models.CharField(max_length=256, db_index=True, blank=True, verbose_name='motiv')
-    date_taken = models.DateTimeField(auto_now_add=True)
+    date_taken = models.DateTimeField()  # TODO removed auto_now_add
     date_modified = models.DateTimeField(auto_now=True)
     photo_ppoi = PPOIField()
 

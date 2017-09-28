@@ -16,7 +16,7 @@ export interface PhotoType {
 
 export interface IMetaData {
   name: string;
-  description?: string;
+  id?: number;
 }
 
 export interface IPhoto {
@@ -24,7 +24,6 @@ export interface IPhoto {
   photo: PhotoType;
   motive: string;
   date_taken: Date;
-  date_modified: Date;
   photo_ppoi: string;
   page: number;
   image_number: number;
@@ -37,6 +36,7 @@ export interface IPhoto {
   media: IMetaData;
   album: IMetaData;
   place: IMetaData;
+  security_level: IMetaData;
   addedToCart?: boolean;
 }
 export class PhotoResponse implements IResponse<IPhoto> {
@@ -91,7 +91,6 @@ export const testData: IResponse<IPhoto> = {
       photo: { prod: 'p', large: 'l', small: 's', medium: 'm' },
       motive: 'desc',
       date_taken: new Date(),
-      date_modified: new Date(),
       photo_ppoi: 'ppoi',
       page: 13,
       image_number: 37,
@@ -104,6 +103,7 @@ export const testData: IResponse<IPhoto> = {
       media: { name: 'med' },
       album: { name: 'alb' },
       place: { name: 'plc' },
+      security_level: { name: 'alle' }
     }
   ]
 }

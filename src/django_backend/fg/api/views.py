@@ -83,9 +83,21 @@ class PhotoViewSet(ModelViewSet):
     # Filters and search
     filter_backends = (OrderingFilter, SearchFilter, DjangoFilterBackend)
     ordering_fields = '__all__'
-    search_fields = ('motive', 'tags__name')
+    search_fields = ('motive', 'tags__name', 'album__name')
     ordering = ('-date_taken',)
-    filter_fields = ('on_home_page',)
+    filter_fields = (
+        'motive',
+        'security_level',
+        'category',
+        'media',
+        'album',
+        'place',
+        'tags',
+        'scanned',
+        'on_home_page',
+        'splash',
+        'lapel'
+    )  # TODO removed  'image_number', 'page',
 
     def retrieve(self, request, *args, **kwargs):
         self.serializer_class = serializers.PhotoSerializer

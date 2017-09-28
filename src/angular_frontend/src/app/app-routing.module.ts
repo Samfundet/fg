@@ -12,7 +12,8 @@ import {
   CreditComponent,
   PhotosComponent,
   UploadComponent,
-  NotFoundComponent
+  NotFoundComponent,
+  SearchComponent
 } from 'app/components';
 
 const routes: Routes = [
@@ -41,6 +42,10 @@ const routes: Routes = [
       {
         path: 'opplasting',
         component: UploadComponent
+      },
+      {
+        path: 'søk',
+        component: SearchComponent
       }
     ]
   },

@@ -17,7 +17,9 @@ export class ApiService {
   getPhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
     let params = new HttpParams();
     for (const key of Object.keys(filters)) {
-      params = params.append(key, filters[key]);
+      if (filters[key] !== null) {
+        params = params.append(key, filters[key]);
+      }
     }
     return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
   }
