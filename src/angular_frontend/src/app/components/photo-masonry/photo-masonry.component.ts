@@ -14,7 +14,7 @@ export class PhotoMasonryComponent {
   masonryOptions: IMasonryOptions = {
     itemSelector: '.grid-item',
     fitWidth: true,
-    stagger: 120
+    stagger: 50
   }
 
   constructor(private store: StoreService) { }

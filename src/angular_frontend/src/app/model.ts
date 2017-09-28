@@ -130,4 +130,6 @@ export interface IMasonryOptions {
   transitionDuration?: any;
   resize?: boolean;
   initLayout?: boolean;
+  stagger?: number;
+
 }
