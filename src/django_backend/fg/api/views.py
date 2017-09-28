@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import OrderingFilter, SearchFilter
-from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveAPIView, ListAPIView
 from rest_framework.pagination import BasePagination
 from django_filters.rest_framework import DjangoFilterBackend
 from django.core.exceptions import ObjectDoesNotExist
@@ -20,7 +20,6 @@ class TagViewSet(ModelViewSet):
     queryset = models.Tag.objects.all().order_by('name')
     serializer_class = serializers.TagSerializer
     permission_classes = [IsFGOrReadOnly]
-
 
 
 class CategoryViewSet(ModelViewSet):
@@ -43,7 +42,6 @@ class MediaViewSet(ModelViewSet):
     pagination_class = UnlimitedPagination
 
 
-
 class AlbumViewSet(ModelViewSet):
     """
     API endpoint that allows albums to be viewed or edited
@@ -62,6 +60,7 @@ class PlaceViewSet(ModelViewSet):
     serializer_class = serializers.PlaceSerializer
     permission_classes = [IsFGOrReadOnly]
     pagination_class = UnlimitedPagination
+
 
 class SecurityLevelViewSet(ModelViewSet):
     """
@@ -175,3 +174,19 @@ class LatestSplashPhotoView(RetrieveAPIView):
             return models.Photo.objects.all()
         else:  # No group == "ALLE"
             return models.Photo.objects.filter(security_level__name="ALLE")
+
+
+class PhotoListFromIds(ListAPIView):
+    """
+    Retrieves a list of photos from a list of ids
+    """
+    serializer_class = serializers.PhotoSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if (user.groups.exists() and user.is_active and 'FG' in user.groups.all()) or user.is_superuser:
+            ids = self.request.query_params.get('ids', []).split(',')
+            return models.Photo.objects.filter(id__in=ids)
+
+        return models.Photo.objects.none()

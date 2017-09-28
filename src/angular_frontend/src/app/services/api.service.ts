@@ -24,6 +24,11 @@ export class ApiService {
     return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
   }
 
+  getPhotosFromIds(ids: string[]): Observable<IResponse<IPhoto>> {
+    const params = new HttpParams().set('ids', ids.join());
+    return this.http.get<IResponse<IPhoto>>(`/api/photos/list-from-ids`, { params });
+  }
+
   getHomePagePhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
     let params = new HttpParams();
     for (const key of Object.keys(filters)) {

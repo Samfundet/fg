@@ -32,7 +32,8 @@ import {
   PhotoMasonryComponent,
   PhotoModalComponent,
   NotFoundComponent,
-  SearchComponent
+  SearchComponent,
+  EditComponent
 } from 'app/components';
 
 @NgModule({
@@ -62,7 +63,8 @@ import {
     PhotoMasonryComponent,
     PhotoModalComponent,
     NotFoundComponent,
-    SearchComponent
+    SearchComponent,
+    EditComponent
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IForeignKey, IResponse, IPhoto } from 'app/model';
 import { ApiService } from 'app/services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'fg-search',
@@ -24,7 +25,7 @@ export class SearchComponent implements OnInit {
     { name: 'Usant', value: false }
   ];
 
-  constructor(private api: ApiService, private fb: FormBuilder) {
+  constructor(private api: ApiService, private fb: FormBuilder, private router: Router) {
     api.getAlbums().subscribe(x => this.albums = [{ id: null, name: '-- Alle --' }, ...x]);
     api.getCategories().subscribe(x => this.categories = [{ id: null, name: '-- Alle --' }, ...x]);
     api.getMediums().subscribe(x => this.mediums = [{ id: null, name: '-- Alle --' }, ...x]);
@@ -54,5 +55,18 @@ export class SearchComponent implements OnInit {
     console.log('foo');
     const formValue = this.searchForm.value;
     this.api.getPhotos(formValue).subscribe(p => this.photoResponse = p);
+  }
+
+  delete(photo: IPhoto) {
+    console.log('TODO');
+  }
+
+  editAllMarked() {
+    const foo = this.photoResponse.results.filter(p => p.checkedForEdit).map(p => { return {id: p.id}});
+    this.router.navigate(['../rediger'], {queryParams: foo});
+  }
+
+  check(checked, photo: IPhoto) {
+    photo.checkedForEdit = checked;
   }
 }

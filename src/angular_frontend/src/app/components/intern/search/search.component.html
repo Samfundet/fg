@@ -82,6 +82,7 @@
 
   <!-- Results box -->
   <div class="search-table-container" fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
+    <button (click)="editAllMarked()">Endre alle markerte</button>
     <table class="search-table">
       <thead class="search-table--head">
         <tr class="search-table--head--row">
@@ -109,9 +110,9 @@
           <td>{{photo?.scanned}}</td>
           <td><img class="search-table--img" [src]="photo?.photo?.small" ></td>
           <td fxLayout="column">
-            <a class="search-table--link" routerLink="todo">Endre</a>
-            <a class="search-table--link" routerLink="todo">Slett</a>
-            <input type="checkbox">
+            <a class="search-table--link" [routerLink]="['../rediger']" [queryParams]="{id: photo.id}">Endre</a>
+            <a class="search-table--link" (click)="delete(photo)">Slett</a>
+            <input type="checkbox" (click)="check($event, photo)">
           </td>
         </tr>
       </tbody>

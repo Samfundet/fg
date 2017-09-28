@@ -13,7 +13,8 @@ import {
   PhotosComponent,
   UploadComponent,
   NotFoundComponent,
-  SearchComponent
+  SearchComponent,
+  EditComponent
 } from 'app/components';
 
 const routes: Routes = [
@@ -46,6 +47,10 @@ const routes: Routes = [
       {
         path: 'søk',
         component: SearchComponent
+      },
+      {
+        path: 'rediger',
+        component: EditComponent
       }
     ]
   },

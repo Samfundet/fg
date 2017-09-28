@@ -20,7 +20,7 @@ export interface IMetaData {
 }
 
 export interface IPhoto {
-  url: string;
+  id: number;
   photo: PhotoType;
   motive: string;
   date_taken: Date;
@@ -38,6 +38,7 @@ export interface IPhoto {
   place: IMetaData;
   security_level: IMetaData;
   addedToCart?: boolean;
+  checkedForEdit?: boolean;
 }
 export class PhotoResponse implements IResponse<IPhoto> {
   count: number;
@@ -87,7 +88,7 @@ export const testData: IResponse<IPhoto> = {
   previous: null,
   results: [
     {
-      url: 'foo.bar',
+      id: 1,
       photo: { prod: 'p', large: 'l', small: 's', medium: 'm' },
       motive: 'desc',
       date_taken: new Date(),

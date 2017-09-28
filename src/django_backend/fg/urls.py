@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
     # APIVIEW endpoints
-    url(r'^api/photos/latest-splash', api_views.LatestSplashPhotoView.as_view(), name="latest-splash")
+    url(r'^api/photos/latest-splash', api_views.LatestSplashPhotoView.as_view(), name="latest-splash"),
+    url(r'^api/photos/list-from-ids', api_views.PhotoListFromIds.as_view(), name="list-from-ids")
 ]
