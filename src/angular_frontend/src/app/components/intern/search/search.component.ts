@@ -19,17 +19,17 @@ export class SearchComponent implements OnInit {
   securityLevels: IForeignKey[];
 
   truthies = [
-    {name: '-- Alle --', value: null},
-    {name: 'Sant', value: true},
-    {name: 'Usant', value: false}
-  ]
+    { name: '-- Alle --', value: null },
+    { name: 'Sant', value: true },
+    { name: 'Usant', value: false }
+  ];
 
   constructor(private api: ApiService, private fb: FormBuilder) {
-    api.getAlbums().subscribe(x => this.albums = [{id: null, name: '-- Alle --'}, ...x]);
-    api.getCategories().subscribe(x => this.categories = [{id: null, name: '-- Alle --'}, ...x]);
-    api.getMediums().subscribe(x => this.mediums = [{id: null, name: '-- Alle --'}, ...x]);
-    api.getPlaces().subscribe(x => this.places = [{id: null, name: '-- Alle --'}, ...x]);
-    api.getSecurityLevels().subscribe(x => this.securityLevels = [{id: null, name: '-- Alle --'}, ...x]);
+    api.getAlbums().subscribe(x => this.albums = [{ id: null, name: '-- Alle --' }, ...x]);
+    api.getCategories().subscribe(x => this.categories = [{ id: null, name: '-- Alle --' }, ...x]);
+    api.getMediums().subscribe(x => this.mediums = [{ id: null, name: '-- Alle --' }, ...x]);
+    api.getPlaces().subscribe(x => this.places = [{ id: null, name: '-- Alle --' }, ...x]);
+    api.getSecurityLevels().subscribe(x => this.securityLevels = [{ id: null, name: '-- Alle --' }, ...x]);
   }
 
   ngOnInit() {

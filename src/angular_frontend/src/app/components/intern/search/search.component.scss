@@ -10,21 +10,17 @@
   border-bottom: 2px solid $outline;
 
   &--head {
-
-
     &--row > td + td {
       border-left: 2px solid $outline;
     }
   }
 
   &--body {
-
     &--row > td + td {
       border-left: none;
     }
 
     font-size: smaller;
-
   }
 
   &--img {
