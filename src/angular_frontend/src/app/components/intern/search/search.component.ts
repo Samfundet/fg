@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IForeignKey, IResponse, IPhoto } from 'app/model';
 import { ApiService } from 'app/services';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'fg-search',
@@ -25,7 +25,7 @@ export class SearchComponent implements OnInit {
     { name: 'Usant', value: false }
   ];
 
-  constructor(private api: ApiService, private fb: FormBuilder, private router: Router) {
+  constructor(private api: ApiService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) {
     api.getAlbums().subscribe(x => this.albums = [{ id: null, name: '-- Alle --' }, ...x]);
     api.getCategories().subscribe(x => this.categories = [{ id: null, name: '-- Alle --' }, ...x]);
     api.getMediums().subscribe(x => this.mediums = [{ id: null, name: '-- Alle --' }, ...x]);
@@ -62,8 +62,11 @@ export class SearchComponent implements OnInit {
   }
 
   editAllMarked() {
-    const foo = this.photoResponse.results.filter(p => p.checkedForEdit).map(p => { return {id: p.id}});
-    this.router.navigate(['../rediger'], {queryParams: foo});
+    const ids = this.photoResponse.results.filter(p => p.checkedForEdit).map(p => p.id);
+    this.router.navigate(['../rediger'], {
+      relativeTo: this.route,
+      queryParams: {id: ids}
+    });
   }
 
   check(checked, photo: IPhoto) {

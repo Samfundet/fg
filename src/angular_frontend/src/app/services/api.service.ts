@@ -69,4 +69,12 @@ export class ApiService {
     }
     return this.http.post(`/api/photos/`, formData, {reportProgress: true});
   }
+
+  updatePhoto(photo: IPhoto): Observable<any> {
+    const formData = new FormData();
+    for (const key of Object.keys(photo)) {
+      formData.append(key, photo[key]);
+    }
+    return this.http.put(`/api/photos/${photo.id}/`, formData);
+  }
 }

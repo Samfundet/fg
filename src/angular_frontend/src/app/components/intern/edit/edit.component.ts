@@ -7,7 +7,7 @@ import { ApiService } from 'app/services';
 @Component({
   selector: 'fg-edit',
   templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.css']
+  styleUrls: ['./edit.component.scss']
 })
 export class EditComponent {
   photos: IPhoto[] = [];
@@ -60,6 +60,11 @@ export class EditComponent {
   }
 
   update() {
-    console.log('foo');
+    if (this.editForm.valid) {
+      for (const photo of this.photos) {
+        const foo = {id: photo.id, ...this.editForm.value};
+        this.api.updatePhoto(foo).subscribe(res => console.log(res));
+      }
+    }
   }
 }

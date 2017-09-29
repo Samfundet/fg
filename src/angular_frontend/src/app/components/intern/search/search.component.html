@@ -46,7 +46,6 @@
 
     <div fxLayout="column">
       <label for="lapel">Oppslagsbilde</label>
-      <!-- <input id="lapel" type="checkbox" formControlName="lapel"> -->
       <select formControlName="lapel">
         <option *ngFor="let lapel of truthies" [ngValue]="lapel.value">
           {{lapel.name}}
@@ -55,7 +54,6 @@
     </div>
     <div fxLayout="column">
       <label for="on_home_page">Vises på forsiden</label>
-      <!-- <input id="on_home_page" type="checkbox" formControlName="on_home_page"> -->
       <select formControlName="on_home_page">
         <option *ngFor="let on_home_page of truthies" [ngValue]="on_home_page.value">
           {{on_home_page.name}}
@@ -64,7 +62,6 @@
     </div>
     <div fxLayout="column">
       <label for="splash">Sett som bannerbilde</label>
-      <!-- <input id="splash" type="checkbox" formControlName="splash"> -->
       <select formControlName="splash">
         <option *ngFor="let splash of truthies" [ngValue]="splash.value">
           {{splash.name}}
@@ -82,7 +79,7 @@
 
   <!-- Results box -->
   <div class="search-table-container" fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
-    <button (click)="editAllMarked()">Endre alle markerte</button>
+    <button class="btn" (click)="editAllMarked()">Endre alle markerte</button>
     <table class="search-table">
       <thead class="search-table--head">
         <tr class="search-table--head--row">

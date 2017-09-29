@@ -20,6 +20,10 @@
       border-left: none;
     }
 
+    &--row > td {
+      width: 10%;
+    }
+
     font-size: smaller;
   }
 
