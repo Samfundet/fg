@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { INgxMyDpOptions, IMyDate } from 'ngx-mydatepicker';
 import { HttpEvent } from '@angular/common/http';
 import { ApiService } from 'app/services';
 import { IForeignKey } from 'app/model';
@@ -16,6 +17,12 @@ export class UploadComponent implements OnInit {
   invalidComboDrag = false;
   uploadForm: FormGroup;
 
+  options: INgxMyDpOptions = {
+    dateFormat: 'dd.mm.yyyy',
+    sunHighlight: true
+  };
+  today: IMyDate;
+
   albums: IForeignKey[];
   categories: IForeignKey[];
   mediums: IForeignKey[];
@@ -28,6 +35,9 @@ export class UploadComponent implements OnInit {
     api.getMediums().subscribe(x => this.mediums = x);
     api.getPlaces().subscribe(x => this.places = x);
     api.getSecurityLevels().subscribe(x => this.securityLevels = x);
+
+    const date = new Date();
+    this.today = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
   }
 
   ngOnInit() {
@@ -36,7 +46,7 @@ export class UploadComponent implements OnInit {
       image_number: [1, [Validators.required]],
       motive: ['Motive_test', [Validators.required]],
       tags: [['foo', 'bar', 'idiot'], []],
-      date_taken: [1, [Validators.required]],
+      date_taken: [this.today, [Validators.required]],
 
       category: [1, [Validators.required]],
       media: [1, [Validators.required]],

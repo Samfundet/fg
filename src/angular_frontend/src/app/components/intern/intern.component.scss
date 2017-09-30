@@ -16,4 +16,9 @@
   &:hover {
     filter: brightness(150%);
   }
+
+  &:focus {
+    box-shadow: none;
+    outline: none;
+  }
 }

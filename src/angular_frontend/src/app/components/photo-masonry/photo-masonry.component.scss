@@ -24,12 +24,3 @@
   margin: 0 auto;
 }
 
-.clickable {
-  outline: 2px solid rgba(0, 0, 0, 0);
-  cursor: pointer;
-}
-
-.clickable:hover {
-  outline: 2px solid white;
-  transition: 0.7s all;
-}

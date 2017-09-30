@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IForeignKey, IResponse, IPhoto } from 'app/model';
-import { ApiService } from 'app/services';
+import { ApiService, StoreService } from 'app/services';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -25,7 +25,13 @@ export class SearchComponent implements OnInit {
     { name: 'Usant', value: false }
   ];
 
-  constructor(private api: ApiService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private api: ApiService,
+    private store: StoreService,
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     api.getAlbums().subscribe(x => this.albums = [{ id: null, name: '-- Alle --' }, ...x]);
     api.getCategories().subscribe(x => this.categories = [{ id: null, name: '-- Alle --' }, ...x]);
     api.getMediums().subscribe(x => this.mediums = [{ id: null, name: '-- Alle --' }, ...x]);
@@ -71,5 +77,9 @@ export class SearchComponent implements OnInit {
 
   check(checked, photo: IPhoto) {
     photo.checkedForEdit = checked;
+  }
+
+  onPhotoClick(photo: IPhoto) {
+    this.store.photoModal$.next(photo);
   }
 }

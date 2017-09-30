@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ngfModule } from 'angular-file';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -74,7 +75,8 @@ import {
     HttpClientModule,
     AppRoutingModule,
     ngfModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    NgxMyDatePickerModule.forRoot()
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'nb-NO' },

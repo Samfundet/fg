@@ -19,3 +19,5 @@ services:
       - POSTGRES_USER=fg
       - POSTGRES_PASSWORD=qwer1234
       - POSTGRES_DB=fg_dev_db
+    ports:
+      - "5432:5432"

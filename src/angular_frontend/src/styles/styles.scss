@@ -259,6 +259,11 @@ hr {
     color: $success-contrast;
   }
 
+  &-default {
+    background-color: $default;
+    color: $default-contrast;
+  }
+
   &-info {
     background-color: $info;
     color: $info-contrast;
@@ -422,18 +427,13 @@ textarea {
 input[type="text"],
 input[type="number"],
 input[type="password"],
+input[type="select"],
+input.datepicker,
 input[type="email"] {
     border-radius: 5px;
     padding: 2px 5px;
 }
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-select:focus,
-textarea:focus {
-    border-color: #062038;
-    box-shadow: 0 0 0 1px #062038;
-}
+
 .select-wrapper:before {
     color: rgba(255, 255, 255, 0.15);
 }
@@ -1385,6 +1385,26 @@ body.is-loading #banner:before {
     #footer {
         padding: 3em 0 1em 0;
     }
+}
+
+/* Form */
+
+label {
+  font-size: small;
+}
+
+/* Photo */
+
+.clickable {
+  outline: 2px solid rgba(0, 0, 0, 0);
+  cursor: pointer;
+
+
+}
+
+.hover-outline:hover {
+  outline: 2px solid white;
+  transition: 0.7s all;
 }
 
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import random, glob, string, tempfile
+from datetime import datetime
 from fg import settings
 from django.db import migrations
 from django.core.files import File
@@ -69,7 +70,8 @@ def load_photos(apps, schema_editor):
             splash=True if random.random() > 0.5 else False,
             page=i,
             image_number=i,
-            security_level=get_random_object(apps, "api", "SecurityLevel")
+            security_level=get_random_object(apps, "api", "SecurityLevel"),
+            date_taken=datetime.now()
         )
         photo_test.save()
         photo_test.tags.add(get_random_object(apps, "api", "Tag"))

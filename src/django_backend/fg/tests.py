@@ -1,4 +1,5 @@
 import random, os, string, tempfile, json
+from datetime import datetime
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 from rest_framework import status
@@ -64,7 +65,8 @@ def seed_photos():
             on_home_page=True if random.random() > 0.5 else False,
             lapel=True if random.random() > 0.5 else False,
             scanned=True if random.random() > 0.5 else False,
-            splash=True if random.random() > 0.5 else False
+            splash=True if random.random() > 0.5 else False,
+            date_taken=datetime.now().astimezone()
         )
         photo.save()
         photo.tags.add(get_random_object("api", "Tag"))
@@ -131,7 +133,8 @@ class PhotoTestCase(TestCase):
             category=get_random_object("api", "Category"),
             page=13,
             image_number=37,
-            security_level=get_random_object("api", "SecurityLevel")
+            security_level=get_random_object("api", "SecurityLevel"),
+            date_taken=datetime.now().astimezone()
         )
         self.test_photo.save()
         self.test_photo.tags.add(get_random_object("api", "Tag"))
@@ -319,7 +322,8 @@ class PhotoCRUDTestCase(APITestCase):
                 'on_home_page': False,
                 'scanned': True,
                 'splash': True,
-                'lapel': True
+                'lapel': True,
+                'date_taken': datetime.now().astimezone()
             }
 
             request = self.factory.post(path='/api/photos', data=data)
@@ -383,7 +387,8 @@ class PhotoCRUDTestCase(APITestCase):
             'place': new_place.pk,
             'tags': [t.name for t in tags],
             'image_number': 24,
-            'page': 48
+            'page': 48,
+            'date_taken': datetime.now().astimezone()
         }
 
         request = self.factory.put(path='/api/photos', data=data)

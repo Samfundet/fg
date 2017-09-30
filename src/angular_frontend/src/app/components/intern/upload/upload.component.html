@@ -1,6 +1,6 @@
 <!-- Container -->
 <div fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="25px">
-  <form [formGroup]="uploadForm" (ngSubmit)="uploadAll()" fxLayout="column" fxFlex="<grow>" fxLayoutGap="15px">
+  <form [formGroup]="uploadForm" (ngSubmit)="uploadAll()" fxLayout="column" fxFlex="30" fxLayoutGap="15px">
     <div fxLayout="column">
       <label>Album</label>
       <select formControlName="album">
@@ -26,7 +26,13 @@
     </div>
     <div fxLayout="column">
       <label>Dato</label>
-      <input type="text" formControlName="date_taken">
+      <div fxLayout="row" fxLayoutAlign="stretch">
+        <input fxFlex="100" (click)="dp.toggleCalendar()" class="datepicker clickable" ngx-mydatepicker [options]="options" #dp="ngx-mydatepicker"
+          formControlName="date_taken">
+        <button type="button" class="btn btn-info" (click)="dp.toggleCalendar()">
+          <i class="fa fa-calendar"></i>
+        </button>
+      </div>
     </div>
     <div fxLayout="column">
       <label>Media</label>
@@ -79,9 +85,10 @@
 
   <!-- Preview box -->
   <div fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
-    <div class="hover-zone" #ngfUploader ngfDrop selectable="1" multiple="1" [uploader]="uploader" [(validDrag)]="validComboDrag" [(invalidDrag)]="invalidComboDrag"
-      [ngClass]="{'hover-safe-zone': validComboDrag, 'hover-danger-zone': invalidComboDrag}" accept="image/*">
-      <i class="fa fa-plus fa-lg"></i>  Klikk her eller dra bilder til dette feltet
+    <div class="hover-zone" #ngfUploader ngfDrop selectable="1" multiple="1" [uploader]="uploader" [(validDrag)]="validComboDrag"
+      [(invalidDrag)]="invalidComboDrag" [ngClass]="{'hover-safe-zone': validComboDrag, 'hover-danger-zone': invalidComboDrag}"
+      accept="image/*">
+      <i class="fa fa-plus fa-lg"></i> Klikk her eller dra bilder til dette feltet
     </div>
 
     <div *ngFor="let item of uploader.queue" class="preview" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10px">
@@ -93,12 +100,7 @@
         <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10px">
           <span>{{item?.file?.name }}</span>
           <span>{{item._file?.size | megabytes}}</span>
-          <button
-            type="button"
-            [disabled]="item.isUploading || item.isSuccess || !uploadForm.valid"
-            class="btn btn-primary"
-            (click)="uploadItem(item)"
-            >
+          <button type="button" [disabled]="item.isUploading || item.isSuccess || !uploadForm.valid" class="btn btn-primary" (click)="uploadItem(item)">
             <i class="fa fa-upload"></i> Start
           </button>
           <button type="button" class="btn btn-danger" (click)="removeItem(item)" [disabled]="!uploadForm.valid">

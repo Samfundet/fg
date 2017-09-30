@@ -7,7 +7,7 @@
       *ngFor="let photo of photos; let i = index"
       (click)="onPhotoClick(photo)"
       src="{{photo.photo.medium}}"
-      class="grid-item clickable"
+      class="grid-item clickable hover-outline"
       alt="{{photo.motive}}"
     />
 </div>
