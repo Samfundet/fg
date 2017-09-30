@@ -107,7 +107,7 @@ export const testData: IResponse<IPhoto> = {
       security_level: { name: 'alle' }
     }
   ]
-}
+};
 
 export interface IForeignKey {
   name: string;
@@ -133,4 +133,9 @@ export interface IMasonryOptions {
   initLayout?: boolean;
   stagger?: number;
 
+}
+
+export interface ILoginRequest {
+  username: string;
+  password: string;
 }

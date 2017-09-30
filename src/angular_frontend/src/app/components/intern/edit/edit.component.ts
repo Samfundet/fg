@@ -12,7 +12,7 @@ import { ApiService } from 'app/services';
 export class EditComponent {
   photos: IPhoto[] = [];
   editForm: FormGroup;
-  photoResponse: IResponse<IPhoto>
+  photoResponse: IResponse<IPhoto>;
 
   albums: IForeignKey[];
   categories: IForeignKey[];

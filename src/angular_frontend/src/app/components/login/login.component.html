@@ -1,0 +1,18 @@
+<div *ngIf="shown" class="modal fixed">
+  <form [formGroup]="loginForm" (ngSubmit)="login()" fxLayout="column" fxLayoutAlign="center stretch" fxLayoutGap="20px">
+
+    <div>
+      <label>Brukernavn</label>
+      <input type="text" formControlName="username">
+    </div>
+
+    <div>
+      <label>Passord</label>
+      <input type="password" formControlName="password">
+    </div>
+
+    <button type="submit" class="btn btn-success">Logg inn</button>
+
+  </form>
+
+</div>

@@ -22,7 +22,7 @@ export class BannerComponent {
       this.store.getSplashPhotoAction().subscribe(p => {
         this.photo = p;
         this.setBackgroundImage(p);
-      })
+      });
     }
   }
 

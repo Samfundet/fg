@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 
 import { ApiService } from './services/api.service';
 import { StoreService } from './services/store.service';
+import { AuthGuardService } from './services/auth-guard.service';
 import { MegabytePipe } from 'app/pipes/pipes.pipe';
 import { MasonryLayoutDirective, ImagePreviewDirective } from 'app/directives';
 import {
@@ -34,7 +35,8 @@ import {
   PhotoModalComponent,
   NotFoundComponent,
   SearchComponent,
-  EditComponent
+  EditComponent,
+  LoginComponent
 } from 'app/components';
 
 @NgModule({
@@ -65,7 +67,8 @@ import {
     PhotoModalComponent,
     NotFoundComponent,
     SearchComponent,
-    EditComponent
+    EditComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +84,8 @@ import {
   providers: [
     { provide: LOCALE_ID, useValue: 'nb-NO' },
     ApiService,
-    StoreService
+    StoreService,
+    AuthGuardService
   ],
   bootstrap: [AppComponent]
 })

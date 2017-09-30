@@ -445,3 +445,6 @@ class PhotoCRUDTestCase(APITestCase):
         request = self.factory.get(path='/api/photos/latest-splash')
         response = view(request)
         self.assertEqual(expected, response.data['photo'])
+
+    def test_anon_user_cannot_post(self):
+        pass

@@ -17,6 +17,8 @@ import {
   EditComponent
 } from 'app/components';
 
+import { AuthGuardService } from 'app/services';
+
 const routes: Routes = [
   {
     path: '',
@@ -37,7 +39,7 @@ const routes: Routes = [
   },
   {
     path: 'intern',
-    // canActivate: [AuthGuardService], TODO
+    canActivate: [AuthGuardService],
     component: InternComponent,
     children: [
       {

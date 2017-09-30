@@ -9,7 +9,7 @@ class GalleryParams {
   page: number;
 
   constructor(params: Params) {
-    this.page = isNumeric(params.page) ? +params.page : 1
+    this.page = isNumeric(params.page) ? +params.page : 1;
   }
 }
 
@@ -38,7 +38,7 @@ export class GalleryComponent {
       this.filters = filters;
       this.router.navigate([], {
         queryParams: filters
-      })
+      });
     }
   }
 }

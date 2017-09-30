@@ -1,11 +1,12 @@
-from rest_framework.viewsets import ModelViewSet
+from django.core.exceptions import ObjectDoesNotExist
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import RetrieveAPIView, ListAPIView
 from rest_framework.pagination import BasePagination
-from django_filters.rest_framework import DjangoFilterBackend
-from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.viewsets import ModelViewSet
+
+from ..permissions import IsFGOrReadOnly, IsFG
 from . import models, serializers
-from .permissions import IsFGOrReadOnly, IsFG
 
 
 class UnlimitedPagination(BasePagination):
@@ -112,6 +113,7 @@ class PhotoViewSet(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         self.serializer_class = serializers.PhotoCreateSerializer
+        self.permission_classes = [IsFG]
         return super().create(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
@@ -148,6 +150,7 @@ class LatestSplashPhotoView(RetrieveAPIView):
     Retrieves the latest photo with splash set to True
     """
     serializer_class = serializers.PhotoSerializer
+    permission_classes = [IsFGOrReadOnly]
 
     def get_object(self):
         try:
@@ -181,6 +184,7 @@ class PhotoListFromIds(ListAPIView):
     Retrieves a list of photos from a list of ids
     """
     serializer_class = serializers.PhotoSerializer
+    permission_classes = [IsFG]
 
     def get_queryset(self):
         user = self.request.user

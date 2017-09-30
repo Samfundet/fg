@@ -11,7 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class SearchComponent implements OnInit {
   searchForm: FormGroup;
-  photoResponse: IResponse<IPhoto>
+  photoResponse: IResponse<IPhoto>;
 
   albums: IForeignKey[];
   categories: IForeignKey[];

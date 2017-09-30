@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { StoreService } from 'app/services';
+import { StoreService, AuthGuardService } from 'app/services';
 
 @Component({
   selector: 'fg-nav',
@@ -11,7 +11,7 @@ export class NavComponent implements OnInit {
   isMenuOpen = false;
   searchInput = '';
 
-  constructor(private router: Router, public store: StoreService) {  }
+  constructor(private router: Router, public store: StoreService, public guard: AuthGuardService) {  }
 
   ngOnInit() {
   }
@@ -23,6 +23,10 @@ export class NavComponent implements OnInit {
   onSearchEnter(value: string) {
     this.router.navigate(['/foto'], {
       queryParams: {search: value}
-    })
+    });
+  }
+
+  showLoginModal() {
+    this.store.showLoginModalAction();
   }
 }

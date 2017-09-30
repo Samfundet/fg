@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { INgxMyDpOptions, IMyDate } from 'ngx-mydatepicker';
 import { HttpEvent } from '@angular/common/http';
-import { ApiService } from 'app/services';
+import { StoreService, ApiService } from 'app/services';
 import { IForeignKey } from 'app/model';
 import { FileUploader, FileUploaderOptions, FileItem } from 'angular-file';
 
@@ -21,7 +21,6 @@ export class UploadComponent implements OnInit {
     dateFormat: 'dd.mm.yyyy',
     sunHighlight: true
   };
-  today: IMyDate;
 
   albums: IForeignKey[];
   categories: IForeignKey[];
@@ -29,24 +28,22 @@ export class UploadComponent implements OnInit {
   places: IForeignKey[];
   securityLevels: IForeignKey[];
 
-  constructor(private api: ApiService, private fb: FormBuilder) {
+  constructor(private store: StoreService, private api: ApiService, private fb: FormBuilder) {
     api.getAlbums().subscribe(x => this.albums = x);
     api.getCategories().subscribe(x => this.categories = x);
     api.getMediums().subscribe(x => this.mediums = x);
     api.getPlaces().subscribe(x => this.places = x);
     api.getSecurityLevels().subscribe(x => this.securityLevels = x);
-
-    const date = new Date();
-    this.today = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
   }
 
   ngOnInit() {
+    const date = new Date();
     this.uploadForm = this.fb.group({
       page: [1, [Validators.required, Validators.min(0), Validators.max(100)]],
       image_number: [1, [Validators.required]],
       motive: ['Motive_test', [Validators.required]],
       tags: [['foo', 'bar', 'idiot'], []],
-      date_taken: [this.today, [Validators.required]],
+      date_taken: [{ jsdate: new Date() }, [Validators.required]],
 
       category: [1, [Validators.required]],
       media: [1, [Validators.required]],
@@ -61,18 +58,21 @@ export class UploadComponent implements OnInit {
   }
 
   uploadItem(item: FileItem) {
-    console.log(item);
+    const date_taken = this.uploadForm.value['date_taken']['jsdate'].toISOString();
     if (this.uploadForm.valid) {
       item.isUploading = true;
       item.progress = 20;
-      this.api.uploadPhotos({ ...this.uploadForm.value, photo: item._file })
-        .subscribe(event => {
-          console.log('Completed: ' + item._file.name);
-          item.progress = 100;
-          item.isUploaded = true;
-          item.isUploading = false;
-          item.isSuccess = true;
-        },
+      this.store.postPhotoAction({
+        ...this.uploadForm.value,
+        photo: item._file,
+        date_taken
+      }).subscribe(event => {
+        console.log('Completed: ' + item._file.name);
+        item.progress = 100;
+        item.isUploaded = true;
+        item.isUploading = false;
+        item.isSuccess = true;
+      },
         error => {
           item.isError = true;
           item.isUploading = false;

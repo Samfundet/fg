@@ -1,0 +1,17 @@
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  text-align: center;
+  z-index: 100001;
+  background: rgba(1, 1, 1, 0.7);
+  margin: auto;
+}
+
+.fixed {
+  position: fixed;
+}

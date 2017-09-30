@@ -30,7 +30,7 @@ export class MasonryLayoutDirective implements OnChanges {
   updateLayout(): void {
     imagesLoaded(this.el.nativeElement, () => {
       console.log('Images have loaded!');
-      this.masonry = new Masonry(this.el.nativeElement, this.options)
+      this.masonry = new Masonry(this.el.nativeElement, this.options);
     });
   }
 }

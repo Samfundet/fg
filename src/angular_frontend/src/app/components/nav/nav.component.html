@@ -1,29 +1,34 @@
 <!-- Header -->
-<header fxLayout="row" fxLayoutAlign="space-between stretch" fxLayoutGap="10px">
+<header fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
   <a href="/" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
     <div class="brand">
       <img class="brand--logo" src="assets/images/fg-logo.png">
     </div>
     <div fxHide fxShow.gt-sm class="brand">
-      <span class="brand--title" >fotogjengen</span>
+      <span class="brand--title">fotogjengen</span>
     </div>
   </a>
+
 
   <div fxLayout="row" fxLayoutAlign="center center">
     <div *ngIf="!(store.photoRouteActive$ | async)" fxLayout="row">
       <label class="search-icon-button" for="search-input" (click)="onSearchEnter(searchBox.value)">
         <i class="fa fa-search" aria-hidden="true"></i>
-    </label>
+      </label>
       <input #searchBox class="search-input" id="search-input" type="text" [(ngModel)]="searchInput" (keyup.enter)="onSearchEnter(searchBox.value)"
       />
     </div>
-    <button  class="btn transparent" (click)="toggleMenu()"><i class="fa fa-bars"></i> <span fxHide.lt-sm="true">Meny</span></button>
+    <button class="btn transparent" (click)="toggleMenu()"><i class="fa fa-bars"></i> <span fxHide.lt-sm="true">Meny</span></button>
   </div>
 </header>
 
 <!-- Nav -->
 <nav [ngClass]="[isMenuOpen ? 'visible':'close']" id="menu">
   <button class="btn transparent menu-closer" (click)="toggleMenu()">LUKK</button>
+
+  <a (click)="showLoginModal()" class="login">
+    <i class="fa fa-user-o"></i> <!-- ngIf if user is logged in -->
+  </a>
   <ul class="links">
     <li><a routerLink="forside" (click)="toggleMenu()">Forside</a></li>
     <li><a routerLink="info" (click)="toggleMenu()">Info</a></li>

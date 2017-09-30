@@ -15,7 +15,7 @@ export class PhotoMasonryComponent {
     itemSelector: '.grid-item',
     fitWidth: true,
     stagger: 50
-  }
+  };
 
   constructor(private store: StoreService) { }
 

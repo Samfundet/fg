@@ -9,3 +9,4 @@ django-versatileimagefield==1.7.1
 requests==2.13.0
 django-rest-framework-roles==0.5
 django-filter==1.0.4
+djangorestframework-jwt==1.11.0

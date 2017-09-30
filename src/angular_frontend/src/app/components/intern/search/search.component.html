@@ -103,8 +103,8 @@
           <td>{{photo?.category.name}}</td>
           <td>{{photo?.place.name}}</td>
           <td>{{photo?.lapel}}</td>
-          <td>{{photo?.security_level.name}}</td>
           <td>{{photo?.scanned}}</td>
+          <td>{{photo?.security_level.name}}</td>
           <td><img class="search-table--img clickable hover-outline" (click)="onPhotoClick(photo)" [src]="photo?.photo?.small" ></td>
           <td fxLayout="column">
             <a class="search-table--link" [routerLink]="['../rediger']" [queryParams]="{id: photo.id}">Endre</a>

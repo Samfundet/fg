@@ -9,7 +9,7 @@ describe('InfoComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [InfoComponent]
-    })
+    });
   }));
 
   beforeEach(() => {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Headers, RequestOptions } from '@angular/http';
-import { IResponse, IPhoto, IUser, IFilters, IForeignKey } from 'app/model';
+import { IResponse, IPhoto, IUser, IFilters, IForeignKey, ILoginRequest } from 'app/model';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
@@ -10,6 +10,7 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class ApiService {
+  headers: HttpHeaders;
 
   constructor(
     private http: HttpClient) { }
@@ -21,12 +22,12 @@ export class ApiService {
         params = params.append(key, filters[key]);
       }
     }
-    return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
+    return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params, headers: this.headers });
   }
 
   getPhotosFromIds(ids: string[]): Observable<IResponse<IPhoto>> {
     const params = new HttpParams().set('ids', ids.join());
-    return this.http.get<IResponse<IPhoto>>(`/api/photos/list-from-ids`, { params });
+    return this.http.get<IResponse<IPhoto>>(`/api/photos/list-from-ids`, { params, headers: this.headers });
   }
 
   getHomePagePhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
@@ -35,7 +36,7 @@ export class ApiService {
       params = params.append(key, filters[key]);
     }
     params = params.append('on_home_page', 'true');
-    return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
+    return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params, headers: this.headers });
   }
 
   getSplashPhoto(): Observable<IPhoto> {
@@ -43,31 +44,30 @@ export class ApiService {
   }
 
   getUsers(): Observable<IResponse<IUser>> {
-    return this.http.get<IResponse<IUser>>(`/api/users/`);
+    return this.http.get<IResponse<IUser>>(`/api/users/`, {headers: this.headers});
   }
 
   getAlbums() {
-    return this.http.get<IForeignKey[]>(`api/albums/`);
+    return this.http.get<IForeignKey[]>(`api/albums/`, {headers: this.headers});
   }
   getCategories() {
-    return this.http.get<IForeignKey[]>(`api/categories/`);
+    return this.http.get<IForeignKey[]>(`api/categories/`, {headers: this.headers});
   }
   getMediums() {
-    return this.http.get<IForeignKey[]>(`api/mediums/`);
+    return this.http.get<IForeignKey[]>(`api/mediums/`, {headers: this.headers});
   }
   getPlaces() {
-    return this.http.get<IForeignKey[]>(`api/places/`);
+    return this.http.get<IForeignKey[]>(`api/places/`, {headers: this.headers});
   }
   getSecurityLevels() {
-    return this.http.get<IForeignKey[]>(`api/security-levels/`);
+    return this.http.get<IForeignKey[]>(`api/security-levels/`, {headers: this.headers});
   }
 
-  uploadPhotos(data) {
-    const formData = new FormData();
-    for (const key of Object.keys(data)) {
-      formData.append(key, data[key]);
-    }
-    return this.http.post(`/api/photos/`, formData, {reportProgress: true});
+  postPhoto(formData, token) {
+    return this.http.post(`/api/photos/`, formData, {
+      reportProgress: true,
+      headers: this.headers,
+    });
   }
 
   updatePhoto(photo: IPhoto): Observable<any> {
@@ -75,6 +75,12 @@ export class ApiService {
     for (const key of Object.keys(photo)) {
       formData.append(key, photo[key]);
     }
-    return this.http.put(`/api/photos/${photo.id}/`, formData);
+    return this.http.put(`/api/photos/${photo.id}/`, formData, {
+      headers: this.headers,
+    });
+  }
+
+  login(data: ILoginRequest): Observable<any> {
+    return this.http.post(`api/token-auth/`, data);
   }
 }

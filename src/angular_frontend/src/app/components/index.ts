@@ -18,3 +18,4 @@ export * from './intern/search/search.component';
 export * from './kontakt/person/person.component';
 export * from './photo-modal/photo-modal.component';
 export * from './not-found/not-found.component';
+export * from './login/login.component';
