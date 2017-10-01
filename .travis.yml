@@ -60,6 +60,6 @@ jobs:
       deploy:
         provider: script
         skip_cleanup: true
-        script: $TRAVIS_BUILD_DIR/travis_deploy.sh
+        script: travis_deploy.sh
         on:
           branch: development
