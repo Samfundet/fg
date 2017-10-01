@@ -7,6 +7,7 @@ import { DELTA } from 'app/config';
 import * as JwtDecode from 'jwt-decode';
 
 enum TOKEN_STATUS {
+  OK,
   ABOUT_TO_EXPIRE,
   EXPIRED,
   NO_TOKEN
@@ -28,6 +29,8 @@ export class OutAuthInterceptor implements HttpInterceptor {
         break;
       case TOKEN_STATUS.EXPIRED:
         store.showLoginModalAction();
+        break;
+      case TOKEN_STATUS.OK:
         break;
     }
 
@@ -59,17 +62,10 @@ export class OutAuthInterceptor implements HttpInterceptor {
       return TOKEN_STATUS.NO_TOKEN;
     } else if (token.exp < (now + delta) && token.exp > now) {
       return TOKEN_STATUS.ABOUT_TO_EXPIRE;
+    } else if (token.exp > now) {
+      return TOKEN_STATUS.OK;
     } else {
       return TOKEN_STATUS.EXPIRED;
     }
   }
 }
-
-// @Injectable()
-// export class InAuthInterceptor implements HttpInterceptor {
-//   constructor() {}
-
-//   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-//     return null; // TODO
-//   }
-// }

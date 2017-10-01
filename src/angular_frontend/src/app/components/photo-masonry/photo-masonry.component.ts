@@ -20,7 +20,6 @@ export class PhotoMasonryComponent {
   constructor(private store: StoreService) { }
 
   onPhotoClick(photo: IPhoto) {
-    console.log('Hi');
     this.store.photoModal$.next(photo);
   }
 

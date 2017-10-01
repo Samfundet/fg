@@ -227,7 +227,7 @@ AUTHENTICATION_BACKENDS = (
 # JWT SETTINGS
 
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=60),  # TODO set to hours=1
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),  # TODO set to hours=1
     'JWT_ALLOW_REFRESH': True,
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_AUTH_HEADER_PREFIX': 'FG_JWT'

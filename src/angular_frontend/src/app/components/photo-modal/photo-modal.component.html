@@ -2,6 +2,12 @@
   <div (click)="shown = !shown" class="modal fixed">
     <img src="{{photo.photo.large}}" class="auto-width" alt="{{photo.motive}}" />
   </div>
-  <button class="photo-button fixed z-over" (click)="addToShoppingCart()" *ngIf="!photo.addedToCart">Legg til handlekurv</button>
-  <button class="photo-button fixed z-over" (click)="removeFromShoppingCart()" *ngIf="photo.addedToCart">Fjern fra handlekurv</button>
+  <button class="btn btn-photo fixed z-over left" (click)="addToShoppingCart()" *ngIf="!photo.addedToCart">
+    <i class="fa fa-cart-plus"></i> Kjøp
+  </button>
+  <button class="btn btn-photo fixed z-over left" (click)="removeFromShoppingCart()" *ngIf="photo.addedToCart">
+    <i class="fa fa-cart-arrow-down success"></i>
+  </button>
+
+  <button (click)="goToAlbum()" class="btn btn-photo fixed z-over right">Gå til album</button>
 </ng-container>

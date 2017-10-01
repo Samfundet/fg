@@ -8,7 +8,7 @@ import 'rxjs/add/operator/filter';
   templateUrl: './photo-modal.component.html',
   styleUrls: ['./photo-modal.component.scss']
 })
-export class PhotoModalComponent implements OnInit {
+export class PhotoModalComponent {
   photo: IPhoto;
   shown: boolean;
 
@@ -19,16 +19,12 @@ export class PhotoModalComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
-
   addToShoppingCart() {
     const cart = this.store.photoShoppingCart$.getValue();
     if (!(cart.indexOf(this.photo) > -1)) {
       this.photo.addedToCart = true;
       cart.push(this.photo);
       this.store.photoShoppingCart$.next(cart);
-      console.log(this.store.photoShoppingCart$.getValue());
     }
   }
   removeFromShoppingCart() {
@@ -36,8 +32,9 @@ export class PhotoModalComponent implements OnInit {
     this.photo.addedToCart = false;
     cart.splice(cart.indexOf(this.photo), 1);
     this.store.photoShoppingCart$.next(cart);
+  }
 
-    console.log(this.store.photoShoppingCart$.getValue());
+  goToAlbum() {
 
   }
 }

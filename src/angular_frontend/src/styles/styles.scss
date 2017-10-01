@@ -283,6 +283,37 @@ hr {
     background-color: $warning;
     color: $warning-contrast;
   }
+
+  &-transparent {
+    background-color: transparent;
+    color: white;
+  }
+}
+
+i {
+  &.success {
+    color: $success;
+  }
+
+  &.default {
+    color: $default;
+  }
+
+  &.info {
+    color: $info;
+  }
+
+  &.primary {
+    color: $primary;
+  }
+
+  &.danger {
+    color: $danger;
+  }
+
+  &.warning {
+    color: $warning;
+  }
 }
 
 .big-button {
