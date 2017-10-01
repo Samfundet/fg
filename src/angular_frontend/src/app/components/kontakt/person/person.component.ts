@@ -7,7 +7,7 @@ import { IUser } from 'app/model';
   styleUrls: ['./person.component.scss']
 })
 export class PersonComponent implements OnInit {
-  @Input() user: IUser;
+  @Input() user: IUser | null; // Stupid workaround that fixes the damn warnings, should be fixed in Angular 5
   @Input() isEven: boolean;
 
   constructor() { }

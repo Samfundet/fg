@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IForeignKey, IResponse, IPhoto } from 'app/model';
+import { DATE_OPTIONS } from 'app/config';
 import { ApiService, StoreService } from 'app/services';
 import { Router, ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 
 @Component({
   selector: 'fg-search',
@@ -12,6 +14,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class SearchComponent implements OnInit {
   searchForm: FormGroup;
   photoResponse: IResponse<IPhoto>;
+
+  options = DATE_OPTIONS;
 
   albums: IForeignKey[];
   categories: IForeignKey[];
@@ -43,7 +47,8 @@ export class SearchComponent implements OnInit {
     this.searchForm = this.fb.group({
       motive: [, []],
       tags: [, []],
-      date_taken: [, []],
+      date_taken_from: [, []],
+      date_taken_to: [, []],
 
       category: [, []],
       media: [, []],
@@ -58,9 +63,12 @@ export class SearchComponent implements OnInit {
   }
 
   search() {
-    console.log('foo');
     const formValue = this.searchForm.value;
-    this.api.getPhotos(formValue).subscribe(p => this.photoResponse = p);
+    const date_taken_from = this.searchForm.value.date_taken_from ?
+      moment(this.searchForm.value.date_taken_from.jsdate).format('YYYY-MM-DD') : null;
+    const date_taken_to = this.searchForm.value.date_taken_to ?
+      moment(this.searchForm.value.date_taken_to.jsdates).format('YYYY-MM-DD') : null;
+    this.api.getPhotos({...formValue, date_taken_from, date_taken_to}).subscribe(p => this.photoResponse = p);
   }
 
   delete(photo: IPhoto) {

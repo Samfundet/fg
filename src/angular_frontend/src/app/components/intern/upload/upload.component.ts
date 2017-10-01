@@ -4,6 +4,7 @@ import { INgxMyDpOptions, IMyDate } from 'ngx-mydatepicker';
 import { HttpEvent } from '@angular/common/http';
 import { StoreService, ApiService } from 'app/services';
 import { IForeignKey } from 'app/model';
+import { DATE_OPTIONS } from 'app/config';
 import { FileUploader, FileUploaderOptions, FileItem } from 'angular-file';
 
 @Component({
@@ -17,10 +18,7 @@ export class UploadComponent implements OnInit {
   invalidComboDrag = false;
   uploadForm: FormGroup;
 
-  options: INgxMyDpOptions = {
-    dateFormat: 'dd.mm.yyyy',
-    sunHighlight: true
-  };
+  options = DATE_OPTIONS;
 
   albums: IForeignKey[];
   categories: IForeignKey[];
