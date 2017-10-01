@@ -3,7 +3,7 @@ from django.conf.urls import url, include
 from rest_framework import routers
 from .api import views as api_views
 from .fg_auth import views as auth_views
-from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
 router = routers.DefaultRouter()
 # Auth
@@ -20,6 +20,7 @@ router.register(r'photos', api_views.PhotoViewSet, base_name='photo')
 urlpatterns = [
     # Authentication
     url(r'^api/token-auth/', obtain_jwt_token),
+    url(r'^api/token-refresh/', refresh_jwt_token),
     # Admin page
     url(r'^api/admin/', admin.site.urls),
     # API endpoints

@@ -9,7 +9,6 @@ import { IResponse, IPhoto, IFilters, ILoginRequest } from 'app/model';
 @Injectable()
 export class StoreService {
   // The state of the application
-  public token: string;
   private _photos$ = new BehaviorSubject<IResponse<IPhoto>>(null);
   private _filters$ = new Subject<IFilters>();
   private _loginModal$ = new BehaviorSubject<ILoginRequest>(null);
@@ -50,14 +49,23 @@ export class StoreService {
   }
 
   showLoginModalAction() {
-    this._loginModal$.next({username: '', password: ''});
+    this._loginModal$.next({ username: '', password: '' });
   }
 
   loginAction(data: ILoginRequest) {
     this.api.login(data).subscribe(t => {
-      this.token = t.token;
-      this.api.headers = new HttpHeaders().set('Authorization', this.token);
+      localStorage.setItem('csrf_token', t.token);
+      localStorage.setItem('username', data.username);
     });
+  }
+
+  logoutAction() {
+    localStorage.removeItem('csrf_token');
+    localStorage.removeItem('username');
+  }
+
+  getUsernameAction() {
+    return localStorage.getItem('username');
   }
 
   postPhotoAction(data) {
@@ -65,7 +73,7 @@ export class StoreService {
     for (const key of Object.keys(data)) {
       formData.append(key, data[key]);
     }
-    return this.api.postPhoto(formData, this.token);
+    return this.api.postPhoto(formData);
   }
 
   // getters for observables of the datastreams

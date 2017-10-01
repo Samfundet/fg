@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ngfModule } from 'angular-file';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { ApiService } from './services/api.service';
 import { StoreService } from './services/store.service';
 import { AuthGuardService } from './services/auth-guard.service';
+import { OutAuthInterceptor } from './services/interceptor.service';
 import { MegabytePipe } from 'app/pipes/pipes.pipe';
 import { MasonryLayoutDirective, ImagePreviewDirective } from 'app/directives';
 import {
@@ -82,7 +83,15 @@ import {
     NgxMyDatePickerModule.forRoot()
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'nb-NO' },
+    {
+      provide: LOCALE_ID,
+      useValue: 'nb-NO'
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: OutAuthInterceptor,
+      multi: true
+    },
     ApiService,
     StoreService,
     AuthGuardService

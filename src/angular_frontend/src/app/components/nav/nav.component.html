@@ -26,13 +26,16 @@
 <nav [ngClass]="[isMenuOpen ? 'visible':'close']" id="menu">
   <button class="btn transparent menu-closer" (click)="toggleMenu()">LUKK</button>
 
-  <a (click)="showLoginModal()" class="login">
-    <i class="fa fa-user-o"></i> <!-- ngIf if user is logged in -->
-  </a>
+  <a *ngIf="!store.getUsernameAction()" (click)="showLoginModal()" class="login clickable"> Logg inn</a>
+  <div *ngIf="store.getUsernameAction()" fxLayout="row" fxLayoutAlign="space-between">
+    <span><i class="fa fa-user-o"></i> {{store.getUsernameAction()}}</span>
+    <button (click)="store.logoutAction()" class="btn">Logg ut</button>
+  </div>
+
   <ul class="links">
     <li><a routerLink="forside" (click)="toggleMenu()">Forside</a></li>
     <li><a routerLink="info" (click)="toggleMenu()">Info</a></li>
     <li><a routerLink="kontakt" (click)="toggleMenu()">Kontakt</a></li>
-    <li><a routerLink="intern" (click)="toggleMenu()">Intern</a></li>
+    <li *ngIf="store.getUsernameAction()"><a routerLink="intern" (click)="toggleMenu()">Intern</a></li>
   </ul>
 </nav>

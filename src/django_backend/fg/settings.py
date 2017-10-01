@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
-import os, sys
+import os, sys, datetime
 
 # Time zone
 TIME_ZONE = 'Europe/Oslo'
@@ -223,6 +223,15 @@ AUTHENTICATION_BACKENDS = (
     'fg.fg_auth.auth.KerberosBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+# JWT SETTINGS
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_AUTH_HEADER_PREFIX': 'FG_JWT'
+}
 
 # Groups
 GROUPS = {

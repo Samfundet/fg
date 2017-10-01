@@ -10,10 +10,7 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class ApiService {
-  headers: HttpHeaders;
-
-  constructor(
-    private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   getPhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
     let params = new HttpParams();
@@ -22,12 +19,12 @@ export class ApiService {
         params = params.append(key, filters[key]);
       }
     }
-    return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params, headers: this.headers });
+    return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
   }
 
   getPhotosFromIds(ids: string[]): Observable<IResponse<IPhoto>> {
     const params = new HttpParams().set('ids', ids.join());
-    return this.http.get<IResponse<IPhoto>>(`/api/photos/list-from-ids`, { params, headers: this.headers });
+    return this.http.get<IResponse<IPhoto>>(`/api/photos/list-from-ids`, { params });
   }
 
   getHomePagePhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
@@ -36,7 +33,7 @@ export class ApiService {
       params = params.append(key, filters[key]);
     }
     params = params.append('on_home_page', 'true');
-    return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params, headers: this.headers });
+    return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
   }
 
   getSplashPhoto(): Observable<IPhoto> {
@@ -44,30 +41,27 @@ export class ApiService {
   }
 
   getUsers(): Observable<IResponse<IUser>> {
-    return this.http.get<IResponse<IUser>>(`/api/users/`, {headers: this.headers});
+    return this.http.get<IResponse<IUser>>(`/api/users/`);
   }
 
   getAlbums() {
-    return this.http.get<IForeignKey[]>(`api/albums/`, {headers: this.headers});
+    return this.http.get<IForeignKey[]>(`api/albums/`);
   }
   getCategories() {
-    return this.http.get<IForeignKey[]>(`api/categories/`, {headers: this.headers});
+    return this.http.get<IForeignKey[]>(`api/categories/`);
   }
   getMediums() {
-    return this.http.get<IForeignKey[]>(`api/mediums/`, {headers: this.headers});
+    return this.http.get<IForeignKey[]>(`api/mediums/`);
   }
   getPlaces() {
-    return this.http.get<IForeignKey[]>(`api/places/`, {headers: this.headers});
+    return this.http.get<IForeignKey[]>(`api/places/`);
   }
   getSecurityLevels() {
-    return this.http.get<IForeignKey[]>(`api/security-levels/`, {headers: this.headers});
+    return this.http.get<IForeignKey[]>(`api/security-levels/`);
   }
 
-  postPhoto(formData, token) {
-    return this.http.post(`/api/photos/`, formData, {
-      reportProgress: true,
-      headers: this.headers,
-    });
+  postPhoto(formData) {
+    return this.http.post(`/api/photos/`, formData);
   }
 
   updatePhoto(photo: IPhoto): Observable<any> {
@@ -75,12 +69,14 @@ export class ApiService {
     for (const key of Object.keys(photo)) {
       formData.append(key, photo[key]);
     }
-    return this.http.put(`/api/photos/${photo.id}/`, formData, {
-      headers: this.headers,
-    });
+    return this.http.put(`/api/photos/${photo.id}/`, formData);
   }
 
   login(data: ILoginRequest): Observable<any> {
     return this.http.post(`api/token-auth/`, data);
+  }
+
+  refreshToken() {
+    return this.http.post(`api/token-refresh/`, localStorage.getItem('csrf_token'));
   }
 }
