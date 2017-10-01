@@ -58,6 +58,7 @@ jobs:
         - chmod 600 /tmp/deploy_rsa
         - ssh-add /tmp/deploy_rsa
       deploy:
+        skip_cleanup: true
         provider: script
         script: chmod +x $TRAVIS_BUILD_DIR/travis_deploy.sh && bash $TRAVIS_BUILD_DIR/travis_deploy.sh
         on:
