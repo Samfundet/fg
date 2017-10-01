@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { StoreService, ApiService } from 'app/services';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
@@ -11,7 +12,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   shown = false;
 
-  constructor(private store: StoreService, private fb: FormBuilder) {
+  constructor(private store: StoreService, private fb: FormBuilder, private router: Router) {
     store.loginModal$.filter(l => !!l).subscribe(l => {
       this.loginForm.setValue(l);
       this.shown = true;

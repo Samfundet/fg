@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { ApiService } from 'app/services/api.service';
 import { IResponse, IPhoto, IFilters, ILoginRequest } from 'app/model';
+import { DELTA } from 'app/config';
+import 'rxjs/add/operator/debounceTime';
 
 @Injectable()
 export class StoreService {
@@ -12,13 +15,21 @@ export class StoreService {
   private _photos$ = new BehaviorSubject<IResponse<IPhoto>>(null);
   private _filters$ = new Subject<IFilters>();
   private _loginModal$ = new BehaviorSubject<ILoginRequest>(null);
+  private _refreshToken$ = new Subject<any>();
   public photoRouteActive$ = new Subject<boolean>();
   public photoShoppingCart$ = new BehaviorSubject<IPhoto[]>([]);
   public photoModal$ = new BehaviorSubject<IPhoto>(null);
 
-  constructor(private api: ApiService) {
+  // TODO
+  private returnUrl;
+
+  constructor(private api: ApiService, private router: Router) {
     this._filters$.subscribe(f => {
       api.getHomePagePhotos(f).subscribe(pr => this.storePhotos(pr));
+    });
+
+    this._refreshToken$.debounceTime(1000).subscribe(t => {
+      api.refreshToken(t).subscribe(new_token => this.storeToken(new_token));
     });
   }
 
@@ -48,14 +59,18 @@ export class StoreService {
     this.photoShoppingCart$.next(cart);
   }
 
-  showLoginModalAction() {
-    this._loginModal$.next({ username: '', password: '' });
+  showLoginModalAction(returnUrl?) {
+    this._loginModal$.next({ username: '', password: ''});
+    this.returnUrl = returnUrl;
   }
 
   loginAction(data: ILoginRequest) {
     this.api.login(data).subscribe(t => {
-      localStorage.setItem('csrf_token', t.token);
-      localStorage.setItem('username', data.username);
+      this.storeToken(t, data.username);
+      console.log(this.returnUrl);
+      if (this.returnUrl) {
+        this.router.navigateByUrl(this.returnUrl);
+      }
     });
   }
 
@@ -66,6 +81,11 @@ export class StoreService {
 
   getUsernameAction() {
     return localStorage.getItem('username');
+  }
+
+  refreshTokenAction() {
+    this._refreshToken$.next(localStorage.getItem('csrf_token'));
+    console.log('Token refreshed');
   }
 
   postPhotoAction(data) {
@@ -97,5 +117,12 @@ export class StoreService {
       r.results = oldPhotoResultList.concat(photos.results);
     }
     this._photos$.next(r);
+  }
+
+  private storeToken(t, username?) {
+    localStorage.setItem('csrf_token', t.token);
+    if (username) {
+      localStorage.setItem('username', username);
+    }
   }
 }

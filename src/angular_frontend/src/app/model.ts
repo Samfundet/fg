@@ -139,3 +139,11 @@ export interface ILoginRequest {
   username: string;
   password: string;
 }
+
+export interface IToken {
+  user_id: number;
+  username: string;
+  exp: number;
+  email: string;
+  orig_iat: number;
+}

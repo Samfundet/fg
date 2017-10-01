@@ -71,7 +71,7 @@ def load_photos(apps, schema_editor):
             page=i,
             image_number=i,
             security_level=get_random_object(apps, "api", "SecurityLevel"),
-            date_taken=datetime.now()
+            date_taken=datetime.now().astimezone()
         )
         photo_test.save()
         photo_test.tags.add(get_random_object(apps, "api", "Tag"))

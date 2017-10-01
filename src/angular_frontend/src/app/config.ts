@@ -1,0 +1,2 @@
+/* GLOBAL CONFIG SETTINGS */
+export const DELTA = 100;

@@ -76,7 +76,7 @@ export class ApiService {
     return this.http.post(`api/token-auth/`, data);
   }
 
-  refreshToken() {
-    return this.http.post(`api/token-refresh/`, localStorage.getItem('csrf_token'));
+  refreshToken(current_token): Observable<any> {
+    return this.http.post(`api/token-refresh/`, {token: current_token});
   }
 }
