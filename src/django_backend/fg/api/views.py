@@ -1,5 +1,5 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework_filters.backends import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import RetrieveAPIView, ListAPIView
 from rest_framework.pagination import BasePagination
@@ -7,6 +7,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from ..permissions import IsFGOrReadOnly, IsFG
 from . import models, serializers
+import rest_framework_filters as drf_filters
 
 
 class UnlimitedPagination(BasePagination):
@@ -73,6 +74,29 @@ class SecurityLevelViewSet(ModelViewSet):
     pagination_class = UnlimitedPagination
 
 
+class PhotoFilter(drf_filters.FilterSet):
+    date_taken_from = drf_filters.DateFilter(name='date_taken', lookup_expr='gte')
+    date_taken_to = drf_filters.DateFilter(name='date_taken', lookup_expr='lte')
+
+    class Meta:
+        model = models.Photo
+        fields = [
+            'date_taken_from',
+            'date_taken_to',
+            'motive',
+            'security_level',
+            'category',
+            'media',
+            'album',
+            'place',
+            'tags',
+            'scanned',
+            'on_home_page',
+            'splash',
+            'lapel',
+        ]
+
+
 class PhotoViewSet(ModelViewSet):
     """
     API endpoint that allows photo CRUD (Create, Read, Update, Delete)
@@ -85,19 +109,7 @@ class PhotoViewSet(ModelViewSet):
     ordering_fields = '__all__'
     search_fields = ('motive', 'tags__name', 'album__name')
     ordering = ('-date_taken',)
-    filter_fields = (
-        'motive',
-        'security_level',
-        'category',
-        'media',
-        'album',
-        'place',
-        'tags',
-        'scanned',
-        'on_home_page',
-        'splash',
-        'lapel'
-    )  # TODO removed  'image_number', 'page',
+    filter_class = PhotoFilter
 
     def retrieve(self, request, *args, **kwargs):
         self.serializer_class = serializers.PhotoSerializer

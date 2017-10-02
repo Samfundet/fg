@@ -48,6 +48,8 @@ jobs:
       script:
         - ng lint
         - ng build --prod
+        - rsync -r dist/* fg@fgbeta.samfundet.no:./fg/src/angular_frontend/dist
+
         #- ng test --watch=false
 
     - stage: deploy
