@@ -10,11 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
-import os, sys
+import os, sys, datetime
+
+# Time zone
+TIME_ZONE = 'Europe/Oslo'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -25,7 +27,7 @@ SECRET_KEY = 'bt40n#17gu(ezts9d9z)k+1as!fq01@_c)%_iw37iaa#m8++(4'
 # SECURITY WARNING: don't run with debug turned on in production! TODO
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']  # Added wildcard so all hosts are allowed
+ALLOWED_HOSTS = ['*']  # Added wildcard so all hosts are allowed TODO
 
 # Application definition
 
@@ -41,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'PIL',
     'versatileimagefield',
+    'rest_framework_filters',
+    'django_filters',
 
     # Own apps
     'fg.api',
@@ -48,10 +52,17 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework.permissions.IsAuthenticated',
     ],
-    'PAGE_SIZE': 25
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework_filters.backends.DjangoFilterBackend',),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 50
 }
 
 MIDDLEWARE = [
@@ -83,7 +94,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'fg.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -119,13 +129,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Oslo'
 
 USE_I18N = True
 
@@ -133,6 +142,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+# The ID, as an integer, of the current site in the django_site database table.
+# This is used so that application data can hook into specific site(s) and a
+# single database can manage content for multiple sites.
+SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
@@ -142,14 +155,16 @@ STATIC_URL = '/django-static/'
 
 # MEDIA CONFIGURATION
 # Absolute filesystem path to the directory that will hold user-uploaded files.
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'files/media/')
 
 # Photo root (development only)
 PHOTO_ROOT = os.path.join(BASE_DIR, 'development_images/')
 
+# Folder where production images are
+PROD_PATH = "alle/prod/"
+
 # URL that handles the media served from MEDIA_ROOT.
 MEDIA_URL = '/media/'
-
 
 # Dictionary for versatile image
 VERSATILEIMAGEFIELD_SETTINGS = {
@@ -194,10 +209,10 @@ VERSATILEIMAGEFIELD_SETTINGS = {
     # here: https://optimus.io/support/progressive-jpeg/
     'progressive_jpeg': True,
     'sizes': [
-            ('prod', 'url'),
-            ('large', 'thumbnail__1200x1200'),
-            ('medium', 'thumbnail__900x900'),
-            ('small', 'thumbnail__400x400')
+        ('prod', 'url'),
+        ('large', 'thumbnail__1200x1200'),
+        ('medium', 'thumbnail__900x900'),
+        ('small', 'thumbnail__400x400')
     ]
 }
 
@@ -209,3 +224,22 @@ AUTHENTICATION_BACKENDS = (
     'fg.fg_auth.auth.KerberosBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+# JWT SETTINGS
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),  # TODO set to hours=1
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_AUTH_HEADER_PREFIX': 'FG_JWT'
+}
+
+# Groups
+GROUPS = {
+    "FG": "FG",
+    "HUSFOLK": "HUSFOLK",
+    "POWER": "POWER"
+}
+
+# Security levels
+SECURITY_LEVELS = ["ALLE", "HUSFOLK", "FG"]

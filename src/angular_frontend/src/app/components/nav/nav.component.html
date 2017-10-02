@@ -1,16 +1,41 @@
 <!-- Header -->
-<header id="header">
-  <h1><a href="#">fotogjengen</a></h1>
-  <a (click)="toggleMenu()" href="#menu">Menu</a>
+<header fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+  <a href="/" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+    <div class="brand">
+      <img class="brand--logo" src="assets/images/fg-logo.png">
+    </div>
+    <div fxHide fxShow.gt-sm class="brand">
+      <span class="brand--title">fotogjengen</span>
+    </div>
+  </a>
+
+
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <div *ngIf="!(store.photoRouteActive$ | async)" fxLayout="row">
+      <label class="search-icon-button" for="search-input" (click)="onSearchEnter(searchBox.value)">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </label>
+      <input #searchBox class="search-input" id="search-input" type="text" [(ngModel)]="searchInput" (keyup.enter)="onSearchEnter(searchBox.value)"
+      />
+    </div>
+    <button class="btn transparent" (click)="toggleMenu()"><i class="fa fa-bars"></i> <span fxHide.lt-sm="true">Meny</span></button>
+  </div>
 </header>
 
 <!-- Nav -->
 <nav [ngClass]="[isMenuOpen ? 'visible':'close']" id="menu">
-  <a class="menu-closer" (click)="toggleMenu()" href="#menu">LUKK</a>
+  <button class="btn transparent menu-closer" (click)="toggleMenu()">LUKK</button>
+
+  <a *ngIf="!store.getUsernameAction()" (click)="showLoginModal()" class="login clickable"> Logg inn</a>
+  <div *ngIf="store.getUsernameAction()" fxLayout="row" fxLayoutAlign="space-between">
+    <span><i class="fa fa-user-o"></i> {{store.getUsernameAction()}}</span>
+    <button (click)="store.logoutAction()" class="btn">Logg ut</button>
+  </div>
+
   <ul class="links">
-    <li><a [routerLink]="main">Forside</a></li>
-    <li><a [routerLink]="info">Info</a></li>
-    <li><a [routerLink]="kontakt">Kontakt</a></li>
-    <li><a [routerLink]="intern">Intern</a></li>
+    <li><a routerLink="forside" (click)="toggleMenu()">Forside</a></li>
+    <li><a routerLink="info" (click)="toggleMenu()">Info</a></li>
+    <li><a routerLink="kontakt" (click)="toggleMenu()">Kontakt</a></li>
+    <li *ngIf="store.getUsernameAction()"><a routerLink="intern" (click)="toggleMenu()">Intern</a></li>
   </ul>
 </nav>

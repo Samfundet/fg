@@ -1,60 +1,82 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Headers, RequestOptions } from '@angular/http';
-import { IPhotoResponse } from '../components/gallery/gallery.model';
+import { IResponse, IPhoto, IUser, IFilters, IForeignKey, ILoginRequest } from 'app/model';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 
 @Injectable()
 export class ApiService {
-  private baseUrl = '/api';
-  private headers = new Headers({ 'Content-Type': 'application/json' });
-  private options = new RequestOptions({ headers: this.headers });
+  constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient) {
+  getPhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
+    let params = new HttpParams();
+    for (const key of Object.keys(filters)) {
+      if (filters[key] !== null) {
+        params = params.append(key, filters[key]);
+      }
+    }
+    return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
   }
 
-  public getImages<IPhotoResponse>(): Observable<IPhotoResponse> {
-    return this.http.get<IPhotoResponse>(`${this.baseUrl}/photos`);
+  getPhotosFromIds(ids: string[]): Observable<IResponse<IPhoto>> {
+    const params = new HttpParams().set('ids', ids.join());
+    return this.http.get<IResponse<IPhoto>>(`/api/photos/list-from-ids`, { params });
   }
 
-  // // GET
-  // public getImages<T>(path: string): Observable<any> {
-  //   return this.http<T>.get(`${this.baseUrl}/${path}`)
-  //     .catch(this.httpCatcher)
-  //     .map(this.extractData);
-  // }
+  getHomePagePhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
+    let params = new HttpParams();
+    for (const key of Object.keys(filters)) {
+      params = params.append(key, filters[key]);
+    }
+    params = params.append('on_home_page', 'true');
+    return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
+  }
 
-  // // POST
-  // public postSubscribable(path: string, obj?: any): Observable<any> {
-  //   return this.http.post(`${this.baseUrl}/${path}`, obj, this.options)
-  //     .catch(this.httpCatcher)
-  //     .map(this.extractData);
-  // }
+  getSplashPhoto(): Observable<IPhoto> {
+    return this.http.get<IPhoto>(`api/photos/latest-splash`);
+  }
 
-  // // PUT
-  // public putSubscribable(path: string, obj?: any): Observable<any> {
-  //   return this.http.put(`${this.baseUrl}/${path}`, obj, this.options)
-  //     .catch(this.httpCatcher)
-  //     .map(this.extractData);
-  // }
+  getUsers(): Observable<IResponse<IUser>> {
+    return this.http.get<IResponse<IUser>>(`/api/users/`);
+  }
 
-  // // DELETE
-  // public deleteSubscribable(path: string): Observable<any> {
-  //   return this.http.delete(`${this.baseUrl}/${path}`, this.options)
-  //     .catch(this.httpCatcher)
-  //     .map(this.extractData);
-  // }
+  getAlbums() {
+    return this.http.get<IForeignKey[]>(`api/albums/`);
+  }
+  getCategories() {
+    return this.http.get<IForeignKey[]>(`api/categories/`);
+  }
+  getMediums() {
+    return this.http.get<IForeignKey[]>(`api/mediums/`);
+  }
+  getPlaces() {
+    return this.http.get<IForeignKey[]>(`api/places/`);
+  }
+  getSecurityLevels() {
+    return this.http.get<IForeignKey[]>(`api/security-levels/`);
+  }
 
-  // private httpCatcher(error: Response | any) {
-  //   alert(error); //TODO
-  //   return Observable.throw(error);
-  // }
+  postPhoto(formData) {
+    return this.http.post(`/api/photos/`, formData);
+  }
 
-  // private extractData(res: Response) {
-  //   return res.json();
-  // }
+  updatePhoto(photo: IPhoto): Observable<any> {
+    const formData = new FormData();
+    for (const key of Object.keys(photo)) {
+      formData.append(key, photo[key]);
+    }
+    return this.http.put(`/api/photos/${photo.id}/`, formData);
+  }
 
+  login(data: ILoginRequest): Observable<any> {
+    return this.http.post(`api/token-auth/`, data);
+  }
+
+  refreshToken(current_token): Observable<any> {
+    return this.http.post(`api/token-refresh/`, {token: current_token});
+  }
 }

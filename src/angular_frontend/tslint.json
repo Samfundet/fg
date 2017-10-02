@@ -1,4 +1,12 @@
 {
+  "max-file-line-count": [
+    true,
+    300
+  ],
+  "interface-name": [
+    true,
+    "always-prefix"
+  ],
   "rulesDirectory": [
     "node_modules/codelyzer"
   ],
@@ -12,7 +20,10 @@
     "curly": true,
     "eofline": true,
     "forin": true,
-    "import-blacklist": [true, "rxjs"],
+    "import-blacklist": [
+      true,
+      "rxjs"
+    ],
     "import-spacing": true,
     "indent": [
       true,
@@ -46,7 +57,10 @@
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
-    "no-inferrable-types": [true, "ignore-params"],
+    "no-inferrable-types": [
+      true,
+      "ignore-params"
+    ],
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
@@ -70,6 +84,7 @@
     ],
     "radix": true,
     "semicolon": [
+      true,
       "always"
     ],
     "triple-equals": [
@@ -97,9 +112,18 @@
       "check-separator",
       "check-type"
     ],
-
-    "directive-selector": [true, "attribute", "fg", "camelCase"],
-    "component-selector": [true, "element", "fg", "kebab-case"],
+    "directive-selector": [
+      true,
+      "attribute",
+      "fg",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "fg",
+      "kebab-case"
+    ],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,

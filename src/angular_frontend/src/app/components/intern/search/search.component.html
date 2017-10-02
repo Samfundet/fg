@@ -1,0 +1,136 @@
+<!-- Container -->
+<div fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="25px">
+  <form [formGroup]="searchForm" (ngSubmit)="search()" fxLayout="column" fxFlex="20%" fxLayoutGap="15px">
+    <div fxLayout="column">
+      <label>Album</label>
+      <select formControlName="album">
+      <option [ngValue]="album.id" *ngFor="let album of albums">{{album.name}}</option>
+    </select>
+    </div>
+    <div fxLayout="column">
+      <label>Motiv</label>
+      <input type="text" formControlName="motive">
+    </div>
+    <div fxLayout="column">
+      <label>Tag</label>
+      <input type="text" formControlName="tags">
+    </div>
+    <div fxLayout="column">
+      <label>Fra Dato</label>
+      <!-- <input type="text" formControlName="date_taken"> -->
+      <div fxLayout="row" fxLayoutAlign="start">
+        <input fxFlex="75" (click)="dpFrom.toggleCalendar()" class="datepicker clickable" ngx-mydatepicker [options]="options" #dpFrom="ngx-mydatepicker"
+          formControlName="date_taken_from">
+        <button type="button" class="btn btn-info" (click)="dpFrom.toggleCalendar()">
+          <i class="fa fa-calendar"></i>
+        </button>
+      </div>
+    </div>
+    <div fxLayout="column">
+      <label>Til Dato</label>
+      <!-- <input type="text" formControlName="date_taken"> -->
+      <div fxLayout="row" fxLayoutAlign="start">
+        <input fxFlex="75" (click)="dpTo.toggleCalendar()" class="datepicker clickable" ngx-mydatepicker [options]="options" #dpTo="ngx-mydatepicker"
+          formControlName="date_taken_to">
+        <button type="button" class="btn btn-info" (click)="dpTo.toggleCalendar()">
+          <i class="fa fa-calendar"></i>
+        </button>
+      </div>
+    </div>
+    <div fxLayout="column">
+      <label>Media</label>
+      <select formControlName="media">
+      <option [ngValue]="media.id" *ngFor="let media of mediums">{{media.name}}</option>
+    </select>
+    </div>
+    <div fxLayout="column">
+      <label>Kategori</label>
+      <select formControlName="category">
+      <option [ngValue]="category.id" *ngFor="let category of categories">{{category.name}}</option>
+    </select>
+    </div>
+    <div fxLayout="column">
+      <label>Sted</label>
+      <select formControlName="place">
+      <option [ngValue]="place.id" *ngFor="let place of places">{{place.name}}</option>
+    </select>
+    </div>
+    <div fxLayout="column">
+      <label>Sikkerhetsnivå</label>
+      <select formControlName="security_level">
+      <option [ngValue]="securityLevel.id" *ngFor="let securityLevel of securityLevels">{{securityLevel.name}}</option>
+    </select>
+    </div>
+
+    <div fxLayout="column">
+      <label for="lapel">Oppslagsbilde</label>
+      <select formControlName="lapel">
+        <option *ngFor="let lapel of truthies" [ngValue]="lapel.value">
+          {{lapel.name}}
+        </option>
+      </select>
+    </div>
+    <div fxLayout="column">
+      <label for="on_home_page">Vises på forsiden</label>
+      <select formControlName="on_home_page">
+        <option *ngFor="let on_home_page of truthies" [ngValue]="on_home_page.value">
+          {{on_home_page.name}}
+        </option>
+      </select>
+    </div>
+    <div fxLayout="column">
+      <label for="splash">Sett som bannerbilde</label>
+      <select formControlName="splash">
+        <option *ngFor="let splash of truthies" [ngValue]="splash.value">
+          {{splash.name}}
+        </option>
+      </select>
+    </div>
+
+    <button class="btn btn-primary" type="submit" [disabled]="!searchForm.valid">
+      <i class="fa fa-search"></i> Søk
+    </button>
+
+    <p>{{searchForm.value | json}}</p>
+    <p>{{searchForm.valid | json}}</p>
+  </form>
+
+  <!-- Results box -->
+  <div class="search-table-container" fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
+    <button class="btn" (click)="editAllMarked()">Endre alle markerte</button>
+    <table class="search-table">
+      <thead class="search-table--head">
+        <tr class="search-table--head--row">
+          <td>Album</td>
+          <td>Motiv</td>
+          <td>Dato</td>
+          <td>Kategori</td>
+          <td>Sted</td>
+          <td>Oppslag</td>
+          <td>Skannet</td>
+          <td>Rettighet</td>
+          <td>Miniatyr</td>
+          <td>Endre</td>
+        </tr>
+      </thead>
+      <tbody class="search-table--body">
+        <tr *ngFor="let photo of photoResponse?.results" class="search-table--body--row">
+          <td>{{photo?.album.name}}</td>
+          <td>{{photo?.motive}}</td>
+          <td>{{photo?.date_taken | date:'dMy'}}</td>
+          <td>{{photo?.category.name}}</td>
+          <td>{{photo?.place.name}}</td>
+          <td>{{photo?.lapel}}</td>
+          <td>{{photo?.scanned}}</td>
+          <td>{{photo?.security_level.name}}</td>
+          <td><img class="search-table--img clickable hover-outline" (click)="onPhotoClick(photo)" [src]="photo?.photo?.small" ></td>
+          <td fxLayout="column">
+            <a class="search-table--link" [routerLink]="['../rediger']" [queryParams]="{id: photo.id}">Endre</a>
+            <a class="search-table--link" (click)="delete(photo)">Slett</a>
+            <input type="checkbox" (click)="check($event, photo)">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

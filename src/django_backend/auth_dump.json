@@ -1,0 +1,25 @@
+[
+    {
+        "model": "fg_auth.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$36000$JqAh7EOzGIlW$gyXNSx1BS6U8kuXoM0cbgNXLyoE46/58Cts4sxQaKSg=",
+            "last_login": "2017-08-06T19:47:04.606Z",
+            "is_superuser": true,
+            "username": "fg",
+            "first_name": "",
+            "last_name": "",
+            "email": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2017-08-06T19:47:04.606Z",
+            "address": "",
+            "zip_code": null,
+            "city": "",
+            "phone": null,
+            "member_number": null,
+            "groups": [],
+            "user_permissions": []
+        }
+    }
+]

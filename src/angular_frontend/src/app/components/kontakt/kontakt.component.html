@@ -1,0 +1,50 @@
+<!-- Main -->
+<div id="main">
+  <section class="wrapper style1">
+    <div class="inner">
+      <h4>Kontakt</h4>
+      <div class="table-wrapper">
+        <table>
+          <tbody>
+            <tr>
+              <td>Generelle henvendelser</td>
+              <td>fg@samfundet.no</td>
+            </tr>
+            <tr>
+              <td>Henvendelser relatert til kjøp og bruk av bilder</td>
+              <td>fg-salg@samfundet.no</td>
+            </tr>
+            <tr>
+              <td>Henvendelser relatert til arkivet</td>
+              <td>fg-arkiv@samfundet.no</td>
+            </tr>
+            <tr>
+              <td>Tekniske henvendelser relatert til nettsiden</td>
+              <td>fg-web@samfundet.no</td>
+            </tr>
+            <tr>
+              <td>Henvendelser til gjengsjef</td>
+              <td>fg-sjef@samfundet.no</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </section>
+  <section class="wrapper style2">
+    <div class="inner">
+
+      <div *ngIf="aktive?.length > 0">
+        <h2>Aktive</h2>
+        <fg-person *ngFor="let user of aktive; let i = index" [isEven]="i % 2 === 0" [user]="user"></fg-person>
+      </div>
+
+      <div *ngIf="aktivePanger?.length > 0">
+        <h2>Aktive panger</h2>
+        <fg-person *ngFor="let user of aktivePanger; let i = index" [isEven]="i % 2 === 0" [user]="user"></fg-person>
+      </div>
+
+    </div>
+  </section>
+</div>

@@ -19,5 +19,6 @@ tests/report/
 
 
 # Media files
-media
+files/media
+!files/media/default.jpg
 static

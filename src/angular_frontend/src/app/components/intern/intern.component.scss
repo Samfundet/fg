@@ -1,0 +1,19 @@
+@import '../../../styles/_colors.scss';
+
+
+.tab {
+  color: #BABABA;
+  padding: 1em;
+  font-size: 1em;
+  background-color: $interactive_dark;
+  border-bottom: 5px solid $interactive_dark;
+  transition: all 0.5s;
+
+  &.active {
+    border-color: white;
+  }
+
+  &:hover {
+    filter: brightness(150%);
+  }
+}

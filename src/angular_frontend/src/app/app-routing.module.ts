@@ -1,12 +1,84 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { MainComponent } from 'app/components';
+import {
+  MainComponent,
+  InfoComponent,
+  KontaktComponent,
+  InternComponent,
+  HistoryComponent,
+  PricepointsComponent,
+  FaqComponent,
+  CreditComponent,
+  PhotosComponent,
+  UploadComponent,
+  NotFoundComponent,
+  SearchComponent,
+  EditComponent
+} from 'app/components';
+
+import { AuthGuardService } from 'app/services';
 
 const routes: Routes = [
   {
     path: '',
+    redirectTo: '/forside',
+    pathMatch: 'full'
+  },
+  {
+    path: 'forside',
     component: MainComponent
+  },
+  {
+    path: 'info',
+    component: InfoComponent
+  },
+  {
+    path: 'kontakt',
+    component: KontaktComponent
+  },
+  {
+    path: 'intern',
+    canActivate: [AuthGuardService],
+    component: InternComponent,
+    children: [
+      {
+        path: 'opplasting',
+        component: UploadComponent
+      },
+      {
+        path: 'søk',
+        component: SearchComponent
+      },
+      {
+        path: 'rediger',
+        component: EditComponent
+      }
+    ]
+  },
+  {
+    path: 'foto',
+    component: PhotosComponent
+  },
+  {
+    path: 'info/historie',
+    component: HistoryComponent
+  },
+  {
+    path: 'info/faq',
+    component: FaqComponent
+  },
+  {
+    path: 'info/kredittering',
+    component: CreditComponent
+  },
+  {
+    path: 'info/priser',
+    component: PricepointsComponent
+  },
+  { // 404 If not recognized
+    path: '**',
+    component: NotFoundComponent
   }
 ];
 

@@ -1,13 +1,25 @@
-/* Theme colors */
+/* Theme */
 $brand: rgba(180, 32, 37, 1);
-$background: rgba(247, 247, 242, 1);
-$background_contrast: rgba(34, 34, 34, 1);
-$background2: rgba(207, 219, 213, 1);
-$background-contrast2: rgba(49, 57, 60, 1);
+$background: #020B13;
+$interactive_dark: #041625;
+$background-gradient-left: #062038;
+$background-gradient-right: #41484f;
+$outline: rgba(255, 255, 255, 0.075);
 
 /* Bootstraplike theme */
+$default: #DFDFDF;
+$default-contrast: #000;
 $info: rgba(0, 117, 162, 1);
+$info-contrast: #fff;
 $warning: rgba(247, 240, 82, 1);
+$warning-contrast: #000;
 $success: rgba(94, 243, 140, 1);
+$success-contrast: #000;
 $primary: rgba(55, 114, 255, 1);
+$primary-contrast: #fff;
 $danger: rgba(223, 41, 53, 1);
+$danger-contrast: #fff;
+
+// Utility
+$lighten-percent: 20%;
+$darken-percent: 15%;

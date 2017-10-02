@@ -1,0 +1,26 @@
+@import '../../../styles/breakpoints.scss';
+
+:host {
+  width: 100%;
+  display: block;
+  left: 0;
+}
+
+.grid-item, .grid-item-2 {
+  margin: 15px;
+}
+
+.grid-item {
+  width: 300px;
+
+  @media (max-width: 600px) {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+  }
+}
+
+.grid {
+  margin: 0 auto;
+}
+

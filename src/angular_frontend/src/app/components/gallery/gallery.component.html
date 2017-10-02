@@ -1,28 +1,13 @@
-<div
-  [masonryLayout]="250"
-  [masonryLength]="root.results.length"
-  class="masonry-grid"
-  #masonry="masonryLayout">
-
-
-  <img *ngFor="let photoResult of root.results" src="{{photoResult.photo.small}}" class="masonry-item" alt="{{photoResult.description}}"/>
+<div class="col center-xs">
+  <fg-photo-masonry class="p-t-1" *ngIf="store.photos$ | async" [photos]="(store.photos$ | async)?.results">
+  </fg-photo-masonry>
+  <div class="p-t-1">
+    <button class="big-button" (click)="getMorePhotos()">Mer</button>
+  </div>
 </div>
 
 <!-- <span *ngFor="let photoResult of root.results" class="image fit">
   <img  src="{{photoResult.photo.medium}}"
         srcset="{{photoResult.photo.small}} 400w, {{photoResult.photo.medium}} 900w, {{photoResult.photo.large}} 1200w"
-        alt="{{photoResult.description}}"/>
+        alt="{{photoResult.motive}}"/>
 </span> -->
-
-<!--
-
-<!--
-<div class="col-xs-12 row center-xs p-t-2">
-  <div *ngIf="root" class="col-xs-12">
-    <div class="row center-xs">
-      <img *ngFor="let photoResult of root.results" [class]="photoResult.klass" src="{{photoResult.photo.small}}" srcset="{{photoResult.photo.small}} 400w, {{photoResult.photo.medium}} 900w, {{photoResult.photo.large}} 1200w"
-        alt="{{photoResult.description}}" />
-    </div>
-    <!--TODO bug with iOS devices, seems to only pick first element in srcset no matter what
-  </div>
-</div> -->

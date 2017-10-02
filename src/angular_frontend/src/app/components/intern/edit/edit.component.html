@@ -1,0 +1,94 @@
+<!-- Container -->
+<div fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="25px">
+  <form *ngIf="editForm" [formGroup]="editForm" (ngSubmit)="update()" fxLayout="column" fxFlex="30%" fxLayoutGap="15px">
+    <div fxLayout="column">
+      <label>Album</label>
+      <select formControlName="album">
+        <option [ngValue]="album.id" *ngFor="let album of albums">{{album.name}}</option>
+      </select>
+    </div>
+    <div fxLayout="column">
+      <label>Motiv</label>
+      <input type="text" formControlName="motive">
+    </div>
+    <div fxLayout="column">
+      <label>Tag</label>
+      <input type="text" formControlName="tags">
+    </div>
+    <div fxLayout="column">
+      <label>Dato</label>
+      <input type="text" formControlName="date_taken">
+    </div>
+    <div fxLayout="column">
+      <label>Media</label>
+      <select formControlName="media">
+        <option [ngValue]="media.id" *ngFor="let media of mediums">{{media.name}}</option>
+      </select>
+    </div>
+    <div fxLayout="column">
+      <label>Kategori</label>
+      <select formControlName="category">
+        <option [ngValue]="category.id" *ngFor="let category of categories">{{category.name}}</option>
+      </select>
+    </div>
+    <div fxLayout="column">
+      <label>Sted</label>
+      <select formControlName="place">
+        <option [ngValue]="place.id" *ngFor="let place of places">{{place.name}}</option>
+      </select>
+    </div>
+    <div fxLayout="column">
+      <label>Sikkerhetsnivå</label>
+      <select formControlName="security_level">
+        <option [ngValue]="securityLevel.id" *ngFor="let securityLevel of securityLevels">{{securityLevel.name}}</option>
+      </select>
+    </div>
+
+
+    <div fxLayout="column">
+      <label for="lapel">Oppslagsbilde</label>
+      <input id="lapel" type="checkbox" formControlName="lapel">
+    </div>
+    <div fxLayout="column">
+      <label for="on_home_page">Vises på forsiden</label>
+      <input id="on_home_page" type="checkbox" formControlName="on_home_page">
+    </div>
+    <div fxLayout="column">
+      <div fxLayout="row">
+        <label for="splash">Sett som bannerbilde</label>
+        <div class="chip"><i class="fa fa-certificate"></i> Ny!</div>
+      </div>
+      <input id="splash" type="checkbox" formControlName="splash">
+    </div>
+
+    <button class="btn btn-warning" type="submit" [disabled]="!editForm.valid">
+        <i class="fa fa-edit"></i> Rediger
+      </button>
+
+    <p>{{editForm.value | json}}</p>
+    <p>{{editForm.valid | json}}</p>
+  </form>
+
+  <!-- Preview box -->
+  <div fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
+    <div fxLayout="row" fxLayoutAlign="space-between" *ngFor="let photo of photos">
+      <table class="search-table">
+        <thead class="search-table--head">
+          <tr class="search-table--head--row">
+            <td>Album</td>
+            <td>Dato</td>
+          </tr>
+        </thead>
+        <tbody class="search-table--body">
+          <tr class="search-table--body--row">
+            <td>{{photo.album.name}}</td>
+            <td>{{photo.date_taken | date:'dMy'}}</td>
+          </tr>
+          <tr>
+            <td colspan="10"><img class="preview-img" [src]="photo.photo.medium"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

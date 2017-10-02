@@ -1,28 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api.service';
-import { PhotoResponse, IPhotoResponse } from './gallery.model';
+import { StoreService } from 'app/services';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { PhotoResponse, IResponse, IPhoto, IFilters } from 'app/model';
+import { isNumeric } from 'rxjs/util/isNumeric';
+import 'rxjs/add/operator/first';
+
+class GalleryParams {
+  page: number;
+
+  constructor(params: Params) {
+    this.page = isNumeric(params.page) ? +params.page : 1;
+  }
+}
 
 @Component({
-  host: { class: 'p-a-1' },
   selector: 'fg-gallery',
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss']
 })
-export class GalleryComponent implements OnInit {
-  root: PhotoResponse;
+export class GalleryComponent {
+  filters: IFilters;
 
-  constructor(public apiService: ApiService) {}
-
-  /* TODO, move to own method with default parameter and create listen to scroll to bottom
-   * http://stackoverflow.com/questions/40664766/angular2-how-to-detect-scroll-to-bottom-of-html-element */
-  ngOnInit() {
-    this.apiService.getImages().subscribe(
-      (data: IPhotoResponse) => this.root = new PhotoResponse(data),
-      err => console.error(err)
-    );
+  constructor(
+    public store: StoreService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    route.queryParams.first().subscribe(p => {
+      this.filters = { page: p.page || '1' };
+      this.store.setFiltersAction(this.filters);
+    });
   }
 
-  diagnostic(obj) {
-    return JSON.stringify(obj);
+  getMorePhotos() {
+    const filters = this.store.getMorePhotosAction();
+    if (filters) {
+      this.filters = filters;
+      this.router.navigate([], {
+        queryParams: filters
+      });
+    }
   }
 }

@@ -1,8 +1,17 @@
-<section id="banner" data-video="images/banner">
-  <div class="inner">
-    <header>
-      <h1>Bandnavn</h1>
+<section id="banner" [style.background-image]="sanitizedImage">
+  <div class="inner" *ngIf="photo; else default">
+    <header class="p-b-2">
+      <h2>{{photo.motive}}</h2>
+      <sub>{{photo.place.name}}</sub>
     </header>
-    <a href="#main" class="button big alt scrolly">Gå til album</a>
+    <a href="#main" class="big-button">Se flere bilder</a>
   </div>
+  <!-- If there's no splash on this page, display default image -->
+  <ng-template #default>
+    <div class="inner">
+      <header class="p-b-2">
+        <h2>fotogjengen</h2>
+      </header>
+    </div>
+  </ng-template>
 </section>
