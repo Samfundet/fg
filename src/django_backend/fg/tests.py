@@ -4,7 +4,7 @@ from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 from rest_framework import status
 from .api import models
-from .api.views import PhotoViewSet, LatestSplashPhotoView
+from .api.views import PhotoViewSet, LatestSplashPhotoView, SendOrderMail
 from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, PROD_PATH, SECURITY_LEVELS
 from django.apps import apps
 from django.core.files import File
@@ -192,8 +192,6 @@ class PhotoTestCase(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), expected_count)
-
-
 
 
 class UserPermissionTestCase(APITestCase):
@@ -448,3 +446,40 @@ class PhotoCRUDTestCase(APITestCase):
 
     def test_anon_user_cannot_post(self):
         pass
+
+
+class ShoppingCartTestCase(APITestCase):
+    photos = []
+
+    def setUp(self):
+        seed_foreign_keys()
+        seed_groups()
+        seed_security_levels()
+        seed_users()
+        self.photos = seed_photos()
+        self.factory = APIRequestFactory()
+
+    def tearDown(self):
+        if self.photos:
+            delete_photos(self.photos)
+
+    def test_form_becomes_email(self):
+
+        view = SendOrderMail.as_view()
+
+        form = {
+            'name': 'asd',
+            'address': 'asd',
+            'postnumber': 'asd',
+            'place': 'asd',
+
+            'email': 'asd',
+            'size': 'asd',
+            'post_or_get': 'asdas'
+        }
+
+        request = self.factory.post(path='/api/shopping-cart', data=form)
+        response = view(request)
+
+        print(response)
+

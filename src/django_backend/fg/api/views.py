@@ -4,8 +4,11 @@ from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import RetrieveAPIView, ListAPIView
 from rest_framework.pagination import BasePagination
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from ..permissions import IsFGOrReadOnly, IsFG
+from rest_framework.permissions import AllowAny
 from . import models, serializers, filters
 
 from django.core.mail import EmailMessage
@@ -73,7 +76,6 @@ class SecurityLevelViewSet(ModelViewSet):
     serializer_class = serializers.SecurityLevelSerializer
     permission_classes = [IsFG]
     pagination_class = UnlimitedPagination
-
 
 
 class PhotoViewSet(ModelViewSet):
@@ -186,18 +188,30 @@ class PhotoListFromIds(ListAPIView):
 
         return models.Photo.objects.none()
 
-def sendOrderMail(request, name, addr, postnum, place, from_email, size, get_or_post, images):
-    if request.method == 'POST':
-        email = EmailMessage('Bildebestilling ' + name,  # Subject
-                             'Navn: ' + name + '\n' +  # Body begins here
-                             'Addresse: ' + addr + '\n' +
-                             'Postnummer: ' + postnum + '\n' +
-                             'Sted: ' + place + '\n' +
-                             'Størrelse: ' + size + '\n' +
-                             'Hente selv: ' + get_or_post + '\n' +
-                             'Bilder: ' + images,  # Body ends here
-                             from_email=from_email,  # Users email
-                             to=['mikkel.sandsbraaten@gmail.com'], # FG email
-                             headers={'Message-ID': 'foo'} # Headers TODO
+
+class SendOrderMail(APIView):
+    """
+    This view takes a form and sends an email to fg-salg
+    """
+    serializers = serializers.ShoppingCartSerializer
+    permission_classes = [AllowAny]
+
+    def post(self, request, format=None):
+        #raise(RuntimeError(request.data))
+
+        email = EmailMessage('Bildebestilling ' + request.data['name'],  # Subject
+                             'Navn: ' + request.data['name']+ '\n' +  # Body begins here
+                             'Addresse: ' + request.data['address']+ '\n' +
+                             'Postnummer: ' + request.data['postnumber']+ '\n' +
+                             'Sted: ' + request.data['place']+ '\n' +
+                             'Størrelse: ' + request.data['size']+ '\n' +
+                             'Hente selv: ' + request.data['post_or_get']+ '\n',
+                             # 'Bilder: ' + images
+                             # Body ends here
+                             from_email=request.data['email'],  # Users email
+                             to=['mikkel.sandsbraaten@gmail.com'],  # FG email
+                             headers={'Message-ID': 'foo'}  # Headers TODO
                              )
         email.send()
+
+        return Response(email)

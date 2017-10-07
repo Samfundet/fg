@@ -151,3 +151,8 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+
+class ShoppingCartSerializer(serializers.Serializer):
+    foo = serializers.CharField()
+
