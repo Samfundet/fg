@@ -157,30 +157,28 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
 class OrderPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.OrderPhoto
-        fields = '__all__'
+        fields = ('photo', 'format')
 
 
-class OrderSerializer(WritableNestedModelSerializer):
-    order_photos = OrderPhotoSerializer(many=True)
+class OrderSerializer(serializers.ModelSerializer):
+    order_photos = OrderPhotoSerializer(many=True, required=False)
 
     class Meta:
         model = models.Order
         fields = '__all__'
 
-        #
-        # def create(self, validated_data):
-        #     print(validated_data)
-        #     order_photos = validated_data.pop('order_photos')
-        #
-        #     order = models.Order.objects.create(**validated_data)
-        #     order.order_photos = order_photos
-        #
-        #     for op in order_photos:
-        #         order_photo = models.OrderPhoto.objects.create(photo=op.photo,
-        #                                                        order=order,
-        #                                                        format=op.format)
-        #         order_photo.save()
-        #
-        #     order.save()
-        #
-        #     return order
+    def create(self, validated_data):
+        order_photos = validated_data.pop('order_photos')
+        order = models.Order.objects.create(**validated_data)
+
+        for op in order_photos:
+            order_photo = models.OrderPhoto.objects.create(
+                photo=op['photo'],
+                order=order,
+                format=op['format']
+            )
+            order_photo.save()
+
+        order.save()
+
+        return order

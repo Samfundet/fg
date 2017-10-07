@@ -101,6 +101,7 @@ def seed_users():
     )
     admin.save()
 
+
 def get_default_image():
     return {'name': 'default.jpg', 'file': open(MEDIA_ROOT + 'default.jpg', 'rb')}
 
@@ -463,7 +464,6 @@ class OrderTestCase(APITestCase):
             delete_photos(self.photos)
 
     def test_order_is_created(self):
-
         view = OrderViewSet.as_view({'post': 'create'})
 
         data = {
@@ -475,13 +475,20 @@ class OrderTestCase(APITestCase):
             'post_or_get': 'get',
             'comment': 'i really like turtles',
             'order_photos': [
-                {'pk': 1, 'format': 'bigAF'},
+                {'photo': 1, 'format': 'bigAF'},
                 {'photo': 2, 'format': 'smallAF'}
             ]
         }
 
-        request = self.factory.post(path='/api/orders', data=data)
+        request = self.factory.post(path='/api/orders', format='json', data=data)
         response = view(request)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED, msg=response.data)
+        order = models.Order.objects.all()[0]
+        self.assertEqual(order.name, data['name'])
+        order_photo_count = models.OrderPhoto.objects.count()
+        self.assertEqual(order_photo_count, 2)
+        order_photos = models.OrderPhoto.objects.all()
 
+        for op in order_photos:
+            self.assertEqual(op.order.pk, order.pk)

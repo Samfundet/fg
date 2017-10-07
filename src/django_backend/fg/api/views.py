@@ -196,3 +196,10 @@ class OrderViewSet(ModelViewSet):
     serializer_class = serializers.OrderSerializer
     permission_classes = [IsFgOrPostOnly]
     queryset = models.Order.objects.all()
+
+
+class OrderPhotoViewSet(ModelViewSet):
+
+    serializer_class = serializers.OrderPhotoSerializer
+    permission_classes = [IsFgOrPostOnly]
+    queryset = models.OrderPhoto.objects.all()
