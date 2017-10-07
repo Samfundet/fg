@@ -7,11 +7,11 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from ..permissions import IsFGOrReadOnly, IsFG
+from ..permissions import IsFGOrReadOnly, IsFG, IsFgOrPostOnly
 from rest_framework.permissions import AllowAny
 from . import models, serializers, filters
 
-from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 
 
 class UnlimitedPagination(BasePagination):
@@ -189,29 +189,10 @@ class PhotoListFromIds(ListAPIView):
         return models.Photo.objects.none()
 
 
-class SendOrderMail(APIView):
+class OrderViewSet(ModelViewSet):
     """
-    This view takes a form and sends an email to fg-salg
+    API endpoint that allows for viewing and editing orders
     """
-    serializers = serializers.ShoppingCartSerializer
-    permission_classes = [AllowAny]
-
-    def post(self, request, format=None):
-        #raise(RuntimeError(request.data))
-
-        email = EmailMessage('Bildebestilling ' + request.data['name'],  # Subject
-                             'Navn: ' + request.data['name']+ '\n' +  # Body begins here
-                             'Addresse: ' + request.data['address']+ '\n' +
-                             'Postnummer: ' + request.data['postnumber']+ '\n' +
-                             'Sted: ' + request.data['place']+ '\n' +
-                             'Størrelse: ' + request.data['size']+ '\n' +
-                             'Hente selv: ' + request.data['post_or_get']+ '\n',
-                             # 'Bilder: ' + images
-                             # Body ends here
-                             from_email=request.data['email'],  # Users email
-                             to=['mikkel.sandsbraaten@gmail.com'],  # FG email
-                             headers={'Message-ID': 'foo'}  # Headers TODO
-                             )
-        email.send()
-
-        return Response(email)
+    serializer_class = serializers.OrderSerializer
+    permission_classes = [IsFgOrPostOnly]
+    queryset = models.Order.objects.all()

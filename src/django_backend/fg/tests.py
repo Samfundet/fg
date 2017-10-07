@@ -4,7 +4,7 @@ from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 from rest_framework import status
 from .api import models
-from .api.views import PhotoViewSet, LatestSplashPhotoView, SendOrderMail
+from .api.views import PhotoViewSet, LatestSplashPhotoView, OrderViewSet
 from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, PROD_PATH, SECURITY_LEVELS
 from django.apps import apps
 from django.core.files import File
@@ -447,7 +447,7 @@ class PhotoCRUDTestCase(APITestCase):
         pass
 
 
-class ShoppingCartTestCase(APITestCase):
+class OrderTestCase(APITestCase):
     photos = []
 
     def setUp(self):
@@ -462,23 +462,26 @@ class ShoppingCartTestCase(APITestCase):
         if self.photos:
             delete_photos(self.photos)
 
-    def test_form_becomes_email(self):
+    def test_order_is_created(self):
 
-        view = SendOrderMail.as_view()
+        view = OrderViewSet.as_view({'post': 'create'})
 
-        form = {
-            'name': 'asd',
-            'address': 'asd',
-            'postnumber': 'asd',
-            'place': 'asd',
-
-            'email': 'asd',
-            'size': 'asd',
-            'post_or_get': 'asdas'
+        data = {
+            'name': 'nameyName',
+            'email': 'mail@mail.com',
+            'address': 'addressy',
+            'place': 'placey',
+            'zip_code': '1234',
+            'post_or_get': 'get',
+            'comment': 'i really like turtles',
+            'order_photos': [
+                {'pk': 1, 'format': 'bigAF'},
+                {'photo': 2, 'format': 'smallAF'}
+            ]
         }
 
-        request = self.factory.post(path='/api/shopping-cart', data=form)
+        request = self.factory.post(path='/api/orders', data=data)
         response = view(request)
 
-        print(response)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED, msg=response.data)
 

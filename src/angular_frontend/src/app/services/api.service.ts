@@ -81,6 +81,6 @@ export class ApiService {
   }
 
   sendImageOrder(formData) {
-    return null;
+    return this.http.post(`api/shopping-cart/`, formData);
   }
 }

@@ -243,7 +243,3 @@ GROUPS = {
 
 # Security levels
 SECURITY_LEVELS = ["ALLE", "HUSFOLK", "FG"]
-
-#Email backend
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-

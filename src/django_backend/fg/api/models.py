@@ -144,3 +144,27 @@ class Photo(models.Model):
 
     class Meta:
         get_latest_by = 'date_taken'
+
+
+class Order(models.Model):
+    name = models.CharField(max_length=64)
+    email = models.EmailField(max_length=32)
+    address = models.CharField(max_length=64)
+    place = models.CharField(max_length=32)
+    zip_code = models.CharField(max_length=4)
+    post_or_get = models.CharField(max_length=16)
+    comment = models.TextField(max_length=512)
+    date_created = models.DateTimeField(auto_now=True)
+    order_completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name + ' - ' + self.email
+
+
+class OrderPhoto(models.Model):
+    photo = models.ForeignKey(Photo)
+    order = models.ForeignKey(Order)
+    format = models.CharField(max_length=16)
+
+    def __str__(self):
+        return self.photo + ' - ' + self.order + ' - ' + self.format

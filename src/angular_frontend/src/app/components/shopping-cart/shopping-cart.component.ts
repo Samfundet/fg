@@ -36,6 +36,7 @@ export class ShoppingCartComponent implements OnInit {
 
   onSubmit() {
     const formValue = this.cartForm.value;
+    this.api.sendImageOrder(formValue).subscribe();
   }
 
 }

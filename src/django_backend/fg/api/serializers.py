@@ -1,7 +1,8 @@
 from rest_framework import serializers
-from fg.api import models
-from fg.settings import VERSATILEIMAGEFIELD_SETTINGS
+from . import models
+from ..settings import VERSATILEIMAGEFIELD_SETTINGS
 from versatileimagefield.serializers import VersatileImageFieldSerializer
+from drf_writable_nested import WritableNestedModelSerializer
 
 
 # Domain model serializations
@@ -153,6 +154,33 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
         return instance
 
 
-class ShoppingCartSerializer(serializers.Serializer):
-    foo = serializers.CharField()
+class OrderPhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.OrderPhoto
+        fields = '__all__'
 
+
+class OrderSerializer(WritableNestedModelSerializer):
+    order_photos = OrderPhotoSerializer(many=True)
+
+    class Meta:
+        model = models.Order
+        fields = '__all__'
+
+        #
+        # def create(self, validated_data):
+        #     print(validated_data)
+        #     order_photos = validated_data.pop('order_photos')
+        #
+        #     order = models.Order.objects.create(**validated_data)
+        #     order.order_photos = order_photos
+        #
+        #     for op in order_photos:
+        #         order_photo = models.OrderPhoto.objects.create(photo=op.photo,
+        #                                                        order=order,
+        #                                                        format=op.format)
+        #         order_photo.save()
+        #
+        #     order.save()
+        #
+        #     return order

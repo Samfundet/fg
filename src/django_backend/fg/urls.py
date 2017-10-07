@@ -16,6 +16,7 @@ router.register(r'albums', api_views.AlbumViewSet)
 router.register(r'places', api_views.PlaceViewSet)
 router.register(r'security-levels', api_views.SecurityLevelViewSet)
 router.register(r'photos', api_views.PhotoViewSet, base_name='photo')
+router.register(r'orders', api_views.OrderViewSet, base_name='order')
 
 urlpatterns = [
     # Authentication
@@ -28,6 +29,5 @@ urlpatterns = [
     url(r'^api/auth/', include('rest_framework.urls', namespace='rest_framework')),
     # APIVIEW endpoints
     url(r'^api/photos/latest-splash', api_views.LatestSplashPhotoView.as_view(), name="latest-splash"),
-    url(r'^api/photos/list-from-ids', api_views.PhotoListFromIds.as_view(), name="list-from-ids"),
-    url(r'^api/shopping-cart', api_views.SendOrderMail.as_view(), name="shopping-cart")
+    url(r'^api/photos/list-from-ids', api_views.PhotoListFromIds.as_view(), name="list-from-ids")
 ]
