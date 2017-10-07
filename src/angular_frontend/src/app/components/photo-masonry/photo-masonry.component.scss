@@ -1,4 +1,5 @@
 @import '../../../styles/breakpoints.scss';
+@import '../../../styles/_colors.scss';
 
 :host {
   width: 100%;
@@ -24,3 +25,6 @@
   margin: 0 auto;
 }
 
+.in-cart-icon {
+  outline: 1px solid $success;
+}

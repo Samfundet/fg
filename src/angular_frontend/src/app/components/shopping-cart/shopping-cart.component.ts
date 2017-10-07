@@ -11,20 +11,17 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./shopping-cart.component.css']
 })
 export class ShoppingCartComponent implements OnInit {
-  public cart = this.store.photoShoppingCart$.getValue();
   public cartForm: FormGroup;
-  public cartInfoForm: FormControl;
-  photoResponse: IResponse<IPhoto>;
 
   constructor(
-    private store: StoreService,
+    public store: StoreService,
     private fb: FormBuilder,
     private api: ApiService,
     private route: ActivatedRoute,
   ) {  }
 
   ngOnInit() {
-    console.log(this.cart);
+    // console.log(this.cart);
     this.cartForm = this.fb.group({
       name: ['', [Validators.required]],
       address: ['', [Validators.required]],
@@ -36,23 +33,17 @@ export class ShoppingCartComponent implements OnInit {
       post_or_get: [, [Validators.required]],
     });
 
-    const photoIds = [];
-    for (const image of this.cart) {
-      photoIds.push(image.id);
-    }
-    if (photoIds.length > 0) {
-      this.api.getPhotosFromIds(photoIds).subscribe(p => this.photoResponse = p);
-    }
+    // const photoIds = [];
+    // for (const image of this.cart) {
+    //   photoIds.push(image.id);
+    // }
+    // if (photoIds.length > 0) {
+    //   this.api.getPhotosFromIds(photoIds).subscribe(p => this.photoResponse = p);
+    // }
   }
 
   onSubmit() {
     const formValue = this.cartForm.value;
   }
-
-  /*   ngOnDestroy() {
-      if (this._sub) {
-        this._sub.unsubscribe();
-      }
-    } */
 
 }

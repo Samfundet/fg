@@ -8,6 +8,7 @@
       (click)="onPhotoClick(photo)"
       src="{{photo.photo.medium}}"
       class="grid-item clickable hover-outline"
+      [ngClass]="[photo.addedToCart ? 'in-cart-icon':'']"
       alt="{{photo.motive}}"
     />
 </div>

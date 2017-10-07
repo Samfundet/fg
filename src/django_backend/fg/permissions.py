@@ -6,7 +6,7 @@ class IsFGOrReadOnly(BasePermission):
     """
     Object-level permission to only allow read-only operations.
     """
-    message = "You must be in the FG group in order to see or edit this item."
+    message = "You must be in the FG group in order to edit this item."
 
     def has_permission(self, request, view):
         # Read permissions are allowed to any request,
@@ -22,6 +22,8 @@ class IsFGOrReadOnly(BasePermission):
 
 
 class IsFG(BasePermission):
+    message = "You must be in the FG group in order to see this item."
+
     def has_permission(self, request, view):
         return request.user and is_authenticated(request.user) and (
             request.user.groups.filter(name="FG").exists()
