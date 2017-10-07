@@ -8,6 +8,8 @@ from rest_framework.viewsets import ModelViewSet
 from ..permissions import IsFGOrReadOnly, IsFG
 from . import models, serializers, filters
 
+from django.core.mail import EmailMessage
+
 
 class UnlimitedPagination(BasePagination):
     def paginate_queryset(self, queryset, request, view=None):
@@ -183,3 +185,19 @@ class PhotoListFromIds(ListAPIView):
             return models.Photo.objects.filter(id__in=ids)
 
         return models.Photo.objects.none()
+
+def sendOrderMail(request, name, addr, postnum, place, from_email, size, get_or_post, images):
+    if request.method == 'POST':
+        email = EmailMessage('Bildebestilling ' + name,  # Subject
+                             'Navn: ' + name + '\n' +  # Body begins here
+                             'Addresse: ' + addr + '\n' +
+                             'Postnummer: ' + postnum + '\n' +
+                             'Sted: ' + place + '\n' +
+                             'Størrelse: ' + size + '\n' +
+                             'Hente selv: ' + get_or_post + '\n' +
+                             'Bilder: ' + images,  # Body ends here
+                             from_email=from_email,  # Users email
+                             to=['mikkel.sandsbraaten@gmail.com'], # FG email
+                             headers={'Message-ID': 'foo'} # Headers TODO
+                             )
+        email.send()

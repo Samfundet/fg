@@ -38,7 +38,8 @@ import {
   NotFoundComponent,
   SearchComponent,
   EditComponent,
-  LoginComponent
+  LoginComponent,
+  ShoppingCartComponent
 } from 'app/components';
 
 @NgModule({
@@ -70,7 +71,8 @@ import {
     NotFoundComponent,
     SearchComponent,
     EditComponent,
-    LoginComponent
+    LoginComponent,
+    ShoppingCartComponent,
   ],
   imports: [
     BrowserModule,

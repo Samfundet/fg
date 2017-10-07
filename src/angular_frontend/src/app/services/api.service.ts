@@ -79,4 +79,8 @@ export class ApiService {
   refreshToken(current_token): Observable<any> {
     return this.http.post(`api/token-refresh/`, {token: current_token});
   }
+
+  sendImageOrder(formData) {
+    return this.http.post
+  }
 }

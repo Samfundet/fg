@@ -14,7 +14,8 @@ import {
   UploadComponent,
   NotFoundComponent,
   SearchComponent,
-  EditComponent
+  EditComponent,
+  ShoppingCartComponent,
 } from 'app/components';
 
 import { AuthGuardService } from 'app/services';
@@ -76,10 +77,14 @@ const routes: Routes = [
     path: 'info/priser',
     component: PricepointsComponent
   },
+  {
+    path: 'handlekurv',
+    component: ShoppingCartComponent
+  },
   { // 404 If not recognized
     path: '**',
     component: NotFoundComponent
-  }
+  },
 ];
 
 @NgModule({
