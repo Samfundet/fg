@@ -3,7 +3,6 @@ from .. import settings
 from django.db import models
 from versatileimagefield.fields import VersatileImageField, PPOIField
 
-
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True, db_index=True)
 

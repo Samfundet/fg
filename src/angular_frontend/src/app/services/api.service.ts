@@ -14,9 +14,11 @@ export class ApiService {
 
   getPhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
     let params = new HttpParams();
-    for (const key of Object.keys(filters)) {
-      if (filters[key] !== null) {
-        params = params.append(key, filters[key]);
+    if (filters) {
+      for (const key of Object.keys(filters)) {
+        if (filters[key] !== null) {
+          params = params.append(key, filters[key]);
+        }
       }
     }
     return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
@@ -29,8 +31,10 @@ export class ApiService {
 
   getHomePagePhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
     let params = new HttpParams();
-    for (const key of Object.keys(filters)) {
-      params = params.append(key, filters[key]);
+    if (filters) {
+      for (const key of Object.keys(filters)) {
+        params = params.append(key, filters[key]);
+      }
     }
     params = params.append('on_home_page', 'true');
     return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });

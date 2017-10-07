@@ -45,12 +45,11 @@ export class StoreService {
 
   getMorePhotosAction(): IFilters {
     if (this._photos$.getValue() && this._photos$.getValue().next) {
-      const filters = { page: this._photos$.getValue().next.split('?page=')[1] };
+      const filters = { cursor: this.getQueryParamValue(this._photos$.getValue().next, 'cursor') };
       if (filters) {
         this.setFiltersAction(filters);
         return filters;
       }
-      return null;
     }
   }
 
@@ -147,6 +146,16 @@ export class StoreService {
     localStorage.setItem('csrf_token', t.token);
     if (username) {
       localStorage.setItem('username', username);
+    }
+  }
+
+  private getQueryParamValue(url: string, param: string): string {
+    const vars = url.split('?')[1].split('&');
+    for (let i = 0; i < vars.length; i++) {
+      const pair = vars[i].split('=');
+      if (pair[0] === param) {
+        return pair[1];
+      }
     }
   }
 }

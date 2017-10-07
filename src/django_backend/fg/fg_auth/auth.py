@@ -1,4 +1,4 @@
-import pwd
+import pwd, itkacl
 
 from django.conf import settings
 from fg.settings import GROUPS
@@ -50,7 +50,6 @@ class KerberosBackend:
             pass
 
         try:
-            import itkacl
             if itkacl.check("/web/fg", user.username):
                 user.is_staff = True
                 #user.security_level = SecurityLevel.objects.get(name__iexact="FG")
@@ -66,7 +65,6 @@ class KerberosBackend:
 
     def has_perm(self, user_obj, perm, obj=None):
         try:
-            import itkacl
             if perm == 'fg':
                 return itkacl.check("/web/fg", user_obj.username)
             if perm == 'husfolk':

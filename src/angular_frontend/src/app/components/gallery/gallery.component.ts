@@ -27,7 +27,7 @@ export class GalleryComponent {
     private route: ActivatedRoute
   ) {
     route.queryParams.first().subscribe(p => {
-      this.filters = { page: p.page || '1' };
+      this.filters = p.cursor ? { cursor: p.cursor || '' } : null;
       this.store.setFiltersAction(this.filters);
     });
   }

@@ -2,7 +2,9 @@
   masonryLayout
   [masonryOptions]="masonryOptions"
   [input]="photos"
-  class="grid">
+  class="grid"
+  [@photosAnimation]="photos?.length"
+  >
     <img
       *ngFor="let photo of photos; let i = index"
       (click)="onPhotoClick(photo)"

@@ -2,7 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_filters.backends import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import RetrieveAPIView, ListAPIView
-from rest_framework.pagination import BasePagination
+from rest_framework.pagination import BasePagination, CursorPagination
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -84,6 +84,7 @@ class PhotoViewSet(ModelViewSet):
     """
     permission_classes = [IsFGOrReadOnly]
     serializer_class = None
+    pagination_class = CursorPagination
 
     # Filters and search
     filter_backends = (OrderingFilter, SearchFilter, DjangoFilterBackend)

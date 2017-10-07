@@ -2,7 +2,6 @@ from rest_framework import serializers
 from . import models
 from ..settings import VERSATILEIMAGEFIELD_SETTINGS
 from versatileimagefield.serializers import VersatileImageFieldSerializer
-from drf_writable_nested import WritableNestedModelSerializer
 
 
 # Domain model serializations

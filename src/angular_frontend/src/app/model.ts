@@ -94,7 +94,7 @@ export interface IOrderPhoto {
 }
 
 export interface IFilters {
-  page?: string;
+  cursor?: string;
   search?: string;
 }
 
