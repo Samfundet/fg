@@ -175,7 +175,7 @@ class PhotoListFromIds(ListAPIView):
     Retrieves a list of photos from a list of ids
     """
     serializer_class = serializers.PhotoSerializer
-    permission_classes = [IsFG]
+    permission_classes = [IsFGOrReadOnly]
 
     def get_queryset(self):
         user = self.request.user

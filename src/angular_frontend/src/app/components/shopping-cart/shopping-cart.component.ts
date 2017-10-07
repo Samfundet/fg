@@ -35,12 +35,14 @@ export class ShoppingCartComponent implements OnInit {
       size: ['', [Validators.required]],
       post_or_get: [, [Validators.required]],
     });
-    const formValue = this.cartForm.value;
+
     const photoIds = [];
     for (const image of this.cart) {
       photoIds.push(image.id);
     }
-    this.api.getPhotosFromIds(photoIds).subscribe(p => this.photoResponse = p);
+    if (photoIds.length > 0) {
+      this.api.getPhotosFromIds(photoIds).subscribe(p => this.photoResponse = p);
+    }
   }
 
   onSubmit() {
