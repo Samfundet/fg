@@ -54,18 +54,13 @@
 
   </form>
 
-  <div *ngIf="res">
-    Response:
-    <pre>{{ res | json }}</pre>
-  </div>
-
   <!-- img preview -->
   <div fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
-    <div *ngIf="cart.length <= 0">
-      <h1>Handlekurven er tom</h1>
-    </div>
-    <div *ngFor="let item of cart" class="preview" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10px">
-      {{ item.album.name }}
+    <div *ngIf="cart.length > 0">
+      <div>
+          <fg-photo-masonry class="p-t-1" *ngIf="photoResponse?.results" [photos]="photoResponse?.results">
+            </fg-photo-masonry>
+      </div>
     </div>
   </div>
 

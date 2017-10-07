@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { StoreService, ApiService } from 'app/services';
-import { IPhoto, PhotoResponse } from 'app/model';
+import { IPhoto, IResponse } from 'app/model';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'fg-shopping-cart',
@@ -13,10 +14,7 @@ export class ShoppingCartComponent implements OnInit {
   public cart = this.store.photoShoppingCart$.getValue();
   public cartForm: FormGroup;
   public cartInfoForm: FormControl;
-
-
-  res: any;
-  photo: IPhoto[];
+  photoResponse: IResponse<IPhoto>;
 
   constructor(
     private store: StoreService,
@@ -37,9 +35,12 @@ export class ShoppingCartComponent implements OnInit {
       size: ['', [Validators.required]],
       post_or_get: [, [Validators.required]],
     });
-
     const formValue = this.cartForm.value;
-
+    const photoIds = [];
+    for (const image of this.cart) {
+      photoIds.push(image.id);
+    }
+    this.api.getPhotosFromIds(photoIds).subscribe(p => this.photoResponse = p);
   }
 
   onSubmit() {

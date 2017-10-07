@@ -81,6 +81,6 @@ export class ApiService {
   }
 
   sendImageOrder(formData) {
-    return this.http.post
+    return null;
   }
 }
