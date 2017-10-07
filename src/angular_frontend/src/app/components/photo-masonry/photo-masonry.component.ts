@@ -14,14 +14,14 @@ import { StoreService } from 'app/services/store.service';
         query(
           ':enter',
           style({ opacity: 0, transform: 'translateY(-20%)' }),
-          {optional: true}
+          { optional: true }
         ),
         query(
           ':enter',
           stagger('100ms', [
             animate('100ms', style({ opacity: 1, transform: 'translateY(0)' }))
           ]),
-          {optional: true}
+          { optional: true }
         )
       ])
     ])
