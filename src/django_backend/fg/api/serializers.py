@@ -161,7 +161,7 @@ class OrderPhotoSerializer(serializers.ModelSerializer):
 
 
 class OrderSerializer(serializers.ModelSerializer):
-    order_photos = OrderPhotoSerializer(many=True, required=False)
+    order_photos = OrderPhotoSerializer(many=True, required=False)  # TODO why required False?
 
     class Meta:
         model = models.Order
@@ -171,6 +171,8 @@ class OrderSerializer(serializers.ModelSerializer):
         order_photos = validated_data.pop('order_photos')
         order = models.Order.objects.create(**validated_data)
 
+        if len(order_photos) <= 0:
+            return None # FIXME
         for op in order_photos:
             order_photo = models.OrderPhoto.objects.create(
                 photo=op['photo'],

@@ -1,0 +1,11 @@
+.shopping-card {
+
+
+  &--image {
+    height: inherit;
+  }
+
+  &--image > img {
+    max-height: 12rem;
+  }
+}

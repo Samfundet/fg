@@ -4,111 +4,101 @@
       <!-- mailing form -->
       <div fxLayout="row" fxLayoutGap="20px" fxFlexAlign="center" id="main container">
 
-        <form [formGroup]="cartForm" (ngSubmit)="onSubmit()" fxLayout="column" fxFlex="30" fxLayoutGap="15px">
-
-          <div fxLayout="column">
-            <label>Navn</label>
-            <input type="text" formControlName="name">
-          </div>
-
-          <div fxLayout="column">
-            <label>Addresse</label>
-            <input type="text" formControlName="address">
-          </div>
-
-          <div fxLayout="column">
-            <label>Postnummer</label>
-            <input type="text" formControlName="postnumber">
-          </div>
-
-          <div fxLayout="column">
-            <label>Sted</label>
-            <input type="text" formControlName="place">
-          </div>
-
-          <div fxLayout="column">
-            <label>Epost</label>
-            <input type="text" formControlName="email">
-          </div>
-
-          <div fxLayout="column">
-            <label>Størrelse</label>
-            <input type="text" formControlName="size">
-          </div>
-
-          <div fxLayout="column">
-
+        <form [formGroup]="cartForm" (ngSubmit)="onSubmit()" fxFill fxLayout="row" fxLayoutGap="30px">
+          <div fxLayout="column" fxFlex="30" fxLayoutGap="15px">
             <div fxLayout="column">
-              <label>Send i post</label>
-              <input type="radio" formControlName="post_or_get" value="send-in-post">
+              <label>Navn</label>
+              <input type="text" formControlName="name">
             </div>
 
             <div fxLayout="column">
-              <label>Hent selv</label>
-              <input type="radio" formControlName="post_or_get" value="get-by-self">
+              <label>Epost</label>
+              <input type="email" formControlName="email">
             </div>
 
+            <div fxLayout="column">
+              <label>Addresse</label>
+              <input type="text" formControlName="address">
+            </div>
+
+            <div fxLayout="column">
+              <label>Sted</label>
+              <input type="text" formControlName="place">
+            </div>
+
+            <div fxLayout="column">
+              <label>Postnummer</label>
+              <input type="text" formControlName="zip_code">
+            </div>
+
+            <div fxLayout="column">
+
+              <div fxLayout="column">
+                <label>Send i post</label>
+                <input type="radio" formControlName="post_or_get" value="send-in-post">
+              </div>
+
+              <div fxLayout="column">
+                <label>Hent selv</label>
+                <input type="radio" formControlName="post_or_get" value="get-by-self">
+              </div>
+
+            </div>
+
+            <div fxLayout="column">
+              <label>Kommentar</label>
+              <input type="text" formControlName="comment">
+            </div>
+
+            <div fxLayout="column">
+              <button class="btn btn-success" type="submit" [disabled]="cartForm.invalid">
+                <i class="fa fa-check"></i> Bestill
+              </button>
+            </div>
           </div>
+          <!-- Preview box -->
+          <div fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
+            <div [formGroup]="cartForm.controls['order_photos']" class="shopping-card" fxLayout="row" fxLayoutAlign="space-between" *ngFor="let photo of (store.photoShoppingCart$ | async); let i = index">
 
-
-          <div fxLayout="column">
-            <input type="submit" value="submit" [disabled]="cartForm.invalid">
+              <div class="shopping-card--image">
+                <img [src]="photo.photo.small">
+              </div>
+              <div class="shopping-card--details">
+                <div fxLayout="row" fxLayoutGap="25px" class="shopping-card--details--formats">
+                  <div>
+                    <label>A5</label>
+                    <input type="radio" [name]="i" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format" value="A5">
+                  </div>
+                  <div>
+                    <label>A4</label>
+                    <input type="radio" [name]="i" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format" value="A4">
+                  </div>
+                  <div>
+                    <label>A3</label>
+                    <input type="radio" [name]="i" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format" value="A3">
+                  </div>
+                  <div>
+                    <label>A2</label>
+                    <input type="radio" [name]="i" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format" value="A2">
+                  </div>
+                  <div>
+                    <label>A1</label>
+                    <input type="radio" [name]="i" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format" value="A1">
+                  </div>
+                  <div>
+                    <label>Digitalt</label>
+                    <input type="radio" [name]="i" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format" value="Digitalt">
+                  </div>
+                </div>
+                <div>
+                  HERE COMES SOMETHING
+                </div>
+              </div>
+            </div>
           </div>
-
         </form>
-
-        <!-- img preview -->
-        <div fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
-          <fg-photo-masonry class="p-t-1" [photos]="store.photoShoppingCart$ | async">
-          </fg-photo-masonry>
-        </div>
-
       </div>
-
-
-      <!-- This form doesnt work, making new one that is not copypasta -->
-      <!-- <div fxLayout="row">
-        <label>Navn</label>
-        <input type="text" formControlName="name">
-      </div>
-
-      <div fxLayout="row">
-        <label>Addresse</label>
-        <input type="text" formControlName="address">
-      </div>
-
-      <div fxLayout="row">
-        <label>Postnummer</label>
-        <input type="text" formControlName="postnumber">
-      </div>
-
-      <div fxLayout="row">
-        <label>Sted</label>
-        <input type="text" formControlName="place">
-      </div>
-
-      <div fxLayout="row">
-        <label>Epost</label>
-        <input type="text" formControlName="email">
-      </div>
-
-      <div fxLayout="row">
-        <label>Størrelse</label>
-        <input type="text" formControlName="size">
-      </div>
-
-      <div fxLayout="row">
-        <label>Send i post</label>
-        <input type="radio-button" formControlName="post_or_get">
-        <label>Hent selv</label>
-        <input type="radio-button" formControlName="post_or_get">
-      </div>
-
-      <div fxLayout="row">
-        <input type="submit" value="submit" [disabled]="!cartForm.valid">
-      </div> -->
-
     </div>
-
+    {{cartForm.value | json}}
   </section>
 </div>

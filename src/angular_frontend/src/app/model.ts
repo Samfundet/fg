@@ -77,6 +77,22 @@ export interface IUser {
   last_name?: string;
 }
 
+export interface IOrder {
+  name: string;
+  email: string;
+  address: string;
+  place: string;
+  zip_code: string;
+  post_or_get: string;
+  comment: string;
+  order_photos: IOrderPhoto[];
+}
+
+export interface IOrderPhoto {
+  photo: number;
+  format: string;
+}
+
 export interface IFilters {
   page?: string;
   search?: string;
@@ -108,6 +124,8 @@ export const testData: IResponse<IPhoto> = {
     }
   ]
 };
+
+
 
 export interface IForeignKey {
   name: string;

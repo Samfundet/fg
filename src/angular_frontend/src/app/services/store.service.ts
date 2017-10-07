@@ -8,6 +8,7 @@ import { ApiService } from 'app/services/api.service';
 import { IResponse, IPhoto, IFilters, ILoginRequest } from 'app/model';
 import { DELTA } from 'app/config';
 import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/skip';
 
 @Injectable()
 export class StoreService {
@@ -16,8 +17,8 @@ export class StoreService {
   private _filters$ = new Subject<IFilters>();
   private _loginModal$ = new BehaviorSubject<ILoginRequest>(null);
   private _refreshToken$ = new Subject<any>();
+  private _photoShoppingCart$ = new BehaviorSubject<IPhoto[]>([]);
   public photoRouteActive$ = new Subject<boolean>();
-  public photoShoppingCart$ = new BehaviorSubject<IPhoto[]>([]);
   public photoModal$ = new BehaviorSubject<IPhoto>(null);
 
   // TODO
@@ -31,6 +32,10 @@ export class StoreService {
     this._refreshToken$.debounceTime(1000).subscribe(t => {
       api.refreshToken(t).subscribe(new_token => this.storeToken(new_token));
     });
+
+    // get photos that are in localStorage and add to photoShoppingCart
+    this._photoShoppingCart$.next(JSON.parse(localStorage.getItem('photoShoppingCart')));
+    this._photoShoppingCart$.skip(1).subscribe(c => localStorage.setItem('photoShoppingCart', JSON.stringify(c)));
   }
 
   // Actions that can be dispatched (Must end with Action)
@@ -54,13 +59,24 @@ export class StoreService {
   }
 
   addPhotoToCartAction(photo: IPhoto): void {
-    const cart = this.photoShoppingCart$.getValue();
+    const cart = this.getPhotoShoppingCartValue();
+    photo.addedToCart = true;
+    if (cart.find(p => p.id === photo.id)) {
+      return;
+    }
     cart.push(photo);
-    this.photoShoppingCart$.next(cart);
+    this._photoShoppingCart$.next(cart);
+  }
+
+  removePhotoFromCartAction(photo: IPhoto): void {
+    photo.addedToCart = false;
+    const cart = this.getPhotoShoppingCartValue();
+    cart.splice(cart.indexOf(photo), 1);
+    this._photoShoppingCart$.next(cart);
   }
 
   showLoginModalAction(returnUrl?) {
-    this._loginModal$.next({ username: '', password: ''});
+    this._loginModal$.next({ username: '', password: '' });
     this.returnUrl = returnUrl;
   }
 
@@ -106,6 +122,14 @@ export class StoreService {
 
   get loginModal$(): Observable<ILoginRequest> {
     return this._loginModal$.asObservable();
+  }
+
+  get photoShoppingCart$(): Observable<IPhoto[]> {
+    return this._photoShoppingCart$.asObservable();
+  }
+
+  getPhotoShoppingCartValue(): IPhoto[] {
+    return this._photoShoppingCart$.getValue() || [];
   }
 
   // Private methods

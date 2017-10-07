@@ -153,7 +153,7 @@ class Order(models.Model):
     place = models.CharField(max_length=32)
     zip_code = models.CharField(max_length=4)
     post_or_get = models.CharField(max_length=16)
-    comment = models.TextField(max_length=512)
+    comment = models.TextField(max_length=512, blank=True)
     date_created = models.DateTimeField(auto_now=True)
     order_completed = models.BooleanField(default=False)
 
@@ -167,4 +167,4 @@ class OrderPhoto(models.Model):
     format = models.CharField(max_length=16)
 
     def __str__(self):
-        return self.photo + ' - ' + self.order + ' - ' + self.format
+        return str(self.photo) + ' - ' + self.order.email + ' - ' + self.format

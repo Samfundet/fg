@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Headers, RequestOptions } from '@angular/http';
-import { IResponse, IPhoto, IUser, IFilters, IForeignKey, ILoginRequest } from 'app/model';
+import { IResponse, IPhoto, IUser, IOrder, IFilters, IForeignKey, ILoginRequest } from 'app/model';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
@@ -72,15 +72,15 @@ export class ApiService {
     return this.http.put(`/api/photos/${photo.id}/`, formData);
   }
 
+  order(order: IOrder) {
+    return this.http.post(`api/orders/`, order);
+  }
+
   login(data: ILoginRequest): Observable<any> {
     return this.http.post(`api/token-auth/`, data);
   }
 
   refreshToken(current_token): Observable<any> {
-    return this.http.post(`api/token-refresh/`, {token: current_token});
-  }
-
-  sendImageOrder(formData) {
-    return this.http.post(`api/shopping-cart/`, formData);
+    return this.http.post(`api/token-refresh/`, { token: current_token });
   }
 }
