@@ -101,7 +101,6 @@ def seed_users():
     )
     admin.save()
 
-
 def get_default_image():
     return {'name': 'default.jpg', 'file': open(MEDIA_ROOT + 'default.jpg', 'rb')}
 
