@@ -46,15 +46,16 @@ class SecurityLevel(models.Model):
     name = models.CharField(max_length=16, unique=True, db_index=True)
 
     def __str__(self):
-        return self.name
+        return self.name.upper()
 
 
 def path_and_rename(instance, filename):
     image_type = '.%s' % filename.split('.')[-1]
     album = instance.album.name.upper()
+    security_level = instance.security_level.name.upper()
     page = str(instance.page).zfill(2)
     image_number = str(instance.image_number).zfill(2)
-    return settings.PROD_PATH+"%s/%s" % (album, album + page + image_number + image_type)
+    return "%s/%s/%s" % (security_level, album, album + page + image_number + image_type)
 
 
 class Photo(models.Model):
@@ -100,6 +101,8 @@ class Photo(models.Model):
                 self.move_image_file_location()
             elif orig.page != self.page:
                 self.move_image_file_location()
+            elif orig.security_level != self.security_level:
+                self.move_image_file_location()
             elif orig.image_number != self.image_number:
                 self.move_image_file_location()
 
@@ -123,8 +126,11 @@ class Photo(models.Model):
             print(e)
 
     def relative_url(self, image_type='.jpg'):
-        album = self.album.name.upper()
-        return settings.PROD_PATH+"%s/%s" % (album, self.file_name(image_type=image_type))
+        return "%s/%s/%s" % (
+            self.security_level.name.upper(),
+            self.album.name.upper(),
+            self.file_name(image_type=image_type)
+        )
 
     def file_name(self, image_type=".jpg"):
         album = self.album.name.lower()
@@ -143,6 +149,7 @@ class Photo(models.Model):
 
     class Meta:
         get_latest_by = 'date_taken'
+
 
 
 class Order(models.Model):

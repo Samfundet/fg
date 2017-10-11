@@ -221,8 +221,8 @@ AUTH_USER_MODEL = 'fg_auth.User'
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 AUTHENTICATION_BACKENDS = (
-    'fg.fg_auth.auth.KerberosBackend',
-    'django.contrib.auth.backends.ModelBackend',
+    'fg.apps.fg_auth.auth.KerberosBackend',
+    'django.contrib.auth.backends.ModelBackend'
 )
 
 # JWT SETTINGS

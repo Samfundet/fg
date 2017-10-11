@@ -1,10 +1,9 @@
-from django.contrib.auth.models import Group
-from django.contrib.auth import get_user_model
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework import authentication
 from rest_framework import viewsets
-from rest_framework.views import APIView
+from rest_framework import exceptions
 from . import models, serializers
-from ..permissions import IsFGOrReadOnly, IsFG
+from django.contrib.auth import get_user_model
+from ..permissions import IsFGOrReadOnly
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -16,3 +15,17 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsFGOrReadOnly]
 
 
+class KerberosAuthentication(authentication.BaseAuthentication):
+    User = get_user_model()
+
+    def authenticate(self, request):
+        username = request.META.get('REMOTE_USER') or request.META.get('HTTP_REMOTE_USER')
+        if not username:
+            return None
+
+        try:
+            user = self.User.objects.get(username=username)
+        except self.User.DoesNotExist:
+            raise exceptions.AuthenticationFailed('No such user')
+
+        return (user, None)

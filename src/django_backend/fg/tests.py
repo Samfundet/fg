@@ -153,14 +153,28 @@ class PhotoTestCase(TestCase):
 
     def test_new_photo_saves_file_in_correct_directory(self):
         """Tests if photos are saved to the correct album folder with appropriate filename"""
-        retrieved_photo = models.Photo.objects.all()[0]
+        photo = models.Photo.objects.all()[0]
         expected_path = os.path.join(
             MEDIA_ROOT,
-            PROD_PATH,
-            retrieved_photo.album.name,
-            retrieved_photo.album.name + str(retrieved_photo.page) + str(retrieved_photo.image_number) + '.jpg'
+            photo.security_level.name.upper(),
+            photo.album.name.upper(),
+            photo.album.name.upper() + str(photo.page) + str(photo.image_number) + '.jpg'
         )
-        self.assertEqual(retrieved_photo.photo.path, expected_path)
+        self.assertEqual(photo.photo.path, expected_path)
+
+    def test_photo_security_level_changed_moves_file_to_correct_directory(self):
+        photo = models.Photo.objects.all()[0]
+        photo.security_level = models.SecurityLevel.objects.filter(name__iexact="FG").first()
+
+        photo.save()
+
+        expected_path = os.path.join(
+            MEDIA_ROOT,
+            "FG",
+            photo.album.name.upper(),
+            photo.album.name.upper() + str(photo.page) + str(photo.image_number) + '.jpg'
+        )
+        self.assertEqual(photo.photo.path, expected_path)
 
     def test_exact_motive_search_retrieves_single_image(self):
         seed_photos()
