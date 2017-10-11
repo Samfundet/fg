@@ -13,6 +13,7 @@ enum TOKEN_STATUS {
   NO_TOKEN
 }
 
+/**@Deprecated  */
 @Injectable()
 export class OutAuthInterceptor implements HttpInterceptor {
   constructor(private inj: Injector) { }

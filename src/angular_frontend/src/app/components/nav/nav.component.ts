@@ -11,7 +11,7 @@ export class NavComponent implements OnInit {
   isMenuOpen = false;
   searchInput = '';
 
-  constructor(private router: Router, public store: StoreService, public guard: AuthGuardService) {  }
+  constructor(private router: Router, public store: StoreService, public guard: AuthGuardService) { }
 
   ngOnInit() {
   }
@@ -22,7 +22,7 @@ export class NavComponent implements OnInit {
 
   onSearchEnter(value: string) {
     this.router.navigate(['/foto'], {
-      queryParams: {search: value}
+      queryParams: { search: value }
     });
   }
 

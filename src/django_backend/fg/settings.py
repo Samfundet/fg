@@ -221,18 +221,9 @@ AUTH_USER_MODEL = 'fg_auth.User'
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 AUTHENTICATION_BACKENDS = (
-    'fg.apps.fg_auth.auth.KerberosBackend',
+    'fg.fg_auth.auth.KerberosBackend',
     'django.contrib.auth.backends.ModelBackend'
 )
-
-# JWT SETTINGS
-
-JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),  # TODO set to hours=1
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
-    'JWT_AUTH_HEADER_PREFIX': 'FG_JWT'
-}
 
 # Groups
 GROUPS = {

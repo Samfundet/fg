@@ -91,11 +91,11 @@ import {
       provide: LOCALE_ID,
       useValue: 'nb-NO'
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: OutAuthInterceptor,
-      multi: true
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: OutAuthInterceptor,
+    //   multi: true
+    // },
     ApiService,
     StoreService,
     AuthGuardService

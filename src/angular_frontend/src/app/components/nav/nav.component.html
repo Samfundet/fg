@@ -18,12 +18,12 @@
       <input #searchBox class="search-input" id="search-input" type="text" [(ngModel)]="searchInput" (keyup.enter)="onSearchEnter(searchBox.value)"
       />
     </div>
-    <button class="btn transparent" (click)="toggleMenu()"><i class="fa fa-bars"></i> <span fxHide.lt-sm="true">Meny</span></button>
+    <button class="btn transparent open-menu" (click)="toggleMenu()"><i class="fa fa-bars"></i> <span fxHide.lt-sm="true">Meny</span></button>
   </div>
 </header>
 
 <!-- Nav -->
-<nav [ngClass]="[isMenuOpen ? 'visible':'close']" id="menu">
+<nav [ngClass]="[isMenuOpen ? 'visible':'close']" id="menu" (clickOutside)="isMenuOpen ? toggleMenu():''" [exclude]="'.open-menu'">
   <button class="btn transparent menu-closer" (click)="toggleMenu()">LUKK</button>
 
   <a *ngIf="!store.getUsernameAction()" (click)="showLoginModal()" class="login clickable"> Logg inn</a>

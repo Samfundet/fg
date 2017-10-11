@@ -1,16 +1,13 @@
 @import '../../../styles/breakpoints.scss';
+@import '../../../styles/_colors.scss';
 
 .modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  text-align: center;
   z-index: 100001;
-  background: rgba(1, 1, 1, 0.7);
+  background: rgba(1, 1, 1, 0.3);
   margin: auto;
 }
 
@@ -20,12 +17,16 @@
 
 .form {
   width: 20rem;
-  height: 40rem;
+  height: 22rem;
+  padding: 2rem;
+  background: $background-gradient-right;
+  border: 1px solid white;
+  border-radius: 10px;
 
   @media (max-width: $tablet-width) {
     & {
-      width: 10rem;
-      height: 20rem;
+      width: 100vh;
+      height: 60vh;
     }
   }
 }

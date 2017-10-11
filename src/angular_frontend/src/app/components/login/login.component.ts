@@ -24,8 +24,13 @@ export class LoginComponent {
     });
   }
 
-  login() {
-    this.store.loginAction(this.loginForm.value);
+  loginHusfolk() {
+    this.store.loginHusfolkAction(this.loginForm.value);
+    this.shown = false;
+  }
+
+  loginPowerbruker() {
+    this.store.loginPowerbrukerAction(this.loginForm.value);
     this.shown = false;
   }
 }

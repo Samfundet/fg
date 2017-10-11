@@ -1,12 +1,13 @@
 import pwd, itkacl
 
 from django.conf import settings
-from fg.settings import GROUPS
+from ..settings import GROUPS
 from django.contrib.auth.models import Group
-from fg.fg_auth.models import User
+from django.contrib.auth.backends import RemoteUserBackend
+from .models import User
 
 
-class KerberosBackend:
+class KerberosBackend(RemoteUserBackend):
     def authenticate(self, request=None, remote_user=None):
         if remote_user:
             username = self.clean_username(remote_user)
@@ -35,7 +36,6 @@ class KerberosBackend:
         return user
 
     def configure_user(self, user):
-        #user.security_level = SecurityLevel.objects.get(name__iexact="Husfolk")
         self.add_user_to_group(user, "HUSFOLK")
         user.email = '%s@%s' % (user.username, settings.MAIL_DOMAIN)
         try:
@@ -52,7 +52,6 @@ class KerberosBackend:
         try:
             if itkacl.check("/web/fg", user.username):
                 user.is_staff = True
-                #user.security_level = SecurityLevel.objects.get(name__iexact="FG")
                 self.add_user_to_group(user, "FG")
 
         except ImportError:
@@ -61,6 +60,7 @@ class KerberosBackend:
         return user
 
     def add_user_to_group(self, user, group_name):
+        user.groups.clear()
         user.groups.add(Group.objects.get_or_create(name=GROUPS[group_name]))
 
     def has_perm(self, user_obj, perm, obj=None):

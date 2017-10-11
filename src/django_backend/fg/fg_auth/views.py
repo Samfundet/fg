@@ -1,8 +1,10 @@
-from rest_framework import authentication
 from rest_framework import viewsets
-from rest_framework import exceptions
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from django.contrib.auth import authenticate, login
+
 from . import models, serializers
-from django.contrib.auth import get_user_model
 from ..permissions import IsFGOrReadOnly
 
 
@@ -15,17 +17,46 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsFGOrReadOnly]
 
 
-class KerberosAuthentication(authentication.BaseAuthentication):
-    User = get_user_model()
+class LoginViewSet(APIView):
+    permission_classes = [AllowAny]
+    # TODO
 
-    def authenticate(self, request):
-        username = request.META.get('REMOTE_USER') or request.META.get('HTTP_REMOTE_USER')
-        if not username:
-            return None
-
+def login_samfundet_user(request):
+    # state = ""
+    user = None
+    if not request.user.is_anonymous:
+        user = request.user
+    else:
         try:
-            user = self.User.objects.get(username=username)
-        except self.User.DoesNotExist:
-            raise exceptions.AuthenticationFailed('No such user')
+            username = request.META.get(
+                'REMOTE_USER') or request.META.get('HTTP_REMOTE_USER')
+            user = authenticate(remote_user=username)
+        except KeyError:
+            pass
+    if user is not None and user.is_active:
+            login(request, user)
+            return Response('All good!')
+            # if request.GET.get('next'):
+            #     return redirect(request.GET.get('next'))
 
-        return (user, None)
+    return Response('Very bad!')
+
+
+def login_user(request):
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user and user.is_active:
+            login(request, user)
+            return Response(True)
+
+            # if request.GET.get('next'):
+            #     return Response(True)
+            #     # return redirect(request.GET.get('next'))
+            # else:
+            #     return Response(False)
+                # return redirect(reverse('fg.apps.archive.views.home'))
+    # return render(request, 'registration/login.html', {'state': state})
+

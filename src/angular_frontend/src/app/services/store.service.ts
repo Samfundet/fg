@@ -79,9 +79,19 @@ export class StoreService {
     this.returnUrl = returnUrl;
   }
 
-  loginAction(data: ILoginRequest) {
-    this.api.login(data).subscribe(t => {
-      this.storeToken(t, data.username);
+  loginHusfolkAction(data: ILoginRequest) {
+    this.api.loginHusfolk(data).subscribe(t => {
+      // this.storeToken(t, data.username);
+      console.log(this.returnUrl);
+      if (this.returnUrl) {
+        this.router.navigateByUrl(this.returnUrl);
+      }
+    });
+  }
+
+  loginPowerbrukerAction(data: ILoginRequest) {
+    this.api.loginPowerbruker(data).subscribe(t => {
+      // this.storeToken(t, data.username);
       console.log(this.returnUrl);
       if (this.returnUrl) {
         this.router.navigateByUrl(this.returnUrl);
@@ -90,12 +100,12 @@ export class StoreService {
   }
 
   logoutAction() {
-    localStorage.removeItem('csrf_token');
-    localStorage.removeItem('username');
+    // localStorage.removeItem('csrf_token'); TODO
+    // localStorage.removeItem('username');
   }
 
   getUsernameAction() {
-    return localStorage.getItem('username');
+    // return localStorage.getItem('username'); TODO
   }
 
   refreshTokenAction() {

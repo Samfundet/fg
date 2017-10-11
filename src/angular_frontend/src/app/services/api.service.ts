@@ -80,8 +80,12 @@ export class ApiService {
     return this.http.post(`api/orders/`, order);
   }
 
-  login(data: ILoginRequest): Observable<any> {
-    return this.http.post(`api/token-auth/`, data);
+  loginHusfolk(data: ILoginRequest): Observable<any> {
+    return this.http.post(`api/login-husfolk/`, data);
+  }
+
+  loginPowerbruker(data: ILoginRequest): Observable<any> {
+    return this.http.post(`api/login-power/`, data);
   }
 
   refreshToken(current_token): Observable<any> {
