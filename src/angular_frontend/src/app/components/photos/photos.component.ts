@@ -4,6 +4,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { ApiService, StoreService } from 'app/services';
 import { IForeignKey, IResponse, IFilters, IPhoto } from 'app/model';
+import { NgProgressService } from 'ngx-progressbar';
 
 @Component({
   selector: 'fg-photos',
@@ -29,6 +30,7 @@ import { IForeignKey, IResponse, IFilters, IPhoto } from 'app/model';
 })
 export class PhotosComponent implements OnInit, OnDestroy {
   searchInput;
+  searching = false;
   searchForm: FormGroup;
   isAdvanced = false;
   photos: any[];
@@ -43,7 +45,8 @@ export class PhotosComponent implements OnInit, OnDestroy {
     private router: Router,
     private api: ApiService,
     private store: StoreService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private progress: NgProgressService
   ) {
     route.queryParams.subscribe(params => this.search(params as IFilters));
     api.getAlbums().subscribe(x => this.albums = [{ id: null, name: '-- Alle --' }, ...x]);
@@ -78,8 +81,12 @@ export class PhotosComponent implements OnInit, OnDestroy {
     this.router.navigate([], {
       queryParams: filter
     });
+    this.searching = true;
+    this.progress.start();
     this.api.getPhotos(filter).subscribe(response => {
       this.photos = response.results;
+      this.searching = false;
+      this.progress.done();
     });
   }
 

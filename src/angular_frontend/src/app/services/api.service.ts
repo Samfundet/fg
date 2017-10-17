@@ -16,7 +16,7 @@ export class ApiService {
     let params = new HttpParams();
     if (filters) {
       for (const key of Object.keys(filters)) {
-        if (filters[key] !== null) {
+        if (filters[key] !== null && filters[key] !== '') {
           params = params.append(key, filters[key]);
         }
       }

@@ -7,6 +7,7 @@ import { ngfModule } from 'angular-file';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { ClickOutsideModule } from 'ng-click-outside';
+import { NgProgressModule } from 'ngx-progressbar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -84,7 +85,8 @@ import {
     ngfModule,
     FlexLayoutModule,
     NgxMyDatePickerModule.forRoot(),
-    ClickOutsideModule
+    ClickOutsideModule,
+    NgProgressModule
   ],
   providers: [
     {
