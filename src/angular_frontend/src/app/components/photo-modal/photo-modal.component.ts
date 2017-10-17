@@ -26,8 +26,4 @@ export class PhotoModalComponent {
   removeFromShoppingCart() {
     this.store.removePhotoFromCartAction(this.photo);
   }
-
-  goToAlbum() {
-
-  }
 }

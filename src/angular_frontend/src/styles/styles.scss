@@ -288,6 +288,18 @@ hr {
     background-color: transparent;
     color: white;
   }
+
+  &-text {
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 0.1rem;
+    text-decoration: underline;
+
+    &:hover {
+      color: rgb(179, 179, 179);
+    }
+  }
 }
 
 i {
@@ -803,7 +815,10 @@ table.alt tbody tr td {
     position: relative;
     background: $background;
     background: linear-gradient(to bottom right, $background-gradient-left, $background-gradient-right);
-    min-height: 60vh;
+
+    &-min-height {
+      min-height: 60vh;
+    }
 }
 
 .wrapper .inner {
