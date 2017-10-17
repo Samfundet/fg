@@ -7,7 +7,7 @@ import { ngfModule } from 'angular-file';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { ClickOutsideModule } from 'ng-click-outside';
-import { NgProgressModule } from 'ngx-progressbar';
+import { NgProgressModule, NgProgressInterceptor } from 'ngx-progressbar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -93,6 +93,7 @@ import {
       provide: LOCALE_ID,
       useValue: 'nb-NO'
     },
+    { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
     // {
     //   provide: HTTP_INTERCEPTORS,
     //   useClass: OutAuthInterceptor,
