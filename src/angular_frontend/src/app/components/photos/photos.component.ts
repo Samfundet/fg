@@ -5,6 +5,8 @@ import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { ApiService, StoreService } from 'app/services';
 import { IForeignKey, IResponse, IFilters, IPhoto } from 'app/model';
 
+import 'rxjs/add/operator/take';
+
 @Component({
   selector: 'fg-photos',
   templateUrl: './photos.component.html',
@@ -13,13 +15,11 @@ import { IForeignKey, IResponse, IFilters, IPhoto } from 'app/model';
     trigger('slideDown', [
       state('*', style({
         opacity: 1,
-        height: '*',
-        transform: 'translateY(0)'
+        height: '*'
       })),
       state('void', style({
         opacity: 0,
-        height: 0,
-        transform: 'translateY(-20%)'
+        height: 0
       })),
       transition('* => void', animate('400ms ease')),
       transition('void => *', animate('400ms ease'))
@@ -46,7 +46,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
     private store: StoreService,
     private fb: FormBuilder
   ) {
-    route.queryParams.subscribe(params => this.search(params as IFilters));
+    route.queryParams.take(1).subscribe(params => this.initialize(params as IFilters));
     api.getAlbums().subscribe(x => this.albums = [{ id: null, name: '-- Alle --' }, ...x]);
     api.getCategories().subscribe(x => this.categories = [{ id: null, name: '-- Alle --' }, ...x]);
     api.getMediums().subscribe(x => this.mediums = [{ id: null, name: '-- Alle --' }, ...x]);
@@ -55,17 +55,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.store.photoRouteActive$.next(true);
-    this.searchForm = this.fb.group({
-      motive: [, []],
-      tags: [, []],
-      sort: [, []],
-      date_taken_from: [, []],
-      date_taken_to: [, []],
-      category: [, []],
-      media: [, []],
-      album: [, []],
-      place: [, []]
-    });
+
   }
 
   ngOnDestroy() {
@@ -84,6 +74,21 @@ export class PhotosComponent implements OnInit, OnDestroy {
       this.photos = response.results;
       this.searching = false;
     });
+  }
+
+  initialize(filter: any) {
+    this.searchForm = this.fb.group({
+      motive: [filter.motive, []],
+      tags: [filter.tags ? (Array.isArray(filter.tags) ? filter.tags : [filter.tags]) : [], []],
+      sort: [filter.sort, []],
+      date_taken_from: [filter.date_taken_from, []],
+      date_taken_to: [filter.date_taken_to, []],
+      category: [filter.category, []],
+      media: [filter.media, []],
+      album: [filter.album, []],
+      place: [filter.place, []]
+    });
+    this.search(filter);
   }
 
   toggleAdvanced() {

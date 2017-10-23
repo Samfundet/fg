@@ -1444,8 +1444,15 @@ label {
 .clickable {
   outline: 2px solid rgba(0, 0, 0, 0);
   cursor: pointer;
+}
 
+input:disabled {
+  filter: opacity(30%);
+  cursor: not-allowed;
+}
 
+input {
+  border-width: 1px;
 }
 
 .hover-outline:hover {
