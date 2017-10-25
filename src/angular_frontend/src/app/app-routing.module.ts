@@ -17,7 +17,13 @@ import {
   EditComponent,
   ShoppingCartComponent,
   ApplyFgComponent,
-  BookFgComponent
+  BookFgComponent,
+  ArchiveAdminComponent,
+  AlbumComponent,
+  CategoryComponent,
+  MediaComponent,
+  PlaceComponent,
+  StatisticsComponent
 } from 'app/components';
 
 import { AuthGuardService } from 'app/services';
@@ -56,6 +62,32 @@ const routes: Routes = [
       {
         path: 'rediger',
         component: EditComponent
+      },
+      {
+        path: 'arkivadmin',
+        component: ArchiveAdminComponent,
+        children: [
+          {
+            path: 'album',
+            component: AlbumComponent
+          },
+          {
+            path: 'kategori',
+            component: CategoryComponent
+          },
+          {
+            path: 'medium',
+            component: MediaComponent
+          },
+          {
+            path: 'place',
+            component: PlaceComponent
+          },
+          {
+            path: 'statistikk',
+            component: StatisticsComponent
+          },
+        ]
       }
     ]
   },
