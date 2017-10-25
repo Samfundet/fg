@@ -1,3 +1,5 @@
+/* Before ngFlex */
+
 .user {
   border: 1px solid white;
   border-radius: 20px;
@@ -7,7 +9,7 @@
 }
 
 
-.user {
+/* .user {
   overflow: ellipsis;
   display: grid;
   grid-template-columns: 1fr;
@@ -19,9 +21,8 @@
     "user-phone"
     "user-comment";
 }
-
-
-/* @media screen and (min-width: 701px) {
+ */
+/* Dont use this probably @media screen and (min-width: 701px) {
   .user {
     display: grid;
     grid-auto-columns: 1fr 1fr 1fr;
@@ -33,7 +34,7 @@
       "user-comment user-comment user-comment "
   }
 } */
-
+/* 
 .even {
   background-color: rgba(255, 255, 255, 0.075);
 }
@@ -87,4 +88,4 @@ label.person {
 
 hr {
   margin: 1rem;
-}
+} */

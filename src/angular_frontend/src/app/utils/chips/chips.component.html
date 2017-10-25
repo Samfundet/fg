@@ -1,4 +1,4 @@
 <div class="text-input-box" fxLayout="row" fxLayoutAlign="start stretch" fxLayoutGap="5px">
   <chip *ngFor="let chip of chips" [chip]="chip" (onRemoveChip)="removeChip($event)"></chip>
-  <input type="text" class="no-style" #chipInput (keyup.enter)="addChip(chipInput.value, chipInput)">
+  <input type="text" class="no-style chips" #chipInput (keyup.enter)="addChip(chipInput.value, chipInput)">
 </div>

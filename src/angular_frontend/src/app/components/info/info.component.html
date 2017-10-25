@@ -12,51 +12,40 @@
                   På denne siden finner du informasjon om oss og hvilke tjenester vi tilbyr.
                 </p>
             </header>
-            <div class="video">
-                <div class="video-wrapper">
-                    <iframe
-                        width="560"
-                        height="315"
-
-                        frameborder="0"
-                        allowfullscreen
-                    ></iframe>
-                </div>
-                <p class="caption">
-                    In luctus nunc nec lacus condimentum maximus. Nunc vestibulum urna a arcu dignissim, nec aliquam ultrices ac massa eget placerat.
-                </p>
-            </div>
-           <div class="table-wrapper">
+           <div fxLayout="column" class="table-wrapper">
                <table>
                    <thead>
-                        <tr class="links">
-                            <th><a routerLink="kredittering"><h3>Kredittering</h3></a></th>
-                            <th><a routerLink="priser"><h3>Tjenester og priser</h3></a></th>
-                            <th><a routerLink=""><h3>Bestilling</h3></a></th>
+                        <tr fxLayoutAlign="center center" fxLayout="row" class="links">
+                            <th fxFlex="33%"><a routerLink="kredittering"><h3>Kredittering</h3></a></th>
+                            <th fxFlex="33%"><a routerLink="priser"><h3>Tjenester</h3></a></th>
+                            <th fxFlex="33%"><a routerLink=""><h3>Bestilling</h3></a></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><a routerLink="kredittering">Hvordan kreditere bruken av Fotogjengens bilder.</a></td>
-                            <td><a routerLink="priser">Her kan du lese om Fotogjengens tjenester, priser og om hvordan du bestiller bilder på papir.</a></td>
-                            <td><a routerLink="">Ønsker du å bestille bilder eller booke fotogjengen? Send mail til fg-salg@samfundet.no med din henvendelse.</a></td>
+                            <td fxFlex="33%"><a routerLink="kredittering">Hvordan kreditere bruken av Fotogjengens bilder.</a></td>
+                            <td fxFlex="33%"><a routerLink="priser">Her kan du lese om Fotogjengens tjenester, priser og om hvordan du bestiller bilder på papir.</a></td>
+                            <td fxFlex="33%"><a routerLink="">Ønsker du å bestille bilder eller booke fotogjengen? Send mail til fg-salg@samfundet.no med din henvendelse.</a></td>
                         </tr>
                     </tbody>
                </table>
                <table>
                    <thead>
                         <tr>
-                            <th><a><h3>Historie</h3></a></th>
-                            <th><h3>Ønsker du å søke?</h3></th>
+                            <th fxFlex="50%"><a><h3>Historie</h3></a></th>
+                            <th fxFlex="50%"><h3>Ønsker du å søke?</h3></th>
                         </tr>
                    </thead>
                    <tbody>
                        <tr>
-                           <td>Hvordan fotogjngen ble dannet.</td>
-                           <td>Ofte stilte spørsmål.</td>
+                           <td fxFlex="50%"><a href="#">Hvordan fotogjngen ble dannet</a></td>
+                           <td fxFlex="50%"><a href="#">Ofte stilte spørsmål.</a></td>
                        </tr>
                    </tbody>
                </table>
+           </div>
+           <div fxLayout="column">
+                <img src="http://www.telegraph.co.uk/content/dam/Travel/Destinations/Europe/France/Nice/Nice%2C%20france-xlarge.jpg" alt="">
            </div>
         </div>
     </section>
