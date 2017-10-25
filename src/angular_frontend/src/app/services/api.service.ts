@@ -48,6 +48,14 @@ export class ApiService {
     return this.http.get<IResponse<IUser>>(`/api/users/`);
   }
 
+  getFgUsers(): Observable<IUser[]> {
+    return this.http.get<IUser[]>(`/api/users/fg`);
+  }
+
+  getPowerUsers(): Observable<IUser[]> {
+    return this.http.get<IUser[]>(`/api/users/power`);
+  }
+
   getAlbums() {
     return this.http.get<IForeignKey[]>(`api/albums/`);
   }

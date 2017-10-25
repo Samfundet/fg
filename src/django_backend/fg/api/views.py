@@ -7,6 +7,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from ..paginations import UnlimitedPagination
 from ..permissions import IsFGOrReadOnly, IsFG, IsFgOrPostOnly
 from rest_framework.permissions import AllowAny
 from . import models, serializers, filters
@@ -14,9 +15,6 @@ from . import models, serializers, filters
 from django.core.mail import send_mail
 
 
-class UnlimitedPagination(BasePagination):
-    def paginate_queryset(self, queryset, request, view=None):
-        pass
 
 
 class TagViewSet(ModelViewSet):

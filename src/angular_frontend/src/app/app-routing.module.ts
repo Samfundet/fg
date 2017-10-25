@@ -16,6 +16,8 @@ import {
   SearchComponent,
   EditComponent,
   ShoppingCartComponent,
+  PhotogangbangerComponent,
+  PowerusersComponent
 } from 'app/components';
 
 import { AuthGuardService } from 'app/services';
@@ -54,6 +56,14 @@ const routes: Routes = [
       {
         path: 'rediger',
         component: EditComponent
+      },
+      {
+        path: 'fotogjengere',
+        component: PhotogangbangerComponent
+      },
+      {
+        path: 'powerbrukere',
+        component: PowerusersComponent
       }
     ]
   },

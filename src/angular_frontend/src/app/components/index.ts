@@ -12,9 +12,14 @@ export * from './faq/faq.component';
 export * from './pricepoints/pricepoints.component';
 export * from './photos/photos.component';
 export * from './photo-masonry/photo-masonry.component';
+
 export * from './intern/upload/upload.component';
 export * from './intern/edit/edit.component';
 export * from './intern/search/search.component';
+export * from './intern/photogangbanger/photogangbanger.component';
+export * from './intern/powerusers/powerusers.component';
+export * from './intern/user-modal/user-modal.component';
+
 export * from './kontakt/person/person.component';
 export * from './photo-modal/photo-modal.component';
 export * from './not-found/not-found.component';

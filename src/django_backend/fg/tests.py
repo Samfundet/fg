@@ -1,11 +1,12 @@
-import random, os, string, tempfile, json
+import random, os, string, tempfile
 from datetime import datetime
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 from rest_framework import status
 from .api import models
 from .api.views import PhotoViewSet, LatestSplashPhotoView, OrderViewSet
-from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, PROD_PATH, SECURITY_LEVELS
+from .fg_auth.views import FgUsersView, PowerUsersView
+from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, SECURITY_LEVELS
 from django.apps import apps
 from django.core.files import File
 from django.contrib.auth.models import Group
@@ -164,9 +165,10 @@ class PhotoTestCase(TestCase):
 
     def test_photo_security_level_changed_moves_file_to_correct_directory(self):
         photo = models.Photo.objects.all()[0]
-        photo.security_level = models.SecurityLevel.objects.filter(name__iexact="FG").first()
+        photo.security_level = models.SecurityLevel.objects.filter(name="FG").first()
 
         photo.save()
+        print(photo)
 
         expected_path = os.path.join(
             MEDIA_ROOT,
@@ -506,3 +508,37 @@ class OrderTestCase(APITestCase):
 
         for op in order_photos:
             self.assertEqual(op.order.pk, order.pk)
+
+
+class UserTestCase(APITestCase):
+
+    def setUp(self):
+        seed_groups()
+        seed_users()
+        self.factory = APIRequestFactory()
+
+
+    def test_fg_users_can_get_all_fg_users(self):
+        view = FgUsersView.as_view()
+
+        user = User.objects.get(username="FG")
+        request = self.factory.get(path='/api/users/fg')
+        force_authenticate(request, user=user)
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        fg_user_count = User.objects.filter(groups__name="FG").count()
+        self.assertEqual(fg_user_count, len(response.data))
+
+    def test_fg_users_can_get_all_power_users(self):
+        view = PowerUsersView.as_view()
+
+        user = User.objects.get(username="FG")
+        request = self.factory.get(path='/api/users/power')
+        force_authenticate(request, user=user)
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        power_user_count = User.objects.filter(groups__name="POWER").count()
+        self.assertEqual(power_user_count, len(response.data))
+
