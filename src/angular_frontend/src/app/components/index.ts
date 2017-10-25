@@ -20,8 +20,16 @@ export * from './intern/photogangbanger/photogangbanger.component';
 export * from './intern/powerusers/powerusers.component';
 export * from './intern/user-modal/user-modal.component';
 
+export * from './intern/archive-admin/archive-admin.component';
+export * from './intern/archive-admin/album/album.component';
+export * from './intern/archive-admin/category/category.component';
+export * from './intern/archive-admin/media/media.component';
+export * from './intern/archive-admin/place/place.component';
+export * from './intern/archive-admin/statistics/statistics.component';
 export * from './kontakt/person/person.component';
 export * from './photo-modal/photo-modal.component';
 export * from './not-found/not-found.component';
 export * from './login/login.component';
 export * from './shopping-cart/shopping-cart.component';
+export * from './apply-fg/apply-fg.component';
+export * from './book-fg/book-fg.component';

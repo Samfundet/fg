@@ -17,7 +17,15 @@ import {
   EditComponent,
   ShoppingCartComponent,
   PhotogangbangerComponent,
-  PowerusersComponent
+  PowerusersComponent,
+  ApplyFgComponent,
+  BookFgComponent,
+  ArchiveAdminComponent,
+  AlbumComponent,
+  CategoryComponent,
+  MediaComponent,
+  PlaceComponent,
+  StatisticsComponent
 } from 'app/components';
 
 import { AuthGuardService } from 'app/services';
@@ -64,6 +72,32 @@ const routes: Routes = [
       {
         path: 'powerbrukere',
         component: PowerusersComponent
+      },
+      {
+        path: 'arkivadmin',
+        component: ArchiveAdminComponent,
+        children: [
+          {
+            path: 'album',
+            component: AlbumComponent
+          },
+          {
+            path: 'kategori',
+            component: CategoryComponent
+          },
+          {
+            path: 'medium',
+            component: MediaComponent
+          },
+          {
+            path: 'place',
+            component: PlaceComponent
+          },
+          {
+            path: 'statistikk',
+            component: StatisticsComponent
+          },
+        ]
       }
     ]
   },
@@ -86,6 +120,14 @@ const routes: Routes = [
   {
     path: 'info/priser',
     component: PricepointsComponent
+  },
+  {
+    path: 'info/soke-fotogjengen',
+    component: ApplyFgComponent
+  },
+  {
+    path: 'info/leie-fotogjengen',
+    component: BookFgComponent
   },
   {
     path: 'handlekurv',
