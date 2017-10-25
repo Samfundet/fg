@@ -5,14 +5,9 @@ from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 from rest_framework import status
 from .api import models
-<<<<<<< HEAD
 from .api.views import PhotoViewSet, LatestSplashPhotoView, OrderViewSet, AlbumViewSet
-from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, PROD_PATH, SECURITY_LEVELS
-=======
-from .api.views import PhotoViewSet, LatestSplashPhotoView, OrderViewSet
 from .fg_auth.views import FgUsersView, PowerUsersView
 from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, SECURITY_LEVELS
->>>>>>> 24256004373ff728b465fa9d05d22333a613da2e
 from django.apps import apps
 from django.core.files import File
 from django.contrib.auth.models import Group
