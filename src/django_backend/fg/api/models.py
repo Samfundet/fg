@@ -30,6 +30,7 @@ class Media(models.Model):
 class Album(models.Model):
     name = models.CharField(max_length=5, unique=True, db_index=True)
     date_created = models.DateTimeField(blank=True, auto_now_add=True)
+    description = models.CharField(max_length=32)
 
     def __str__(self):
         return self.name

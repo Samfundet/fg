@@ -32,6 +32,8 @@ def seed_foreign_keys(apps):
             Mod = apps.get_model(app_name, model_name)
             for i in range(3):
                 obj = Mod(name=get_rand_string(4))
+                if model_name == 'Album':
+                    obj.description = get_rand_string(8)
                 obj.save()
 
 def seed_security_levels(apps):

@@ -1,3 +1,21 @@
-<p>
-  album works!
-</p>
+<div id="main container">
+  <div class="inner p-b-2" fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutAlign="start" fxLayoutGap="5px">
+
+    <table>
+      <thead>
+        <tr>
+          <th>Navn</th>
+          <th>Beskrivelse</th>
+          <th>Endre</th>
+          <th>Slette</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let album of albums">
+          <td>{{ album.name }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

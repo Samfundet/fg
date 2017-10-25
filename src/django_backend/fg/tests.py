@@ -1,10 +1,11 @@
 import random, os, string, tempfile, json
 from datetime import datetime
+from time import sleep
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 from rest_framework import status
 from .api import models
-from .api.views import PhotoViewSet, LatestSplashPhotoView, OrderViewSet
+from .api.views import PhotoViewSet, LatestSplashPhotoView, OrderViewSet, AlbumViewSet
 from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, PROD_PATH, SECURITY_LEVELS
 from django.apps import apps
 from django.core.files import File
@@ -506,3 +507,20 @@ class OrderTestCase(APITestCase):
 
         for op in order_photos:
             self.assertEqual(op.order.pk, order.pk)
+
+
+class AlbumTestCase(APITestCase):
+    def test_if_album_always_in_descending_order(self):
+        album_count = 20
+        for x in range(album_count):
+            models.Album.objects.create(name=get_rand_string())
+            sleep(0.002)
+        factory = APIRequestFactory()
+        request = factory.get('/api/albums/')
+        view = AlbumViewSet.as_view({'get': 'list'})
+        response = view(request)
+        albums = response.data
+        for num in range(album_count - 1):
+            self.assertGreater(albums[num]['date_created'], albums[num + 1]['date_created'])
+
+

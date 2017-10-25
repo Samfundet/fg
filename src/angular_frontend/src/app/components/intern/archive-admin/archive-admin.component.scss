@@ -1,0 +1,20 @@
+@import '../../../../styles/_colors.scss';
+
+
+.tab {
+    color: #BABABA;
+    padding: 0.1em;
+    font-size: 0.9em;
+    background-color: #374c5f;
+    border-bottom: 5px solid #041625;
+    transition: all 0.5s;
+    text-align: center;
+
+  &.active {
+    border-color: white;
+  }
+
+  &:hover {
+    filter: brightness(150%);
+  }
+}

@@ -80,7 +80,7 @@ const routes: Routes = [
             component: MediaComponent
           },
           {
-            path: 'place',
+            path: 'sted',
             component: PlaceComponent
           },
           {

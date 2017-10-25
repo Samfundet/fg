@@ -52,10 +52,13 @@ class AlbumViewSet(ModelViewSet):
     """
     API endpoint that allows albums to be viewed or edited
     """
+    filter_backends = (OrderingFilter,)
+    ordering_fields = '__all__'
     queryset = models.Album.objects.all()
     serializer_class = serializers.AlbumSerializer
     permission_classes = [IsFGOrReadOnly]
     pagination_class = UnlimitedPagination
+    ordering = ('-date_created',)
 
 
 class PlaceViewSet(ModelViewSet):
