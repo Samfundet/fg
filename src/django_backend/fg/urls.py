@@ -20,7 +20,7 @@ router.register(r'orders', api_views.OrderViewSet, base_name='order')
 
 urlpatterns = [
     # Authentication
-    url(r'^api/token-auth/', obtain_jwt_token),
+    # url(r'^api/token-auth/', obtain_jwt_token),
     # url(r'^api/token-refresh/', refresh_jwt_token),
     url(r'^api/login-husfolk/', auth_views.login_samfundet_user),
     url(r'^api/login-powerbruker/', auth_views.login_user),

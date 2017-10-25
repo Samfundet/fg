@@ -85,7 +85,7 @@ export class ApiService {
   }
 
   loginPowerbruker(data: ILoginRequest): Observable<any> {
-    return this.http.post(`api/login-power/`, data);
+    return this.http.post(`api/login-powerbruker/`, data);
   }
 
   refreshToken(current_token): Observable<any> {

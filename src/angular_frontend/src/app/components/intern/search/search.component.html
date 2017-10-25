@@ -19,7 +19,7 @@
       <label>Fra Dato</label>
       <!-- <input type="text" formControlName="date_taken"> -->
       <div fxLayout="row" fxLayoutAlign="start">
-        <input fxFlex="75" (click)="dpFrom.toggleCalendar()" class="datepicker clickable" ngx-mydatepicker [options]="options" #dpFrom="ngx-mydatepicker"
+        <input fxFlex="100" (click)="dpFrom.toggleCalendar()" class="datepicker clickable right-edge" ngx-mydatepicker [options]="options" #dpFrom="ngx-mydatepicker"
           formControlName="date_taken_from">
         <button type="button" class="btn btn-info" (click)="dpFrom.toggleCalendar()">
           <i class="fa fa-calendar"></i>
@@ -30,7 +30,7 @@
       <label>Til Dato</label>
       <!-- <input type="text" formControlName="date_taken"> -->
       <div fxLayout="row" fxLayoutAlign="start">
-        <input fxFlex="75" (click)="dpTo.toggleCalendar()" class="datepicker clickable" ngx-mydatepicker [options]="options" #dpTo="ngx-mydatepicker"
+        <input fxFlex="100" (click)="dpTo.toggleCalendar()" class="datepicker clickable right-edge" ngx-mydatepicker [options]="options" #dpTo="ngx-mydatepicker"
           formControlName="date_taken_to">
         <button type="button" class="btn btn-info" (click)="dpTo.toggleCalendar()">
           <i class="fa fa-calendar"></i>

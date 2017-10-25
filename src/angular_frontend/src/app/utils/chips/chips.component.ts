@@ -47,4 +47,10 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
   removeChip(value) {
     this.chips.splice(this.chips.indexOf(value), 1);
   }
+
+  removeChipIfEmpty(value) {
+    if (!value) {
+      this.chips.pop();
+    }
+  }
 }

@@ -1463,6 +1463,12 @@ input {
 
 /* Intern styling */
 
+input.right-edge {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  margin-right: -2px;
+}
+
 .search-table {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   font-size: smaller;
