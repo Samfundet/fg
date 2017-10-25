@@ -1,0 +1,26 @@
+@import '../../../../styles/_colors.scss';
+
+.user-table {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: smaller;
+  border-bottom: 2px solid $outline;
+
+  &--head {
+    &--row > td + td {
+      border-left: 2px solid $outline;
+    }
+  }
+
+  &--body {
+    &--row > td + td {
+      border-left: none;
+    }
+
+    &--row > td {
+      width: 10%;
+    }
+
+    font-size: smaller;
+  }
+
+}

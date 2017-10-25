@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { ApiService } from 'app/services/api.service';
-import { IResponse, IPhoto, IFilters, ILoginRequest } from 'app/model';
+import { IResponse, IPhoto, IUser, IFilters, ILoginRequest } from 'app/model';
 import { DELTA } from 'app/config';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
@@ -16,6 +16,7 @@ export class StoreService {
   private _photos$ = new BehaviorSubject<IResponse<IPhoto>>(null);
   private _filters$ = new Subject<IFilters>();
   private _loginModal$ = new BehaviorSubject<ILoginRequest>(null);
+  private _userModal$ = new BehaviorSubject<IUser>(null);
   private _refreshToken$ = new Subject<any>();
   private _photoShoppingCart$ = new BehaviorSubject<IPhoto[]>([]);
   public photoRouteActive$ = new Subject<boolean>();
@@ -79,6 +80,10 @@ export class StoreService {
     this.returnUrl = returnUrl;
   }
 
+  showUserModalAction(user: IUser) {
+    this._userModal$.next(user);
+  }
+
   loginHusfolkAction(data: ILoginRequest) {
     this.api.loginHusfolk(data).subscribe(t => {
       // this.storeToken(t, data.username);
@@ -113,6 +118,14 @@ export class StoreService {
     console.log('Token refreshed');
   }
 
+  getFgUsersAction() {
+    return this.api.getFgUsers();
+  }
+
+  getPowerUsersAction() {
+    return this.api.getPowerUsers();
+  }
+
   postPhotoAction(data) {
     const formData = new FormData();
     for (const key of Object.keys(data)) {
@@ -131,6 +144,10 @@ export class StoreService {
 
   get loginModal$(): Observable<ILoginRequest> {
     return this._loginModal$.asObservable();
+  }
+
+  get userModal$(): Observable<IUser> {
+    return this._userModal$.asObservable();
   }
 
   get photoShoppingCart$(): Observable<IPhoto[]> {

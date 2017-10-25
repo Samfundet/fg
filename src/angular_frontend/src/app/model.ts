@@ -98,6 +98,11 @@ export interface IFilters {
   search?: string;
 }
 
+export enum UserChangeEnum {
+  Edit,
+  Delete
+}
+
 export const testData: IResponse<IPhoto> = {
   count: 1,
   next: null,

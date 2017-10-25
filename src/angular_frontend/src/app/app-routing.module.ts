@@ -16,6 +16,8 @@ import {
   SearchComponent,
   EditComponent,
   ShoppingCartComponent,
+  PhotogangbangerComponent,
+  PowerusersComponent,
   ApplyFgComponent,
   BookFgComponent,
   ArchiveAdminComponent,
@@ -62,6 +64,14 @@ const routes: Routes = [
       {
         path: 'rediger',
         component: EditComponent
+      },
+      {
+        path: 'fotogjengere',
+        component: PhotogangbangerComponent
+      },
+      {
+        path: 'powerbrukere',
+        component: PowerusersComponent
       },
       {
         path: 'arkivadmin',
