@@ -40,7 +40,9 @@ import {
   SearchComponent,
   EditComponent,
   LoginComponent,
-  ShoppingCartComponent
+  ShoppingCartComponent,
+  ApplyFgComponent,
+  BookFgComponent
 } from 'app/components';
 
 import { ChipsComponent } from 'app/utils/chips/chips.component';
@@ -78,7 +80,9 @@ import { ChipComponent } from 'app/utils/chips/chip/chip.component';
     LoginComponent,
     ShoppingCartComponent,
     ChipsComponent,
-    ChipComponent
+    ChipComponent,
+    ApplyFgComponent,
+    BookFgComponent
   ],
   imports: [
     BrowserModule,

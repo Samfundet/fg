@@ -1,5 +1,5 @@
 <!-- Main -->
-<div id="main">
+<div id="main" fxFlex="100">
   <section class="wrapper style1">
     <div class="inner">
       <h4>Kontakt</h4>
@@ -35,16 +35,19 @@
   <section class="wrapper style2">
     <div class="inner">
 
-      <div *ngIf="aktive?.length > 0">
+      <div *ngIf="aktive?.length > 0" fxLayout="column" fxLayoutAlign="center start">
         <h2>Aktive</h2>
-        <fg-person *ngFor="let user of aktive; let i = index" [isEven]="i % 2 === 0" [user]="user"></fg-person>
+        <div fxLayout="row" fxLayoutGap.gt-xs="20px" fxLayoutWrap fxLayoutAlign="center">
+          <fg-person *ngFor="let user of aktive; let i = index" [isEven]="i % 2 === 0" [user]="user"></fg-person>
+        </div>
       </div>
 
-      <div *ngIf="aktivePanger?.length > 0">
+      <div *ngIf="aktivePanger?.length > 0" fxLayout="column">
         <h2>Aktive panger</h2>
+        <div fxLayout="row" fxLayoutGap="20px" fxFlex="30" fxLayoutWrap></div>
         <fg-person *ngFor="let user of aktivePanger; let i = index" [isEven]="i % 2 === 0" [user]="user"></fg-person>
       </div>
-
     </div>
+
   </section>
 </div>

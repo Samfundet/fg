@@ -6,8 +6,23 @@
   padding: 1rem;
   margin-bottom: 1rem;
   font-size: 1.2rem;
+  min-width: 30%;
+  white-space: break-word;
+}
+.img-class {
+  border-radius: 50%;  
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
+:host {
+  min-width: 20rem;
+}
+.even {
+  background-color: rgba(255, 255, 255, 0.075);
+}
 
 /* .user {
   overflow: ellipsis;

@@ -16,6 +16,8 @@ import {
   SearchComponent,
   EditComponent,
   ShoppingCartComponent,
+  ApplyFgComponent,
+  BookFgComponent
 } from 'app/components';
 
 import { AuthGuardService } from 'app/services';
@@ -76,6 +78,14 @@ const routes: Routes = [
   {
     path: 'info/priser',
     component: PricepointsComponent
+  },
+  {
+    path: 'info/soke-fotogjengen',
+    component: ApplyFgComponent
+  },
+  {
+    path: 'info/leie-fotogjengen',
+    component: BookFgComponent
   },
   {
     path: 'handlekurv',
