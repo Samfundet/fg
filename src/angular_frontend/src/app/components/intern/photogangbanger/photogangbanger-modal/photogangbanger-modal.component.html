@@ -55,7 +55,7 @@
       </div>
 
       <div fxLayout="column" fxLayoutAlign="space-between">
-        <div class="image">
+        <div *ngIf="changeType !== ChangeEnum.Create" class="image">
           <img [src]="user.bilde" [alt]="'bilde av ' +user.first_name + ' ' + user.last_name">
           <!-- TODO make image clickable to upload new -->
         </div>
@@ -64,8 +64,13 @@
           <input id="aktiv_pang" type="checkbox" formControlName="aktiv_pang">
         </div>
         <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center" fxFlexAlign="end">
+          <ng-container [ngSwitch]="changeType">
+            <button *ngSwitchCase="ChangeEnum.Edit" (click)="edit()" [disabled]="userForm.invalid" type="button" class="btn btn-success">Lagre endringer</button>
+            <button *ngSwitchCase="ChangeEnum.Delete" (click)="delete()" [disabled]="userForm.invalid" type="button" class="btn btn-danger">Slett</button>
+            <button *ngSwitchCase="ChangeEnum.Create" (click)="create()" [disabled]="userForm.invalid" type="button" class="btn btn-success">Lagre</button>
+          </ng-container>
+
           <button class="btn p-a-h1" type="button" (click)="close()">Avbryt</button>
-          <button [disabled]="!userForm.valid" (click)="save()" type="button" class="btn btn-success p-a-h1">Lagre</button>
         </div>
       </div>
 

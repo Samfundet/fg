@@ -15,9 +15,9 @@
 
     <div fxLayout="row" fxLayoutGap="5px">
       <div [ngSwitch]="changeType">
-        <button *ngSwitchCase="ForeignKeyEnum.Edit" (click)="save()" [disabled]="foreignKeyForm.invalid" type="button" class="btn btn-success">Lagre</button>
+        <button *ngSwitchCase="ForeignKeyEnum.Edit" (click)="save()" [disabled]="foreignKeyForm.invalid" type="button" class="btn btn-success">Lagre endringer</button>
         <button *ngSwitchCase="ForeignKeyEnum.Delete" (click)="delete()" [disabled]="foreignKeyForm.invalid" type="button" class="btn btn-danger">Slett</button>
-        <button *ngSwitchCase="ForeignKeyEnum.Create" (click)="create()" [disabled]="foreignKeyForm.invalid" type="button" class="btn btn-info">Lagre</button>
+        <button *ngSwitchCase="ForeignKeyEnum.Create" (click)="create()" [disabled]="foreignKeyForm.invalid" type="button" class="btn btn-success">Lagre</button>
       </div>
 
     </div>

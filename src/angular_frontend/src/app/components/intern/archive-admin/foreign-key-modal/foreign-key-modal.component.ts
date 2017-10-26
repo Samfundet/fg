@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { IForeignKey, ForeignKeyEnum } from 'app/model';
+import { IForeignKey, ChangeEnum } from 'app/model';
 import { StoreService } from 'app/services';
 
 
@@ -11,13 +11,13 @@ import { StoreService } from 'app/services';
 })
 export class ForeignKeyModalComponent {
 
-  ForeignKeyEnum = ForeignKeyEnum;
+  ForeignKeyEnum = ChangeEnum;
   shown = false;
   foreignKeyForm: FormGroup;
   fk: IForeignKey;
   type: string;
 
-  @Input() changeType: ForeignKeyEnum;
+  @Input() changeType: ChangeEnum;
 
   constructor(
     private fb: FormBuilder,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IForeignKey, ForeignKeyEnum } from 'app/model';
+import { IForeignKey, ChangeEnum } from 'app/model';
 import { StoreService } from 'app/services/store.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { StoreService } from 'app/services/store.service';
 export class MediaComponent implements OnInit {
 
   mediums: IForeignKey[];
-  changeType: ForeignKeyEnum;
+  changeType: ChangeEnum;
 
   constructor(private store: StoreService) {
   }
@@ -21,12 +21,12 @@ export class MediaComponent implements OnInit {
 
   edit(media: IForeignKey) {
     this.store.showForeignKeyModalAction(media, 'mediums');
-    this.changeType = ForeignKeyEnum.Edit;
+    this.changeType = ChangeEnum.Edit;
   }
 
   delete(media: IForeignKey) {
     this.store.showForeignKeyModalAction(media, 'mediums');
-    this.changeType = ForeignKeyEnum.Delete;
+    this.changeType = ChangeEnum.Delete;
   }
 
   create() {
@@ -34,7 +34,7 @@ export class MediaComponent implements OnInit {
       name: '',
     };
     this.store.showForeignKeyModalAction(fk, 'mediums');
-    this.changeType = ForeignKeyEnum.Create;
+    this.changeType = ChangeEnum.Create;
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { IUser, UserChangeEnum } from 'app/model';
+import { IUser, ChangeEnum } from 'app/model';
 import { StoreService } from 'app/services';
 
 @Component({
@@ -9,11 +9,11 @@ import { StoreService } from 'app/services';
   styleUrls: ['./photogangbanger-modal.component.scss']
 })
 export class PhotogangbangerModalComponent {
+  ChangeEnum = ChangeEnum;
   userForm: FormGroup;
   shown = false;
   user: IUser;
-  // @Input() user: IUser | undefined;
-  @Input() changeType: UserChangeEnum;
+  @Input() changeType: ChangeEnum;
 
   constructor(private fb: FormBuilder, private store: StoreService) {
     store.userModal$.filter(u => !!u).subscribe(user => {
@@ -28,7 +28,25 @@ export class PhotogangbangerModalComponent {
     this.user = null;
   }
 
-  save() {
+  edit() {
+    const value = this.userForm.value;
+    if (value.bilde === this.user.bilde) {
+      delete value.bilde;
+    }
+    this.store.updateFgUserAction(value);
+    this.shown = false;
+    this.user = null;
+  }
 
+  delete() {
+    this.store.deleteFgUserAction(this.user);
+    this.shown = false;
+    this.user = null;
+  }
+
+  create() {
+    this.store.createFgUserAction(this.userForm.value);
+    this.shown = false;
+    this.user = null;
   }
 }

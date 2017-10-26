@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IForeignKey, ForeignKeyEnum } from 'app/model';
+import { IForeignKey, ChangeEnum } from 'app/model';
 import { StoreService } from 'app/services/store.service';
 
 
@@ -10,7 +10,7 @@ import { StoreService } from 'app/services/store.service';
 })
 export class AlbumComponent implements OnInit {
   albums: IForeignKey[];
-  changeType: ForeignKeyEnum;
+  changeType: ChangeEnum;
 
   constructor(private store: StoreService) {
   }
@@ -21,12 +21,12 @@ export class AlbumComponent implements OnInit {
 
   edit(album: IForeignKey) {
     this.store.showForeignKeyModalAction(album, 'albums');
-    this.changeType = ForeignKeyEnum.Edit;
+    this.changeType = ChangeEnum.Edit;
   }
 
   delete(album: IForeignKey) {
     this.store.showForeignKeyModalAction(album, 'albums');
-    this.changeType = ForeignKeyEnum.Delete;
+    this.changeType = ChangeEnum.Delete;
   }
 
   create() {
@@ -35,7 +35,7 @@ export class AlbumComponent implements OnInit {
       description: '',
     };
     this.store.showForeignKeyModalAction(fk, 'albums');
-    this.changeType = ForeignKeyEnum.Create;
+    this.changeType = ChangeEnum.Create;
     console.log(this.changeType);
   }
 
