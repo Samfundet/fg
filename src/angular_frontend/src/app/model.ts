@@ -55,6 +55,7 @@ export class PhotoResponse implements IResponse<IPhoto> {
 }
 
 export interface IUser {
+  id?: number;
   username: string;
   address?: string;
   zip_code?: any;
@@ -75,6 +76,29 @@ export interface IUser {
   email?: string;
   first_name?: string;
   last_name?: string;
+}
+
+export class User {
+  username: string = null;
+  address: string = null;
+  zip_code: any = null;
+  city: string = null;
+  phone: any = null;
+  member_number: any = null;
+  opptaksaar: any = null;
+  gjengjobb1?: string = null;
+  gjengjobb2?: string = null;
+  gjengjobb3?: string = null;
+  hjemmeside?: string = null;
+  uker?: string = null;
+  fg_kallenavn?: string = null;
+  bilde?: string = null;
+  aktiv_pang = false;
+  aktiv: boolean = null;
+  comments?: string = null;
+  email: string = null;
+  first_name: string = null;
+  last_name: string = null;
 }
 
 export interface IOrder {
@@ -98,12 +122,7 @@ export interface IFilters {
   search?: string;
 }
 
-export enum UserChangeEnum {
-  Edit,
-  Delete
-}
-
-export enum ForeignKeyEnum {
+export enum ChangeEnum {
   Edit,
   Delete,
   Create

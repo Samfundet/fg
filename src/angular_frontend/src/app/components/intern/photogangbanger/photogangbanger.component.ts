@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StoreService } from 'app/services/store.service';
-import { IUser, UserChangeEnum } from 'app/model';
+import { IUser, User, ChangeEnum } from 'app/model';
 
 @Component({
   selector: 'fg-photogangbanger',
@@ -9,7 +9,7 @@ import { IUser, UserChangeEnum } from 'app/model';
 })
 export class PhotogangbangerComponent implements OnInit {
   users: IUser[];
-  changeType: UserChangeEnum;
+  changeType: ChangeEnum;
   constructor(private store: StoreService) { }
 
   ngOnInit() {
@@ -18,11 +18,18 @@ export class PhotogangbangerComponent implements OnInit {
 
   edit(user: IUser) {
     this.store.showUserModalAction(user);
-    this.changeType = UserChangeEnum.Edit;
+    this.changeType = ChangeEnum.Edit;
   }
 
   delete(user: IUser) {
     this.store.showUserModalAction(user);
-    this.changeType = UserChangeEnum.Delete;
+    this.changeType = ChangeEnum.Delete;
+  }
+
+  create() {
+    const user = new User();
+    this.store.showUserModalAction(user);
+    this.changeType = ChangeEnum.Create;
+    console.log(this.changeType);
   }
 }

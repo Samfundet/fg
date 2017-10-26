@@ -28,8 +28,9 @@ export class StoreService {
   public photoRouteActive$ = new Subject<boolean>();
   public photoModal$ = new BehaviorSubject<IPhoto>(null);
 
-  public foreignKeys$: { [type: string]: BehaviorSubject<IForeignKey[]>; } = { };
-
+  public foreignKeys$: { [type: string]: BehaviorSubject<IForeignKey[]>; } = {};
+  public fgUsers$ = new BehaviorSubject<IUser[]>(null);
+  public powerUsers$ = new BehaviorSubject<IUser[]>(null);
 
   // TODO
   private returnUrl;
@@ -100,7 +101,27 @@ export class StoreService {
   }
 
   showForeignKeyModalAction(fk: IForeignKey, type: string) {
-    this._foreignKeyModal$.next({fk, type});
+    this._foreignKeyModal$.next({ fk, type });
+  }
+
+  updateFgUserAction(user: IUser) {
+    return this.api.updateUser(user).subscribe(() => this.getFgUsersAction());
+  }
+  createFgUserAction(user: IUser) {
+    return this.api.createUser(user).subscribe(() => this.getFgUsersAction());
+  }
+  deleteFgUserAction(user: IUser) {
+    return this.api.deleteUser(user).subscribe(() => this.getFgUsersAction());
+  }
+
+  updatePowerUserAction(user: IUser) {
+    return this.api.updateUser(user).subscribe(() => this.getPowerUsersAction());
+  }
+  createPowerUserAction(user: IUser) {
+    return this.api.createUser(user).subscribe(() => this.getPowerUsersAction());
+  }
+  deletePowerUserAction(user: IUser) {
+    return this.api.deleteUser(user).subscribe(() => this.getPowerUsersAction());
   }
 
   updateForeignKeyAction(fk: IForeignKey, type: string) {
@@ -150,11 +171,13 @@ export class StoreService {
   }
 
   getFgUsersAction() {
-    return this.api.getFgUsers();
+    this.api.getFgUsers().subscribe(u => this.fgUsers$.next(u));
+    return this.fgUsers$.asObservable();
   }
 
   getPowerUsersAction() {
-    return this.api.getPowerUsers();
+    this.api.getPowerUsers().subscribe(u => this.powerUsers$.next(u));
+    return this.powerUsers$.asObservable();
   }
 
   getForeignKeyAction(type: string) {

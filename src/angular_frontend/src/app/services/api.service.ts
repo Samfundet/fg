@@ -88,6 +88,17 @@ export class ApiService {
     return this.http.put(`/api/photos/${photo.id}/`, formData);
   }
 
+  updateUser(user: IUser): Observable<any> {
+    return this.http.put(`/api/users/${user.id}/`, user);
+  }
+  createUser(user: IUser): Observable<any> {
+    return this.http.post(`/api/users/`, user);
+  }
+  deleteUser(user: IUser): Observable<any> {
+    return this.http.delete(`/api/users/${user.id}/`);
+  }
+
+
   updateForeignKey(fk: IForeignKey, type: string): Observable<any> {
     return this.http.put(`/api/${type}/${fk.id}/`, fk);
   }
