@@ -42,7 +42,7 @@ export class EditComponent {
   onPhotosRetrieved(firstPhoto: IPhoto) {
     this.editForm = this.fb.group({
       motive: [this.photos.every(p => p.motive === this.photos[0].motive) ? firstPhoto.motive : '', []],
-      tags: [this.photos.every(p => p.tags.every(t => t.name === p.tags[0].name)) ? firstPhoto.tags : '', []],
+      tags: [this.photos.every(p => p.tags.every(t => t.name === p.tags[0].name)) ? firstPhoto.tags.map(t => t.name) : '', []],
       date_taken: [this.photos.every(p => p.date_taken === this.photos[0].date_taken) ? firstPhoto.date_taken : '', []],
 
       category: [this.photos.every(p => p.category.id === this.photos[0].category.id) ? firstPhoto.category : '', []],
@@ -62,9 +62,27 @@ export class EditComponent {
   update() {
     if (this.editForm.valid) {
       for (const photo of this.photos) {
-        const foo = {id: photo.id, ...this.editForm.value};
-        this.api.updatePhoto(foo).subscribe(res => console.log(res));
+        const formValues = {id: photo.id, ...this.getFormValue(this.editForm)};
+        this.api.updatePhoto(formValues).subscribe(res => console.log(res));
       }
     }
   }
+
+getFormValue(form: FormGroup): IPhoto {
+  const values = {
+    motive: form.value.motive,
+    tags: form.value.tags,
+    date_taken: form.value.date_taken,
+    category: form.value.category.id,
+    media: form.value.media.id,
+    album: form.value.album.id,
+    place: form.value.place.id,
+    security_level: form.value.security_level.id,
+    lapel: form.value.lapel,
+    on_home_page: form.value.on_home_page,
+    splash: form.value.splash
+  };
+  return values as IPhoto;
+}
+
 }
