@@ -1,21 +1,21 @@
-<div id="main container">
-  <div class="inner p-b-2" fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutAlign="start" fxLayoutGap="5px">
-
-    <table>
-      <thead>
-        <tr>
-          <th>Navn</th>
-          <th>Beskrivelse</th>
-          <th>Endre</th>
-          <th>Slette</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let album of albums">
-          <td>{{ album.name }}</td>
-        </tr>
-      </tbody>
-    </table>
-
-  </div>
-</div>
+<button (click)="create()" class="btn btn-info">Nytt album</button>
+<table class="fk-table">
+    <thead class="fk-table--head">
+      <tr class="fk-table--head--row">
+        <td>Navn</td>
+        <td>Beskrivelse</td>
+        <td>Rediger</td>
+        <td>Slett</td>
+      </tr>
+    </thead>
+    <tbody class="fk-table--body">
+      <tr *ngFor="let album of albums" class="fk-table--body--row">
+        <td>{{album.name}}</td>
+        <td>{{album.description}}</td>
+        <td><button (click)="edit(album)" class="btn btn-primary">Rediger</button></td>
+        <td><button (click)="delete(album)" class="btn btn-danger">Slett</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <fg-foreign-key-modal [changeType]="changeType"></fg-foreign-key-modal>
+  

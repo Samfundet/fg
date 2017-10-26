@@ -103,6 +103,12 @@ export enum UserChangeEnum {
   Delete
 }
 
+export enum ForeignKeyEnum {
+  Edit,
+  Delete,
+  Create
+}
+
 export const testData: IResponse<IPhoto> = {
   count: 1,
   next: null,
@@ -134,8 +140,9 @@ export const testData: IResponse<IPhoto> = {
 
 export interface IForeignKey {
   name: string;
-  id: number;
+  id?: number;
   date_created?: Date;
+  description?: String;
 }
 
 export interface IMasonryOptions {

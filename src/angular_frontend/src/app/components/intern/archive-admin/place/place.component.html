@@ -1,3 +1,19 @@
-<p>
-  place works!
-</p>
+<button (click)="create()" class="btn btn-info">Nytt sted</button>
+<table class="fk-table">
+    <thead class="fk-table--head">
+      <tr class="fk-table--head--row">
+        <td>Navn</td>
+        <td>Rediger</td>
+        <td>Slett</td>
+      </tr>
+    </thead>
+    <tbody class="fk-table--body">
+      <tr *ngFor="let place of places" class="fk-table--body--row">
+        <td>{{place.name}}</td>
+        <td><button (click)="edit(place)" class="btn btn-primary">Rediger</button></td>
+        <td><button (click)="delete(place)" class="btn btn-danger">Slett</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <fg-foreign-key-modal [changeType]="changeType"></fg-foreign-key-modal>
+  

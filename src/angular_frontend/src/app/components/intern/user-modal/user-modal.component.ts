@@ -27,4 +27,5 @@ export class UserModalComponent {
     this.shown = false;
     this.user = null;
   }
+  
 }

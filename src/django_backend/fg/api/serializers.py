@@ -26,7 +26,7 @@ class MediaSerializer(serializers.HyperlinkedModelSerializer):
 class AlbumSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Album
-        fields = ('name', 'id', 'date_created')
+        fields = ('name', 'id', 'date_created', 'description')
 
 
 class PlaceSerializer(serializers.HyperlinkedModelSerializer):
