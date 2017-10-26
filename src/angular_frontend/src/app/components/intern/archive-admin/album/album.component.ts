@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { IForeignKey, AlbumChangeEnum } from 'app/model';
-import { ApiService } from 'app/services';
 import { StoreService } from 'app/services/store.service';
 
 
@@ -12,14 +11,12 @@ import { StoreService } from 'app/services/store.service';
 export class AlbumComponent implements OnInit {
   albums: IForeignKey[];
   changeType: AlbumChangeEnum;
-  store: StoreService;
 
-  constructor( private api: ApiService ) {
-    api.getAlbums().subscribe(x => this.albums = x);
+  constructor(private store: StoreService) {
   }
 
   ngOnInit() {
-    this.store.getAlbumsAction().subscribe(albums => this.albums = albums);
+    this.store.getAlbumsAction().subscribe(a => this.albums = a);
   }
 
   edit(album: IForeignKey) {

@@ -84,6 +84,14 @@ export class ApiService {
     return this.http.put(`/api/photos/${photo.id}/`, formData);
   }
 
+  updateAlbum(album: IForeignKey): Observable<any> {
+    const formData = new FormData();
+    for (const key of Object.keys(album)) {
+      formData.append(key, album[key]);
+    }
+    return this.http.put(`/api/albums/${album.id}/`, formData);
+  }
+
   order(order: IOrder) {
     return this.http.post(`api/orders/`, order);
   }
