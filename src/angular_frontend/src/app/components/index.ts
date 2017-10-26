@@ -22,10 +22,13 @@ export * from './intern/user-modal/user-modal.component';
 
 export * from './intern/archive-admin/archive-admin.component';
 export * from './intern/archive-admin/album/album.component';
+export * from './intern/archive-admin/album-modal/album-modal.component';
 export * from './intern/archive-admin/category/category.component';
 export * from './intern/archive-admin/media/media.component';
 export * from './intern/archive-admin/place/place.component';
 export * from './intern/archive-admin/statistics/statistics.component';
+
+
 export * from './kontakt/person/person.component';
 export * from './photo-modal/photo-modal.component';
 export * from './not-found/not-found.component';

@@ -103,6 +103,11 @@ export enum UserChangeEnum {
   Delete
 }
 
+export enum AlbumChangeEnum {
+  Edit,
+  Delete
+}
+
 export const testData: IResponse<IPhoto> = {
   count: 1,
   next: null,
@@ -136,6 +141,7 @@ export interface IForeignKey {
   name: string;
   id: number;
   date_created?: Date;
+  description?: String;
 }
 
 export interface IMasonryOptions {

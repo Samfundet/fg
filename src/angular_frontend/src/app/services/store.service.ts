@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { ApiService } from 'app/services/api.service';
-import { IResponse, IPhoto, IUser, IFilters, ILoginRequest } from 'app/model';
+import { IResponse, IPhoto, IUser, IFilters, ILoginRequest, IForeignKey } from 'app/model';
 import { DELTA } from 'app/config';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
@@ -17,6 +17,7 @@ export class StoreService {
   private _filters$ = new Subject<IFilters>();
   private _loginModal$ = new BehaviorSubject<ILoginRequest>(null);
   private _userModal$ = new BehaviorSubject<IUser>(null);
+  private _albumModal$ = new BehaviorSubject<IForeignKey>(null);
   private _refreshToken$ = new Subject<any>();
   private _photoShoppingCart$ = new BehaviorSubject<IPhoto[]>([]);
   public photoRouteActive$ = new Subject<boolean>();
@@ -84,6 +85,10 @@ export class StoreService {
     this._userModal$.next(user);
   }
 
+  showAlbumModalAction(album: IForeignKey) {
+    this._albumModal$.next(album);
+  }
+
   loginHusfolkAction(data: ILoginRequest) {
     this.api.loginHusfolk(data).subscribe(t => {
       // this.storeToken(t, data.username);
@@ -126,6 +131,10 @@ export class StoreService {
     return this.api.getPowerUsers();
   }
 
+  getAlbumsAction() {
+    return this.api.getAlbums();
+  }
+
   postPhotoAction(data) {
     const formData = new FormData();
     for (const key of Object.keys(data)) {
@@ -148,6 +157,10 @@ export class StoreService {
 
   get userModal$(): Observable<IUser> {
     return this._userModal$.asObservable();
+  }
+
+  get albumModal$(): Observable<IForeignKey> {
+    return this._albumModal$.asObservable();
   }
 
   get photoShoppingCart$(): Observable<IPhoto[]> {

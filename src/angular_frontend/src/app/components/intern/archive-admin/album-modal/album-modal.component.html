@@ -1,0 +1,21 @@
+<div *ngIf="shown" class="modal fixed" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
+  <form [formGroup]="albumForm" class="form" fxLayout="column" fxLayoutAlign="stretch center"
+    fxLayoutGap="20px">
+    <button class="btn" type="button" (click)="close()">Lukk</button>
+
+    <div class="input-group">
+      <label>Navn</label>
+      <input type="text" formControlName="name">
+    </div>
+    <div class="input-group">
+      <label>Beskrivelse</label>
+      <input type="text" formControlName="description">
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="5px">
+      <button [disabled]="!albumForm.valid" type="button" class="btn btn-success">Lagre</button>
+    </div>
+  </form>
+</div>
+
+<!-- (clickOutside)="shown = false" [exclude]="'btn.button'" -->
