@@ -17,7 +17,9 @@ export * from './intern/upload/upload.component';
 export * from './intern/edit/edit.component';
 export * from './intern/search/search.component';
 export * from './intern/photogangbanger/photogangbanger.component';
+export * from './intern/photogangbanger/photogangbanger-modal/photogangbanger-modal.component';
 export * from './intern/powerusers/powerusers.component';
+export * from './intern/powerusers/powerusers-modal/powerusers-modal.component';
 export * from './intern/user-modal/user-modal.component';
 
 export * from './intern/archive-admin/archive-admin.component';

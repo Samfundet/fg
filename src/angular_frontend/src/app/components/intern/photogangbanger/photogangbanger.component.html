@@ -1,29 +1,31 @@
-<table class="user-table">
-  <thead class="user-table--head">
-    <tr class="user-table--head--row">
-      <td>Navn</td>
-      <td>Adresse</td>
-      <td>E-post</td>
-      <td>Tlf</td>
-      <td>Opptaksår</td>
-      <td>Verv</td>
-      <td>Annet</td>
-      <td>Rediger</td>
-      <td>Slett</td>
-    </tr>
-  </thead>
-  <tbody class="user-table--body">
-    <tr *ngFor="let user of users" class="user-table--body--row">
-      <td>{{user.first_name}} {{user.last_name}}</td>
-      <td>{{user.address}}</td>
-      <td>{{user.email}}</td>
-      <td>{{user.phone}}</td>
-      <td>{{user.opptaksaar}}</td>
-      <td>{{user.gjengjobb1}} - {{user.gjengjobb1}} - {{user.gjengjobb1}}</td>
-      <td>{{user.comments}}</td>
-      <td><button (click)="edit(user)" class="btn btn-primary">Rediger</button></td>
-      <td><button (click)="delete(user)" class="btn btn-danger">Slett</button></td>
-    </tr>
-  </tbody>
-</table>
-<fg-user-modal [changeType]="changeType"></fg-user-modal>
+<div class="table-container">
+  <table class="user-table">
+    <thead class="user-table--head">
+      <tr class="user-table--head--row">
+        <td>Navn</td>
+        <td>Adresse</td>
+        <td>E-post</td>
+        <td>Tlf</td>
+        <td>Opptaksår</td>
+        <td>Verv</td>
+        <td>Annet</td>
+        <td>Rediger</td>
+        <td>Slett</td>
+      </tr>
+    </thead>
+    <tbody class="user-table--body">
+      <tr *ngFor="let user of users" class="user-table--body--row">
+        <td>{{user.first_name}} {{user.last_name}}</td>
+        <td>{{user.address}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.phone}}</td>
+        <td>{{user.opptaksaar}}</td>
+        <td>{{user.gjengjobb1}} - {{user.gjengjobb1}} - {{user.gjengjobb1}}</td>
+        <td>{{user.comments}}</td>
+        <td><button (click)="edit(user)" class="btn btn-primary">Rediger</button></td>
+        <td><button (click)="delete(user)" class="btn btn-danger">Slett</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<fg-photogangbanger-modal [changeType]="changeType"></fg-photogangbanger-modal>

@@ -43,11 +43,6 @@ class PowerUsersView(ListAPIView):
         return models.User.objects.filter(groups__name="POWER").all()
 
 
-class LoginViewSet(APIView):
-    permission_classes = [AllowAny]
-    # TODO
-
-
 def login_samfundet_user(request):
     # state = ""
     user = None
@@ -71,13 +66,17 @@ def login_samfundet_user(request):
 
 def login_user(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        if user and user.is_active:
-            login(request, user)
-            return Response(True)
+        # username = request.POST.get('username')
+        # password = request.POST.get('password')
+        username = request.user
 
+        # user = authenticate(username=username, password=password)
+        print(username)
+        # if user and user.is_active:
+        #     login(request, user)
+        #     return Response(True)
+
+        return Response(False)
             # if request.GET.get('next'):
             #     return Response(True)
             #     # return redirect(request.GET.get('next'))

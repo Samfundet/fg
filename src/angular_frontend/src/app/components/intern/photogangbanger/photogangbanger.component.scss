@@ -1,5 +1,9 @@
 @import '../../../../styles/_colors.scss';
 
+.table-container {
+  overflow: scroll;
+}
+
 .user-table {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   font-size: smaller;
