@@ -22,7 +22,7 @@ export * from './intern/user-modal/user-modal.component';
 
 export * from './intern/archive-admin/archive-admin.component';
 export * from './intern/archive-admin/album/album.component';
-export * from './intern/archive-admin/album-modal/album-modal.component';
+export * from './intern/archive-admin/foreign-key-modal/foreign-key-modal.component';
 export * from './intern/archive-admin/category/category.component';
 export * from './intern/archive-admin/media/media.component';
 export * from './intern/archive-admin/place/place.component';

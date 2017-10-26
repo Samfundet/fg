@@ -56,6 +56,10 @@ export class ApiService {
     return this.http.get<IUser[]>(`/api/users/power`);
   }
 
+  getForeignKey(type: string) {
+    return this.http.get<IForeignKey[]>(`api/${type}/`);
+  }
+
   getAlbums() {
     return this.http.get<IForeignKey[]>(`api/albums/`);
   }
@@ -84,12 +88,16 @@ export class ApiService {
     return this.http.put(`/api/photos/${photo.id}/`, formData);
   }
 
-  updateAlbum(album: IForeignKey): Observable<any> {
-    const formData = new FormData();
-    for (const key of Object.keys(album)) {
-      formData.append(key, album[key]);
-    }
-    return this.http.put(`/api/albums/${album.id}/`, formData);
+  updateForeignKey(fk: IForeignKey, type: string): Observable<any> {
+    return this.http.put(`/api/${type}/${fk.id}/`, fk);
+  }
+
+  createForeignKey(fk: IForeignKey, type: string): Observable<any> {
+    return this.http.post(`/api/${type}/`, fk);
+  }
+
+  deleteForeignKey(fk: IForeignKey, type: string): Observable<any> {
+    return this.http.delete(`/api/${type}/${fk.id}/`);
   }
 
   order(order: IOrder) {

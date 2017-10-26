@@ -103,9 +103,10 @@ export enum UserChangeEnum {
   Delete
 }
 
-export enum AlbumChangeEnum {
+export enum ForeignKeyEnum {
   Edit,
-  Delete
+  Delete,
+  Create
 }
 
 export const testData: IResponse<IPhoto> = {
@@ -139,7 +140,7 @@ export const testData: IResponse<IPhoto> = {
 
 export interface IForeignKey {
   name: string;
-  id: number;
+  id?: number;
   date_created?: Date;
   description?: String;
 }

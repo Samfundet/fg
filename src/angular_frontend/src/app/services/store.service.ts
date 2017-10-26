@@ -10,6 +10,11 @@ import { DELTA } from 'app/config';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
 
+interface IForeignKeyModal {
+  fk: IForeignKey;
+  type: string;
+}
+
 @Injectable()
 export class StoreService {
   // The state of the application
@@ -17,11 +22,14 @@ export class StoreService {
   private _filters$ = new Subject<IFilters>();
   private _loginModal$ = new BehaviorSubject<ILoginRequest>(null);
   private _userModal$ = new BehaviorSubject<IUser>(null);
-  private _albumModal$ = new BehaviorSubject<IForeignKey>(null);
+  private _foreignKeyModal$ = new BehaviorSubject<IForeignKeyModal>(null);
   private _refreshToken$ = new Subject<any>();
   private _photoShoppingCart$ = new BehaviorSubject<IPhoto[]>([]);
   public photoRouteActive$ = new Subject<boolean>();
   public photoModal$ = new BehaviorSubject<IPhoto>(null);
+
+  public foreignKeys$: { [type: string]: BehaviorSubject<IForeignKey[]>; } = { };
+
 
   // TODO
   private returnUrl;
@@ -34,6 +42,12 @@ export class StoreService {
     this._refreshToken$.debounceTime(1000).subscribe(t => {
       api.refreshToken(t).subscribe(new_token => this.storeToken(new_token));
     });
+
+    this.foreignKeys$['albums'] = new BehaviorSubject<IForeignKey[]>(null);
+    this.foreignKeys$['categories'] = new BehaviorSubject<IForeignKey[]>(null);
+    this.foreignKeys$['mediums'] = new BehaviorSubject<IForeignKey[]>(null);
+    this.foreignKeys$['places'] = new BehaviorSubject<IForeignKey[]>(null);
+
 
     // get photos that are in localStorage and add to photoShoppingCart
     this._photoShoppingCart$.next(JSON.parse(localStorage.getItem('photoShoppingCart')));
@@ -85,8 +99,20 @@ export class StoreService {
     this._userModal$.next(user);
   }
 
-  showAlbumModalAction(album: IForeignKey) {
-    this._albumModal$.next(album);
+  showForeignKeyModalAction(fk: IForeignKey, type: string) {
+    this._foreignKeyModal$.next({fk, type});
+  }
+
+  updateForeignKeyAction(fk: IForeignKey, type: string) {
+    return this.api.updateForeignKey(fk, type).subscribe(() => this.getForeignKeyAction(type));
+  }
+
+  createForeignKeyAction(fk: IForeignKey, type: string) {
+    return this.api.createForeignKey(fk, type).subscribe(() => this.getForeignKeyAction(type));
+  }
+
+  deleteForeignKeyAction(fk: IForeignKey, type: string) {
+    return this.api.deleteForeignKey(fk, type).subscribe(() => this.getForeignKeyAction(type));
   }
 
   loginHusfolkAction(data: ILoginRequest) {
@@ -131,8 +157,9 @@ export class StoreService {
     return this.api.getPowerUsers();
   }
 
-  getAlbumsAction() {
-    return this.api.getAlbums();
+  getForeignKeyAction(type: string) {
+    this.api.getForeignKey(type).subscribe(a => this.foreignKeys$[type].next(a));
+    return this.foreignKeys$[type].asObservable();
   }
 
   postPhotoAction(data) {
@@ -159,8 +186,8 @@ export class StoreService {
     return this._userModal$.asObservable();
   }
 
-  get albumModal$(): Observable<IForeignKey> {
-    return this._albumModal$.asObservable();
+  get foreignKeyModal$(): Observable<IForeignKeyModal> {
+    return this._foreignKeyModal$.asObservable();
   }
 
   get photoShoppingCart$(): Observable<IPhoto[]> {

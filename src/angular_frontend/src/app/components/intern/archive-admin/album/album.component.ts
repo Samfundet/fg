@@ -1,32 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { IForeignKey, AlbumChangeEnum } from 'app/model';
+import { IForeignKey, ForeignKeyEnum } from 'app/model';
 import { StoreService } from 'app/services/store.service';
 
 
 @Component({
   selector: 'fg-album',
   templateUrl: './album.component.html',
-  styleUrls: ['./album.component.scss']
+  styleUrls: ['../archive-admin.component.scss']
 })
 export class AlbumComponent implements OnInit {
   albums: IForeignKey[];
-  changeType: AlbumChangeEnum;
+  changeType: ForeignKeyEnum;
 
   constructor(private store: StoreService) {
   }
 
   ngOnInit() {
-    this.store.getAlbumsAction().subscribe(a => this.albums = a);
+    this.store.getForeignKeyAction('albums').subscribe(a => this.albums = a);
   }
 
   edit(album: IForeignKey) {
-    this.store.showAlbumModalAction(album);
-    this.changeType = AlbumChangeEnum.Edit;
+    this.store.showForeignKeyModalAction(album, 'albums');
+    this.changeType = ForeignKeyEnum.Edit;
   }
 
   delete(album: IForeignKey) {
-    this.store.showAlbumModalAction(album);
-    this.changeType = AlbumChangeEnum.Delete;
+    this.store.showForeignKeyModalAction(album, 'albums');
+    this.changeType = ForeignKeyEnum.Delete;
+  }
+
+  create() {
+    const fk: IForeignKey = {
+      name: '',
+      description: '',
+    };
+    this.store.showForeignKeyModalAction(fk, 'albums');
+    this.changeType = ForeignKeyEnum.Create;
+    console.log(this.changeType);
   }
 
 }

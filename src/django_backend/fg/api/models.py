@@ -43,6 +43,7 @@ class Place(models.Model):
         return self.name
 
 
+
 class SecurityLevel(models.Model):
     name = models.CharField(max_length=16, unique=True, db_index=True)
 
