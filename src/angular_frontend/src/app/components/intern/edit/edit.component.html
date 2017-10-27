@@ -1,10 +1,10 @@
 <!-- Container -->
 <div fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="25px">
-  <form *ngIf="editForm" [formGroup]="editForm" (ngSubmit)="update()" fxLayout="column" fxFlex="30%" fxLayoutGap="15px">
+  <form *ngIf="editForm" [formGroup]="editForm" fxLayout="column" fxFlex="30%" fxLayoutGap="15px">
     <div fxLayout="column">
       <label>Album</label>
       <select formControlName="album">
-        <option [ngValue]="album.id" *ngFor="let album of albums">{{album.name}}</option>
+        <option [ngValue]="album.id" *ngFor="let album of albums">{{album.name}} - {{album.description}}</option>
       </select>
     </div>
     <div fxLayout="column">
@@ -17,7 +17,13 @@
     </div>
     <div fxLayout="column">
       <label>Dato</label>
-      <input type="text" formControlName="date_taken">
+      <div fxLayout="row" fxLayoutAlign="stretch">
+        <input fxFlex="100" (click)="dp.toggleCalendar()" class="datepicker clickable right-edge" ngx-mydatepicker [options]="options" #dp="ngx-mydatepicker"
+          formControlName="date_taken">
+        <button type="button" class="btn btn-info" (click)="dp.toggleCalendar()">
+          <i class="fa fa-calendar"></i>
+        </button>
+      </div>
     </div>
     <div fxLayout="column">
       <label>Media</label>
@@ -61,12 +67,12 @@
       <input id="splash" type="checkbox" formControlName="splash">
     </div>
 
-    <button class="btn btn-warning" type="submit" [disabled]="!editForm.valid">
+    <button class="btn btn-warning" type="button" (click)="update()" [disabled]="!editForm.valid">
         <i class="fa fa-edit"></i> Rediger
       </button>
-
+<!--
     <p>{{editForm.value | json}}</p>
-    <p>{{editForm.valid | json}}</p>
+    <p>{{editForm.valid | json}}</p> -->
   </form>
 
   <!-- Preview box -->

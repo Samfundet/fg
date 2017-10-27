@@ -109,8 +109,8 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
         required=False
     )
     tags = TagListField(many=True)
-    image_number = serializers.IntegerField(required=False)
-    page = serializers.IntegerField(required=False)
+    # image_number = serializers.IntegerField(required=False)
+    # page = serializers.IntegerField(required=False)
 
     class Meta:
         model = models.Photo

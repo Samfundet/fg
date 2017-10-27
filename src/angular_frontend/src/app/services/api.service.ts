@@ -80,12 +80,8 @@ export class ApiService {
     return this.http.post(`/api/photos/`, formData);
   }
 
-  updatePhoto(photo: IPhoto): Observable<any> {
-    const formData = new FormData();
-    for (const key of Object.keys(photo)) {
-      formData.append(key, photo[key]);
-    }
-    return this.http.put(`/api/photos/${photo.id}/`, formData);
+  updatePhoto(photo): Observable<any> {
+    return this.http.patch(`/api/photos/${photo.id}/`, photo);
   }
 
   updateUser(user: IUser): Observable<any> {

@@ -115,9 +115,14 @@ class PhotoViewSet(ModelViewSet):
         self.serializer_class = serializers.PhotoSerializer
         return super().destroy(request, *args, **kwargs)
 
+    # Use partial update if you want to send partial objects (verb: PATCH instead of PUT)
     def update(self, request, *args, **kwargs):
         self.serializer_class = serializers.PhotoUpdateSerializer
         return super().update(request, *args, **kwargs)
+
+    def partial_update(self, request, *args, **kwargs):
+        self.serializer_class = serializers.PhotoUpdateSerializer
+        return super().partial_update(request, *args, **kwargs)
 
     def options(self, request, *args, **kwargs):
         self.serializer_class = serializers.PhotoSerializer

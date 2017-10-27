@@ -40,6 +40,43 @@ export interface IPhoto {
   addedToCart?: boolean;
   checkedForEdit?: boolean;
 }
+
+export class PartialPhoto {
+  motive: string;
+  date_taken: Date;
+  photo_ppoi: string;
+
+  lapel: boolean;
+  scanned: boolean;
+  on_home_page: boolean;
+  splash: boolean;
+  tags: string[];
+  category: number;
+  media: number;
+  album: number;
+  place: number;
+  security_level: number;
+
+  /**
+   * The constructor partially creates a photo object dependent on properties not being null
+   * If a property in photo is null, it will not be included in the constructed object
+   * @param photo The object with all IPhoto properties
+   */
+  constructor(photo) {
+    for (const key in photo) {
+      if (photo[key] !== null) {
+        if (['album', 'category', 'media', 'place', 'security_level'].indexOf(key) !== -1) {
+          this[key] = photo[key].id;
+        } else if (key === 'date_taken') {
+          this[key] = photo[key]['jsdate'].toISOString();
+        } else {
+          this[key] = photo[key];
+        }
+      }
+    }
+  }
+}
+
 export class PhotoResponse implements IResponse<IPhoto> {
   count: number;
   next: string;
