@@ -30,9 +30,7 @@ jobs:
         - docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.travis.yml up -d
         - docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.travis.yml ps
       script:
-        - docker exec -i django bash remove-migrations.sh
-        - docker exec -i django python manage.py makemigrations
-        - docker exec -i django python manage.py test
+        - bash django-tests.sh
 
     - stage: test angular
       install:

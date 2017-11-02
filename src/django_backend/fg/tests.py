@@ -169,7 +169,6 @@ class PhotoTestCase(TestCase):
         photo.security_level = models.SecurityLevel.objects.filter(name="FG").first()
 
         photo.save()
-        print(photo)
 
         expected_path = os.path.join(
             MEDIA_ROOT,
@@ -177,7 +176,7 @@ class PhotoTestCase(TestCase):
             photo.album.name.upper(),
             photo.album.name.upper() + str(photo.page) + str(photo.image_number) + '.jpg'
         )
-        self.assertEqual(photo.photo.path, expected_path)
+        self.assertEqual(photo.photo.path.upper(), expected_path.upper())
 
     def test_exact_motive_search_retrieves_single_image(self):
         seed_photos()
