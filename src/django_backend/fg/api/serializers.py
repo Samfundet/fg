@@ -188,3 +188,8 @@ class OrderSerializer(serializers.ModelSerializer):
         order.save()
 
         return order
+
+    def update(self, instance, validated_data):
+        instance.order_completed = validated_data.get("order_completed")
+        instance.save()
+        return instance
