@@ -19,4 +19,10 @@ export class OrdersComponent implements OnInit {
     this.store.getOrdersAction().subscribe(o => this.orders = o);
   }
 
+  finishOrder(order: IOrder) {
+    const tmp_order = Object.assign({}, order);
+    tmp_order.order_completed = true;
+    this.store.finishOrder(tmp_order).subscribe(o => order = o);
+  }
+
 }

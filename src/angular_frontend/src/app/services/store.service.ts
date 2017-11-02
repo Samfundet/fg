@@ -1,4 +1,3 @@
-import { IOrder } from './../model';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
@@ -204,7 +203,7 @@ export class StoreService {
   }
 
   finishOrder(order: IOrder) {
-    this.api.finishOrder(order);
+    return this.api.finishOrder(order);
   }
 
   // getters for observables of the datastreams
