@@ -78,6 +78,9 @@ export class ApiService {
   getOrders(): Observable<IOrder[]> {
     return this.http.get<IOrder[]>(`api/orders/`);
   }
+  finishOrder(order: IOrder) {
+    return this.http.patch<IOrder>(`api/orders/${order.id}`, order);
+  }
 
   postPhoto(formData) {
     return this.http.post(`/api/photos/`, formData);
