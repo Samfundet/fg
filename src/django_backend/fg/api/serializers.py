@@ -157,10 +157,11 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
 
 
 class OrderPhotoSerializer(serializers.ModelSerializer):
-    photo = serializers.CharField(source='photo.photo.url')
+    photo_url = serializers.CharField(source='photo.photo.url', read_only=True)
+
     class Meta:
         model = models.OrderPhoto
-        fields = ('photo', 'format')
+        fields = ('photo', 'format', 'photo_url')
 
 
 class OrderSerializer(serializers.ModelSerializer):
