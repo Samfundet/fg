@@ -155,6 +155,7 @@ export interface IOrderPhoto {
   /* photo: IPhoto; */
   photo: number;
   format: string;
+  photo_url: string;
 }
 
 export interface IFilters {

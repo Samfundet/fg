@@ -175,7 +175,7 @@ class OrderSerializer(serializers.ModelSerializer):
         order = models.Order.objects.create(**validated_data)
 
         if len(order_photos) <= 0:
-            return None  # FIXME
+            return None  # FIXME; TODO: can still order with no photos
         for op in order_photos:
             order_photo = models.OrderPhoto.objects.create(
                 photo=op['photo'],
