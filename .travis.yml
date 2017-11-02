@@ -30,6 +30,7 @@ jobs:
         - docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.travis.yml up -d
         - docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.travis.yml ps
       script:
+        - sleep 5
         - bash django-tests.sh
 
     - stage: test angular
