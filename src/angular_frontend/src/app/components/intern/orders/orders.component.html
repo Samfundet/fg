@@ -20,8 +20,10 @@
             <td>{{ order?.zip_code }}</td>
             <td>{{ order?.post_or_get }}</td>
             <td>{{ order?.comment }}</td>
-            <td *ngFor="let order_photo of order?.order_photos">
-                {{ order_photo?.photo }}
+            <td>
+                <div *ngFor="let order_photo of order?.order_photos">
+                    {{ order_photo?.photo }}
+                </div>
             </td>
         </tr>
     </tbody>
