@@ -205,8 +205,15 @@ class OrderViewSet(ModelViewSet):
     permission_classes = [IsFgOrPostOnly]
     queryset = models.Order.objects.all()
 
+    filter_backends = (OrderingFilter, DjangoFilterBackend)
+    ordering_fields = '__all__'
+    ordering = ('order_completed',)
+    filter_class = filters.OrderFilter
+
+
 class OrderPhotoViewSet(ModelViewSet):
 
     serializer_class = serializers.OrderPhotoSerializer
     permission_classes = [IsFgOrPostOnly]
     queryset = models.OrderPhoto.objects.all()
+

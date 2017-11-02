@@ -75,10 +75,18 @@ export class ApiService {
   getSecurityLevels() {
     return this.http.get<IForeignKey[]>(`api/security-levels/`);
   }
-  getOrders(): Observable<IOrder[]> {
-    return this.http.get<IOrder[]>(`api/orders/`);
+  getOrders(type: string): Observable<IOrder[]> {
+    let params = new HttpParams();
+    switch (type) {
+      case 'old':
+        params = params.set('order_completed', 'true');
+        return this.http.get<IOrder[]>(`api/orders/`, { params });
+      case 'new':
+        params = params.set('order_completed', 'false');
+        return this.http.get<IOrder[]>(`api/orders/`, { params });
+    }
   }
-  finishOrder(order: IOrder): Observable<IOrder> {
+  toggleOrderCompleted(order: IOrder): Observable<IOrder> {
     return this.http.put<IOrder>(`api/orders/${order.id}/`, order);
   }
 

@@ -33,8 +33,7 @@ export class StoreService {
   public fgUsers$ = new BehaviorSubject<IUser[]>(null);
   public powerUsers$ = new BehaviorSubject<IUser[]>(null);
 
-  public orders$ = new BehaviorSubject<IOrder[]>([]);
-
+  public orders$: { [type: string]: BehaviorSubject<IOrder[]>; } = {};
 
   // TODO
   private returnUrl;
@@ -53,6 +52,8 @@ export class StoreService {
     this.foreignKeys$['mediums'] = new BehaviorSubject<IForeignKey[]>(null);
     this.foreignKeys$['places'] = new BehaviorSubject<IForeignKey[]>(null);
 
+    this.orders$['new'] = new BehaviorSubject<IOrder[]>([]);
+    this.orders$['old'] = new BehaviorSubject<IOrder[]>([]);
 
     // get photos that are in localStorage and add to photoShoppingCart
     this._photoShoppingCart$.next(JSON.parse(localStorage.getItem('photoShoppingCart')));
@@ -197,13 +198,13 @@ export class StoreService {
     return this.api.postPhoto(formData);
   }
 
-  getOrdersAction() {
-    this.api.getOrders().subscribe(o => this.orders$.next(o));
-    return this.orders$.asObservable();
+  getOrdersAction(type: string) {
+    this.api.getOrders(type).subscribe(o => this.orders$[type].next(o));
+    return this.orders$[type].asObservable();
   }
 
-  finishOrder(order: IOrder) {
-    return this.api.finishOrder(order);
+  toggleOrderCompleted(order: IOrder, type: string) {
+    return this.api.toggleOrderCompleted(order).subscribe(() => this.getOrdersAction(type));
   }
 
   // getters for observables of the datastreams

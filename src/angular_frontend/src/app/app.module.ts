@@ -54,7 +54,9 @@ import {
   MediaComponent,
   PlaceComponent,
   StatisticsComponent,
-  OrdersComponent
+  OrdersComponent,
+  NewOrdersComponent,
+  OldOrdersComponent
 } from 'app/components';
 
 import { ChipsComponent } from 'app/utils/chips/chips.component';
@@ -106,7 +108,9 @@ import { ChipComponent } from 'app/utils/chips/chip/chip.component';
     MediaComponent,
     PlaceComponent,
     StatisticsComponent,
-    OrdersComponent
+    OrdersComponent,
+    NewOrdersComponent,
+    OldOrdersComponent
   ],
   imports: [
     BrowserModule,

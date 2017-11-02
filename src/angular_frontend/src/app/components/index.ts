@@ -20,7 +20,10 @@ export * from './intern/photogangbanger/photogangbanger.component';
 export * from './intern/photogangbanger/photogangbanger-modal/photogangbanger-modal.component';
 export * from './intern/powerusers/powerusers.component';
 export * from './intern/powerusers/powerusers-modal/powerusers-modal.component';
+
 export * from './intern/orders/orders.component';
+export * from './intern/orders/new-orders/new-orders.component';
+export * from './intern/orders/old-orders/old-orders.component';
 
 export * from './intern/archive-admin/archive-admin.component';
 export * from './intern/archive-admin/album/album.component';

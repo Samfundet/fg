@@ -1,0 +1,35 @@
+<table class="order-table">
+  <thead class="order-table--head">
+      <tr class="order-table--head--row">
+          <th>Navn</th>
+          <th>Email</th>
+          <th>Addresse</th>
+          <th>Sted</th>
+          <th>Postnummer</th>
+          <th>Send eller hent</th>
+          <th>Kommentar</th>
+          <th>Bilder</th>
+      </tr>
+  </thead>
+  <tbody class="order-table--body">
+      <tr *ngFor="let order of orders['results']" class="order-table--body--row">
+          <td>{{ order?.name }}</td>
+          <td>{{ order?.email }}</td>
+          <td>{{ order?.address }}</td>
+          <td>{{ order?.place }}</td>
+          <td>{{ order?.zip_code }}</td>
+          <td>{{ order?.post_or_get }}</td>
+          <td>{{ order?.comment }}</td>
+          <td>
+              <div *ngFor="let order_photo of order?.order_photos; let i = index">
+                  <a href="{{ order_photo?.photo_url }}">Bilde {{ i+1 }}</a>
+              </div>
+          </td>
+          <td>
+              <button (click)="toggleOrderCompleted(order)" class="btn btn-primary">
+                  {{order.order_completed ? 'Gjeninnsette bestilling':'Ferdigstill bestilling'}}
+              </button>
+          </td>
+      </tr>
+  </tbody>
+</table>

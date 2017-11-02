@@ -26,7 +26,9 @@ import {
   CategoryComponent,
   MediaComponent,
   PlaceComponent,
-  StatisticsComponent
+  StatisticsComponent,
+  OldOrdersComponent,
+  NewOrdersComponent
 } from 'app/components';
 
 import { AuthGuardService } from 'app/services';
@@ -76,7 +78,17 @@ const routes: Routes = [
       },
       {
         path: 'ordre',
-        component: OrdersComponent
+        component: OrdersComponent,
+        children: [
+          {
+            path: 'nye',
+            component: NewOrdersComponent
+          },
+          {
+            path: 'gamle',
+            component: OldOrdersComponent
+          }
+        ]
       },
       {
         path: 'arkivadmin',
