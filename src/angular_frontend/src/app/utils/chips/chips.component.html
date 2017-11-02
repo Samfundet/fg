@@ -6,6 +6,6 @@
     #chipInput
     (keydown.backspace)="removeChipIfEmpty(chipInput.value)"
     (keyup.enter)="addChip(chipInput.value, chipInput)"
-    (keyup.tag)="addChip(chipInput.value, chipInput)"
+    (keyup.shift.space)="addChip(chipInput.value, chipInput)"
     >
 </div>

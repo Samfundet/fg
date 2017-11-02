@@ -75,6 +75,9 @@ export class ApiService {
   getSecurityLevels() {
     return this.http.get<IForeignKey[]>(`api/security-levels/`);
   }
+  getOrders(): Observable<IOrder[]> {
+    return this.http.get<IOrder[]>(`api/orders/`);
+  }
 
   postPhoto(formData) {
     return this.http.post(`/api/photos/`, formData);

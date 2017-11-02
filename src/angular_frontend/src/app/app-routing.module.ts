@@ -1,3 +1,4 @@
+import { OrdersComponent } from './components/intern/orders/orders.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -72,6 +73,10 @@ const routes: Routes = [
       {
         path: 'powerbrukere',
         component: PowerusersComponent
+      },
+      {
+        path: 'ordre',
+        component: OrdersComponent
       },
       {
         path: 'arkivadmin',

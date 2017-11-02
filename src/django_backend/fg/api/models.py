@@ -171,6 +171,7 @@ class Order(models.Model):
 
 class OrderPhoto(models.Model):
     photo = models.ForeignKey(Photo)
+    # photo = models.IntegerField()
     order = models.ForeignKey(Order)
     format = models.CharField(max_length=16)
 

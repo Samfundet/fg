@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { ApiService } from 'app/services/api.service';
-import { IResponse, IPhoto, IUser, IFilters, ILoginRequest, IForeignKey } from 'app/model';
+import { IResponse, IPhoto, IUser, IFilters, ILoginRequest, IForeignKey, IOrder } from 'app/model';
 import { DELTA } from 'app/config';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
@@ -25,12 +25,16 @@ export class StoreService {
   private _foreignKeyModal$ = new BehaviorSubject<IForeignKeyModal>(null);
   private _refreshToken$ = new Subject<any>();
   private _photoShoppingCart$ = new BehaviorSubject<IPhoto[]>([]);
+
   public photoRouteActive$ = new Subject<boolean>();
   public photoModal$ = new BehaviorSubject<IPhoto>(null);
 
   public foreignKeys$: { [type: string]: BehaviorSubject<IForeignKey[]>; } = {};
   public fgUsers$ = new BehaviorSubject<IUser[]>(null);
   public powerUsers$ = new BehaviorSubject<IUser[]>(null);
+
+  public orders$ = new BehaviorSubject<IOrder[]>([]);
+
 
   // TODO
   private returnUrl;
@@ -191,6 +195,11 @@ export class StoreService {
       formData.append(key, data[key]);
     }
     return this.api.postPhoto(formData);
+  }
+
+  getOrdersAction() {
+    this.api.getOrders().subscribe(o => this.orders$.next(o));
+    return this.orders$.asObservable();
   }
 
   // getters for observables of the datastreams

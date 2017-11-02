@@ -1,3 +1,4 @@
+import { IPhoto } from './model';
 // All responses from the backend have the following shape
 export interface IResponse<T> {
   count: number;
@@ -147,9 +148,11 @@ export interface IOrder {
   post_or_get: string;
   comment: string;
   order_photos: IOrderPhoto[];
+  order_completed: boolean;
 }
 
 export interface IOrderPhoto {
+  /* photo: IPhoto; */
   photo: number;
   format: string;
 }

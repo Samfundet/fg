@@ -23,22 +23,21 @@ export class ShoppingCartComponent implements OnInit {
   ngOnInit() {
     // console.log(this.cart);
     this.cartForm = this.fb.group({
-      name: ['', [Validators.required]],
-      email: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      place: ['', [Validators.required]],
-      zip_code: ['', [Validators.required]],
-      post_or_get: [, [Validators.required]],
-      comment: ['', []],
+      name: ['Mikkel', [Validators.required]],
+      email: ['m@m.com', [Validators.required]],
+      address: ['ingen', [Validators.required]],
+      place: ['der borte', [Validators.required]],
+      zip_code: ['1472', [Validators.required]],
+      post_or_get: ['get-by-self', [Validators.required]],
+      comment: ['nei', []],
       order_photos: null
     });
 
     this.store.photoShoppingCart$.filter(p => !!p).subscribe(photos => {
       // Add to order_photos for each image
       this.cartForm.setControl('order_photos', this.fb.array(photos.map(p => this.addOrderPhoto(p))));
-
+      console.log(this.cartForm.value);
     });
-
   }
 
   addOrderPhoto(photo: IPhoto) {
@@ -51,6 +50,9 @@ export class ShoppingCartComponent implements OnInit {
   onSubmit() {
     const formValue = this.cartForm.value;
     this.api.order(formValue).subscribe(r => console.log(r));
+    this.cartForm.value.order_photos.forEach(p => {
+      this.store.removePhotoFromCartAction(p);
+    });
   }
 
 }

@@ -59,7 +59,6 @@
           <!-- Preview box -->
           <div fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
             <div [formGroup]="cartForm.controls['order_photos']" class="shopping-card" fxLayout="row" fxLayoutAlign="space-between" *ngFor="let photo of (store.photoShoppingCart$ | async); let i = index">
-
               <div class="shopping-card--image">
                 <img [src]="photo.photo.small">
               </div>

@@ -1,3 +1,4 @@
+import { StoreService } from 'app/services';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StatisticsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private store: StoreService
+  ) { }
 
   ngOnInit() {
   }

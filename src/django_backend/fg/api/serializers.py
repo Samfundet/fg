@@ -109,6 +109,7 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
         required=False
     )
     tags = TagListField(many=True)
+
     # image_number = serializers.IntegerField(required=False)
     # page = serializers.IntegerField(required=False)
 
@@ -163,20 +164,25 @@ class OrderPhotoSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     order_photos = OrderPhotoSerializer(many=True, required=False)  # TODO why required False?
+    # order_photos = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = models.Order
         fields = '__all__'
+        # fields = ('name', 'email', 'address', 'place', 'zip_code', 'post_or_get',
+        #           'comment', 'date_created', 'order_completed','order_photos')
 
     def create(self, validated_data):
         order_photos = validated_data.pop('order_photos')
+        print(order_photos)
         order = models.Order.objects.create(**validated_data)
 
         if len(order_photos) <= 0:
-            return None # FIXME
+            return None  # FIXME
         for op in order_photos:
             order_photo = models.OrderPhoto.objects.create(
-                photo=op['photo'],
+                photo=models.Photo.objects.get(pk=op['photo']),
+                #photo=op['photo'],
                 order=order,
                 format=op['format']
             )
