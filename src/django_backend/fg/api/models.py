@@ -3,6 +3,7 @@ from .. import settings
 from django.db import models
 from versatileimagefield.fields import VersatileImageField, PPOIField
 
+
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True, db_index=True)
 
@@ -41,7 +42,6 @@ class Place(models.Model):
 
     def __str__(self):
         return self.name
-
 
 
 class SecurityLevel(models.Model):
@@ -153,7 +153,6 @@ class Photo(models.Model):
         get_latest_by = 'date_taken'
 
 
-
 class Order(models.Model):
     name = models.CharField(max_length=64)
     email = models.EmailField(max_length=32)
@@ -172,7 +171,7 @@ class Order(models.Model):
 class OrderPhoto(models.Model):
     photo = models.ForeignKey(Photo)
     # photo = models.IntegerField()
-    order = models.ForeignKey(Order)
+    order = models.ForeignKey(Order, related_name='order_photos')
     format = models.CharField(max_length=16)
 
     def __str__(self):
