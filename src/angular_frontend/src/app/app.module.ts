@@ -61,6 +61,7 @@ import {
 
 import { ChipsComponent } from 'app/utils/chips/chips.component';
 import { ChipComponent } from 'app/utils/chips/chip/chip.component';
+import { RadioButtonsComponent } from 'app/utils/radio-buttons/radio-buttons.component';
 
 @NgModule({
   declarations: [
@@ -110,7 +111,8 @@ import { ChipComponent } from 'app/utils/chips/chip/chip.component';
     StatisticsComponent,
     OrdersComponent,
     NewOrdersComponent,
-    OldOrdersComponent
+    OldOrdersComponent,
+    RadioButtonsComponent
   ],
   imports: [
     BrowserModule,
