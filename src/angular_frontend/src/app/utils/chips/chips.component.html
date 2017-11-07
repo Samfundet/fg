@@ -5,7 +5,7 @@
     class="chips no-style"
     #chipInput
     (keydown.backspace)="removeChipIfEmpty(chipInput.value)"
-    (keyup.enter)="addChip(chipInput.value, chipInput)"
-    (keyup.shift.space)="addChip(chipInput.value, chipInput)"
+    (keyup.enter)="addChip(chipInput.value)"
+    (keyup.shift.space)="addChip(chipInput.value)"
     >
 </div>
