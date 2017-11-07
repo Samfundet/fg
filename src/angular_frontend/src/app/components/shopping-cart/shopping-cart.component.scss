@@ -1,3 +1,7 @@
+@import '../../../styles/_mixins.scss';
+@import '../../../styles/_colors.scss';
+
+
 .shopping-card {
   &--image {
     height: inherit;
@@ -8,6 +12,15 @@
   }
 
   &--details > div div {
-    
+  }
+}
+
+.alert {
+  position: fixed;
+  &--text {
+    font-size: 1.5rem;
+    margin: 1rem;
+
+    @include linx($link, $visit, $hover, $active);
   }
 }
