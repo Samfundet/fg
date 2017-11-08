@@ -64,43 +64,22 @@
                 <a class="alert--text--link" routerLink="../foto">Klikk her</a> for å bla gjennom våre bilder
               </p>
             </div>
-            <div [formGroup]="cartForm.controls['order_photos']" class="shopping-card" fxLayout="row" fxLayoutAlign="space-between" *ngFor="let photo of (store.photoShoppingCart$ | async); let i = index">
-              <div class="shopping-card--image">
-                <img [src]="photo.photo.small">
-              </div>
-              <div class="shopping-card--details">
-                <div fxLayout="row" fxLayoutGap="25px" class="shopping-card--details--formats">
-                  <!-- OLD RADIO BUTTONS
+            <div formArrayName="order_photos">
+              <ng-container *ngFor="let photo of (store.photoShoppingCart$ | async); let i = index">
+                <div [formGroupName]="i" class="shopping-card" fxLayout="row" fxLayoutAlign="space-between">
+                  <div class="shopping-card--image">
+                    <img [src]="photo.photo.small">
+                  </div>
+                  <div class="shopping-card--details">
+                    <div fxLayout="row" fxLayoutGap="25px" class="shopping-card--details--formats">
+                      <fg-radio-buttons formControlName="format"></fg-radio-buttons>
+                    </div>
                     <div>
-                    <label>A5</label>
-                    <input type="radio" [name]="i" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format" value="A5">
+                      HERE COMES SOMETHING
+                    </div>
                   </div>
-                  <div>
-                    <label>A4</label>
-                    <input type="radio" [name]="i" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format" value="A4">
-                  </div>
-                  <div>
-                    <label>A3</label>
-                    <input type="radio" [name]="i" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format" value="A3">
-                  </div>
-                  <div>
-                    <label>A2</label>
-                    <input type="radio" [name]="i" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format" value="A2">
-                  </div>
-                  <div>
-                    <label>A1</label>
-                    <input type="radio" [name]="i" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format" value="A1">
-                  </div>
-                  <div>
-                    <label>Digitalt</label>
-                    <input type="radio" [name]="i" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format" value="Digitalt">
-                  </div> -->
-                  <fg-radio-buttons [radios]="['A1', 'A2']" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format"></fg-radio-buttons>
                 </div>
-                <div>
-                  HERE COMES SOMETHING
-                </div>
-              </div>
+              </ng-container>
             </div>
           </div>
         </form>

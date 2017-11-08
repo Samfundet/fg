@@ -30,14 +30,12 @@ export class ShoppingCartComponent implements OnInit {
       zip_code: ['1472', [Validators.required]],
       post_or_get: ['get-by-self', [Validators.required]],
       comment: ['nei', []],
-      order_photos: null
+      order_photos: this.createPhotoFormArray(this.store.getPhotoShoppingCartValue())
     });
+  }
 
-    this.store.photoShoppingCart$.filter(p => !!p).subscribe(photos => {
-      // Add to order_photos for each image
-      this.cartForm.setControl('order_photos', this.fb.array(photos.map(p => this.addOrderPhoto(p))));
-      console.log(this.cartForm.value);
-    });
+  createPhotoFormArray(photos: IPhoto[]) {
+    return this.fb.array(photos.map(p => this.addOrderPhoto(p)));
   }
 
   addOrderPhoto(photo: IPhoto) {

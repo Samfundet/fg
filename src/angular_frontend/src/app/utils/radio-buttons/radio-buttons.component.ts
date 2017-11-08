@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, OnChanges } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -11,28 +11,16 @@ import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/f
     multi: true
   }]
 })
-export class RadioButtonsComponent implements ControlValueAccessor, OnChanges {
-  /* @Input() radios: IRadio[];
-
-  registerOnChange(fn) {
-    this.propagateChange = fn;
-  }*/
-
-  @Input() radios: string[];
+export class RadioButtonsComponent implements ControlValueAccessor {
+  radios = ['A1', 'A2', 'A3', 'A4', 'A5', 'Digitalt'];
   @Input() format: string;
-  propagateChange: any = () => { }; // Empty function, assign later
 
-  constructor() {
-  }
+  propagateChange: any = () => { };
 
-  ngOnChanges(inputs) {
-    if (inputs.format) {
-      this.propagateChange(this.format);
-    }
-  }
+  constructor() { }
 
-  writeValue(format: string) {
-    if (format) {
+  writeValue(format) {
+    if (format !== undefined) {
       this.format = format;
     }
   }
@@ -41,13 +29,10 @@ export class RadioButtonsComponent implements ControlValueAccessor, OnChanges {
     this.propagateChange = fn;
   }
 
-  registerOnTouched() {
+  registerOnTouched() { }
 
-  }
-
-  onClick(format: string) {
-    console.log(format);
+  onClick(format) {
     this.format = format;
+    this.propagateChange(format);
   }
-
 }
