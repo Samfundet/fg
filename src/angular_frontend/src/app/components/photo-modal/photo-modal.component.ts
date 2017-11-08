@@ -26,4 +26,8 @@ export class PhotoModalComponent {
   removeFromShoppingCart() {
     this.store.removePhotoFromCartAction(this.photo);
   }
+
+  disableRightClick(event) {
+    event.preventDefault();
+  }
 }
