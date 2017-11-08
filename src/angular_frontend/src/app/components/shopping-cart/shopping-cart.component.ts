@@ -55,4 +55,8 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
+  onPhotoClick(photo: IPhoto) {
+    this.store.photoModal$.next(photo);
+  }
+
 }

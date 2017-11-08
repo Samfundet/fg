@@ -5,10 +5,7 @@
 .shopping-card {
   &--image {
     height: inherit;
-  }
-
-  &--image > img {
-    max-height: 12rem;
+    max-height: 12rem;    
   }
 
   &--details > div div {
@@ -23,4 +20,55 @@
 
     @include linx($link, $visit, $hover, $active);
   }
+}
+
+.wrapper {
+  padding-top: 3em;
+}
+
+
+.search-table {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: smaller;
+  border-bottom: 2px solid $outline;
+
+  &--head {
+    &--row > td + td {
+      border-left: 2px solid $outline;
+    }
+  }
+
+  &--body {
+    &--row > td + td {
+      border-left: none;
+    }
+
+    &--row > td {
+      width: 10%;
+    }
+
+    font-size: smaller;
+  }
+
+  &--img {
+    object-fit: contain;
+    width: 100px;
+  }
+
+  &--link {
+    text-decoration: underline;
+  }
+  &--link:link {
+    color: #58C5FF;
+  }
+  &--link:visited {
+    color: #58C5FF;
+  }
+  &--link:hover {
+    color: #A29DFF;
+  }
+}
+
+table td {
+  padding: 0.01rem 0.5rem;
 }

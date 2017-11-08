@@ -35,4 +35,8 @@ export class RadioButtonsComponent implements ControlValueAccessor {
     this.format = format;
     this.propagateChange(format);
   }
+
+  isActive(radio: string) {
+    return this.format === radio ? 'active' : '';
+  }
 }

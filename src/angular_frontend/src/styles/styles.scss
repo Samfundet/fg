@@ -243,8 +243,9 @@ hr {
     filter: brightness(120%);
   }
 
-  &:active, &.active {
-
+  &.active {
+    background-color: $primary;
+    color: $primary-contrast;
   }
 
   &-large {
