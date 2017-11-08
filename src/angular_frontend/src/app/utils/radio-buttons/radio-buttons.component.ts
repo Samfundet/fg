@@ -4,7 +4,6 @@ import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/f
 @Component({
   selector: 'fg-radio-buttons',
   templateUrl: './radio-buttons.component.html',
-  styleUrls: ['./radio-buttons.component.scss'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: RadioButtonsComponent,
