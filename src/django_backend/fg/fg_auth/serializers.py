@@ -6,10 +6,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     lookup_field = 'username'
     bilde = serializers.ImageField(required=False)
 
-
-
-    # FIXME is ther a way to default set all to required false?
-
     class Meta:
         model = models.User
         fields = [

@@ -11,29 +11,11 @@ export class AuthGuardService implements CanActivate {
   constructor(private store: StoreService, private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    /* const token = localStorage.getItem('csrf_token');
-    if (token) {
-      if (this.tokenExpired(token)) {
-        localStorage.removeItem('csrf_token');
-        localStorage.removeItem('username');
-        this.store.showLoginModalAction(state.url);
-        return false;
-      }
+    if (localStorage.getItem('username')) {
       return true;
     } else {
+      this.store.showLoginModalAction(state.url);
       return false;
-    } */
-    return true;
-  }
-
-  tokenExpired(t) {
-    const token: IToken = <IToken>JwtDecode(t);
-    console.log(token);
-    const now = new Date().getTime() / 1000;
-    if (token.exp <= now) {
-      return true;
     }
-    return false;
   }
-
 }

@@ -1,9 +1,14 @@
+import base64
+from time import sleep
 from rest_framework import viewsets
+from rest_framework import serializers
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
+from django.forms.models import model_to_dict
 
 from . import models, serializers
 from ..paginations import UnlimitedPagination
@@ -43,44 +48,24 @@ class PowerUsersView(ListAPIView):
         return models.User.objects.filter(groups__name="POWER").all()
 
 
-def login_samfundet_user(request):
-    # state = ""
-    user = None
-    if not request.user.is_anonymous:
-        user = request.user
-    else:
-        try:
-            username = request.META.get(
-                'REMOTE_USER') or request.META.get('HTTP_REMOTE_USER')
-            user = authenticate(remote_user=username)
-        except KeyError:
-            pass
-    if user is not None and user.is_active:
-        login(request, user)
-        return Response('All good!')
-        # if request.GET.get('next'):
-        #     return redirect(request.GET.get('next'))
-
-    return Response('Very bad!')
-
-
 def login_user(request):
-    if request.method == 'POST':
-        # username = request.POST.get('username')
-        # password = request.POST.get('password')
-        username = request.user
+    print(request.META)
+    auth_header = request.META['HTTP_AUTHORIZATION']
+    encoded_credentials = auth_header.split(' ')[1]
+    decoded_credentials = base64.b64decode(encoded_credentials).decode("utf-8").split(':')
+    username = decoded_credentials[0]
+    password = decoded_credentials[1]
+    user = authenticate(username=username, password=password)
 
-        # user = authenticate(username=username, password=password)
-        print(username)
-        # if user and user.is_active:
-        #     login(request, user)
-        #     return Response(True)
-
-        return Response(False)
-            # if request.GET.get('next'):
-            #     return Response(True)
-            #     # return redirect(request.GET.get('next'))
-            # else:
-            #     return Response(False)
-            # return redirect(reverse('fg.apps.archive.views.home'))
-            # return render(request, 'registration/login.html', {'state': state})
+    if user:
+        if user.is_active:
+            login(request, user)
+            groups = []
+            for g in user.groups.all():
+                groups.append(g.name)
+            return JsonResponse({"username": user.username, "groups": groups})
+        else:
+            return JsonResponse({"error": "User is inactive"}, status=403)
+    else:
+        sleep(1)
+        return JsonResponse({"error": "User with username/password not found"}, status=403)

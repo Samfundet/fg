@@ -43,9 +43,9 @@ export class StoreService {
       api.getHomePagePhotos(f).subscribe(pr => this.storePhotos(pr));
     });
 
-    this._refreshToken$.debounceTime(1000).subscribe(t => {
-      api.refreshToken(t).subscribe(new_token => this.storeToken(new_token));
-    });
+    // this._refreshToken$.debounceTime(1000).subscribe(t => {
+    //   api.refreshToken(t).subscribe(new_token => this.storeToken(new_token));
+    // });
 
     this.foreignKeys$['albums'] = new BehaviorSubject<IForeignKey[]>(null);
     this.foreignKeys$['categories'] = new BehaviorSubject<IForeignKey[]>(null);
@@ -141,9 +141,10 @@ export class StoreService {
     return this.api.deleteForeignKey(fk, type).subscribe(() => this.getForeignKeyAction(type));
   }
 
-  loginHusfolkAction(data: ILoginRequest) {
-    this.api.loginHusfolk(data).subscribe(t => {
-      // this.storeToken(t, data.username);
+  loginAction(data: ILoginRequest) {
+    const encodedCredentials = 'Basic ' + btoa(`${data.username}:${data.password}`);
+    this.api.login(encodedCredentials).subscribe(res => {
+      this.storeEncodedCredentials(res.username, res.groups, encodedCredentials);
       console.log(this.returnUrl);
       if (this.returnUrl) {
         this.router.navigateByUrl(this.returnUrl);
@@ -151,29 +152,21 @@ export class StoreService {
     });
   }
 
-  loginPowerbrukerAction(data: ILoginRequest) {
-    this.api.loginPowerbruker(data).subscribe(t => {
-      // this.storeToken(t, data.username);
-      console.log(this.returnUrl);
-      if (this.returnUrl) {
-        this.router.navigateByUrl(this.returnUrl);
-      }
-    });
-  }
 
   logoutAction() {
-    // localStorage.removeItem('csrf_token'); TODO
-    // localStorage.removeItem('username');
+    localStorage.removeItem('Authorization');
+    localStorage.removeItem('username');
+    localStorage.removeItem('groups');
   }
 
   getUsernameAction() {
-    // return localStorage.getItem('username'); TODO
+    return localStorage.getItem('username');
   }
 
-  refreshTokenAction() {
-    this._refreshToken$.next(localStorage.getItem('csrf_token'));
-    console.log('Token refreshed');
-  }
+  // refreshTokenAction() {
+  //   this._refreshToken$.next(localStorage.getItem('csrf_token'));
+  //   console.log('Token refreshed');
+  // }
 
   getFgUsersAction() {
     this.api.getFgUsers().subscribe(u => this.fgUsers$.next(u));
@@ -246,11 +239,10 @@ export class StoreService {
     this._photos$.next(r);
   }
 
-  private storeToken(t, username?) {
-    localStorage.setItem('csrf_token', t.token);
-    if (username) {
-      localStorage.setItem('username', username);
-    }
+  private storeEncodedCredentials(username: string, groups: string[], encodedCredentials: string) {
+    localStorage.setItem('Authorization', encodedCredentials);
+    localStorage.setItem('username', username);
+    localStorage.setItem('groups', JSON.stringify(groups));
   }
 
   private getQueryParamValue(url: string, param: string): string {

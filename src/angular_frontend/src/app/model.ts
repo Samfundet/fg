@@ -244,3 +244,8 @@ export interface IToken {
   email: string;
   orig_iat: number;
 }
+
+export interface ILoginResponse {
+  username: string;
+  groups: string[];
+}

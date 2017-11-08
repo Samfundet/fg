@@ -133,11 +133,11 @@ import { RadioButtonsComponent } from 'app/utils/radio-buttons/radio-buttons.com
       useValue: 'nb-NO'
     },
     { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: OutAuthInterceptor,
-    //   multi: true
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: OutAuthInterceptor,
+      multi: true
+    },
     ApiService,
     StoreService,
     AuthGuardService

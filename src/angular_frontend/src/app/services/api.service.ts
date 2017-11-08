@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Headers, RequestOptions } from '@angular/http';
-import { IResponse, IPhoto, IUser, IOrder, IFilters, IForeignKey, ILoginRequest } from 'app/model';
+import { IResponse, IPhoto, IUser, IOrder, IFilters, IForeignKey, ILoginRequest, ILoginResponse } from 'app/model';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
@@ -125,15 +125,16 @@ export class ApiService {
     return this.http.post(`api/orders/`, order);
   }
 
-  loginHusfolk(data: ILoginRequest): Observable<any> {
-    return this.http.post(`api/login-husfolk/`, data);
-  }
 
-  loginPowerbruker(data: ILoginRequest): Observable<any> {
-    return this.http.post(`api/login-powerbruker/`, data);
+  login(encodedCredentials: string): Observable<ILoginResponse> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', encodedCredentials);
+    return this.http.get<ILoginResponse>(`api/login/`, { headers });
   }
 
   refreshToken(current_token): Observable<any> {
     return this.http.post(`api/token-refresh/`, { token: current_token });
   }
 }
+
