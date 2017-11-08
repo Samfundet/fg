@@ -1,4 +1,3 @@
-import { IRadio } from 'app/model';
 import { Component, Input, ViewChild, ElementRef, OnChanges } from '@angular/core';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -12,40 +11,43 @@ import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/f
     multi: true
   }]
 })
-export class RadioButtonsComponent {
+export class RadioButtonsComponent implements ControlValueAccessor, OnChanges {
   /* @Input() radios: IRadio[];
-  propagateChange: any = () => { }; // Empty function, assign later
 
   registerOnChange(fn) {
     this.propagateChange = fn;
   }*/
 
-  @Input() radios: boolean[];
+  @Input() radios: string[];
+  @Input() format: string;
+  propagateChange: any = () => { }; // Empty function, assign later
 
   constructor() {
-    this.radios = [false, false, false, false, false];
   }
 
-  writeValue() {
+  ngOnChanges(inputs) {
+    if (inputs.format) {
+      this.propagateChange(this.format);
+    }
   }
 
-  registerOnChange() {
+  writeValue(format: string) {
+    if (format) {
+      this.format = format;
+    }
+  }
+
+  registerOnChange(fn) {
+    this.propagateChange = fn;
   }
 
   registerOnTouched() {
 
   }
 
-  onClick(event) {
-    console.log(this.radios);
-    for (let i = 0; i < this.radios.length; i++) {
-      if (event.target.id === i.toString()) {
-        this.radios[i] = true;
-      }else {
-        this.radios[i] = false;
-      }
-    }
-    console.log(this.radios);
+  onClick(format: string) {
+    console.log(format);
+    this.format = format;
   }
 
 }

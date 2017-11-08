@@ -95,7 +95,7 @@
                     <label>Digitalt</label>
                     <input type="radio" [name]="i" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format" value="Digitalt">
                   </div> -->
-                  <fg-radio-buttons [id]="i" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format"></fg-radio-buttons>
+                  <fg-radio-buttons [radios]="['A1', 'A2']" [formControl]="cartForm.controls['order_photos'].controls[i].controls.format"></fg-radio-buttons>
                 </div>
                 <div>
                   HERE COMES SOMETHING

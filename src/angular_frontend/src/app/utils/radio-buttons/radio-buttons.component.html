@@ -1,7 +1,3 @@
 <div class="radio-choices">
-  <button type="button" id="0" false (click)="onClick($event)" class="btn radio-choices--btn" value="A4">A4</button>
-  <button type="button" id="1" false (click)="onClick($event)" class="btn radio-choices--btn" value="A3">A3</button>
-  <button type="button" id="2" false (click)="onClick($event)" class="btn radio-choices--btn" value="A2">A2</button>
-  <button type="button" id="3" false (click)="onClick($event)" class="btn radio-choices--btn" value="A1">A1</button>
-  <button type="button" id="4" false (click)="onClick($event)" class="btn radio-choices--btn" value="Digitalt">Digital</button>
+  <button *ngFor="let radio of radios" type="button" (click)="onClick(radio)" class="btn radio-choices--btn">{{ radio }}</button>
 </div>

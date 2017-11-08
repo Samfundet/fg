@@ -159,11 +159,9 @@ export interface IOrderPhoto {
   photo_url: string;
 }
 
-export interface IRadio {
-  id: number;
-  turned_on: boolean;
-  value: string;
-}
+// export interface IRadio {
+//   name: string;
+// }
 
 export interface IFilters {
   cursor?: string;
