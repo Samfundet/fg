@@ -42,4 +42,7 @@ export class PhotoMasonryComponent {
     this.store.photoModal$.next(photo);
   }
 
+  disableRightClick(event) {
+    event.preventDefault();
+  }
 }
