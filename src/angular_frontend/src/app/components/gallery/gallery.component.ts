@@ -19,26 +19,17 @@ class GalleryParams {
   styleUrls: ['./gallery.component.scss']
 })
 export class GalleryComponent {
-  filters: IFilters;
-
   constructor(
     public store: StoreService,
     private router: Router,
     private route: ActivatedRoute
   ) {
-    route.queryParams.first().subscribe(p => {
-      this.filters = p.cursor ? { cursor: p.cursor || '' } : null;
-      this.store.setFiltersAction(this.filters);
+    route.queryParamMap.first().subscribe(params => {
+      this.store.getHomePagePhotosAction(params);
     });
   }
 
-  getMorePhotos() {
-    const filters = this.store.getMorePhotosAction();
-    if (filters) {
-      this.filters = filters;
-      this.router.navigate([], {
-        queryParams: filters
-      });
-    }
+  getMoreHomePagePhotos() {
+    this.store.getMoreHomePagePhotosAction();
   }
 }

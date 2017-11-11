@@ -16,6 +16,7 @@ import { ApiService } from './services/api.service';
 import { StoreService } from './services/store.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { OutAuthInterceptor } from './services/interceptor.service';
+import { SnackbarService } from './services/snackbar.service';
 import { MegabytePipe } from 'app/pipes/pipes.pipe';
 import { MasonryLayoutDirective, ImagePreviewDirective } from 'app/directives';
 import {
@@ -59,9 +60,12 @@ import {
   OldOrdersComponent
 } from 'app/components';
 
-import { ChipsComponent } from 'app/utils/chips/chips.component';
-import { ChipComponent } from 'app/utils/chips/chip/chip.component';
-import { RadioButtonsComponent } from 'app/utils/radio-buttons/radio-buttons.component';
+import {
+  ChipsComponent,
+  ChipComponent,
+  RadioButtonsComponent,
+  SnackbarComponent
+} from 'app/utils';
 
 @NgModule({
   declarations: [
@@ -112,7 +116,8 @@ import { RadioButtonsComponent } from 'app/utils/radio-buttons/radio-buttons.com
     OrdersComponent,
     NewOrdersComponent,
     OldOrdersComponent,
-    RadioButtonsComponent
+    RadioButtonsComponent,
+    SnackbarComponent
   ],
   imports: [
     BrowserModule,
@@ -140,7 +145,8 @@ import { RadioButtonsComponent } from 'app/utils/radio-buttons/radio-buttons.com
     },
     ApiService,
     StoreService,
-    AuthGuardService
+    AuthGuardService,
+    SnackbarService
   ],
   bootstrap: [AppComponent]
 })

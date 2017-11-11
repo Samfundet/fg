@@ -33,7 +33,9 @@ export class ApiService {
     let params = new HttpParams();
     if (filters) {
       for (const key of Object.keys(filters)) {
-        params = params.append(key, filters[key]);
+        if (filters[key] !== null) {
+          params = params.append(key, filters[key]);
+        }
       }
     }
     params = params.append('on_home_page', 'true');

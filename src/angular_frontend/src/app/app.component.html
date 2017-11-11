@@ -1,4 +1,4 @@
-<ng-progress></ng-progress>
+<ng-progress [showSpinner]="false"></ng-progress>
 <fg-nav></fg-nav>
 <main class="site-content">
   <router-outlet></router-outlet>
@@ -6,3 +6,6 @@
 <fg-footer></fg-footer>
 <fg-photo-modal></fg-photo-modal>
 <fg-login></fg-login>
+<div style="width: 100%;" fxLayout="row" fxLayoutAlign="center">
+  <fg-snackbar></fg-snackbar>
+</div>

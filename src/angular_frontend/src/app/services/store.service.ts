@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ParamMap } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { ApiService } from 'app/services/api.service';
+import { SnackbarService } from 'app/services/snackbar.service';
 import { IResponse, IPhoto, IUser, IFilters, ILoginRequest, IForeignKey, IOrder } from 'app/model';
 import { DELTA } from 'app/config';
 import 'rxjs/add/operator/debounceTime';
@@ -38,14 +39,12 @@ export class StoreService {
   // TODO
   private returnUrl;
 
-  constructor(private api: ApiService, private router: Router) {
-    this._filters$.subscribe(f => {
-      api.getHomePagePhotos(f).subscribe(pr => this.storePhotos(pr));
+  constructor(private api: ApiService, private router: Router, private snackbar: SnackbarService) {
+    this._filters$.subscribe(filters => {
+      this.router.navigate([], {
+        queryParams: filters
+      });
     });
-
-    // this._refreshToken$.debounceTime(1000).subscribe(t => {
-    //   api.refreshToken(t).subscribe(new_token => this.storeToken(new_token));
-    // });
 
     this.foreignKeys$['albums'] = new BehaviorSubject<IForeignKey[]>(null);
     this.foreignKeys$['categories'] = new BehaviorSubject<IForeignKey[]>(null);
@@ -65,13 +64,35 @@ export class StoreService {
     this._filters$.next(filters);
   }
 
-  getMorePhotosAction(): IFilters {
-    if (this._photos$.getValue() && this._photos$.getValue().next) {
+  getHomePagePhotosAction(params: ParamMap) {
+    const filter: IFilters = params.get('cursor') ? { cursor: params.get('cursor') } : null;
+    this.api.getHomePagePhotos(filter).subscribe(
+      pr => this._photos$.next(pr),
+      err => this.snackbar.next({
+        message: JSON.parse(err.error).detail,
+        backgroundColorClass: 'danger'
+      })
+    );
+    this.setFiltersAction(filter);
+  }
+
+  getMoreHomePagePhotosAction() {
+    if (this._photos$.getValue()) {
       const filters = { cursor: this.getQueryParamValue(this._photos$.getValue().next, 'cursor') };
-      if (filters) {
-        this.setFiltersAction(filters);
-        return filters;
-      }
+      this.setFiltersAction(filters);
+      const currentPhotoList = this._photos$.getValue().results;
+      this.api.getPhotos(filters).subscribe(pr => {
+        pr.results = currentPhotoList.concat(pr.results);
+        this._photos$.next(pr);
+      }, err => this.snackbar.next({
+        message: JSON.parse(err.error).detail,
+        backgroundColorClass: 'danger'
+      }));
+    } else {
+      this.snackbar.next({
+        message: 'Ingen flere bilder',
+        backgroundColorClass: 'warning'
+      });
     }
   }
 
@@ -162,11 +183,6 @@ export class StoreService {
   getUsernameAction() {
     return localStorage.getItem('username');
   }
-
-  // refreshTokenAction() {
-  //   this._refreshToken$.next(localStorage.getItem('csrf_token'));
-  //   console.log('Token refreshed');
-  // }
 
   getFgUsersAction() {
     this.api.getFgUsers().subscribe(u => this.fgUsers$.next(u));

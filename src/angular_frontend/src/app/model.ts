@@ -247,3 +247,26 @@ export interface ILoginResponse {
   username: string;
   groups: string[];
 }
+
+export interface ISnack {
+  message: string;
+  backgroundColorClass?: string; /* positive, negative, or warning */
+  icon?: string; /* fontawesome icon */
+  duration?: number; /* Duration in milliseconds */
+}
+
+export class Snack implements ISnack {
+  message: string;
+  backgroundColor?: string;
+  icon?: string;
+  duration?: number;
+
+  constructor(snack: ISnack) {
+    if (snack) {
+      this.message = snack.message;
+      this.backgroundColor = snack.backgroundColorClass ? snack.backgroundColorClass : 'info';
+      this.icon = snack.icon;
+      this.duration = snack.duration ? snack.duration : 3000;
+    }
+  }
+}
