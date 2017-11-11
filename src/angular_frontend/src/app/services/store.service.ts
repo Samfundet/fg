@@ -24,7 +24,6 @@ export class StoreService {
   private _loginModal$ = new BehaviorSubject<ILoginRequest>(null);
   private _userModal$ = new BehaviorSubject<IUser>(null);
   private _foreignKeyModal$ = new BehaviorSubject<IForeignKeyModal>(null);
-  private _refreshToken$ = new Subject<any>();
   private _photoShoppingCart$ = new BehaviorSubject<IPhoto[]>([]);
 
   public photoRouteActive$ = new Subject<boolean>();
@@ -77,7 +76,7 @@ export class StoreService {
   }
 
   getMoreHomePagePhotosAction() {
-    if (this._photos$.getValue()) {
+    if (this._photos$.getValue() && this._photos$.getValue().next) {
       const filters = { cursor: this.getQueryParamValue(this._photos$.getValue().next, 'cursor') };
       this.setFiltersAction(filters);
       const currentPhotoList = this._photos$.getValue().results;
