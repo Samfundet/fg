@@ -176,3 +176,5 @@ class OrderPhoto(models.Model):
 
     def __str__(self):
         return str(self.photo) + ' - ' + self.order.email + ' - ' + self.format
+
+

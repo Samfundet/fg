@@ -1,3 +1,4 @@
+import { IStatistics } from './../model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Headers, RequestOptions } from '@angular/http';
@@ -44,6 +45,10 @@ export class ApiService {
 
   getSplashPhoto(): Observable<IPhoto> {
     return this.http.get<IPhoto>(`api/photos/latest-splash`);
+  }
+
+  getStatistics(): Observable<IStatistics> {
+    return this.http.get<IStatistics>(`/api/statistics/`);
   }
 
   getUsers(): Observable<IResponse<IUser>> {

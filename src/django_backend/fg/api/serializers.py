@@ -8,7 +8,7 @@ from versatileimagefield.serializers import VersatileImageFieldSerializer
 class TagSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Tag
-        fields = ('name',)
+        fields = ('name', 'id')
 
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
@@ -53,6 +53,7 @@ class PhotoSerializer(serializers.ModelSerializer):
     album = AlbumSerializer()
     place = PlaceSerializer()
 
+
     class Meta:
         model = models.Photo
         fields = '__all__'
@@ -60,7 +61,7 @@ class PhotoSerializer(serializers.ModelSerializer):
 
 
 class TagListField(serializers.StringRelatedField):
-    def to_internal_value(self, value):
+    def to_internal_value ( self, value ):
         return value
 
 
@@ -70,6 +71,7 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
         required=False
     )
     tags = TagListField(many=True)
+
 
     class Meta:
         model = models.Photo
@@ -91,7 +93,8 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
             'lapel'
         )
 
-    def create(self, validated_data):
+
+    def create ( self, validated_data ):
         tags = validated_data.pop('tags')
 
         photo = models.Photo.objects.create(**validated_data)
@@ -109,6 +112,7 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
         required=False
     )
     tags = TagListField(many=True)
+
 
     # image_number = serializers.IntegerField(required=False)
     # page = serializers.IntegerField(required=False)
@@ -133,7 +137,8 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
             'lapel'
         )
 
-    def update(self, instance, validated_data):
+
+    def update ( self, instance, validated_data ):
         instance.motive = validated_data.get('motive', instance.motive)
         instance.image_number = validated_data.get('image_number', instance.image_number)
         instance.page = validated_data.get('page', instance.page)
@@ -159,6 +164,7 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
 class OrderPhotoSerializer(serializers.ModelSerializer):
     photo_url = serializers.CharField(source='photo.photo.url', read_only=True)
 
+
     class Meta:
         model = models.OrderPhoto
         fields = ('photo', 'format', 'photo_url')
@@ -167,11 +173,13 @@ class OrderPhotoSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     order_photos = OrderPhotoSerializer(many=True)
 
+
     class Meta:
         model = models.Order
         fields = '__all__'
 
-    def create(self, validated_data):
+
+    def create ( self, validated_data ):
         order_photos = validated_data.pop('order_photos')
         order = models.Order.objects.create(**validated_data)
 
@@ -189,7 +197,33 @@ class OrderSerializer(serializers.ModelSerializer):
 
         return order
 
-    def update(self, instance, validated_data):
+    def update ( self, instance, validated_data ):
         instance.order_completed = validated_data.get("order_completed")
         instance.save()
         return instance
+
+
+
+# OLD
+# class StatisticsSerializer(serializers.Serializer):
+#     photos = PhotoStatisticsSerializer(many=True)
+#     # photo_num = PhotoNumberStatisticsSerializer()
+#     tags = TagSerializer(many=True)
+#     places = PlaceSerializer(many=True)
+#     categories = CategorySerializer(many=True)
+#     mediums = MediaSerializer(many=True)
+#     orders = OrderSerializer(many=True)
+
+class PhotoStatisticsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Photo
+        fields = ('id',)
+
+class StatisticsSerializer(serializers.Serializer):
+    photos = serializers.IntegerField(read_only=True)
+    tags = serializers.IntegerField(read_only=True)
+    scanned = serializers.IntegerField(read_only=True)
+    albums = serializers.IntegerField(read_only=True)
+    splash = serializers.IntegerField(read_only=True)
+    orders = serializers.IntegerField(read_only=True)
+    photos_by_year = serializers.ListField(child=serializers.IntegerField(read_only=True))

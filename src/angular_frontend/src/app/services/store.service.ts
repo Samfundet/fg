@@ -1,3 +1,4 @@
+import { IStatistics } from './../model';
 import { Injectable } from '@angular/core';
 import { Router, ParamMap } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
@@ -93,6 +94,10 @@ export class StoreService {
         backgroundColorClass: 'warning'
       });
     }
+  }
+
+  getStatisticsAction(): Observable<IStatistics> {
+    return this.api.getStatistics();
   }
 
   getSplashPhotoAction(): Observable<IPhoto> {

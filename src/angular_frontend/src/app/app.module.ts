@@ -64,7 +64,8 @@ import {
   ChipsComponent,
   ChipComponent,
   RadioButtonsComponent,
-  SnackbarComponent
+  SnackbarComponent,
+  BarchartComponent
 } from 'app/utils';
 
 @NgModule({
@@ -117,7 +118,8 @@ import {
     NewOrdersComponent,
     OldOrdersComponent,
     RadioButtonsComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    BarchartComponent
   ],
   imports: [
     BrowserModule,
@@ -130,7 +132,7 @@ import {
     FlexLayoutModule,
     NgxMyDatePickerModule.forRoot(),
     ClickOutsideModule,
-    NgProgressModule
+    NgProgressModule,
   ],
   providers: [
     {
@@ -146,8 +148,8 @@ import {
     ApiService,
     StoreService,
     AuthGuardService,
-    SnackbarService
+    SnackbarService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

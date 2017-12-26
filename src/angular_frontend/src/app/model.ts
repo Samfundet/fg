@@ -1,4 +1,4 @@
-import { IPhoto } from './model';
+import { IPhoto, IMetaData, IOrder } from './model';
 // All responses from the backend have the following shape
 export interface IResponse<T> {
   count: number;
@@ -137,6 +137,17 @@ export class User {
   email: string = null;
   first_name: string = null;
   last_name: string = null;
+}
+
+// TODO: Is this needed?
+export interface IStatistics {
+  photos: number;
+  tags: number;
+  scanned: number;
+  albums: number;
+  splash: number;
+  orders: number;
+  photos_by_year: Array<any>;
 }
 
 export interface IOrder {

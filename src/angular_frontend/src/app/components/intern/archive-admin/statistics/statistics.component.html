@@ -1,3 +1,27 @@
-<p>
-  statistics works!
-</p>
+<table class="fk-table">
+  <thead class="fk-table--head">
+
+  </thead>
+  <tbody class="fk-table--body">
+    <tr>
+      <td>Antall bilder i arkivet:</td>
+      <td>{{ statistics?.photos }}</td>
+    </tr>
+    <tr>
+      <td>Antall album i arkivet:</td>
+      <td>{{ statistics?.albums }}</td>
+    </tr>
+    <tr>
+      <td>Antall tags i arkivet:</td>
+      <td>{{ statistics?.tags }}</td>
+    </tr>
+    <tr>
+      <td>Antall scanna bilder i arkivet:</td>
+      <td>{{ statistics?.scanned }}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h3>Bilder tatt per år</h3>
+<fg-barchart *ngIf="chartData" [data]="chartData"></fg-barchart>
