@@ -9,8 +9,8 @@ import { Component, OnInit, AfterContentInit } from '@angular/core';
 })
 export class StatisticsComponent implements OnInit {
 
-  private statistics: IStatistics;
-  private chartData: Array<any>;
+  statistics: IStatistics;
+  chartData: Array<any>;
 
   constructor(private store: StoreService) {
   }
