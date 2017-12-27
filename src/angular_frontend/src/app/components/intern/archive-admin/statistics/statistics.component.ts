@@ -1,7 +1,6 @@
 import { IPhoto, IStatistics } from 'app/model';
 import { StoreService } from 'app/services';
 import { Component, OnInit, AfterContentInit } from '@angular/core';
-import { element } from 'protractor';
 
 @Component({
   selector: 'fg-statistics',
@@ -10,32 +9,18 @@ import { element } from 'protractor';
 })
 export class StatisticsComponent implements OnInit {
 
-  statistics: IStatistics;
+  private statistics: IStatistics;
   private chartData: Array<any>;
 
   constructor(private store: StoreService) {
   }
 
-
   ngOnInit() {
     this.store.getStatisticsAction().subscribe(s => this.statistics = s);
-
-    // Timeout because i had some problems making it work...
+    // Timeout because we have to wait for statistics to be loaded async
     setTimeout(() => {
-      this.dataGen();
+      // TODO same thing for analog and digital images
+      this.chartData = this.statistics.photos_by_year;
     }, 1000);
   }
-
-  dataGen() {
-    this.chartData = [];
-    let year = (new Date).getFullYear();
-    this.statistics.photos_by_year.forEach((item, index) => {
-      this.chartData.push([
-        `${year}`,
-        item
-      ]);
-      year--;
-    });
-  }
-
 }

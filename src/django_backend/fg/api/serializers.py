@@ -226,4 +226,4 @@ class StatisticsSerializer(serializers.Serializer):
     albums = serializers.IntegerField(read_only=True)
     splash = serializers.IntegerField(read_only=True)
     orders = serializers.IntegerField(read_only=True)
-    photos_by_year = serializers.ListField(child=serializers.IntegerField(read_only=True))
+    photos_by_year = serializers.ListField(child=serializers.ListField())

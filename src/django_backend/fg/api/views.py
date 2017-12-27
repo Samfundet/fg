@@ -237,11 +237,19 @@ class StatisticsViewSet(ViewSet):
             year=TruncYear('date_taken')
         ).values('year').annotate(
             count=Count('pk')
-        ).values('count')
+        ).values('count', 'year')
+        print(models.Photo.objects.annotate(
+            year=TruncYear('date_taken')
+        ).values('year').annotate(
+            count=Count('pk')
+        ).values('count', 'year'))
 
+        # TODO same thing for analog and digital photos
         photo_per_year_list = []
         for year in photos_per_year:
-            photo_per_year_list.append(year.get('count'))
+            y =year.get('year').year
+            photo_per_year_list.append([str(year.get('year').year), year.get('count')])
+        photo_per_year_list.sort()
 
         statistics = Statistics(
             photos=models.Photo.objects.all().count(),

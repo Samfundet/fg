@@ -139,7 +139,10 @@ export class User {
   last_name: string = null;
 }
 
-// TODO: Is this needed?
+export interface Dictionary<T> {
+  [Key: string]: T;
+}
+
 export interface IStatistics {
   photos: number;
   tags: number;
