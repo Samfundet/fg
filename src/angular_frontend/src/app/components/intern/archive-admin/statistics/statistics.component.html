@@ -25,3 +25,19 @@
 
 <h3>Bilder tatt per år</h3>
 <fg-barchart *ngIf="chartData" [data]="chartData"></fg-barchart>
+
+
+<table class="fk-table">
+  <thead class="fk-table--head">
+    <tr>
+      <th>Album</th>
+      <th>Antall bilder</th>
+    </tr>
+  </thead>
+  <tbody class="fk-table--body">
+    <tr *ngFor="let album of statistics?.photos_per_album">
+      <td>{{ album['album__name'] }}</td>
+      <td>{{ album['album__count'] }}</td>
+    </tr>
+  </tbody>
+</table>

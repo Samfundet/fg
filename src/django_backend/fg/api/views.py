@@ -21,8 +21,7 @@ from django.core.mail import send_mail
 
 Statistics = namedtuple(
     'Statistics',
-    # ('photos', 'tags', 'places', 'categories', 'mediums', 'orders') OLD
-    ('photos', 'tags', 'scanned', 'albums', 'splash', 'orders', 'photos_by_year')
+    ('photos', 'tags', 'scanned', 'albums', 'splash', 'orders', 'photos_by_year', 'photos_per_album')
 )
 
 
@@ -231,25 +230,27 @@ class StatisticsViewSet(ViewSet):
     """
 
     def list ( self, request ):
-        print('new try')
         # Puts photos per year in list, 0-index = newest year
         photos_per_year = models.Photo.objects.annotate(
             year=TruncYear('date_taken')
         ).values('year').annotate(
             count=Count('pk')
         ).values('count', 'year')
-        print(models.Photo.objects.annotate(
-            year=TruncYear('date_taken')
-        ).values('year').annotate(
-            count=Count('pk')
-        ).values('count', 'year'))
 
-        # TODO same thing for analog and digital photos
+        # TODO same thing for analog and digital photos (use filter on photos_per_year)
+        # This should wait untill after database merge
+        # has to be in this format for graphics
         photo_per_year_list = []
         for year in photos_per_year:
             y =year.get('year').year
             photo_per_year_list.append([str(year.get('year').year), year.get('count')])
         photo_per_year_list.sort()
+
+        # TODO sort amount of photos in each album
+        photos_per_album = models.Photo.objects.values('album__name').annotate(Count('album')).order_by('album__name')
+        print('----------')
+        print(photos_per_album)
+        print('----------')
 
         statistics = Statistics(
             photos=models.Photo.objects.all().count(),
@@ -258,7 +259,8 @@ class StatisticsViewSet(ViewSet):
             albums=models.Photo.objects.all().count(),
             splash=models.Photo.objects.filter(splash=True).count(),
             orders=models.Order.objects.all().count(),
-            photos_by_year=photo_per_year_list
+            photos_by_year=photo_per_year_list,
+            photos_per_album=photos_per_album
         )
         serializer = serializers.StatisticsSerializer(statistics)
         return Response(serializer.data)

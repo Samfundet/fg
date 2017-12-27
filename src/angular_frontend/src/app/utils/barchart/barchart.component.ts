@@ -28,6 +28,7 @@ export class BarchartComponent implements OnChanges, OnInit {
   ngOnInit() {
     this.createChart();
     if (this.data) {
+      console.log(this.data);
       this.updateChart();
     }
   }
@@ -96,18 +97,44 @@ export class BarchartComponent implements OnChanges, OnInit {
 
     // Add new bars
     update
-    .enter()
-    .append('rect')
-    .attr('class', 'bar')
-    .attr('x', d => this.xScale(d[0]))
-    .attr('y', d => this.yScale(0))
-    .attr('width', this.xScale.bandwidth())
-    .attr('height', 0)
-    .style('fill', (d, i) => this.colors(i))
-    .transition()
-    .delay((d, i) => i * 10)
-    .attr('y', d => this.yScale(d[1]))
-    .attr('height', d => this.height - this.yScale(d[1]));
+      .enter()
+      .append('rect')
+      .attr('class', 'bar')
+      .attr('x', d => this.xScale(d[0]))
+      .attr('y', d => this.yScale(0))
+      .attr('width', this.xScale.bandwidth())
+      .attr('height', 0)
+      .style('fill', (d, i) => this.colors(i))
+      .transition()
+      .delay((d, i) => i * 10)
+      .attr('y', d => this.yScale(d[1]))
+      .attr('height', d => this.height - this.yScale(d[1]));
+
+    console.log(this.chart.selectAll('.bar')['_groups'][0]);
+    this.chart.selectAll('.bar')['_groups'][0].forEach((e, i) => {
+    });
+
+    // Tooltip TODO (This does not work) dont know how :(
+    const tooltip = d3.select('body')
+      .append('div')
+      .style('position', 'absolute')
+      .style('z-index', '10')
+      .style('visibility', 'hidden')
+      .style('background', '#000')
+      .text('A simple tooltip');
+
+    d3.select('body')
+      .selectAll('div')
+      .data(this.data)
+      .enter().append('div')
+      .style('width', d => this.yScale(d[1]) + 'px')
+      .text(function (d) { return d; })
+      .on('mouseover', function (d) { tooltip.text(d); return tooltip.style('visibility', 'visible'); })
+      .on('mousemove', function () {
+        return tooltip.style('top', (d3.event.pageY - 10) + 'px').style('left', (d3.event.pageX + 10) + 'px');
+      })
+      .on('mouseout', function () { return tooltip.style('visibility', 'hidden'); });
   }
+
 
 }

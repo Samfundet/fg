@@ -139,10 +139,6 @@ export class User {
   last_name: string = null;
 }
 
-export interface Dictionary<T> {
-  [Key: string]: T;
-}
-
 export interface IStatistics {
   photos: number;
   tags: number;
@@ -151,6 +147,7 @@ export interface IStatistics {
   splash: number;
   orders: number;
   photos_by_year: Array<any>;
+  photos_per_album: Array<Object>;
 }
 
 export interface IOrder {
