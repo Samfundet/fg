@@ -8,6 +8,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { NgProgressModule, NgProgressInterceptor } from 'ngx-progressbar';
+import { registerLocaleData } from '@angular/common';
+import localeNb from '@angular/common/locales/nb';
+registerLocaleData(localeNb);
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
