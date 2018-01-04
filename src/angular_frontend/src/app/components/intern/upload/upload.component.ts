@@ -27,6 +27,8 @@ export class UploadComponent implements OnInit {
   securityLevels: IForeignKey[];
 
   constructor(private store: StoreService, private api: ApiService, private fb: FormBuilder) {
+    // TODO - change this to use storeservice instead of API?
+    // TODO - get only digital albums
     api.getAlbums().subscribe(x => this.albums = x);
     api.getCategories().subscribe(x => this.categories = x);
     api.getMediums().subscribe(x => this.mediums = x);

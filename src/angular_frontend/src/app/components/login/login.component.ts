@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { StoreService, ApiService } from 'app/services';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 
+// TODO: Use toastr to show login (un)successfull
+
 @Component({
   selector: 'fg-login',
   templateUrl: './login.component.html',

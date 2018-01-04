@@ -1,4 +1,3 @@
-import { OrdersComponent } from './components/intern/orders/orders.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -28,7 +27,11 @@ import {
   PlaceComponent,
   StatisticsComponent,
   OldOrdersComponent,
-  NewOrdersComponent
+  NewOrdersComponent,
+  AnalogUploadComponent,
+  RegisterFilmComponent,
+  OrdersComponent,
+  UploadScannedComponent
 } from 'app/components';
 
 import { AuthGuardService } from 'app/services';
@@ -75,6 +78,20 @@ const routes: Routes = [
       {
         path: 'powerbrukere',
         component: PowerusersComponent
+      },
+      {
+        path: 'analog',
+        component: AnalogUploadComponent,
+        children: [
+          {
+            path: 'registrer',
+            component: RegisterFilmComponent
+          },
+          {
+            path: 'scannet',
+            component: UploadScannedComponent
+          }
+        ]
       },
       {
         path: 'ordre',
