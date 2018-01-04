@@ -60,7 +60,10 @@ import {
   StatisticsComponent,
   OrdersComponent,
   NewOrdersComponent,
-  OldOrdersComponent
+  OldOrdersComponent,
+  AnalogUploadComponent,
+  RegisterFilmComponent,
+  UploadScannedComponent
 } from 'app/components';
 
 import {
@@ -122,7 +125,10 @@ import {
     OldOrdersComponent,
     RadioButtonsComponent,
     SnackbarComponent,
-    BarchartComponent
+    BarchartComponent,
+    AnalogUploadComponent,
+    RegisterFilmComponent,
+    UploadScannedComponent
   ],
   imports: [
     BrowserModule,

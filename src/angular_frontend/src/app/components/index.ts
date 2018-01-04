@@ -14,6 +14,9 @@ export * from './photos/photos.component';
 export * from './photo-masonry/photo-masonry.component';
 
 export * from './intern/upload/upload.component';
+export * from './intern/analog-upload/analog-upload.component';
+export * from './intern/analog-upload/register-film/register-film.component';
+export * from './intern/analog-upload/upload-scanned/upload-scanned.component';
 export * from './intern/edit/edit.component';
 export * from './intern/search/search.component';
 export * from './intern/photogangbanger/photogangbanger.component';

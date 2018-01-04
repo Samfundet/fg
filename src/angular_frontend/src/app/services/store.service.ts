@@ -96,6 +96,9 @@ export class StoreService {
     }
   }
 
+  // TODO - get methods for albums/categories/mediums/places/securitylevels
+  // So we don't have to go through api every single time we have to use them???
+
   getStatisticsAction(): Observable<IStatistics> {
     return this.api.getStatistics();
   }
@@ -119,6 +122,10 @@ export class StoreService {
     const cart = this.getPhotoShoppingCartValue();
     cart.splice(cart.indexOf(photo), 1);
     this._photoShoppingCart$.next(cart);
+  }
+
+  getLatestPageAction() {
+    
   }
 
   showLoginModalAction(returnUrl?) {
