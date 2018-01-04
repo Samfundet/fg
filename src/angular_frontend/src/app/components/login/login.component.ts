@@ -28,6 +28,6 @@ export class LoginComponent {
 
   login() {
     this.store.loginAction(this.loginForm.value);
-    this.shown = false;
+    
   }
 }

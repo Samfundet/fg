@@ -209,6 +209,11 @@ class PhotoTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), expected_count)
 
+    def test_page_and_image_number_is_correct(self):
+        seed_photos()
+        factory = APIRequestFactory()
+        view =
+
 
 class UserPermissionTestCase(APITestCase):
     """
@@ -555,4 +560,3 @@ class UserTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         power_user_count = User.objects.filter(groups__name="POWER").count()
         self.assertEqual(power_user_count, len(response.data))
-

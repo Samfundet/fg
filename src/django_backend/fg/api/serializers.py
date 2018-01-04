@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.core.exceptions import ObjectDoesNotExist
 from . import models
 from ..settings import VERSATILEIMAGEFIELD_SETTINGS
 from versatileimagefield.serializers import VersatileImageFieldSerializer
@@ -93,7 +94,6 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
             'lapel'
         )
 
-
     def create ( self, validated_data ):
         tags = validated_data.pop('tags')
 
@@ -104,7 +104,6 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
         photo.save()
 
         return photo
-
 
 class PhotoUpdateSerializer(serializers.ModelSerializer):
     photo = VersatileImageFieldSerializer(
@@ -201,23 +200,6 @@ class OrderSerializer(serializers.ModelSerializer):
         instance.order_completed = validated_data.get("order_completed")
         instance.save()
         return instance
-
-
-
-# OLD
-# class StatisticsSerializer(serializers.Serializer):
-#     photos = PhotoStatisticsSerializer(many=True)
-#     # photo_num = PhotoNumberStatisticsSerializer()
-#     tags = TagSerializer(many=True)
-#     places = PlaceSerializer(many=True)
-#     categories = CategorySerializer(many=True)
-#     mediums = MediaSerializer(many=True)
-#     orders = OrderSerializer(many=True)
-
-class PhotoStatisticsSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.Photo
-        fields = ('id',)
 
 class StatisticsSerializer(serializers.Serializer):
     photos = serializers.IntegerField(read_only=True)

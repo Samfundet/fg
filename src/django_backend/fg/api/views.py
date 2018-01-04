@@ -1,5 +1,6 @@
 import itertools
 from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.decorators import api_view
 from rest_framework_filters.backends import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import RetrieveAPIView, ListAPIView
@@ -8,15 +9,13 @@ from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from collections import namedtuple
-from django.db.models import Count
+from django.db.models import Count, Max
 from django.db.models.functions import TruncYear
 
 from ..paginations import UnlimitedPagination
 from ..permissions import IsFGOrReadOnly, IsFG, IsFgOrPostOnly
 from rest_framework.permissions import AllowAny
 from . import models, serializers, filters
-
-from django.core.mail import send_mail
 
 
 Statistics = namedtuple(
@@ -153,6 +152,45 @@ class PhotoViewSet(ModelViewSet):
             return models.Photo.objects.filter(security_level__name="ALLE")
 
 
+@api_view()
+def get_latest_image_number_and_page_number ( request, album_id='', analog=False ):
+    try:
+        if album_id:
+            latest_album = models.Photo.objects.filter(
+                album=album_id.strip()).latest('date_taken').album
+        elif analog:
+            latest_album = models.Photo.objects.exclude(
+                album__name__startswith='DIG').latest('date_taken').album
+        else:
+            latest_album = models.Photo.objects.filter(
+                album__name__startswith='DIG').latest('date_taken').album
+        latest_page = models.Photo.objects.filter(
+            album__name=latest_album.name).aggregate(Max('page'))['page__max']
+        latest_image_number = (models.Photo.objects.filter(
+            album__name=latest_album.name, page=latest_page).aggregate(Max('image_number'))['image_number__max'])
+        if latest_image_number >= 99:
+            if latest_page < 99:
+                latest_image_number = 1
+                latest_page = latest_page + 1
+            else:
+                return latest_album, 'fult', 'album'
+        else:
+            latest_image_number = latest_image_number + 1
+        return Response({
+            'latest_album': latest_album.id,
+            'latest_page': latest_page,
+            'latest_image_number': latest_image_number
+        })
+    except ObjectDoesNotExist as e:
+        print(e)
+        return Response({
+            'latest_album': 0,
+            'latest:page': 1,
+            'latest_image_number': 1
+        })
+
+
+
 class LatestSplashPhotoView(RetrieveAPIView):
     """
     Retrieves the latest photo with splash set to True
@@ -228,6 +266,7 @@ class StatisticsViewSet(ViewSet):
     """
      Viewset for all statistics related to intern/statistics page
     """
+    permission_classes = [IsFG]
 
     def list ( self, request ):
         # Puts photos per year in list, 0-index = newest year
@@ -238,20 +277,18 @@ class StatisticsViewSet(ViewSet):
         ).values('count', 'year')
 
         # TODO same thing for analog and digital photos (use filter on photos_per_year)
-        # This should wait untill after database merge
+        # TODO This should wait until after database merge so that we have the correct pks
         # has to be in this format for graphics
         photo_per_year_list = []
         for year in photos_per_year:
-            y =year.get('year').year
+            y = year.get('year').year
             photo_per_year_list.append([str(year.get('year').year), year.get('count')])
         photo_per_year_list.sort()
 
         # TODO sort amount of photos in each album
         photos_per_album = models.Photo.objects.values('album__name').annotate(Count('album')).order_by('album__name')
-        print('----------')
-        print(photos_per_album)
-        print('----------')
 
+        # Puts data into named tuple to send to serializer
         statistics = Statistics(
             photos=models.Photo.objects.all().count(),
             tags=models.Tag.objects.all().count(),

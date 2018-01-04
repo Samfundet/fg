@@ -32,6 +32,7 @@ urlpatterns = [
     # APIVIEW endpoints
     url(r'^api/photos/latest-splash', api_views.LatestSplashPhotoView.as_view(), name="latest-splash"),
     url(r'^api/photos/list-from-ids', api_views.PhotoListFromIds.as_view(), name="list-from-ids"),
+    url(r'^api/photos/upload-info', api_views.get_latest_image_number_and_page_number, name='upload-info'),
     url(r'^api/users/fg', auth_views.FgUsersView.as_view(), name="fg-users"),
     url(r'^api/users/power', auth_views.PowerUsersView.as_view(), name="fg-users")
 ]
