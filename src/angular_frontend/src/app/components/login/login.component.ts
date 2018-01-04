@@ -1,23 +1,38 @@
 import { Component, OnInit } from '@angular/core';
+import { trigger, transition, useAnimation } from '@angular/animations';
 import { Router } from '@angular/router';
 import { StoreService, ApiService } from 'app/services';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-
-// TODO: Use toastr to show login (un)successfull
+import { shake } from 'ng-animate/lib';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'fg-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  animations: [
+    trigger('shake', [
+      transition('inactive => active', useAnimation(shake, {
+        params: {timing: 1, delay: 0}
+      })),
+      transition('active => inactive', useAnimation(shake, {
+        params: {timing: 1, delay: 0}
+      }))
+    ])
+  ]
 })
 export class LoginComponent {
   loginForm: FormGroup;
   shown = false;
+  wrongPassword;
 
   constructor(private store: StoreService, private fb: FormBuilder, private router: Router) {
     store.loginModal$.filter(l => !!l).subscribe(l => {
-      this.loginForm.setValue(l);
-      this.shown = true;
+      if (l.hasFailed) {
+        this.loginRejected();
+      } else {
+        this.shown = true;
+      }
     });
 
     this.loginForm = fb.group({
@@ -28,6 +43,9 @@ export class LoginComponent {
 
   login() {
     this.store.loginAction(this.loginForm.value);
-    this.shown = false;
+  }
+
+  loginRejected() {
+    this.wrongPassword = (this.wrongPassword === 'inactive' ? 'active' : 'inactive');
   }
 }

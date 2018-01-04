@@ -244,6 +244,7 @@ export interface IMasonryOptions {
 export interface ILoginRequest {
   username: string;
   password: string;
+  hasFailed?: boolean;
 }
 
 export interface IToken {

@@ -7,8 +7,10 @@ import { ngfModule } from 'angular-file';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { ClickOutsideModule } from 'ng-click-outside';
-import { NgProgressModule, NgProgressInterceptor } from 'ngx-progressbar';
+import { NgProgressModule } from '@ngx-progressbar/core';
+import { NgProgressHttpClientModule } from '@ngx-progressbar/http-client';
 import { registerLocaleData } from '@angular/common';
+import { ToastrModule } from 'ngx-toastr';
 import localeNb from '@angular/common/locales/nb';
 registerLocaleData(localeNb);
 
@@ -19,7 +21,6 @@ import { ApiService } from './services/api.service';
 import { StoreService } from './services/store.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { OutAuthInterceptor } from './services/interceptor.service';
-import { SnackbarService } from './services/snackbar.service';
 import { MegabytePipe } from 'app/pipes/pipes.pipe';
 import { MasonryLayoutDirective, ImagePreviewDirective } from 'app/directives';
 import {
@@ -70,7 +71,6 @@ import {
   ChipsComponent,
   ChipComponent,
   RadioButtonsComponent,
-  SnackbarComponent,
   BarchartComponent
 } from 'app/utils';
 
@@ -124,7 +124,6 @@ import {
     NewOrdersComponent,
     OldOrdersComponent,
     RadioButtonsComponent,
-    SnackbarComponent,
     BarchartComponent,
     AnalogUploadComponent,
     RegisterFilmComponent,
@@ -139,16 +138,17 @@ import {
     AppRoutingModule,
     ngfModule,
     FlexLayoutModule,
-    NgxMyDatePickerModule.forRoot(),
     ClickOutsideModule,
-    NgProgressModule,
+    ToastrModule.forRoot({ progressBar: true }),
+    NgxMyDatePickerModule.forRoot(),
+    NgProgressModule.forRoot(),
+    NgProgressHttpClientModule,
   ],
   providers: [
     {
       provide: LOCALE_ID,
       useValue: 'nb-NO'
     },
-    { provide: HTTP_INTERCEPTORS, useClass: NgProgressInterceptor, multi: true },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: OutAuthInterceptor,
@@ -156,8 +156,7 @@ import {
     },
     ApiService,
     StoreService,
-    AuthGuardService,
-    SnackbarService,
+    AuthGuardService
   ],
   bootstrap: [AppComponent],
 })

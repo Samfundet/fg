@@ -6,11 +6,11 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { ApiService } from 'app/services/api.service';
-import { SnackbarService } from 'app/services/snackbar.service';
 import { IResponse, IPhoto, IUser, IFilters, ILoginRequest, IForeignKey, IOrder } from 'app/model';
 import { DELTA } from 'app/config';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
+import { ToastrService } from 'ngx-toastr';
 
 interface IForeignKeyModal {
   fk: IForeignKey;
@@ -39,7 +39,7 @@ export class StoreService {
   // TODO
   private returnUrl;
 
-  constructor(private api: ApiService, private router: Router, private snackbar: SnackbarService) {
+  constructor(private api: ApiService, private router: Router, private toastr: ToastrService) {
     this._filters$.subscribe(filters => {
       this.router.navigate([], {
         queryParams: filters
@@ -68,10 +68,7 @@ export class StoreService {
     const filter: IFilters = params.get('cursor') ? { cursor: params.get('cursor') } : null;
     this.api.getHomePagePhotos(filter).subscribe(
       pr => this._photos$.next(pr),
-      err => this.snackbar.next({
-        message: JSON.parse(err.error).detail,
-        backgroundColorClass: 'danger'
-      })
+      err => this.toastr.error('Feil', JSON.parse(err.error).detail)
     );
     this.setFiltersAction(filter);
   }
@@ -84,15 +81,9 @@ export class StoreService {
       this.api.getPhotos(filters).subscribe(pr => {
         pr.results = currentPhotoList.concat(pr.results);
         this._photos$.next(pr);
-      }, err => this.snackbar.next({
-        message: JSON.parse(err.error).detail,
-        backgroundColorClass: 'danger'
-      }));
+      }, err => this.toastr.error('Feil', JSON.parse(err.error).detail));
     } else {
-      this.snackbar.next({
-        message: 'Ingen flere bilder',
-        backgroundColorClass: 'warning'
-      });
+      this.toastr.warning('Ingen flere bilder');
     }
   }
 
@@ -125,7 +116,7 @@ export class StoreService {
   }
 
   getLatestPageAction() {
-    
+
   }
 
   showLoginModalAction(returnUrl?) {
@@ -177,10 +168,13 @@ export class StoreService {
     const encodedCredentials = 'Basic ' + btoa(`${data.username}:${data.password}`);
     this.api.login(encodedCredentials).subscribe(res => {
       this.storeEncodedCredentials(res.username, res.groups, encodedCredentials);
-      console.log(this.returnUrl);
       if (this.returnUrl) {
         this.router.navigateByUrl(this.returnUrl);
       }
+      this._loginModal$.next(null);
+      this.toastr.success(`Velkommen ${res.username} 😊`);
+    }, err => {
+      this._loginModal$.next({ username: null, password: null, hasFailed: true });
     });
   }
 
@@ -189,6 +183,7 @@ export class StoreService {
     localStorage.removeItem('Authorization');
     localStorage.removeItem('username');
     localStorage.removeItem('groups');
+    this.toastr.info(null, `Du er logget ut 😞`);
   }
 
   getUsernameAction() {
