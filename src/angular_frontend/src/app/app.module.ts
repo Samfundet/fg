@@ -7,6 +7,12 @@ import { ngfModule } from 'angular-file';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
 import { ClickOutsideModule } from 'ng-click-outside';
+import { NgProgressModule } from '@ngx-progressbar/core';
+import { NgProgressHttpClientModule } from '@ngx-progressbar/http-client';
+import { registerLocaleData } from '@angular/common';
+import { ToastrModule } from 'ngx-toastr';
+import localeNb from '@angular/common/locales/nb';
+registerLocaleData(localeNb);
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,8 +44,35 @@ import {
   NotFoundComponent,
   SearchComponent,
   EditComponent,
-  LoginComponent
+  LoginComponent,
+  ShoppingCartComponent,
+  PhotogangbangerComponent,
+  PhotogangbangerModalComponent,
+  PowerusersComponent,
+  PowerusersModalComponent,
+  ApplyFgComponent,
+  BookFgComponent,
+  ArchiveAdminComponent,
+  AlbumComponent,
+  ForeignKeyModalComponent,
+  CategoryComponent,
+  MediaComponent,
+  PlaceComponent,
+  StatisticsComponent,
+  OrdersComponent,
+  NewOrdersComponent,
+  OldOrdersComponent,
+  AnalogUploadComponent,
+  RegisterFilmComponent,
+  UploadScannedComponent
 } from 'app/components';
+
+import {
+  ChipsComponent,
+  ChipComponent,
+  RadioButtonsComponent,
+  BarchartComponent
+} from 'app/utils';
 
 @NgModule({
   declarations: [
@@ -70,7 +103,31 @@ import {
     NotFoundComponent,
     SearchComponent,
     EditComponent,
-    LoginComponent
+    LoginComponent,
+    ShoppingCartComponent,
+    ChipsComponent,
+    ChipComponent,
+    PhotogangbangerComponent,
+    PhotogangbangerModalComponent,
+    PowerusersComponent,
+    PowerusersModalComponent,
+    ApplyFgComponent,
+    BookFgComponent,
+    ArchiveAdminComponent,
+    AlbumComponent,
+    ForeignKeyModalComponent,
+    CategoryComponent,
+    MediaComponent,
+    PlaceComponent,
+    StatisticsComponent,
+    OrdersComponent,
+    NewOrdersComponent,
+    OldOrdersComponent,
+    RadioButtonsComponent,
+    BarchartComponent,
+    AnalogUploadComponent,
+    RegisterFilmComponent,
+    UploadScannedComponent
   ],
   imports: [
     BrowserModule,
@@ -81,8 +138,11 @@ import {
     AppRoutingModule,
     ngfModule,
     FlexLayoutModule,
+    ClickOutsideModule,
+    ToastrModule.forRoot({ progressBar: true }),
     NgxMyDatePickerModule.forRoot(),
-    ClickOutsideModule
+    NgProgressModule.forRoot(),
+    NgProgressHttpClientModule,
   ],
   providers: [
     {
@@ -98,6 +158,6 @@ import {
     StoreService,
     AuthGuardService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

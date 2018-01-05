@@ -1,13 +1,30 @@
+/* Before ngFlex */
+
 .user {
   border: 1px solid white;
   border-radius: 20px;
   padding: 1rem;
   margin-bottom: 1rem;
   font-size: 1.2rem;
+  min-width: 30%;
+  white-space: break-word;
+}
+.img-class {
+  border-radius: 50%;  
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
+:host {
+  min-width: 20rem;
+}
+.even {
+  background-color: rgba(255, 255, 255, 0.075);
+}
 
-.user {
+/* .user {
   overflow: ellipsis;
   display: grid;
   grid-template-columns: 1fr;
@@ -19,9 +36,8 @@
     "user-phone"
     "user-comment";
 }
-
-
-/* @media screen and (min-width: 701px) {
+ */
+/* Dont use this probably @media screen and (min-width: 701px) {
   .user {
     display: grid;
     grid-auto-columns: 1fr 1fr 1fr;
@@ -33,7 +49,7 @@
       "user-comment user-comment user-comment "
   }
 } */
-
+/* 
 .even {
   background-color: rgba(255, 255, 255, 0.075);
 }
@@ -87,4 +103,4 @@ label.person {
 
 hr {
   margin: 1rem;
-}
+} */

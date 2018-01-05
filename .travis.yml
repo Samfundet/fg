@@ -30,13 +30,12 @@ jobs:
         - docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.travis.yml up -d
         - docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.travis.yml ps
       script:
-        - docker exec -i django bash remove-migrations.sh
-        - docker exec -i django python manage.py makemigrations
-        - docker exec -i django python manage.py test
+        - sleep 5
+        - bash django-tests.sh
 
     - stage: test angular
       install:
-        - npm install -g @angular/cli@1.4.2
+        - npm install -g @angular/cli@1.4.5
         - openssl aes-256-cbc -K $encrypted_f56fe3551327_key -iv $encrypted_f56fe3551327_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
         - eval "$(ssh-agent -s)"
         - chmod 600 /tmp/deploy_rsa

@@ -1,11 +1,13 @@
-import random, os, string, tempfile, json
+import random, os, string, tempfile
 from datetime import datetime
+from time import sleep
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 from rest_framework import status
 from .api import models
-from .api.views import PhotoViewSet, LatestSplashPhotoView
-from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, PROD_PATH, SECURITY_LEVELS
+from .api.views import PhotoViewSet, LatestSplashPhotoView, OrderViewSet, AlbumViewSet
+from .fg_auth.views import FgUsersView, PowerUsersView
+from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, SECURITY_LEVELS
 from django.apps import apps
 from django.core.files import File
 from django.contrib.auth.models import Group
@@ -153,14 +155,28 @@ class PhotoTestCase(TestCase):
 
     def test_new_photo_saves_file_in_correct_directory(self):
         """Tests if photos are saved to the correct album folder with appropriate filename"""
-        retrieved_photo = models.Photo.objects.all()[0]
+        photo = models.Photo.objects.all()[0]
         expected_path = os.path.join(
             MEDIA_ROOT,
-            PROD_PATH,
-            retrieved_photo.album.name,
-            retrieved_photo.album.name + str(retrieved_photo.page) + str(retrieved_photo.image_number) + '.jpg'
+            photo.security_level.name.upper(),
+            photo.album.name.upper(),
+            photo.album.name.upper() + str(photo.page) + str(photo.image_number) + '.jpg'
         )
-        self.assertEqual(retrieved_photo.photo.path, expected_path)
+        self.assertEqual(photo.photo.path, expected_path)
+
+    def test_photo_security_level_changed_moves_file_to_correct_directory(self):
+        photo = models.Photo.objects.all()[0]
+        photo.security_level = models.SecurityLevel.objects.filter(name="FG").first()
+
+        photo.save()
+
+        expected_path = os.path.join(
+            MEDIA_ROOT,
+            "FG",
+            photo.album.name.upper(),
+            photo.album.name.upper() + str(photo.page) + str(photo.image_number) + '.jpg'
+        )
+        self.assertEqual(photo.photo.path.upper(), expected_path.upper())
 
     def test_exact_motive_search_retrieves_single_image(self):
         seed_photos()
@@ -192,8 +208,6 @@ class PhotoTestCase(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), expected_count)
-
-
 
 
 class UserPermissionTestCase(APITestCase):
@@ -448,3 +462,97 @@ class PhotoCRUDTestCase(APITestCase):
 
     def test_anon_user_cannot_post(self):
         pass
+
+
+class OrderTestCase(APITestCase):
+    photos = []
+
+    def setUp(self):
+        seed_foreign_keys()
+        seed_groups()
+        seed_security_levels()
+        seed_users()
+        self.photos = seed_photos()
+        self.factory = APIRequestFactory()
+
+    def tearDown(self):
+        if self.photos:
+            delete_photos(self.photos)
+
+    def test_order_is_created(self):
+        view = OrderViewSet.as_view({'post': 'create'})
+
+        data = {
+            'name': 'nameyName',
+            'email': 'mail@mail.com',
+            'address': 'addressy',
+            'place': 'placey',
+            'zip_code': '1234',
+            'post_or_get': 'get',
+            'comment': 'i really like turtles',
+            'order_photos': [
+                {'photo': 1, 'format': 'bigAF'},
+                {'photo': 2, 'format': 'smallAF'}
+            ]
+        }
+
+        request = self.factory.post(path='/api/orders', format='json', data=data)
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED, msg=response.data)
+        order = models.Order.objects.all()[0]
+        self.assertEqual(order.name, data['name'])
+        order_photo_count = models.OrderPhoto.objects.count()
+        self.assertEqual(order_photo_count, 2)
+        order_photos = models.OrderPhoto.objects.all()
+
+        for op in order_photos:
+            self.assertEqual(op.order.pk, order.pk)
+
+
+class AlbumTestCase(APITestCase):
+    def test_if_album_always_in_descending_order(self):
+        album_count = 20
+        for x in range(album_count):
+            models.Album.objects.create(name=get_rand_string())
+            sleep(0.002)
+        factory = APIRequestFactory()
+        request = factory.get('/api/albums/')
+        view = AlbumViewSet.as_view({'get': 'list'})
+        response = view(request)
+        albums = response.data
+        for num in range(album_count - 1):
+            self.assertGreater(albums[num]['date_created'], albums[num + 1]['date_created'])
+
+class UserTestCase(APITestCase):
+
+    def setUp(self):
+        seed_groups()
+        seed_users()
+        self.factory = APIRequestFactory()
+
+
+    def test_fg_users_can_get_all_fg_users(self):
+        view = FgUsersView.as_view()
+
+        user = User.objects.get(username="FG")
+        request = self.factory.get(path='/api/users/fg')
+        force_authenticate(request, user=user)
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        fg_user_count = User.objects.filter(groups__name="FG").count()
+        self.assertEqual(fg_user_count, len(response.data))
+
+    def test_fg_users_can_get_all_power_users(self):
+        view = PowerUsersView.as_view()
+
+        user = User.objects.get(username="FG")
+        request = self.factory.get(path='/api/users/power')
+        force_authenticate(request, user=user)
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        power_user_count = User.objects.filter(groups__name="POWER").count()
+        self.assertEqual(power_user_count, len(response.data))
+

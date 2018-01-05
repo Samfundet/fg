@@ -1,6 +1,6 @@
 <ng-container *ngIf="photo?.photo && shown">
   <div (click)="shown = !shown" class="modal fixed">
-    <img src="{{photo.photo.large}}" class="auto-width" alt="{{photo.motive}}" />
+    <img (contextmenu)="disableRightClick($event)" [src]="photo.photo.large" class="auto-width" alt="{{photo.motive}}" />
   </div>
   <button class="btn btn-photo fixed z-over left" (click)="addToShoppingCart()" *ngIf="!photo.addedToCart">
     <i class="fa fa-cart-plus"></i> Kjøp
@@ -9,5 +9,5 @@
     <i class="fa fa-cart-arrow-down success"></i>
   </button>
 
-  <button (click)="goToAlbum()" class="btn btn-photo fixed z-over right">Gå til album</button>
+  <a routerLink="/foto" [queryParams]="{'motive': photo.motive}" class="btn btn-photo fixed z-over right">Gå til album</a>
 </ng-container>

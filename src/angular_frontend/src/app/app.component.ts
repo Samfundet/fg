@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation } from '@angular/core';
+import { StoreService } from 'app/services/store.service';
 
 @Component({
   selector: 'fg-root',
@@ -8,4 +9,6 @@ import { Component, ViewEncapsulation } from '@angular/core';
 })
 export class AppComponent {
   title = 'fg works!';
+
+  constructor(public store: StoreService) {}
 }

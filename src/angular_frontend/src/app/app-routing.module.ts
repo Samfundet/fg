@@ -14,7 +14,24 @@ import {
   UploadComponent,
   NotFoundComponent,
   SearchComponent,
-  EditComponent
+  EditComponent,
+  ShoppingCartComponent,
+  PhotogangbangerComponent,
+  PowerusersComponent,
+  ApplyFgComponent,
+  BookFgComponent,
+  ArchiveAdminComponent,
+  AlbumComponent,
+  CategoryComponent,
+  MediaComponent,
+  PlaceComponent,
+  StatisticsComponent,
+  OldOrdersComponent,
+  NewOrdersComponent,
+  AnalogUploadComponent,
+  RegisterFilmComponent,
+  OrdersComponent,
+  UploadScannedComponent
 } from 'app/components';
 
 import { AuthGuardService } from 'app/services';
@@ -53,6 +70,68 @@ const routes: Routes = [
       {
         path: 'rediger',
         component: EditComponent
+      },
+      {
+        path: 'fotogjengere',
+        component: PhotogangbangerComponent
+      },
+      {
+        path: 'powerbrukere',
+        component: PowerusersComponent
+      },
+      {
+        path: 'analog',
+        component: AnalogUploadComponent,
+        children: [
+          {
+            path: 'registrer',
+            component: RegisterFilmComponent
+          },
+          {
+            path: 'scannet',
+            component: UploadScannedComponent
+          }
+        ]
+      },
+      {
+        path: 'ordre',
+        component: OrdersComponent,
+        children: [
+          {
+            path: 'nye',
+            component: NewOrdersComponent
+          },
+          {
+            path: 'gamle',
+            component: OldOrdersComponent
+          }
+        ]
+      },
+      {
+        path: 'arkivadmin',
+        component: ArchiveAdminComponent,
+        children: [
+          {
+            path: 'album',
+            component: AlbumComponent
+          },
+          {
+            path: 'kategori',
+            component: CategoryComponent
+          },
+          {
+            path: 'medium',
+            component: MediaComponent
+          },
+          {
+            path: 'sted',
+            component: PlaceComponent
+          },
+          {
+            path: 'statistikk',
+            component: StatisticsComponent
+          },
+        ]
       }
     ]
   },
@@ -76,10 +155,22 @@ const routes: Routes = [
     path: 'info/priser',
     component: PricepointsComponent
   },
+  {
+    path: 'info/soke-fotogjengen',
+    component: ApplyFgComponent
+  },
+  {
+    path: 'info/leie-fotogjengen',
+    component: BookFgComponent
+  },
+  {
+    path: 'handlekurv',
+    component: ShoppingCartComponent
+  },
   { // 404 If not recognized
     path: '**',
     component: NotFoundComponent
-  }
+  },
 ];
 
 @NgModule({

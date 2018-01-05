@@ -1,0 +1,3 @@
+<div fxLayout="row" fxLayoutWrap class="radio-choices">
+  <button fxFlex="" [ngClass]="isActive(radio)" *ngFor="let radio of radios" type="button" (click)="onClick(radio)" class="btn radio-choices--btn">{{ radio }}</button>
+</div>

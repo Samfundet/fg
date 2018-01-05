@@ -32,6 +32,8 @@ def seed_foreign_keys(apps):
             Mod = apps.get_model(app_name, model_name)
             for i in range(3):
                 obj = Mod(name=get_rand_string(4))
+                if model_name == 'Album':
+                    obj.description = get_rand_string(8)
                 obj.save()
 
 def seed_security_levels(apps):
@@ -81,15 +83,24 @@ def load_photos(apps, schema_editor):
 
 
 def generate_photo_file():
-    image = Image.new('RGBA', size=(200, 200), color=(155, 0, 0))
+    image = Image.new(
+        'RGBA', size=(200, 200),
+        color=(
+            random.randint(0,255),
+            random.randint(0,255),
+            random.randint(0,255)
+        )
+    )
     file = tempfile.NamedTemporaryFile(suffix='.jpg')
     image.save(file)
     return file
 
 
 def populate_users(apps, schema_editor):
-    for i in range(10):
+    for i in range(30):
         User = apps.get_model('fg_auth', 'User')
+        Group = apps.get_model('auth', 'Group')
+
         img = generate_photo_file()
         fn = random.choice(FIRST_NAMES)
         ln = random.choice(LAST_NAMES)
@@ -98,10 +109,20 @@ def populate_users(apps, schema_editor):
             username=get_rand_string(12),
             first_name=fn,
             last_name=ln,
+            address=random.choice(LAST_NAMES) + "'s Avenue " + str(random.randint(10, 300)),
+            phone=random.randint(40000000, 99999999),
+            opptaksaar=2010,
+            gjengjobb1="Latsabb",
+            gjengjobb2="Besserwisser",
             email=em
         )
         test_user.bilde.save('test.jpg', img)
         test_user.save()
+
+        test_user.groups.add(
+            Group.objects.get_or_create(name="FG" if random.random() > 0.3 else "POWER")[0]
+        )
+        #fg_group.user_set.add(test_user)
 
 
 class Migration(migrations.Migration):

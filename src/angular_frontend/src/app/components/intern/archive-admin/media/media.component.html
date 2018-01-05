@@ -1,0 +1,19 @@
+<button (click)="create()" class="btn btn-info">Nytt medium</button>
+<table class="fk-table">
+    <thead class="fk-table--head">
+      <tr class="fk-table--head--row">
+        <td>Navn</td>
+        <td>Rediger</td>
+        <td>Slett</td>
+      </tr>
+    </thead>
+    <tbody class="fk-table--body">
+      <tr *ngFor="let media of mediums" class="fk-table--body--row">
+        <td>{{media.name}}</td>
+        <td><button (click)="edit(media)" class="btn btn-primary">Rediger</button></td>
+        <td><button (click)="delete(media)" class="btn btn-danger">Slett</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <fg-foreign-key-modal [changeType]="changeType"></fg-foreign-key-modal>
+  

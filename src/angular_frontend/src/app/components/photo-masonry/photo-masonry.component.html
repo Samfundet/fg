@@ -2,13 +2,27 @@
   masonryLayout
   [masonryOptions]="masonryOptions"
   [input]="photos"
-  class="grid">
+  class="grid"
+  [@photosAnimation]="photos?.length"
+  >
+  <div class="grid-item hover-outline" style="vertical-align: middle;" *ngFor="let photo of photos; let i = index">
     <img
-      *ngFor="let photo of photos; let i = index"
+      (contextmenu)="disableRightClick($event)"
       (click)="onPhotoClick(photo)"
       src="{{photo.photo.medium}}"
-      class="grid-item clickable hover-outline"
+      class="full-width clickable"
+      [ngClass]="[photo.addedToCart ? 'in-cart-icon':'']"
       alt="{{photo.motive}}"
     />
+
+    <div class="overlay" fxLayout="row" fxLayoutAlign="space-between center">
+      <span title="{{photo.motive}}" class="motive">
+        {{photo.motive}}
+      </span>
+      <span class="date">
+        {{photo.date_taken | date}}
+      </span>
+    </div>
+  </div>
 </div>
 

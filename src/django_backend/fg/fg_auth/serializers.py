@@ -4,10 +4,12 @@ from . import models
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     lookup_field = 'username'
+    bilde = serializers.ImageField(required=False)
 
     class Meta:
         model = models.User
         fields = [
+            'id',
             'username',
             'address',
             'zip_code',

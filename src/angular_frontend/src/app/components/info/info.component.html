@@ -1,63 +1,49 @@
-<!-- Main -->
 <div id="main container">
-
-    <!-- One -->
     <section class="wrapper style1">
         <div class="inner">
-            <header class="align-center">
-                <h2>Om oss</h2>
+                <h2 align="center">Om oss</h2>
                 <p>
-                  Fotogjengen er en gjeng ved Studentersamfundet i Trondhjem. Vi har som oppgave å ta bilder av alt som skjer på Samfundet, under UKA og under ISFiT.
-                  Vi består av 9 funksjonærer og 2 gjengmedlemmer.
-                  På denne siden finner du informasjon om oss og hvilke tjenester vi tilbyr.
+                    Fotogjengen er en gjeng ved Studentersamfundet i Trondhjem. Vi har som oppgave å ta bilder av alt som skjer på Samfundet,
+                    under UKA og under ISFiT. Vi består av 9 funksjonærer og 2 gjengmedlemmer. På denne siden finner du informasjon
+                    om oss og hvilke tjenester vi tilbyr.
                 </p>
-            </header>
-            <div class="video">
-                <div class="video-wrapper">
-                    <iframe
-                        width="560"
-                        height="315"
 
-                        frameborder="0"
-                        allowfullscreen
-                    ></iframe>
-                </div>
-                <p class="caption">
-                    In luctus nunc nec lacus condimentum maximus. Nunc vestibulum urna a arcu dignissim, nec aliquam ultrices ac massa eget placerat.
-                </p>
+            <div class="card-container" fxLayout="row" fxLayoutWrap flexLayoutAlign="center">
+
+                <a routerLink="historie" class="card" fxLayout="column" fxFlex.gt-xs="49" fxFlex.xs="100">
+                    <h3>Historie - Fra start til nå</h3>
+                </a>
+
+                <div fxFlex.gt-xs="2"></div>
+
+                <a routerLink="soke-fotogjengen" class="card" fxLayout="column" fxFlex.gt-xs="49" fxFlex.xs="100">
+                    <h3>Ønsker du å bli med i fotogjengen?</h3>
+                </a>
+
+                <a routerLink="kredittering" class="card" fxLayout="column" fxFlex.gt-xs="49" fxFlex.xs="100">
+                    <h3>Kredittering</h3>
+                    <p>Hvordan kreditere bruken av Fotogjengens bilder.</p>
+                </a>
+
+                <div fxFlex.gt-xs="2"></div>
+
+                <a routerLink="priser" class="card" fxLayout="column" fxFlex.gt-xs="49" fxFlex.xs="100">
+                    <h3>Tjenester</h3>
+                    <p>Her kan du lese om Fotogjengens tjenester, priser og om hvordan du bestiller bilder på papir.</p>
+                </a>
+
+                <a routerLink="leie-fotogjengen" class="card" fxLayout="column" fxFlex.gt-xs="100" fxFlex.xs="100">
+                    <h3>Leie fotogjengen?</h3>
+                    <p>Ønsker du å bestille bilder eller booke fotogjengen? Send mail til fg-salg@samfundet.no med din henvendelse.</p>
+                </a>
+
             </div>
-           <div class="table-wrapper">
-               <table>
-                   <thead>
-                        <tr class="links">
-                            <th><a routerLink="kredittering"><h3>Kredittering</h3></a></th>
-                            <th><a routerLink="priser"><h3>Tjenester og priser</h3></a></th>
-                            <th><a routerLink=""><h3>Bestilling</h3></a></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><a routerLink="kredittering">Hvordan kreditere bruken av Fotogjengens bilder.</a></td>
-                            <td><a routerLink="priser">Her kan du lese om Fotogjengens tjenester, priser og om hvordan du bestiller bilder på papir.</a></td>
-                            <td><a routerLink="">Ønsker du å bestille bilder eller booke fotogjengen? Send mail til fg-salg@samfundet.no med din henvendelse.</a></td>
-                        </tr>
-                    </tbody>
-               </table>
-               <table>
-                   <thead>
-                        <tr>
-                            <th><a><h3>Historie</h3></a></th>
-                            <th><h3>Ønsker du å søke?</h3></th>
-                        </tr>
-                   </thead>
-                   <tbody>
-                       <tr>
-                           <td>Hvordan fotogjngen ble dannet.</td>
-                           <td>Ofte stilte spørsmål.</td>
-                       </tr>
-                   </tbody>
-               </table>
-           </div>
+
+            <div fxLayout="column" fxLayoutAlign="start center">
+              <div>
+                <img src="https://foto.samfundet.no/media/alle/web/DIGFU/digfu5403.jpg" alt="Fotogjengen 2017">
+              </div>
+            </div>
         </div>
     </section>
 </div>

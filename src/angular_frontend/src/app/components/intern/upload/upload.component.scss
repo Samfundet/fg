@@ -53,17 +53,7 @@
   background-color: #721717;
 }
 
-.chip {
-  color: white;
-  background-color: $primary;
-  border-radius: 3px;
 
-  vertical-align: middle;
-  overflow: hidden;
-  padding: .125em .5em;
-  white-space: nowrap;
-  position: relative;
-  margin-left: 1em;
-  border: 0 none;
-  font-size: .7em;
+#tags {
+  background: transparent;
 }

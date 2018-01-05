@@ -1,0 +1,19 @@
+<button (click)="create()" class="btn btn-info">Ny kategori</button>
+<table class="fk-table">
+    <thead class="fk-table--head">
+      <tr class="fk-table--head--row">
+        <td>Navn</td>
+        <td>Rediger</td>
+        <td>Slett</td>
+      </tr>
+    </thead>
+    <tbody class="fk-table--body">
+      <tr *ngFor="let category of categories" class="fk-table--body--row">
+        <td>{{category.name}}</td>
+        <td><button (click)="edit(category)" class="btn btn-primary">Rediger</button></td>
+        <td><button (click)="delete(category)" class="btn btn-danger">Slett</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <fg-foreign-key-modal [changeType]="changeType"></fg-foreign-key-modal>
+  

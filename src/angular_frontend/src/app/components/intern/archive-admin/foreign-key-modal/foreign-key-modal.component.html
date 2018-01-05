@@ -1,0 +1,27 @@
+<div *ngIf="shown" class="modal fixed" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
+  <form [formGroup]="foreignKeyForm" class="form" fxLayout="column" fxLayoutAlign="stretch center" fxLayoutGap="20px">
+    <button class="btn" type="button" (click)="close()">Lukk</button>
+
+    <div class="input-group">
+      <label>Navn</label>
+      <input *ngIf="changeType !== ForeignKeyEnum.Delete" type="text" formControlName="name">
+      <input *ngIf="changeType === ForeignKeyEnum.Delete" type="text" formControlName="name" disabled>
+    </div>
+    <div *ngIf="type === 'albums'" class="input-group">
+      <label>Beskrivelse</label>
+      <input *ngIf="changeType !== ForeignKeyEnum.Delete" type="text" formControlName="description">
+      <input *ngIf="changeType === ForeignKeyEnum.Delete" type="text" formControlName="description" disabled>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="5px">
+      <div [ngSwitch]="changeType">
+        <button *ngSwitchCase="ForeignKeyEnum.Edit" (click)="save()" [disabled]="foreignKeyForm.invalid" type="button" class="btn btn-success">Lagre endringer</button>
+        <button *ngSwitchCase="ForeignKeyEnum.Delete" (click)="delete()" [disabled]="foreignKeyForm.invalid" type="button" class="btn btn-danger">Slett</button>
+        <button *ngSwitchCase="ForeignKeyEnum.Create" (click)="create()" [disabled]="foreignKeyForm.invalid" type="button" class="btn btn-success">Lagre</button>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<!-- (clickOutside)="shown = false" [exclude]="'btn.button'" -->

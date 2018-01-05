@@ -1,0 +1,10 @@
+<div id="main container">
+  <div class="inner p-b-2" fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutAlign="start" fxLayoutGap="5px">
+    <!-- Tabs -->
+    <a class="tab" routerLink="nye" routerLinkActive="active" fxFlex="<basis>">Nye ordre</a>
+    <a class="tab" routerLink="gamle" routerLinkActive="active" fxFlex="<basis>">Gamle ordre</a>
+  </div>
+  <div class="inner">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,17 +1,28 @@
+import itertools
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework_filters.backends import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.generics import RetrieveAPIView, ListAPIView
-from rest_framework.pagination import BasePagination
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.pagination import BasePagination, CursorPagination
+from rest_framework.viewsets import ModelViewSet, ViewSet
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from collections import namedtuple
+from django.db.models import Count
+from django.db.models.functions import TruncYear
 
-from ..permissions import IsFGOrReadOnly, IsFG
+from ..paginations import UnlimitedPagination
+from ..permissions import IsFGOrReadOnly, IsFG, IsFgOrPostOnly
+from rest_framework.permissions import AllowAny
 from . import models, serializers, filters
 
+from django.core.mail import send_mail
 
-class UnlimitedPagination(BasePagination):
-    def paginate_queryset(self, queryset, request, view=None):
-        pass
+
+Statistics = namedtuple(
+    'Statistics',
+    ('photos', 'tags', 'scanned', 'albums', 'splash', 'orders', 'photos_by_year', 'photos_per_album')
+)
 
 
 class TagViewSet(ModelViewSet):
@@ -47,10 +58,13 @@ class AlbumViewSet(ModelViewSet):
     """
     API endpoint that allows albums to be viewed or edited
     """
+    filter_backends = (OrderingFilter,)
+    ordering_fields = '__all__'
     queryset = models.Album.objects.all()
     serializer_class = serializers.AlbumSerializer
     permission_classes = [IsFGOrReadOnly]
     pagination_class = UnlimitedPagination
+    ordering = ('-date_created',)
 
 
 class PlaceViewSet(ModelViewSet):
@@ -73,13 +87,13 @@ class SecurityLevelViewSet(ModelViewSet):
     pagination_class = UnlimitedPagination
 
 
-
 class PhotoViewSet(ModelViewSet):
     """
     API endpoint that allows photo CRUD (Create, Read, Update, Delete)
     """
     permission_classes = [IsFGOrReadOnly]
     serializer_class = None
+    pagination_class = CursorPagination
 
     # Filters and search
     filter_backends = (OrderingFilter, SearchFilter, DjangoFilterBackend)
@@ -88,11 +102,11 @@ class PhotoViewSet(ModelViewSet):
     ordering = ('-date_taken',)
     filter_class = filters.PhotoFilter
 
-    def retrieve(self, request, *args, **kwargs):
+    def retrieve ( self, request, *args, **kwargs ):
         self.serializer_class = serializers.PhotoSerializer
         return super(PhotoViewSet, self).retrieve(request, *args, **kwargs)
 
-    def list(self, request, *args, **kwargs):
+    def list ( self, request, *args, **kwargs ):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
         self.serializer_class = serializers.PhotoSerializer
@@ -100,24 +114,29 @@ class PhotoViewSet(ModelViewSet):
 
         return self.get_paginated_response(serialized_list.data)
 
-    def create(self, request, *args, **kwargs):
+    def create ( self, request, *args, **kwargs ):
         self.serializer_class = serializers.PhotoCreateSerializer
         self.permission_classes = [IsFG]
         return super().create(request, *args, **kwargs)
 
-    def destroy(self, request, *args, **kwargs):
+    def destroy ( self, request, *args, **kwargs ):
         self.serializer_class = serializers.PhotoSerializer
         return super().destroy(request, *args, **kwargs)
 
-    def update(self, request, *args, **kwargs):
+    # Use partial update if you want to send partial objects (verb: PATCH instead of PUT)
+    def update ( self, request, *args, **kwargs ):
         self.serializer_class = serializers.PhotoUpdateSerializer
         return super().update(request, *args, **kwargs)
 
-    def options(self, request, *args, **kwargs):
+    def partial_update ( self, request, *args, **kwargs ):
+        self.serializer_class = serializers.PhotoUpdateSerializer
+        return super().partial_update(request, *args, **kwargs)
+
+    def options ( self, request, *args, **kwargs ):
         self.serializer_class = serializers.PhotoSerializer
         return super().options(request, *args, **kwargs)
 
-    def get_queryset(self):
+    def get_queryset ( self ):
         user = self.request.user
 
         # Filter the photos based on user group
@@ -141,7 +160,7 @@ class LatestSplashPhotoView(RetrieveAPIView):
     serializer_class = serializers.PhotoSerializer
     permission_classes = [IsFGOrReadOnly]
 
-    def get_object(self):
+    def get_object ( self ):
         try:
             latest = self.get_queryset().filter(splash=True).latest('date_taken')
         except ObjectDoesNotExist:
@@ -151,7 +170,7 @@ class LatestSplashPhotoView(RetrieveAPIView):
         else:
             return None
 
-    def get_queryset(self):
+    def get_queryset ( self ):
         user = self.request.user
 
         # Filter the photos based on user group
@@ -173,9 +192,9 @@ class PhotoListFromIds(ListAPIView):
     Retrieves a list of photos from a list of ids
     """
     serializer_class = serializers.PhotoSerializer
-    permission_classes = [IsFG]
+    permission_classes = [IsFGOrReadOnly]
 
-    def get_queryset(self):
+    def get_queryset ( self ):
         user = self.request.user
 
         if (user.groups.exists() and user.is_active and 'FG' in user.groups.all()) or user.is_superuser:
@@ -183,3 +202,65 @@ class PhotoListFromIds(ListAPIView):
             return models.Photo.objects.filter(id__in=ids)
 
         return models.Photo.objects.none()
+
+
+class OrderViewSet(ModelViewSet):
+    """
+    API endpoint that allows for viewing and editing orders
+    """
+    serializer_class = serializers.OrderSerializer
+    permission_classes = [IsFgOrPostOnly]
+    queryset = models.Order.objects.all()
+
+    filter_backends = (OrderingFilter, DjangoFilterBackend)
+    ordering_fields = '__all__'
+    ordering = ('order_completed',)
+    filter_class = filters.OrderFilter
+
+
+class OrderPhotoViewSet(ModelViewSet):
+    serializer_class = serializers.OrderPhotoSerializer
+    permission_classes = [IsFgOrPostOnly]
+    queryset = models.OrderPhoto.objects.all()
+
+
+class StatisticsViewSet(ViewSet):
+    """
+     Viewset for all statistics related to intern/statistics page
+    """
+
+    def list ( self, request ):
+        # Puts photos per year in list, 0-index = newest year
+        photos_per_year = models.Photo.objects.annotate(
+            year=TruncYear('date_taken')
+        ).values('year').annotate(
+            count=Count('pk')
+        ).values('count', 'year')
+
+        # TODO same thing for analog and digital photos (use filter on photos_per_year)
+        # This should wait untill after database merge
+        # has to be in this format for graphics
+        photo_per_year_list = []
+        for year in photos_per_year:
+            y =year.get('year').year
+            photo_per_year_list.append([str(year.get('year').year), year.get('count')])
+        photo_per_year_list.sort()
+
+        # TODO sort amount of photos in each album
+        photos_per_album = models.Photo.objects.values('album__name').annotate(Count('album')).order_by('album__name')
+        print('----------')
+        print(photos_per_album)
+        print('----------')
+
+        statistics = Statistics(
+            photos=models.Photo.objects.all().count(),
+            tags=models.Tag.objects.all().count(),
+            scanned=models.Photo.objects.filter(scanned=True).count(),
+            albums=models.Photo.objects.all().count(),
+            splash=models.Photo.objects.filter(splash=True).count(),
+            orders=models.Order.objects.all().count(),
+            photos_by_year=photo_per_year_list,
+            photos_per_album=photos_per_album
+        )
+        serializer = serializers.StatisticsSerializer(statistics)
+        return Response(serializer.data)

@@ -1,4 +1,5 @@
 @import '../../../styles/breakpoints.scss';
+@import '../../../styles/_colors.scss';
 
 :host {
   width: 100%;
@@ -7,7 +8,7 @@
 }
 
 .grid-item, .grid-item-2 {
-  margin: 15px;
+  margin: 10px 10px 3px 10px;
 }
 
 .grid-item {
@@ -18,9 +19,51 @@
     margin: 0;
     margin-bottom: 10px;
   }
+
+  &:hover .overlay {
+    height: 2rem;
+  }
+
+  & .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.831);
+    overflow: hidden;
+    width: 100%;
+    height: 0;
+    transition: .5s ease;
+    color: white;
+    font-size: smaller;
+
+    & .motive {
+      padding-left: 7px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    & .date {
+      font-size: smaller;
+      padding-right: 5px;
+      min-width: 30%;
+    }
+  }
+
 }
 
 .grid {
   margin: 0 auto;
 }
+
+.in-cart-icon {
+  outline: 1px solid $success;
+}
+
+.full-width {
+  width: 100%;
+  height: auto;
+}
+
 

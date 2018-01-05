@@ -1,0 +1,81 @@
+<div *ngIf="shown" class="modal fixed" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
+  <form [formGroup]="userForm" class="form" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
+
+    <div fxLayout="row" fxLayoutGap="20px">
+      <div class="scrollable" fxLayout="column" fxLayoutAlign="stretch center" fxLayoutGap="20px" fxFlex="<grow>">
+        <div class="input-group">
+          <label>Fornavn</label>
+          <input type="text" formControlName="first_name">
+        </div>
+        <div class="input-group">
+          <label>Etternavn</label>
+          <input type="text" formControlName="last_name">
+        </div>
+        <div class="input-group">
+          <label>E-post</label>
+          <input type="text" formControlName="email">
+        </div>
+        <div class="input-group">
+          <label>Adresse</label>
+          <input type="text" formControlName="address">
+        </div>
+        <div class="input-group">
+          <label>Postnummer</label>
+          <input type="text" formControlName="zip_code">
+        </div>
+        <div class="input-group">
+          <label>Sted</label>
+          <input type="text" formControlName="city">
+        </div>
+        <div class="input-group">
+          <label>Tlf</label>
+          <input type="number" formControlName="phone">
+        </div>
+        <div class="input-group">
+          <label>Opptaksår</label>
+          <input type="number" formControlName="opptaksaar">
+        </div>
+        <div class="input-group">
+          <label>Gjengjobb 1</label>
+          <input type="text" formControlName="gjengjobb1">
+        </div>
+        <div class="input-group">
+          <label>Gjengjobb 2</label>
+          <input type="text" formControlName="gjengjobb2">
+        </div>
+        <div class="input-group">
+          <label>Gjengjobb 3</label>
+          <input type="text" formControlName="gjengjobb3">
+        </div>
+        <div class="input-group">
+          <label>Annet</label>
+          <input type="text" formControlName="comments">
+        </div>
+
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="space-between">
+        <div *ngIf="changeType !== ChangeEnum.Create" class="image">
+          <img [src]="user.bilde" [alt]="'bilde av ' +user.first_name + ' ' + user.last_name">
+          <!-- TODO make image clickable to upload new -->
+        </div>
+        <div class="input-group">
+          <label for="aktiv_pang">Aktiv pang</label>
+          <input id="aktiv_pang" type="checkbox" formControlName="aktiv_pang">
+        </div>
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center" fxFlexAlign="end">
+          <ng-container [ngSwitch]="changeType">
+            <button *ngSwitchCase="ChangeEnum.Edit" (click)="edit()" [disabled]="userForm.invalid" type="button" class="btn btn-success">Lagre endringer</button>
+            <button *ngSwitchCase="ChangeEnum.Delete" (click)="delete()" [disabled]="userForm.invalid" type="button" class="btn btn-danger">Slett</button>
+            <button *ngSwitchCase="ChangeEnum.Create" (click)="create()" [disabled]="userForm.invalid" type="button" class="btn btn-success">Lagre</button>
+          </ng-container>
+
+          <button class="btn p-a-h1" type="button" (click)="close()">Avbryt</button>
+        </div>
+      </div>
+
+    </div>
+
+
+  </form>
+</div>

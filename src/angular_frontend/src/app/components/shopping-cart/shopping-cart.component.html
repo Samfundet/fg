@@ -1,0 +1,119 @@
+<div id="main container">
+  <section class="wrapper style1">
+    <div class="inner">
+      <!-- mailing form -->
+      <h1>Handlekurv</h1>
+      <div fxLayout="row" fxLayoutGap="20px" fxFlexAlign="center" id="main container">
+        <form [formGroup]="cartForm" (ngSubmit)="onSubmit()" fxFill fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="30px">
+          <div fxLayout="column" fxFlex="30" fxLayoutGap="15px">
+            <div fxLayout="column">
+              <label>Navn</label>
+              <input type="text" formControlName="name">
+            </div>
+
+            <div fxLayout="column">
+              <label>Epost</label>
+              <input type="email" formControlName="email">
+            </div>
+
+            <div fxLayout="column">
+              <label>Addresse</label>
+              <input type="text" formControlName="address">
+            </div>
+
+            <div fxLayout="column">
+              <label>Sted</label>
+              <input type="text" formControlName="place">
+            </div>
+
+            <div fxLayout="column">
+              <label>Postnummer</label>
+              <input type="text" formControlName="zip_code">
+            </div>
+
+            <div fxLayout="column">
+
+              <div fxLayout="column">
+                <label>Send i post</label>
+                <input type="radio" formControlName="post_or_get" value="send-in-post">
+              </div>
+
+              <div fxLayout="column">
+                <label>Hent selv</label>
+                <input type="radio" formControlName="post_or_get" value="get-by-self">
+              </div>
+
+            </div>
+
+            <div fxLayout="column">
+              <label>Kommentar</label>
+              <input type="text" formControlName="comment">
+            </div>
+
+            <div fxLayout="column">
+              <button class="btn btn-success" type="submit" (click)="onSubmit()" [disabled]="!cartForm.valid">
+                <i class="fa fa-check"></i> Bestill
+              </button>
+            </div>
+          </div>
+          <!-- Preview box -->
+          <div fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
+            <!-- NO IMAGES | BEGIN -->
+            <div *ngIf="(store.photoShoppingCart$ | async).length < 1" fxLayout="column" fxLayoutAlign="center start" class="alert">
+              <p class="alert--text">Ingen bilder i handlekurven!</p>
+              <p class="alert--text">
+                <a class="alert--text--link" routerLink="../foto">Klikk her</a> for å bla gjennom våre bilder
+              </p>
+            </div>
+            <!-- NO IMAGES | END -->
+
+            <!-- ORDER PHOTOS | BEGIN -->
+            <!-- <div formArrayName="order_photos">
+              <ng-container *ngFor="let photo of (store.photoShoppingCart$ | async); let i = index">
+                <div [formGroupName]="i" class="shopping-card" fxLayout="row" fxLayoutAlign="space-between">
+                  <div class="shopping-card--image">
+                    <img [src]="photo.photo.small">
+                  </div>
+                  <div fxLayout="row" fxLayoutAlign="end start" class="shopping-card--details">
+                    <div fxLayoutGap="25px" class="shopping-card--details--formats">
+                      <fg-radio-buttons formControlName="format"></fg-radio-buttons>
+                    </div>
+                    <div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div> -->
+
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Ønsket format</th>
+                </tr>
+              </thead>
+              <tbody formArrayName="order_photos">
+                <tr [formGroupName]="i" *ngFor="let photo of (store.photoShoppingCart$ | async); let i = index">
+                  <!-- IMAGE | BEGIN -->
+                  <td fxLayoutAlign="center center">
+                      <img class="search-table--img clickable hover-outline" [src]="photo?.photo?.small" (click)="onPhotoClick(photo)">
+                  </td>
+                  <!-- IMAGE | END -->
+
+                  <!-- BUTTONS | BEGIN -->
+                  <td class="shopping-card--details--formats">
+                    <fg-radio-buttons formControlName="format"></fg-radio-buttons>
+                  </td>
+                  <!-- BUTTONS | BEGIN -->
+
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- ORDER PHOTOS | END -->
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>

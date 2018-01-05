@@ -1,4 +1,3 @@
-remove-containers-volumes.sh
 /.idea
 temp
 *.log

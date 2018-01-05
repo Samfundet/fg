@@ -1,7 +1,8 @@
+<ng-progress [spinner]="false"></ng-progress>
 <fg-nav></fg-nav>
 <main class="site-content">
   <router-outlet></router-outlet>
 </main>
 <fg-footer></fg-footer>
 <fg-photo-modal></fg-photo-modal>
-<fg-login></fg-login>
+<fg-login *ngIf="store.loginModal$ | async"></fg-login>

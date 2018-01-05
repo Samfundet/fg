@@ -243,8 +243,9 @@ hr {
     filter: brightness(120%);
   }
 
-  &:active, &.active {
-
+  &.active {
+    background-color: $primary;
+    color: $primary-contrast;
   }
 
   &-large {
@@ -287,6 +288,18 @@ hr {
   &-transparent {
     background-color: transparent;
     color: white;
+  }
+
+  &-text {
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 0.1rem;
+    text-decoration: underline;
+
+    &:hover {
+      color: rgb(179, 179, 179);
+    }
   }
 }
 
@@ -803,7 +816,10 @@ table.alt tbody tr td {
     position: relative;
     background: $background;
     background: linear-gradient(to bottom right, $background-gradient-left, $background-gradient-right);
-    min-height: 60vh;
+
+    &-min-height {
+      min-height: 60vh;
+    }
 }
 
 .wrapper .inner {
@@ -821,6 +837,7 @@ table.alt tbody tr td {
 .wrapper.style1 {
     background-color: #062038;
     color: #c1c7cd;
+    min-height: 70vh;
 }
 .wrapper.style1 input,
 .wrapper.style1 select,
@@ -867,6 +884,10 @@ table.alt tbody tr td {
 .wrapper.style1 textarea {
     background: rgba(255, 255, 255, 0.075);
     border-color: rgba(255, 255, 255, 0.15);
+}
+
+.wrapper.style1 input[type="text"].chips {
+    background: transparent;
 }
 
 input:focus,
@@ -1418,6 +1439,23 @@ body.is-loading #banner:before {
     }
 }
 
+/** Here be the bottomz **/
+
+.chip {
+  color: white;
+  background-color: $primary;
+  border-radius: 3px;
+
+  vertical-align: middle;
+  overflow: hidden;
+  padding: .125em .5em;
+  white-space: nowrap;
+  position: relative;
+  margin-left: 1em;
+  border: 0 none;
+  font-size: .7em;
+}
+
 /* Form */
 
 label {
@@ -1429,8 +1467,15 @@ label {
 .clickable {
   outline: 2px solid rgba(0, 0, 0, 0);
   cursor: pointer;
+}
 
+input:disabled {
+  filter: opacity(30%);
+  cursor: not-allowed;
+}
 
+input {
+  border-width: 1px;
 }
 
 .hover-outline:hover {
@@ -1440,6 +1485,12 @@ label {
 
 
 /* Intern styling */
+
+input.right-edge {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  margin-right: -2px;
+}
 
 .search-table {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
@@ -1482,3 +1533,50 @@ label {
     color: #A29DFF;
   }
 }
+
+
+// Ordre tabell
+
+.tab {
+    color: #BABABA;
+    padding: 0.1em;
+    font-size: 0.9em;
+    background-color: #374c5f;
+    border-bottom: 5px solid #041625;
+    transition: all 0.5s;
+    text-align: center;
+
+  &.active {
+    border-color: white;
+  }
+
+  &:hover {
+    filter: brightness(150%);
+  }
+}
+
+.fk-table {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: smaller;
+  border-bottom: 2px solid $outline;
+
+  &--head {
+    &--row > td + td {
+      border-left: 2px solid $outline;
+    }
+  }
+
+  &--body {
+    &--row > td + td {
+      border-left: none;
+    }
+
+    &--row > td {
+      width: 10%;
+    }
+
+    font-size: smaller;
+  }
+
+}
+

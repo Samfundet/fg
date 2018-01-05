@@ -1,7 +1,8 @@
+import { IStatistics } from './../model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Headers, RequestOptions } from '@angular/http';
-import { IResponse, IPhoto, IUser, IFilters, IForeignKey, ILoginRequest } from 'app/model';
+import { IResponse, IPhoto, IUser, IOrder, IFilters, IForeignKey, ILoginRequest, ILoginResponse } from 'app/model';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
@@ -14,9 +15,11 @@ export class ApiService {
 
   getPhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
     let params = new HttpParams();
-    for (const key of Object.keys(filters)) {
-      if (filters[key] !== null) {
-        params = params.append(key, filters[key]);
+    if (filters) {
+      for (const key of Object.keys(filters)) {
+        if (filters[key] !== null && filters[key] !== '') {
+          params = params.append(key, filters[key]);
+        }
       }
     }
     return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
@@ -29,8 +32,12 @@ export class ApiService {
 
   getHomePagePhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
     let params = new HttpParams();
-    for (const key of Object.keys(filters)) {
-      params = params.append(key, filters[key]);
+    if (filters) {
+      for (const key of Object.keys(filters)) {
+        if (filters[key] !== null) {
+          params = params.append(key, filters[key]);
+        }
+      }
     }
     params = params.append('on_home_page', 'true');
     return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
@@ -40,8 +47,24 @@ export class ApiService {
     return this.http.get<IPhoto>(`api/photos/latest-splash`);
   }
 
+  getStatistics(): Observable<IStatistics> {
+    return this.http.get<IStatistics>(`/api/statistics/`);
+  }
+
   getUsers(): Observable<IResponse<IUser>> {
     return this.http.get<IResponse<IUser>>(`/api/users/`);
+  }
+
+  getFgUsers(): Observable<IUser[]> {
+    return this.http.get<IUser[]>(`/api/users/fg`);
+  }
+
+  getPowerUsers(): Observable<IUser[]> {
+    return this.http.get<IUser[]>(`/api/users/power`);
+  }
+
+  getForeignKey(type: string) {
+    return this.http.get<IForeignKey[]>(`api/${type}/`);
   }
 
   getAlbums() {
@@ -59,24 +82,66 @@ export class ApiService {
   getSecurityLevels() {
     return this.http.get<IForeignKey[]>(`api/security-levels/`);
   }
+  getOrders(type: string): Observable<IOrder[]> {
+    let params = new HttpParams();
+    switch (type) {
+      case 'old':
+        params = params.set('order_completed', 'true');
+        return this.http.get<IOrder[]>(`api/orders/`, { params });
+      case 'new':
+        params = params.set('order_completed', 'false');
+        return this.http.get<IOrder[]>(`api/orders/`, { params });
+    }
+  }
+  toggleOrderCompleted(order: IOrder): Observable<IOrder> {
+    return this.http.put<IOrder>(`api/orders/${order.id}/`, order);
+  }
 
   postPhoto(formData) {
     return this.http.post(`/api/photos/`, formData);
   }
 
-  updatePhoto(photo: IPhoto): Observable<any> {
-    const formData = new FormData();
-    for (const key of Object.keys(photo)) {
-      formData.append(key, photo[key]);
-    }
-    return this.http.put(`/api/photos/${photo.id}/`, formData);
+  updatePhoto(photo): Observable<any> {
+    return this.http.patch(`/api/photos/${photo.id}/`, photo);
   }
 
-  login(data: ILoginRequest): Observable<any> {
-    return this.http.post(`api/token-auth/`, data);
+  updateUser(user: IUser): Observable<any> {
+    return this.http.put(`/api/users/${user.id}/`, user);
+  }
+  createUser(user: IUser): Observable<any> {
+    return this.http.post(`/api/users/`, user);
+  }
+  deleteUser(user: IUser): Observable<any> {
+    return this.http.delete(`/api/users/${user.id}/`);
+  }
+
+
+  updateForeignKey(fk: IForeignKey, type: string): Observable<any> {
+    return this.http.put(`/api/${type}/${fk.id}/`, fk);
+  }
+
+  createForeignKey(fk: IForeignKey, type: string): Observable<any> {
+    return this.http.post(`/api/${type}/`, fk);
+  }
+
+  deleteForeignKey(fk: IForeignKey, type: string): Observable<any> {
+    return this.http.delete(`/api/${type}/${fk.id}/`);
+  }
+
+  order(order: IOrder) {
+    return this.http.post(`api/orders/`, order);
+  }
+
+
+  login(encodedCredentials: string): Observable<ILoginResponse> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', encodedCredentials);
+    return this.http.get<ILoginResponse>(`api/login/`, { headers });
   }
 
   refreshToken(current_token): Observable<any> {
-    return this.http.post(`api/token-refresh/`, {token: current_token});
+    return this.http.post(`api/token-refresh/`, { token: current_token });
   }
 }
+

@@ -22,12 +22,12 @@
     </div>
     <div fxLayout="column">
       <label>Tag</label>
-      <input type="text" formControlName="tags">
+      <fg-chips formControlName="tags"></fg-chips>
     </div>
     <div fxLayout="column">
       <label>Dato</label>
       <div fxLayout="row" fxLayoutAlign="stretch">
-        <input fxFlex="100" (click)="dp.toggleCalendar()" class="datepicker clickable" ngx-mydatepicker [options]="options" #dp="ngx-mydatepicker"
+        <input fxFlex="100" (click)="dp.toggleCalendar()" class="datepicker clickable right-edge" ngx-mydatepicker [options]="options" #dp="ngx-mydatepicker"
           formControlName="date_taken">
         <button type="button" class="btn btn-info" (click)="dp.toggleCalendar()">
           <i class="fa fa-calendar"></i>

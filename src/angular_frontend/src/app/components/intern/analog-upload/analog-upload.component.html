@@ -1,0 +1,12 @@
+<div id="main container">
+    <div class="inner p-b-2" fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutAlign="start" fxLayoutGap="5px">
+        <!-- Tabs -->
+        <a class="tab" routerLink="registrer" routerLinkActive="active" fxFlex="<basis>">Registrer ny film</a>
+        <a class="tab" routerLink="scannet" routerLinkActive="active" fxFlex="<basis>">Laste opp scanna bilder</a>
+    </div>
+    <div class="inner">
+        <router-outlet></router-outlet>
+    </div>
+</div>
+
+<!-- add wrapper1 for unclean look -->
