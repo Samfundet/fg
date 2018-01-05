@@ -180,10 +180,10 @@ export class StoreService {
 
 
   logoutAction() {
+    this.toastr.info(null, `På gjensyn ${localStorage.getItem('username')}! 👋`);
     localStorage.removeItem('Authorization');
     localStorage.removeItem('username');
     localStorage.removeItem('groups');
-    this.toastr.info(null, `Du er logget ut 😞`);
   }
 
   getUsernameAction() {
