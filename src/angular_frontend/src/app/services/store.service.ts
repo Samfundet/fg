@@ -218,7 +218,7 @@ export class StoreService {
     return this.orders$[type].asObservable();
   }
 
-  toggleOrderCompleted(order: IOrder, type: string) {
+  toggleOrderCompletedAction(order: IOrder, type: string) {
     return this.api.toggleOrderCompleted(order).subscribe(() => this.getOrdersAction(type));
   }
 

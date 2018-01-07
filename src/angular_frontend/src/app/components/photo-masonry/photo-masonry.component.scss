@@ -20,11 +20,25 @@
     margin-bottom: 10px;
   }
 
-  &:hover .overlay {
-    height: 2rem;
+  &:hover {
+    & .overlay-bottom, .overlay-top {
+      height: 2rem;
+    }
   }
 
-  & .overlay {
+  & .overlay-top {
+    position: absolute;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    width: 100%;
+    transition: .2s ease;
+    height: 0;
+    color: white;
+    font-size: smaller;
+  }
+
+  & .overlay-bottom {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -33,7 +47,7 @@
     overflow: hidden;
     width: 100%;
     height: 0;
-    transition: .5s ease;
+    transition: .2s ease;
     color: white;
     font-size: smaller;
 
@@ -58,7 +72,7 @@
 }
 
 .in-cart-icon {
-  outline: 1px solid $success;
+  color: $success;
 }
 
 .full-width {

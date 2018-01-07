@@ -10,6 +10,7 @@ import { ClickOutsideModule } from 'ng-click-outside';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressHttpClientModule } from '@ngx-progressbar/http-client';
 import { registerLocaleData } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ToastrModule } from 'ngx-toastr';
 import localeNb from '@angular/common/locales/nb';
 registerLocaleData(localeNb);
@@ -139,6 +140,7 @@ import {
     ngfModule,
     FlexLayoutModule,
     ClickOutsideModule,
+    MatTooltipModule,
     ToastrModule.forRoot({ progressBar: true }),
     NgxMyDatePickerModule.forRoot(),
     NgProgressModule.forRoot(),
