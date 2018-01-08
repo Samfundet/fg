@@ -39,6 +39,7 @@ export interface IPhoto {
   place: IMetaData;
   security_level: IMetaData;
   addedToCart?: boolean;
+  liked?: boolean;
   checkedForEdit?: boolean;
 }
 
@@ -244,6 +245,7 @@ export interface IMasonryOptions {
 export interface ILoginRequest {
   username: string;
   password: string;
+  hasFailed?: boolean;
 }
 
 export interface IToken {

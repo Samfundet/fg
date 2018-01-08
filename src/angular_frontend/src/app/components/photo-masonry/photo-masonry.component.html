@@ -6,16 +6,47 @@
   [@photosAnimation]="photos?.length"
   >
   <div class="grid-item hover-outline" style="vertical-align: middle;" *ngFor="let photo of photos; let i = index">
+
+    <div
+      class="overlay-top"
+      [style.height]="[photo.addedToCart ? '2rem':'']"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+      fxLayoutGap="5px">
+
+      <a
+        routerLink="/foto"
+        [queryParams]="{'motive': photo.motive}"
+        class="btn btn-transparent no-focus"
+        matTooltip="Gå til album"
+        matTooltipPosition="above"
+        matTooltipClass="matTooltip"
+        >
+        <i class="fa fa-th"></i>
+      </a>
+
+
+      <button
+        matTooltip="Klikk for å legge til handlevogn"
+        matTooltipPosition="above"
+        matTooltipClass="matTooltip"
+        class="btn btn-transparent no-focus"
+        [ngClass]="[photo.addedToCart ? 'in-cart-icon':'']"
+        (click)="[photo.addedToCart ? removeFromShoppingCart(photo) : addToShoppingCart(photo)]"
+        >
+        <i class="fa fa-shopping-cart"></i>
+      </button>
+    </div>
+
     <img
       (contextmenu)="disableRightClick($event)"
       (click)="onPhotoClick(photo)"
       src="{{photo.photo.medium}}"
       class="full-width clickable"
-      [ngClass]="[photo.addedToCart ? 'in-cart-icon':'']"
       alt="{{photo.motive}}"
     />
 
-    <div class="overlay" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="overlay-bottom" fxLayout="row" fxLayoutAlign="space-between center">
       <span title="{{photo.motive}}" class="motive">
         {{photo.motive}}
       </span>

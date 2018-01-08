@@ -42,6 +42,14 @@ export class PhotoMasonryComponent {
     this.store.photoModal$.next(photo);
   }
 
+  addToShoppingCart(photo: IPhoto) {
+    this.store.addPhotoToCartAction(photo);
+  }
+
+  removeFromShoppingCart(photo: IPhoto) {
+    this.store.removePhotoFromCartAction(photo);
+  }
+
   disableRightClick(event) {
     event.preventDefault();
   }

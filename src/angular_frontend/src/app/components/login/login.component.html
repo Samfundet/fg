@@ -1,5 +1,5 @@
 <div *ngIf="shown" class="modal fixed" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
-  <form (clickOutside)="shown = false" [exclude]="'.login'" [formGroup]="loginForm" class="form" fxLayout="column" fxLayoutAlign="stretch center"
+  <form [@shake]="wrongPassword" (ngSubmit)="login()" (clickOutside)="shown = false" [exclude]="'.login'" [formGroup]="loginForm" class="form" fxLayout="column" fxLayoutAlign="stretch center"
     fxLayoutGap="20px">
     <button class="btn" type="button" (click)="shown = false">Lukk</button>
     <div class="input-group">
@@ -13,9 +13,10 @@
     </div>
 
     <div fxLayout="row" fxLayoutGap="5px">
-      <button type="button" (click)="login()" [disabled]="!loginForm.valid" class="btn btn-info">Logg inn</button>
+      <button type="submit" [disabled]="!loginForm.valid" class="btn btn-info">Logg inn</button>
     </div>
 
+    <span *ngIf="wrongPassword">Feil brukernavn eller passord, prøv igjen</span>
   </form>
 
 </div>

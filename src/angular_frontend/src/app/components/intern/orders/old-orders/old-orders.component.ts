@@ -21,6 +21,6 @@ export class OldOrdersComponent implements OnInit {
   toggleOrderCompleted(order: IOrder) {
     const tmp_order = Object.assign({}, order);
     tmp_order.order_completed = !tmp_order.order_completed;
-    this.store.toggleOrderCompleted(tmp_order, 'old');
+    this.store.toggleOrderCompletedAction(tmp_order, 'old');
   }
 }
