@@ -2,10 +2,14 @@ import random, os, string, tempfile
 from datetime import datetime
 from time import sleep
 from django.test import TestCase
+from django.db.models import Max
 from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 from rest_framework import status
 from .api import models
-from .api.views import PhotoViewSet, LatestSplashPhotoView, OrderViewSet, AlbumViewSet
+from .api.views import (
+    PhotoViewSet, LatestSplashPhotoView, OrderViewSet, AlbumViewSet,
+    get_latest_image_number_and_page_number,
+)
 from .fg_auth.views import FgUsersView, PowerUsersView
 from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, SECURITY_LEVELS
 from django.apps import apps
@@ -14,20 +18,21 @@ from django.contrib.auth.models import Group
 from .fg_auth.models import User
 from PIL import Image
 
+
 GROUPS = ["FG", "HUSFOLK", "POWER"]
 
 
-def get_random_object(app_name, model_string):
+def get_random_object ( app_name, model_string ):
     Mod = apps.get_model(app_name, model_string)
     random_index = random.randint(0, Mod.objects.count() - 1)
     return Mod.objects.all()[random_index]
 
 
-def get_rand_string(size=6, chars=string.ascii_uppercase + string.digits):
+def get_rand_string ( size=6, chars=string.ascii_uppercase + string.digits ):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
-def seed_foreign_keys():
+def seed_foreign_keys ():
     apps_models_dict = {
         "api": ["Album", "Tag", "Category", "Media", "Place"],
         "fg_auth": []
@@ -38,22 +43,27 @@ def seed_foreign_keys():
             Mod = apps.get_model(app_name, model_name)
             for i in range(10):
                 obj = Mod(name="TEST_" + get_rand_string(4))
+                if model_name == 'Album':
+                    if i % 2 == 0:
+                        obj.name = 'DIG' + str(i*2)
+                    else:
+                        obj.name = 'ANA' + str(i*2)
                 obj.save()
 
 
-def seed_groups():
+def seed_groups ():
     for g in GROUPS:
         group = Group(name=g)
         group.save()
 
 
-def seed_security_levels():
+def seed_security_levels ():
     for s in SECURITY_LEVELS:
         security_level = models.SecurityLevel(name=s)
         security_level.save()
 
 
-def seed_photos():
+def seed_photos ():
     photos = []
     for i in range(10):
         photo = models.Photo(
@@ -61,8 +71,8 @@ def seed_photos():
             place=get_random_object("api", "Place"),
             media=get_random_object("api", "Media"),
             category=get_random_object("api", "Category"),
-            page=13,
-            image_number=37,
+            page=i*2,
+            image_number=i*4,
             security_level=get_random_object("api", "SecurityLevel"),
             on_home_page=True if random.random() > 0.5 else False,
             lapel=True if random.random() > 0.5 else False,
@@ -80,7 +90,7 @@ def seed_photos():
     return photos
 
 
-def seed_users():
+def seed_users ():
     for i, u in enumerate(GROUPS):  # Saving a few lines making the group equal to test usernames
         user = User(
             id=i,
@@ -104,11 +114,11 @@ def seed_users():
     admin.save()
 
 
-def get_default_image():
+def get_default_image ():
     return {'name': 'default.jpg', 'file': open(MEDIA_ROOT + 'default.jpg', 'rb')}
 
 
-def delete_photos(photos):
+def delete_photos ( photos ):
     """Deletes all the photos from the media folder"""
     for photo in photos:
         try:
@@ -123,7 +133,7 @@ class PhotoTestCase(TestCase):
     test_photo = None
     sizes = VERSATILEIMAGEFIELD_SETTINGS['sizes']
 
-    def setUp(self):
+    def setUp ( self ):
         seed_foreign_keys()
         seed_groups()
         seed_security_levels()
@@ -133,8 +143,8 @@ class PhotoTestCase(TestCase):
             place=get_random_object("api", "Place"),
             media=get_random_object("api", "Media"),
             category=get_random_object("api", "Category"),
-            page=13,
-            image_number=37,
+            page=random.randint(1, 99),
+            image_number=random.randint(1, 99),
             security_level=get_random_object("api", "SecurityLevel"),
             date_taken=datetime.now().astimezone()
         )
@@ -144,16 +154,17 @@ class PhotoTestCase(TestCase):
         self.test_photo.photo = File(img['file'])
         self.test_photo.save()
 
-    def tearDown(self):
+    def tearDown ( self ):
         delete_photos([self.test_photo])
 
-    def test_new_photo_is_saved(self):
+    def test_new_photo_is_saved ( self ):
         """Tests if new photo is saved to the database"""
         retrieved_photo = models.Photo.objects.all()[0]
         self.assertEqual(self.test_photo, retrieved_photo)
         self.assertEqual(self.test_photo.photo, retrieved_photo.photo)
 
-    def test_new_photo_saves_file_in_correct_directory(self):
+    def test_new_photo_saves_file_in_correct_directory ( self ):
+        # TODO: Needs to be fixed
         """Tests if photos are saved to the correct album folder with appropriate filename"""
         photo = models.Photo.objects.all()[0]
         expected_path = os.path.join(
@@ -164,7 +175,7 @@ class PhotoTestCase(TestCase):
         )
         self.assertEqual(photo.photo.path, expected_path)
 
-    def test_photo_security_level_changed_moves_file_to_correct_directory(self):
+    def test_photo_security_level_changed_moves_file_to_correct_directory ( self ):
         photo = models.Photo.objects.all()[0]
         photo.security_level = models.SecurityLevel.objects.filter(name="FG").first()
 
@@ -178,7 +189,7 @@ class PhotoTestCase(TestCase):
         )
         self.assertEqual(photo.photo.path.upper(), expected_path.upper())
 
-    def test_exact_motive_search_retrieves_single_image(self):
+    def test_exact_motive_search_retrieves_single_image ( self ):
         seed_photos()
         seed_users()
         factory = APIRequestFactory()
@@ -196,7 +207,7 @@ class PhotoTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), expected_count)
 
-    def test_only_photos_with_on_home_page_set_to_true_appear_on_home_page(self):
+    def test_only_photos_with_on_home_page_set_to_true_appear_on_home_page ( self ):
         seed_photos()
         factory = APIRequestFactory()
         view = PhotoViewSet.as_view({'get': 'list'})
@@ -209,11 +220,60 @@ class PhotoTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data['results']), expected_count)
 
-    def test_page_and_image_number_is_correct(self):
+    def test_page_and_image_number_gets_latest ( self ):
         seed_photos()
+        seed_users()
         factory = APIRequestFactory()
-        view =
+        view = get_latest_image_number_and_page_number
+        user = User.objects.get(username="FG")
 
+        expected_album = models.Photo.objects.filter(
+                album__name__startswith='DIG').latest('date_taken').album
+        expected_page = models.Photo.objects.filter(
+            album__name=expected_album.name).aggregate(Max('page'))['page__max']
+        expected_image_number = (models.Photo.objects.filter(
+            album__name=expected_album.name, page=expected_page).aggregate(Max('image_number'))['image_number__max'])
+        if expected_image_number >= 99:
+            if expected_page < 99:
+                expected_image_number = 1
+                expected_page = expected_page + 1
+            else:
+                return expected_album, 'fullt', 'album'
+        else:
+            expected_image_number = expected_image_number + 1
+
+        request = factory.get('/api/photos/upload-info')
+        force_authenticate(request, user=user)
+
+        response = view(request)
+
+        self.assertEqual(response.data['latest_album'], expected_album.id)
+        self.assertEqual(response.data['latest_page'], expected_page)
+        self.assertEqual(response.data['latest_image_number'], expected_image_number)
+
+        models.Photo.objects.get(id=expected_album.id).delete()
+        expected_album = models.Photo.objects.filter(
+            album__name__startswith='DIG').latest('date_taken').album
+        self.assertEqual(response.data['latest_album'], expected_album.id)
+
+        photo = models.Photo(
+            album=get_random_object("api", "Album"),
+            place=get_random_object("api", "Place"),
+            media=get_random_object("api", "Media"),
+            category=get_random_object("api", "Category"),
+            page=expected_page,
+            image_number=expected_image_number + 1,
+            security_level=get_random_object("api", "SecurityLevel"),
+            on_home_page=True if random.random() > 0.5 else False,
+            lapel=True if random.random() > 0.5 else False,
+            scanned=True if random.random() > 0.5 else False,
+            splash=True if random.random() > 0.5 else False,
+            date_taken=datetime.now().astimezone()
+        )
+        photo.save()
+        expected_image_number = (models.Photo.objects.filter(
+            album__name=expected_album.name, page=expected_page).aggregate(Max('image_number'))['image_number__max'])
+        self.assertEqual(response.data['latest_album'], expected_image_number)
 
 class UserPermissionTestCase(APITestCase):
     """
@@ -222,17 +282,17 @@ class UserPermissionTestCase(APITestCase):
     factory = APIRequestFactory()
     photos = None
 
-    def setUp(self):
+    def setUp ( self ):
         seed_foreign_keys()
         seed_groups()
         seed_security_levels()
         self.photos = seed_photos()
         seed_users()
 
-    def tearDown(self):
+    def tearDown ( self ):
         delete_photos(self.photos)
 
-    def test_admin_user_can_see_all_photos(self):
+    def test_admin_user_can_see_all_photos ( self ):
         expected_count = models.Photo.objects.count()
         user = User.objects.get(username="ADMIN")
         view = PhotoViewSet.as_view({'get': 'list'})
@@ -244,7 +304,7 @@ class UserPermissionTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data["results"]), expected_count)
 
-    def test_fg_user_can_see_all_photos(self):
+    def test_fg_user_can_see_all_photos ( self ):
         expected_count = models.Photo.objects.count()
         user = User.objects.get(username="FG")
         view = PhotoViewSet.as_view({'get': 'list'})
@@ -256,7 +316,7 @@ class UserPermissionTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data["results"]), expected_count)
 
-    def test_husfolk_user_can_only_see_husfolk_and_alle(self):
+    def test_husfolk_user_can_only_see_husfolk_and_alle ( self ):
         expected_count = models.Photo.objects.filter(
             security_level__name__in=("ALLE", "HUSFOLK")
         ).count()
@@ -270,7 +330,7 @@ class UserPermissionTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data["results"]), expected_count)
 
-    def test_power_user_can_see_husfolk_and_alle(self):
+    def test_power_user_can_see_husfolk_and_alle ( self ):
         expected_count = models.Photo.objects.filter(
             security_level__name__in=("ALLE", "HUSFOLK")
         ).count()
@@ -284,7 +344,7 @@ class UserPermissionTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data["results"]), expected_count)
 
-    def test_anon_user_can_only_see_alle(self):
+    def test_anon_user_can_only_see_alle ( self ):
         expected_count = models.Photo.objects.filter(
             security_level__name__iexact="ALLE"
         ).count()
@@ -300,25 +360,25 @@ class UserPermissionTestCase(APITestCase):
 class PhotoCRUDTestCase(APITestCase):
     photos = None
 
-    def setUp(self):
+    def setUp ( self ):
         seed_foreign_keys()
         seed_groups()
         seed_security_levels()
         seed_users()
         self.factory = APIRequestFactory()
 
-    def tearDown(self):
+    def tearDown ( self ):
         if self.photos:
             delete_photos(self.photos)
 
     @staticmethod
-    def generate_photo_file():
+    def generate_photo_file ():
         image = Image.new('RGBA', size=(50, 50), color=(155, 0, 0))
         file = tempfile.NamedTemporaryFile(suffix='.jpg')
         image.save(file)
         return file
 
-    def test_fg_user_can_post_new_photo(self):
+    def test_fg_user_can_post_new_photo ( self ):
         user = User.objects.get(username="FG")
         view = PhotoViewSet.as_view({'post': 'create'})
 
@@ -370,7 +430,7 @@ class PhotoCRUDTestCase(APITestCase):
             for tag in tags:
                 self.assertIn(tag, [t.name for t in latest_photo.tags.all()])
 
-    def test_fg_user_can_delete_photo(self):
+    def test_fg_user_can_delete_photo ( self ):
         user = User.objects.get(username="FG")
         view = PhotoViewSet.as_view({'delete': 'destroy'})
         self.photos = seed_photos()
@@ -383,7 +443,7 @@ class PhotoCRUDTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT, msg=response.data)
         self.assertEqual(models.Photo.objects.count(), original_photo_count - 1)
 
-    def test_fg_user_can_update_photo(self):
+    def test_fg_user_can_update_photo ( self ):
         self.photos = seed_photos()
         user = User.objects.get(username="FG")
         view = PhotoViewSet.as_view({'put': 'update'})
@@ -423,10 +483,10 @@ class PhotoCRUDTestCase(APITestCase):
         for tag in tags:
             self.assertIn(tag.pk, [t.pk for t in photo.tags.all()])
 
-    def test_fg_user_can_update_list_of_photos(self):  # TODO
+    def test_fg_user_can_update_list_of_photos ( self ):  # TODO
         pass
 
-    def test_latest_splash_retrieved(self):
+    def test_latest_splash_retrieved ( self ):
         self.photos = seed_photos()
         view = LatestSplashPhotoView.as_view()
 
@@ -465,14 +525,14 @@ class PhotoCRUDTestCase(APITestCase):
         response = view(request)
         self.assertEqual(expected, response.data['photo'])
 
-    def test_anon_user_cannot_post(self):
+    def test_anon_user_cannot_post ( self ):
         pass
 
 
 class OrderTestCase(APITestCase):
     photos = []
 
-    def setUp(self):
+    def setUp ( self ):
         seed_foreign_keys()
         seed_groups()
         seed_security_levels()
@@ -480,11 +540,11 @@ class OrderTestCase(APITestCase):
         self.photos = seed_photos()
         self.factory = APIRequestFactory()
 
-    def tearDown(self):
+    def tearDown ( self ):
         if self.photos:
             delete_photos(self.photos)
 
-    def test_order_is_created(self):
+    def test_order_is_created ( self ):
         view = OrderViewSet.as_view({'post': 'create'})
 
         data = {
@@ -516,7 +576,7 @@ class OrderTestCase(APITestCase):
 
 
 class AlbumTestCase(APITestCase):
-    def test_if_album_always_in_descending_order(self):
+    def test_if_album_always_in_descending_order ( self ):
         album_count = 20
         for x in range(album_count):
             models.Album.objects.create(name=get_rand_string())
@@ -529,15 +589,15 @@ class AlbumTestCase(APITestCase):
         for num in range(album_count - 1):
             self.assertGreater(albums[num]['date_created'], albums[num + 1]['date_created'])
 
-class UserTestCase(APITestCase):
 
-    def setUp(self):
+class UserTestCase(APITestCase):
+    def setUp ( self ):
         seed_groups()
         seed_users()
         self.factory = APIRequestFactory()
 
 
-    def test_fg_users_can_get_all_fg_users(self):
+    def test_fg_users_can_get_all_fg_users ( self ):
         view = FgUsersView.as_view()
 
         user = User.objects.get(username="FG")
@@ -549,7 +609,7 @@ class UserTestCase(APITestCase):
         fg_user_count = User.objects.filter(groups__name="FG").count()
         self.assertEqual(fg_user_count, len(response.data))
 
-    def test_fg_users_can_get_all_power_users(self):
+    def test_fg_users_can_get_all_power_users ( self ):
         view = PowerUsersView.as_view()
 
         user = User.objects.get(username="FG")

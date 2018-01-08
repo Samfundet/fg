@@ -4,7 +4,7 @@
       <!-- mailing form -->
       <h1>Handlekurv</h1>
       <div fxLayout="row" fxLayoutGap="20px" fxFlexAlign="center" id="main container">
-        <form [formGroup]="cartForm" (ngSubmit)="onSubmit()" fxFill fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="30px">
+        <form [formGroup]="cartForm" fxFill fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="30px">
           <div fxLayout="column" fxFlex="30" fxLayoutGap="15px">
             <div fxLayout="column">
               <label>Navn</label>
@@ -85,7 +85,7 @@
               </ng-container>
             </div> -->
 
-            <table>
+            <table *ngIf="this.cartForm.value.order_photos.length > 0">
               <thead>
                 <tr>
                   <th></th>

@@ -94,6 +94,7 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
             'lapel'
         )
 
+
     def create ( self, validated_data ):
         tags = validated_data.pop('tags')
 
@@ -104,6 +105,7 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
         photo.save()
 
         return photo
+
 
 class PhotoUpdateSerializer(serializers.ModelSerializer):
     photo = VersatileImageFieldSerializer(
@@ -180,26 +182,28 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def create ( self, validated_data ):
         order_photos = validated_data.pop('order_photos')
-        order = models.Order.objects.create(**validated_data)
 
-        if len(order_photos) <= 0:
+        if len(order_photos) < 1:
             return None  # FIXME; TODO: can still order with no photos
-        for op in order_photos:
-            order_photo = models.OrderPhoto.objects.create(
-                photo=op['photo'],
-                order=order,
-                format=op['format']
-            )
-            order_photo.save()
+        else:
+            order = models.Order.objects.create(**validated_data)
+            for op in order_photos:
+                order_photo = models.OrderPhoto.objects.create(
+                    photo=op['photo'],
+                    order=order,
+                    format=op['format']
+                )
+                order_photo.save()
 
-        order.save()
+            order.save()
 
-        return order
+            return order
 
     def update ( self, instance, validated_data ):
         instance.order_completed = validated_data.get("order_completed")
         instance.save()
         return instance
+
 
 class StatisticsSerializer(serializers.Serializer):
     photos = serializers.IntegerField(read_only=True)

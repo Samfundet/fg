@@ -25,7 +25,7 @@ export class StoreService {
   private _loginModal$ = new BehaviorSubject<ILoginRequest>(null);
   private _userModal$ = new BehaviorSubject<IUser>(null);
   private _foreignKeyModal$ = new BehaviorSubject<IForeignKeyModal>(null);
-  private _photoShoppingCart$ = new BehaviorSubject<IPhoto[]>([]);
+  private _photoShoppingCart$ = new BehaviorSubject<IPhoto[]>(null);
 
   public photoRouteActive$ = new Subject<boolean>();
   public photoModal$ = new BehaviorSubject<IPhoto>(null);
@@ -122,10 +122,6 @@ export class StoreService {
     const cart = this.getPhotoShoppingCartValue();
     cart.splice(cart.indexOf(photo), 1);
     this._photoShoppingCart$.next(cart);
-  }
-
-  getLatestPageAction() {
-    
   }
 
   showLoginModalAction(returnUrl?) {

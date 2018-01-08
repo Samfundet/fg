@@ -48,10 +48,11 @@ export class ShoppingCartComponent implements OnInit {
   onSubmit() {
     if (this.cartForm.value.order_photos.length > 0) {
       const formValue = this.cartForm.value;
-      this.api.order(formValue).subscribe(r => console.log(r));
+      this.api.order(formValue).subscribe();
       this.cartForm.value.order_photos.forEach(p => {
         this.store.removePhotoFromCartAction(p);
       });
+      this.ngOnInit(); // Have to update cartform to not show text "ønsket format"
     }
   }
 

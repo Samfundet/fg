@@ -173,7 +173,7 @@ def get_latest_image_number_and_page_number ( request, album_id='', analog=False
                 latest_image_number = 1
                 latest_page = latest_page + 1
             else:
-                return latest_album, 'fult', 'album'
+                return latest_album, 'fullt', 'album'
         else:
             latest_image_number = latest_image_number + 1
         return Response({
