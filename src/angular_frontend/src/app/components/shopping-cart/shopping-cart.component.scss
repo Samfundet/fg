@@ -27,7 +27,7 @@
 }
 
 
-.search-table {
+.shopping-table {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   font-size: smaller;
   border-bottom: 2px solid $outline;
@@ -39,15 +39,9 @@
   }
 
   &--body {
-    &--row > td + td {
-      border-left: none;
-    }
-
     &--row > td {
-      width: 10%;
     }
-
-    font-size: smaller;
+    background-color: transparent;
   }
 
   &--img {
@@ -69,6 +63,3 @@
   }
 }
 
-table td {
-  padding: 0.01rem 0.5rem;
-}

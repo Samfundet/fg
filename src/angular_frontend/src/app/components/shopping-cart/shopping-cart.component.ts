@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ShoppingCartComponent implements OnInit {
   public cartForm: FormGroup;
+  public regretRemovalArray;
 
   constructor(
     public store: StoreService,
@@ -32,6 +33,7 @@ export class ShoppingCartComponent implements OnInit {
       comment: ['nei', []],
       order_photos: this.createPhotoFormArray(this.store.getPhotoShoppingCartValue())
     });
+    this.regretRemovalArray = new Array<IPhoto>();
   }
 
   createPhotoFormArray(photos: IPhoto[]) {
@@ -52,12 +54,25 @@ export class ShoppingCartComponent implements OnInit {
       this.cartForm.value.order_photos.forEach(p => {
         this.store.removePhotoFromCartAction(p);
       });
+      // Use ngOnChanges instead?
       this.ngOnInit(); // Have to update cartform to not show text "ønsket format"
     }
   }
 
   onPhotoClick(photo: IPhoto) {
     this.store.photoModal$.next(photo);
+  }
+
+  removePhotoFromCart(photo: IPhoto) {
+    this.store.removePhotoFromCartAction(photo);
+    this.regretRemovalArray.push(photo);
+  }
+
+  regretRemoval() {
+    if (this.regretRemovalArray.length < 1) {
+      return null;
+    }
+    this.store.addPhotoToCartAction(this.regretRemovalArray.pop());
   }
 
 }

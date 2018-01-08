@@ -85,24 +85,33 @@
               </ng-container>
             </div> -->
 
-            <table *ngIf="this.cartForm.value.order_photos.length > 0">
-              <thead>
-                <tr>
-                  <th></th>
+            <table *ngIf="this.cartForm.value.order_photos.length > 0 || this.regretRemovalArray.length > 0" fxLayout="column" fxLayoutGap="10px" class="shopping-table">
+              <thead fxLayout="row" class="shopping-table--head">
+                <tr class="shopping-table--head--row">
+                  <th>
+                    <button class="btn btn-info" (click)="regretRemoval()">
+                      Angre sletting
+                    </button>
+                  </th>
                   <th>Ønsket format</th>
                 </tr>
               </thead>
-              <tbody formArrayName="order_photos">
-                <tr [formGroupName]="i" *ngFor="let photo of (store.photoShoppingCart$ | async); let i = index">
+              <tbody formArrayName="order_photos" class="shopping-table--body">
+                <tr [formGroupName]="i" *ngFor="let photo of (store.photoShoppingCart$ | async); let i = index" class="shopping-table--body--row">
                   <!-- IMAGE | BEGIN -->
                   <td fxLayoutAlign="center center">
-                      <img class="search-table--img clickable hover-outline" [src]="photo?.photo?.small" (click)="onPhotoClick(photo)">
+                    <img class="shopping-table--img clickable hover-outline" [src]="photo?.photo?.small" (click)="onPhotoClick(photo)">
                   </td>
                   <!-- IMAGE | END -->
 
                   <!-- BUTTONS | BEGIN -->
                   <td class="shopping-card--details--formats">
                     <fg-radio-buttons formControlName="format"></fg-radio-buttons>
+                  </td>
+                  <td>
+                    <button class="btn btn-danger" (click)="removePhotoFromCart(photo)">
+                      Fjern
+                    </button>
                   </td>
                   <!-- BUTTONS | BEGIN -->
 
