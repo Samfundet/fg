@@ -158,7 +158,7 @@ def get_latest_image_number_and_page_number ( request, album_id='', analog=False
         if album_id:
             latest_album = models.Photo.objects.filter(
                 album=album_id.strip()).latest('date_taken').album
-        elif analog:
+        elif analog: # TODO or FIX: currently no need for this
             latest_album = models.Photo.objects.exclude(
                 album__name__startswith='DIG').latest('date_taken').album
         else:
@@ -173,22 +173,25 @@ def get_latest_image_number_and_page_number ( request, album_id='', analog=False
                 latest_image_number = 1
                 latest_page = latest_page + 1
             else:
-                return latest_album, 'fullt', 'album'
+                return Response({
+                    'album': latest_album.id,
+                    'latest_page': 'fullt',
+                    'latest_image_number': 'fullt'
+                })
         else:
             latest_image_number = latest_image_number + 1
         return Response({
-            'latest_album': latest_album.id,
+            'album': latest_album.id,
             'latest_page': latest_page,
             'latest_image_number': latest_image_number
         })
     except ObjectDoesNotExist as e:
         print(e)
         return Response({
-            'latest_album': 0,
+            'album': 0,
             'latest:page': 1,
             'latest_image_number': 1
         })
-
 
 
 class LatestSplashPhotoView(RetrieveAPIView):

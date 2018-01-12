@@ -1,8 +1,9 @@
-import { IStatistics } from './../model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Headers, RequestOptions } from '@angular/http';
-import { IResponse, IPhoto, IUser, IOrder, IFilters, IForeignKey, ILoginRequest, ILoginResponse } from 'app/model';
+import {
+  IResponse, IPhoto, IUser, IOrder, IFilters, IForeignKey, ILoginRequest, ILoginResponse, IStatistics, ILatestImageAndPage
+} from 'app/model';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
@@ -93,6 +94,11 @@ export class ApiService {
         return this.http.get<IOrder[]>(`api/orders/`, { params });
     }
   }
+
+  getLatestPageAndImageNumber(albumID: number): Observable<ILatestImageAndPage> {
+    return this.http.get<ILatestImageAndPage>(`api/photos/upload-info/${albumID}`);
+  }
+
   toggleOrderCompleted(order: IOrder): Observable<IOrder> {
     return this.http.put<IOrder>(`api/orders/${order.id}/`, order);
   }

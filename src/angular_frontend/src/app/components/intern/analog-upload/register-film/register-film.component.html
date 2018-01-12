@@ -17,6 +17,10 @@
         <input type="number" formControlName="image_number">
       </div>
       <div fxLayout="column">
+        <label>Antall bilder på film</label>
+        <input type="number" formControlName="number_of_images">
+      </div>
+      <div fxLayout="column">
         <label>Motiv</label>
         <input type="text" formControlName="motive">
       </div>
@@ -64,15 +68,8 @@
         <input id="lapel" type="checkbox" formControlName="lapel">
       </div>
       <div fxLayout="column">
-        <label for="on_home_page">Vises på forsiden</label>
-        <input id="on_home_page" type="checkbox" formControlName="on_home_page">
-      </div>
-      <div fxLayout="column">
-        <div fxLayout="row">
-          <label for="splash">Sett som bannerbilde</label>
-          <div class="chip"><i class="fa fa-certificate"></i> Ny!</div>
-        </div>
-        <input id="splash" type="checkbox" formControlName="splash">
+        <label for="scanned">Scannet</label>
+        <input id="scanned" type="checkbox" formControlName="scanned">
       </div>
   
       <button class="btn btn-primary" type="submit" [disabled]="!uploadForm.valid">

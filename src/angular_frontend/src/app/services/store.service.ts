@@ -1,4 +1,3 @@
-import { IStatistics } from './../model';
 import { Injectable } from '@angular/core';
 import { Router, ParamMap } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
@@ -6,7 +5,9 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { ApiService } from 'app/services/api.service';
-import { IResponse, IPhoto, IUser, IFilters, ILoginRequest, IForeignKey, IOrder } from 'app/model';
+import {
+  IResponse, IPhoto, IUser, IFilters, ILoginRequest, IForeignKey, IOrder, IStatistics, ILatestImageAndPage
+} from 'app/model';
 import { DELTA } from 'app/config';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
@@ -34,7 +35,10 @@ export class StoreService {
   public fgUsers$ = new BehaviorSubject<IUser[]>(null);
   public powerUsers$ = new BehaviorSubject<IUser[]>(null);
 
+  public latestPageAndImageNumber = new BehaviorSubject<ILatestImageAndPage>(null);
+
   public orders$: { [type: string]: BehaviorSubject<IOrder[]>; } = {};
+
 
   // TODO
   private returnUrl;

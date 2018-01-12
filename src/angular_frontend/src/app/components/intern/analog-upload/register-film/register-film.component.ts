@@ -1,9 +1,10 @@
 import { StoreService, ApiService } from 'app/services';
 import { INgxMyDpOptions, IMyDate } from 'ngx-mydatepicker';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DATE_OPTIONS } from 'app/config';
-import { IForeignKey } from 'app/model';
+import { IForeignKey, ILatestImageAndPage } from 'app/model';
+import { HttpResponse } from '@angular/common/http/src/response';
 
 
 @Component({
@@ -14,14 +15,16 @@ import { IForeignKey } from 'app/model';
 export class RegisterFilmComponent implements OnInit {
 
   uploadForm: FormGroup;
-
   options = DATE_OPTIONS;
+  uploadInfo: ILatestImageAndPage;
+  numberOfImages: number;
 
   albums: IForeignKey[];
   categories: IForeignKey[];
   mediums: IForeignKey[];
   places: IForeignKey[];
   securityLevels: IForeignKey[];
+
 
   constructor(private store: StoreService, private api: ApiService, private fb: FormBuilder) {
     // TODO - change this to use storeservice instead of API?
@@ -35,34 +38,48 @@ export class RegisterFilmComponent implements OnInit {
 
   ngOnInit() {
     const date = new Date();
-
     this.uploadForm = this.fb.group({
-      page: [1, [Validators.required, Validators.min(0), Validators.max(100)]],
-      image_number: [1, [Validators.required, Validators.min(1), Validators.max(36)]], // Have number of images instead?
+      page: [, [Validators.required, Validators.min(0), Validators.max(100)]],
+      image_number: [, [Validators.required, Validators.min(1), Validators.max(36)]],
+      number_of_images: [, [Validators.required, Validators.min(1), Validators.max(31)]],
       motive: ['Motive_test', [Validators.required]],
       tags: [['foo', 'bar'], []],
       date_taken: [{ jsdate: new Date() }, [Validators.required]],
 
       category: [1, [Validators.required]],
       media: [1, [Validators.required]],
-      album: [1, [Validators.required]],
+      album: [, [Validators.required]],
       place: [1, [Validators.required]],
       security_level: [1, [Validators.required]],
 
       lapel: [false, [Validators.required]],
-      on_home_page: [false, [Validators.required]],
-      splash: [false, [Validators.required]],
       scanned: [false, [Validators.required]]
     });
+    this.uploadForm.get('album').valueChanges.subscribe(data => {
+      this.api.getLatestPageAndImageNumber(data).subscribe(e => {
+        this.uploadInfo = e;
+        this.uploadForm.patchValue({
+          page: this.uploadInfo.latest_page + 1,
+          image_number: 6
+        });
+      });
+    });
+    this.uploadForm.get('number_of_images').valueChanges.subscribe(data => this.numberOfImages = data);
   }
 
-  upload() {
+  upload(): void {
+    console.log(this.uploadForm.value);
     const date_taken = this.uploadForm.value['date_taken']['jsdate'].toISOString();
-    if (this.uploadForm.valid) {
-      this.store.postPhotoAction({
-        ...this.uploadForm.value,
-        date_taken
-      });
+    for (let i = 0; i < this.numberOfImages; i++) {
+      if (this.uploadForm.valid) {
+        this.store.postPhotoAction({
+          ...this.uploadForm.value,
+          date_taken
+        }).subscribe(e => console.log(e));
+        this.uploadForm.patchValue({
+          image_number: this.uploadForm.value['image_number'] + 1
+        });
+      }
     }
   }
 }

@@ -44,6 +44,7 @@ export class PhotoMasonryComponent {
 
   addToShoppingCart(photo: IPhoto) {
     this.store.addPhotoToCartAction(photo);
+    console.log(this.photos);
   }
 
   removeFromShoppingCart(photo: IPhoto) {

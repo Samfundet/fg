@@ -39,15 +39,15 @@ export class UploadComponent implements OnInit {
   ngOnInit() {
     const date = new Date();
     this.uploadForm = this.fb.group({
-      page: [1, [Validators.required, Validators.min(0), Validators.max(100)]],
-      image_number: [1, [Validators.required]],
+      page: [, [Validators.required, Validators.min(0), Validators.max(100)]],
+      image_number: [, [Validators.required]],
       motive: ['Motive_test', [Validators.required]],
       tags: [['foo', 'bar', 'idiot'], []],
       date_taken: [{ jsdate: new Date() }, [Validators.required]],
 
       category: [1, [Validators.required]],
       media: [1, [Validators.required]],
-      album: [1, [Validators.required]],
+      album: [, [Validators.required]],
       place: [1, [Validators.required]],
       security_level: [1, [Validators.required]],
 
@@ -95,5 +95,9 @@ export class UploadComponent implements OnInit {
         this.uploadItem(item);
       }
     }
+  }
+
+  updateForm(): void {
+
   }
 }

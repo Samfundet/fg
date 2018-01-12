@@ -164,6 +164,12 @@ export interface IOrder {
   order_completed: boolean;
 }
 
+export interface ILatestImageAndPage {
+  album: number;
+  latest_page: number;
+  latest_image_number: number;
+}
+
 export interface IOrderPhoto {
   /* photo: IPhoto; */
   photo: number;
