@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from . import models
 
+class JobSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Job
+        fields = '__all__'
+
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     lookup_field = 'username'
@@ -17,9 +22,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'phone',
             'member_number',
             'opptaksaar',
-            'gjengjobb1',
-            'gjengjobb2',
-            'gjengjobb3',
+            'gjengjobber',
             'hjemmeside',
             'uker',
             'fg_kallenavn',

@@ -171,7 +171,7 @@ class PhotoTestCase(TestCase):
             MEDIA_ROOT,
             photo.security_level.name.upper(),
             photo.album.name.upper(),
-            photo.album.name.upper() + str(photo.page) + str(photo.image_number) + '.jpg'
+            photo.album.name.upper() + str(photo.page).zfill(2) + str(photo.image_number).zfill(2) + '.jpg'
         )
         self.assertEqual(photo.photo.path, expected_path)
 

@@ -14,6 +14,11 @@ from . import models, serializers
 from ..paginations import UnlimitedPagination
 from ..permissions import IsFGOrReadOnly, IsFG
 
+class JobViewSet(viewsets.ModelViewSet):
+    queryset = models.Job.objects.all()
+    serializer_class = serializers.JobSerializer
+    permission_classes = [IsFGOrReadOnly]
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """

@@ -27,20 +27,24 @@ class FGUserManager(BaseUserManager):
         user.save()
         return user
 
+class Job(models.Model):
+    name = models.CharField(max_length=64)
+    description = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
 
 class User(AbstractUser):
     """fields in AbstractUser username, first_name, last_name, email"""
     # Personal info
     address = models.CharField(max_length=100, blank=True)
-    zip_code = models.IntegerField(null=True, blank=True)
+    zip_code = models.CharField(null=True, blank=True, max_length=16)
     city = models.CharField(max_length=30, blank=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
     member_number = models.IntegerField(null=True, blank=True)
     # fg info
     opptaksaar = models.IntegerField(null=True, blank=True)
-    gjengjobb1 = models.CharField(max_length=255, blank=True)
-    gjengjobb2 = models.CharField(max_length=255, blank=True)
-    gjengjobb3 = models.CharField(max_length=255, blank=True)
+    gjengjobber = models.ManyToManyField(Job, blank=True)
     hjemmeside = models.CharField(max_length=255, blank=True)
     uker = models.CharField(max_length=255, blank=True)
     fg_kallenavn = models.CharField(max_length=255, blank=True)

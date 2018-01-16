@@ -18,6 +18,7 @@ router.register(r'security-levels', api_views.SecurityLevelViewSet)
 router.register(r'photos', api_views.PhotoViewSet, base_name='photo')
 router.register(r'orders', api_views.OrderViewSet, base_name='order')
 router.register(r'statistics', api_views.StatisticsViewSet, base_name='statistics')
+router.register(r'jobs', auth_views.JobViewSet)
 
 urlpatterns = [
     # Authentication
