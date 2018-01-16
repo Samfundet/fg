@@ -56,7 +56,9 @@ export class UploadComponent implements OnInit {
       on_home_page: [false, [Validators.required]],
       splash: [false, [Validators.required]]
     });
-    this.uploadForm.get('album').valueChanges.subscribe(a => this.updateForm(a));
+    this.uploadForm.get('album').valueChanges.subscribe(a => {
+      
+    });
   }
 // Do this in backend instead?
   updateForm(album: number) {
