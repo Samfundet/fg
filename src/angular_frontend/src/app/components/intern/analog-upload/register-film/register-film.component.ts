@@ -83,7 +83,7 @@ export class RegisterFilmComponent implements OnInit {
         this.store.postPhotoAction({
           ...this.uploadForm.value,
           date_taken
-        }).subscribe();
+        }).subscribe(e => console.log(e));
         this.uploadForm.patchValue({
           image_number: this.uploadForm.value['image_number'] + 1
         });

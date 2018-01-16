@@ -242,19 +242,19 @@ class PhotoTestCase(TestCase):
         else:
             expected_image_number = expected_image_number + 1
 
-        request = factory.get('/api/photos/upload-info')
+        request = factory.get('/api/photos/upload-info/' + str(expected_album.id) + '/')
         force_authenticate(request, user=user)
 
         response = view(request)
 
-        self.assertEqual(response.data['latest_album'], expected_album.id)
+        self.assertEqual(response.data['album'], expected_album.id)
         self.assertEqual(response.data['latest_page'], expected_page)
         self.assertEqual(response.data['latest_image_number'], expected_image_number)
 
         models.Photo.objects.get(id=expected_album.id).delete()
         expected_album = models.Photo.objects.filter(
             album__name__startswith='DIG').latest('date_taken').album
-        self.assertEqual(response.data['latest_album'], expected_album.id)
+        self.assertEqual(response.data['album'], expected_album.id)
 
         # TODO: fix this test
         # photo = models.Photo(
