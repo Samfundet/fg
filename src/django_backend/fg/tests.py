@@ -185,7 +185,7 @@ class PhotoTestCase(TestCase):
             MEDIA_ROOT,
             "FG",
             photo.album.name.upper(),
-            photo.album.name.upper() + str(photo.page) + str(photo.image_number) + '.jpg'
+            photo.album.name.upper() + str(photo.page).zfill(2) + str(photo.image_number).zfill(2) + '.jpg'
         )
         self.assertEqual(photo.photo.path.upper(), expected_path.upper())
 
@@ -254,6 +254,9 @@ class PhotoTestCase(TestCase):
         models.Photo.objects.get(id=expected_album.id).delete()
         expected_album = models.Photo.objects.filter(
             album__name__startswith='DIG').latest('date_taken').album
+        request = factory.get('/api/photos/upload-info/' + str(expected_album.id) + '/')
+        force_authenticate(request, user=user)
+        response = view(request)
         self.assertEqual(response.data['album'], expected_album.id)
 
         # TODO: fix this test
