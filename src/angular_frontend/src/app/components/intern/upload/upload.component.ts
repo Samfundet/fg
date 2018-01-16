@@ -3,7 +3,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { INgxMyDpOptions, IMyDate } from 'ngx-mydatepicker';
 import { HttpEvent } from '@angular/common/http';
 import { StoreService, ApiService } from 'app/services';
-import { IForeignKey } from 'app/model';
+import { IForeignKey, ILatestImageAndPage } from 'app/model';
 import { DATE_OPTIONS } from 'app/config';
 import { FileUploader, FileUploaderOptions, FileItem } from 'angular-file';
 
@@ -17,6 +17,7 @@ export class UploadComponent implements OnInit {
   validComboDrag = false;
   invalidComboDrag = false;
   uploadForm: FormGroup;
+  uploadInfo: ILatestImageAndPage;
 
   options = DATE_OPTIONS;
 
@@ -55,6 +56,29 @@ export class UploadComponent implements OnInit {
       on_home_page: [false, [Validators.required]],
       splash: [false, [Validators.required]]
     });
+    this.uploadForm.get('album').valueChanges.subscribe(a => this.updateForm(a));
+  }
+// Do this in backend instead?
+  updateForm(album: number) {
+      this.api.getLatestPageAndImageNumber(album).subscribe(e => {
+        this.uploadInfo = e;
+        // Add in if/else do check if page/image number exceeds max
+        // TODO: what is max number of images per page??
+        if (this.uploadInfo.latest_page >= 99 && this.uploadInfo.latest_image_number >= 99) {
+          // TODO: What to do when upload fails?
+          return null;
+        } else if (this.uploadInfo.latest_page < 99 && this.uploadInfo.latest_image_number >= 99) {
+          this.uploadForm.patchValue({
+            page: this.uploadInfo.latest_page + 1,
+            image_number: 1
+          });
+        } else {
+          this.uploadForm.patchValue({
+            page: this.uploadInfo.latest_page,
+            image_number: this.uploadInfo.latest_image_number + 1
+          });
+        }
+      });
   }
 
   uploadItem(item: FileItem) {
@@ -78,6 +102,7 @@ export class UploadComponent implements OnInit {
           item.isUploading = false;
           console.error(error);
         });
+      this.updateForm(this.uploadForm['album']);
     }
   }
 
@@ -97,7 +122,4 @@ export class UploadComponent implements OnInit {
     }
   }
 
-  updateForm(): void {
-
-  }
 }

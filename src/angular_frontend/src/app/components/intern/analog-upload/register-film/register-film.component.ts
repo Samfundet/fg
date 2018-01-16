@@ -5,6 +5,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { DATE_OPTIONS } from 'app/config';
 import { IForeignKey, ILatestImageAndPage } from 'app/model';
 import { HttpResponse } from '@angular/common/http/src/response';
+import { DISABLED } from '@angular/forms/src/model';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class RegisterFilmComponent implements OnInit {
   uploadForm: FormGroup;
   options = DATE_OPTIONS;
   uploadInfo: ILatestImageAndPage;
+  startImage: number;
   numberOfImages: number;
 
   albums: IForeignKey[];
@@ -40,8 +42,9 @@ export class RegisterFilmComponent implements OnInit {
     const date = new Date();
     this.uploadForm = this.fb.group({
       page: [, [Validators.required, Validators.min(0), Validators.max(100)]],
-      image_number: [, [Validators.required, Validators.min(1), Validators.max(36)]],
-      number_of_images: [, [Validators.required, Validators.min(1), Validators.max(31)]],
+      image_number: [, [Validators.required]],
+      start_image: [, Validators.required],
+      number_of_images: [, Validators.required],
       motive: ['Motive_test', [Validators.required]],
       tags: [['foo', 'bar'], []],
       date_taken: [{ jsdate: new Date() }, [Validators.required]],
@@ -55,16 +58,21 @@ export class RegisterFilmComponent implements OnInit {
       lapel: [false, [Validators.required]],
       scanned: [false, [Validators.required]]
     });
-    this.uploadForm.get('album').valueChanges.subscribe(data => {
-      this.api.getLatestPageAndImageNumber(data).subscribe(e => {
+    this.uploadForm.get('album').valueChanges.subscribe(a => {
+      this.api.getLatestPageAndImageNumber(a).subscribe(e => {
         this.uploadInfo = e;
         this.uploadForm.patchValue({
-          page: this.uploadInfo.latest_page + 1,
-          image_number: 6
+          page: this.uploadInfo.latest_page + 1
         });
       });
     });
-    this.uploadForm.get('number_of_images').valueChanges.subscribe(data => this.numberOfImages = data);
+    this.uploadForm.get('start_image').valueChanges.subscribe(n => {
+      this.startImage = n;
+      this.uploadForm.patchValue({
+        image_number: n
+      });
+    });
+    this.uploadForm.get('number_of_images').valueChanges.subscribe(n => this.numberOfImages = n);
   }
 
   upload(): void {
@@ -75,11 +83,12 @@ export class RegisterFilmComponent implements OnInit {
         this.store.postPhotoAction({
           ...this.uploadForm.value,
           date_taken
-        }).subscribe(e => console.log(e));
+        }).subscribe();
         this.uploadForm.patchValue({
           image_number: this.uploadForm.value['image_number'] + 1
         });
       }
     }
+    this.ngOnInit();
   }
 }
