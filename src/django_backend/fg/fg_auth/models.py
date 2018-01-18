@@ -34,6 +34,8 @@ class Job(models.Model):
     def __str__(self):
         return self.name
 
+
+
 class User(AbstractUser):
     """fields in AbstractUser username, first_name, last_name, email"""
     # Personal info

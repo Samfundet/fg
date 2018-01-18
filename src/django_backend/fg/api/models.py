@@ -2,7 +2,7 @@ import os
 from .. import settings
 from django.db import models
 from versatileimagefield.fields import VersatileImageField, PPOIField
-
+from django.contrib.auth import get_user_model
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True, db_index=True)
@@ -92,6 +92,8 @@ class Photo(models.Model):
     media = models.ForeignKey(Media)
     album = models.ForeignKey(Album)
     place = models.ForeignKey(Place)
+
+    users_that_has_downloaded_me = models.ManyToManyField(get_user_model(), blank=True)
 
     def __str__(self):
         return self.photo.name
