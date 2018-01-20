@@ -5,6 +5,7 @@ from django.utils import timezone
 from versatileimagefield.fields import VersatileImageField, PPOIField
 from django.contrib.auth import get_user_model
 
+
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True, db_index=True)
 
@@ -33,6 +34,7 @@ class Album(models.Model):
     name = models.CharField(max_length=5, unique=True, db_index=True)
     date_created = models.DateTimeField(blank=True, default=timezone.now)
     description = models.CharField(max_length=32)
+    type = models.PositiveSmallIntegerField(null=True)
 
     def __str__(self):
         return self.name
@@ -94,8 +96,6 @@ class Photo(models.Model):
     media = models.ForeignKey(Media)
     album = models.ForeignKey(Album)
     place = models.ForeignKey(Place)
-
-    users_that_has_downloaded_me = models.ManyToManyField(get_user_model(), blank=True)
 
     def __str__(self):
         return self.photo.name
@@ -179,5 +179,3 @@ class OrderPhoto(models.Model):
 
     def __str__(self):
         return str(self.photo) + ' - ' + self.order.email + ' - ' + self.format
-
-

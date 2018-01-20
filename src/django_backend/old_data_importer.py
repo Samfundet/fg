@@ -49,6 +49,8 @@ def load_data(data, apps, schema_editor):
     """{'api.tag': 'here', 'api.category': 'here', 'api.media': 'here', 'api.album': 'here', 'api.place': 'here',
     'api.photo': 'here', 'api.securitylevel': 'here', 'fg_auth.user': 'here',
     'fg_auth.downloadedimages': 'here', 'fg_auth.job': 'here'}"""
+    create_groups(apps)
+
     tag_objects = [item for item in data if item["model"] == "api.tag"]
     media_objects = [item for item in data if item["model"] == "api.media"]
     place_objects = [item for item in data if item["model"] == "api.place"]
@@ -71,14 +73,39 @@ def load_data(data, apps, schema_editor):
     load_foreign_keys(job_objects, "fg_auth", "Job", apps)
     load_users(user_objects, apps)
 
+def create_groups(apps):
+    """"
+    {"pk": 1, "model": "fg_auth.securitylevel", "fields": {"name": "FG"}},
+    {"pk": 2, "model": "fg_auth.securitylevel", "fields": {"name": "Power"}},
+    {"pk": 3, "model": "fg_auth.securitylevel", "fields": {"name": "Husfolk"}},
+    {"pk": 4, "model": "fg_auth.securitylevel", "fields": {"name": "Alle"}}
+    """
+    Group = apps.get_model('auth', 'Group')
+    fg = Group(name="FG")
+    fg.save()
+    power = Group(name="POWER")
+    power.save()
+    husfolk = Group(name="HUSFOLK")
+    husfolk.save()
 
 def load_users(model_objects, apps):
     User = apps.get_model("fg_auth", "User")
+    Group = apps.get_model('auth', 'Group')
 
     for item in model_objects:
-        print(item["fields"])
+        security_level = item["fields"]["security_level"]
+        del item["fields"]["security_level"]
         obj = User(**item["fields"])
         obj.save()
+
+        if security_level in [1, 2, 3]:
+            obj.groups.add(
+                Group.objects.get(
+                    name="FG" if security_level == 1 else "POWER" if security_level == 2 else "HUSFOLK"
+                )
+            )
+
+        print(item["fields"])
 
 
 def load_photos(model_objects, apps):
@@ -107,11 +134,13 @@ def load_photos(model_objects, apps):
         for tag in tags:
             obj.tags.add(tag)
 
+
 def load_jobs(model_objects, apps):
     Job = apps.get_model("fg_auth", "Job")
 
     for item in model_objects:
-        Job.objects.get_or_create(**item["fields"])
+        obj = Job.objects.get_or_create(**item["fields"])
+        obj.save()
 
 
 def load_foreign_keys(model_objects, app_name, model_name, apps):
