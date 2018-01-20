@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, Group
 from django.utils import timezone
+from ..api.models import Photo
 
 
 class FGUserManager(BaseUserManager):
@@ -27,12 +28,14 @@ class FGUserManager(BaseUserManager):
         user.save()
         return user
 
+
 class Job(models.Model):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=256)
 
     def __str__(self):
         return self.name
+
 
 class User(AbstractUser):
     """fields in AbstractUser username, first_name, last_name, email"""
@@ -54,7 +57,7 @@ class User(AbstractUser):
     comments = models.CharField(max_length=255, blank=True)
 
     downloaded_images = models.ManyToManyField(
-        "api.Photo", blank=True, through='DownloadedImages')
+        Photo, blank=True, through='DownloadedImages')
 
     objects = FGUserManager()
 
@@ -64,11 +67,7 @@ class User(AbstractUser):
         return '%s %s - (%s)' % (self.first_name, self.last_name, self.username)
 
 
-
 class DownloadedImages(models.Model):
-    image = models.ForeignKey("api.Photo")
+    image = models.ForeignKey(Photo)
     user = models.ForeignKey(User)
     date_downloaded = models.DateField(auto_now_add=True, blank=True)
-
-    class Meta:
-        verbose_name_plural = 'Downloaded images'
