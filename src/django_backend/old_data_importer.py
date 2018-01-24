@@ -18,7 +18,8 @@ conversion_dict = {
     "archive.album": "api.album",
     "archive.place": "api.place",
     "fields.place": "fields.name",
-    "fg_auth.securitylevel": "api.securitylevel"
+    "fg_auth.securitylevel": "api.securitylevel",
+    "fg_auth.downloadedimages": "api.userdownloadedphoto",
 }
 
 
@@ -39,17 +40,19 @@ def migrate(apps, schema_editor):
             "auth.permission",
         ])
 
+        here_models = {}
+        for item in cleaned_data:
+            here_models[item["model"]] = 'here'
+
+        print(here_models)
+
         load_data(cleaned_data, apps, schema_editor)
-        #
-        # with open('new_db.json', 'w') as outfile:
-        #     json.dump(cleaned_data, outfile)
 
 
 def load_data(data, apps, schema_editor):
     """{'api.tag': 'here', 'api.category': 'here', 'api.media': 'here', 'api.album': 'here', 'api.place': 'here',
     'api.photo': 'here', 'api.securitylevel': 'here', 'fg_auth.user': 'here',
     'fg_auth.downloadedimages': 'here', 'fg_auth.job': 'here'}"""
-    create_groups(apps)
 
     tag_objects = [item for item in data if item["model"] == "api.tag"]
     media_objects = [item for item in data if item["model"] == "api.media"]
@@ -68,10 +71,14 @@ def load_data(data, apps, schema_editor):
     load_foreign_keys(album_objects, "api", "Album", apps)
     load_foreign_keys(securitylevel_objects, "api", "SecurityLevel", apps)
 
-    load_photos(photo_objects[0:10], apps)
+    load_photos(photo_objects[0:100], apps)
+
+    create_groups(apps)
 
     load_foreign_keys(job_objects, "fg_auth", "Job", apps)
-    load_users(user_objects, apps)
+
+    #load_users(user_objects[0:100], apps)
+
 
 def create_groups(apps):
     """"
@@ -88,15 +95,24 @@ def create_groups(apps):
     husfolk = Group(name="HUSFOLK")
     husfolk.save()
 
+
 def load_users(model_objects, apps):
     User = apps.get_model("fg_auth", "User")
     Group = apps.get_model('auth', 'Group')
 
     for item in model_objects:
+        item["fields"]["pk"] = item["pk"]
         security_level = item["fields"]["security_level"]
+        gjengjobber = item["fields"]["gjengjobber"]
         del item["fields"]["security_level"]
+        del item["fields"]["gjengjobber"]
+        del item["fields"]["groups"]
+        del item["fields"]["user_permissions"]
+
         obj = User(**item["fields"])
         obj.save()
+        for jobb in gjengjobber:
+            obj.gjengjobber.add(jobb)
 
         if security_level in [1, 2, 3]:
             obj.groups.add(
@@ -104,8 +120,6 @@ def load_users(model_objects, apps):
                     name="FG" if security_level == 1 else "POWER" if security_level == 2 else "HUSFOLK"
                 )
             )
-
-        print(item["fields"])
 
 
 def load_photos(model_objects, apps):
@@ -137,9 +151,12 @@ def load_photos(model_objects, apps):
 
 def load_jobs(model_objects, apps):
     Job = apps.get_model("fg_auth", "Job")
+    print("Here be jobs")
+    print(model_objects)
 
     for item in model_objects:
         obj = Job.objects.get_or_create(**item["fields"])
+        print(item["fields"])
         obj.save()
 
 
@@ -228,7 +245,6 @@ def convert_to_new_model(data):
             del item["fields"]["medium"]
             item["fields"]["name"] = value
 
-
         elif item["model"] == "archive.album":
             new_value = conversion_dict["archive.album"]
             if item["pk"] == 130:
@@ -242,8 +258,6 @@ def convert_to_new_model(data):
                     date(2000, 2, 15)
                 )
 
-                print(item)
-
         elif item["model"] == "archive.place":
             new_value = conversion_dict["archive.place"]
             item["model"] = new_value
@@ -256,6 +270,12 @@ def convert_to_new_model(data):
         elif item["model"] == "fg_auth.securitylevel":
             new_value = conversion_dict["fg_auth.securitylevel"]
             item["model"] = new_value
+
+        elif item["model"] == "fg_auth.downloadedimages":
+            new_value = conversion_dict["fg_auth.downloadedimages"]
+            item["model"] = new_value
+            item["fields"]["photo"] = item["fields"]["image"]
+            del item["fields"]["image"]
 
         elif item["model"] == "fg_auth.user" and item["fields"]["fg_info"] is not None:
             fg_info_pk = item["fields"]["fg_info"]
