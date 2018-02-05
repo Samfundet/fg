@@ -85,6 +85,7 @@ export class UploadComponent implements OnInit {
     if (this.uploadForm.valid) {
       item.isUploading = true;
       item.progress = 20;
+      console.log(item._file);
       this.store.postPhotoAction({
         ...this.uploadForm.value,
         photo: item._file,

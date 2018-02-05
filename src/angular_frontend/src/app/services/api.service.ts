@@ -1,3 +1,4 @@
+import { FileItem } from 'angular-file';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Headers, RequestOptions } from '@angular/http';
@@ -29,6 +30,11 @@ export class ApiService {
   getPhotosFromIds(ids: string[]): Observable<IResponse<IPhoto>> {
     const params = new HttpParams().set('ids', ids.join());
     return this.http.get<IResponse<IPhoto>>(`/api/photos/list-from-ids`, { params });
+  }
+
+  getPhotosFromAlbumPageAndNumber(album: string, page: string, image_numbers: string[]): Observable<IResponse<number>> {
+    const params = new HttpParams().set('album', album).set('page', page).set('image_numbers', image_numbers.join());
+    return this.http.get<IResponse<number>>(`/api/photos/list-from-info`, { params });
   }
 
   getHomePagePhotos(filters: IFilters): Observable<IResponse<IPhoto>> {
@@ -109,6 +115,14 @@ export class ApiService {
 
   updatePhoto(photo): Observable<any> {
     return this.http.patch(`/api/photos/${photo.id}/`, photo);
+  }
+
+  uploadScannedPhoto(data, id): Observable<any> {
+    const formData = new FormData();
+    for (const key of Object.keys(data)) {
+      formData.append(key, data[key]);
+    }
+    return this.http.patch(`/api/photos/${id}/`, formData);
   }
 
   updateUser(user: IUser): Observable<any> {

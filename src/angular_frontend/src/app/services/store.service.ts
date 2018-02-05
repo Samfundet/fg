@@ -205,6 +205,26 @@ export class StoreService {
     return this.foreignKeys$[type].asObservable();
   }
 
+  getFilteredAlbumsAction(type: string) {
+    const albums: IForeignKey[] = [];
+    this.api.getAlbums().subscribe(a => {
+      a.forEach(e => {
+        if (e['name'].substring(0, 3) === type) {
+          albums.push(e);
+        }
+      });
+    });
+    return albums;
+  }
+
+  getAnalogNotScannedIdsAction(album: string, page: string, image_numbers: string[]) {
+    return this.api.getPhotosFromAlbumPageAndNumber(album, page, image_numbers);
+  }
+
+  postAnalogPhotoAction() {
+    return null;
+  }
+
   postPhotoAction(data) {
     const formData = new FormData();
     for (const key of Object.keys(data)) {

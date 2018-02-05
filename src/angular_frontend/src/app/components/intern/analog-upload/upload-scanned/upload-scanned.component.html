@@ -1,3 +1,55 @@
-<p>
-  upload-scanned works!
-</p>
+<!-- Container -->
+<div fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="25px">
+  <form [formGroup]="uploadForm" (ngSubmit)="upload()" fxLayout="column" fxFlex="30" fxLayoutGap="15px">
+    <div fxLayout="column">
+      <label>Album</label>
+      <select formControlName="album">
+      <option [ngValue]="album.id" *ngFor="let album of albums">{{album.name}}</option>
+    </select>
+    </div>
+    <div fxLayout="column">
+      <label>Side</label>
+      <input type="number" formControlName="page">
+    </div>
+    <div fxLayout="column">
+      <label>Bildenummere</label>
+      <input type="text" formControlName="image_numbers">
+    </div>
+    
+    <button class="btn btn-primary" type="submit" [disabled]="!uploadForm.valid">
+        <i class="fa fa-upload"></i> Start alle
+    </button>
+
+    <p>{{uploadForm.value | json}}</p>
+    <p>{{uploadForm.valid | json}}</p>
+  </form>
+
+  <!-- Preview box -->
+  <div fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
+    <div class="hover-zone" #ngfUploader ngfDrop selectable="1" multiple="1" [uploader]="uploader" [(validDrag)]="validComboDrag"
+      [(invalidDrag)]="invalidComboDrag" [ngClass]="{'hover-safe-zone': validComboDrag, 'hover-danger-zone': invalidComboDrag}"
+      accept="image/*">
+      <i class="fa fa-plus fa-lg"></i> Klikk her eller dra bilder til dette feltet
+    </div>
+
+    <div *ngFor="let item of uploader.queue" class="preview" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10px">
+      <div *ngIf="['image/png','image/jpeg'].indexOf(item._file.type)>=0">
+        <div class="preview--icon" [ngfBackground]="item._file"></div>
+      </div>
+
+      <div fxLayout="column" fxFlex fxLayoutAlign="space-between" fxLayoutGap="5px">
+        <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="10px">
+          <span>{{item?.file?.name }}</span>
+          <span>{{item._file?.size | megabytes}}</span>
+          <button type="button" class="btn btn-danger" (click)="removeItem(item)" [disabled]="!uploadForm.valid">
+            <i class="fa fa-times"></i>Fjern
+          </button>
+        </div>
+        <div class="progress">
+          <div [ngStyle]="{ 'width': item.progress + '%' }" class="progress--bar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

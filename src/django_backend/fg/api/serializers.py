@@ -44,7 +44,8 @@ class SecurityLevelSerializer(serializers.HyperlinkedModelSerializer):
 
 class PhotoSerializer(serializers.ModelSerializer):
     photo = VersatileImageFieldSerializer(
-        sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes']
+        sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes'],
+        required=False
     )
 
     security_level = SecurityLevelSerializer()
@@ -59,6 +60,11 @@ class PhotoSerializer(serializers.ModelSerializer):
         model = models.Photo
         fields = '__all__'
         depth = 2
+
+class PhotoByIDSerializer(serializers.Serializer):
+
+    photo_ids = serializers.ListField(child=serializers.IntegerField(read_only=True))
+
 
 
 class TagListField(serializers.StringRelatedField):

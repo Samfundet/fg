@@ -4,7 +4,7 @@
     <div fxLayout="column">
       <label>Album</label>
       <select formControlName="album">
-      <option [ngValue]="album.id" *ngFor="let album of albums">{{album.name}}</option>
+      <option ng-style="{'background-color': 'red'" [ngValue]="album.id" *ngFor="let album of albums">{{album.name}}</option>
     </select>
     </div>
     <div fxLayout="column">

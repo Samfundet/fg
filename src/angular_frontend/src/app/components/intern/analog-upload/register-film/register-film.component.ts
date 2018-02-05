@@ -31,7 +31,7 @@ export class RegisterFilmComponent implements OnInit {
   constructor(private store: StoreService, private api: ApiService, private fb: FormBuilder) {
     // TODO - change this to use storeservice instead of API?
     // TODO - get only analog albums
-    api.getAlbums().subscribe(a => this.albums = a);
+    this.albums = store.getFilteredAlbumsAction('ANA');
     api.getCategories().subscribe(c => this.categories = c);
     api.getMediums().subscribe(m => this.mediums = m);
     api.getPlaces().subscribe(p => this.places = p);

@@ -96,7 +96,9 @@ class Photo(models.Model):
     users_that_has_downloaded_me = models.ManyToManyField(get_user_model(), blank=True)
 
     def __str__(self):
-        return self.photo.name
+        if self.photo.name:
+            return self.photo.name
+        return str(self.id)
 
     def save(self, *args, **kwargs):
         if self.pk is not None:

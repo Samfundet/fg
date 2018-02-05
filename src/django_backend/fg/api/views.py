@@ -245,6 +245,35 @@ class PhotoListFromIds(ListAPIView):
         return models.Photo.objects.none()
 
 
+IDInfo = namedtuple(
+    'IDInfo',
+    ('photo_ids',)
+)
+
+
+class PhotoListFromAlbumPageAndImageNumber(ViewSet):
+    permission_classes = [IsFG]
+
+    def get_queryset ( self ):
+        user = self.request.user
+        if (user.groups.exists() and user.is_active and 'FG' in user.groups.all()) or user.is_superuser:
+            album = self.request.query_params.get('album')
+            page = self.request.query_params.get('page')
+            image_numbers = self.request.query_params.get('image_numbers', []).split(',')
+            photos = models.Photo.objects.filter(album=album, page=page, image_number__in=image_numbers)
+            pids = []
+            for photo in photos:
+                pids.append(photo.id)
+            return pids
+
+        return []
+
+    def list ( self, request ):
+        ids = IDInfo(self.get_queryset())
+        serializer = serializers.PhotoByIDSerializer(ids)
+        return Response(serializer.data)
+
+
 class OrderViewSet(ModelViewSet):
     """
     API endpoint that allows for viewing and editing orders

@@ -141,7 +141,10 @@ import {
     FlexLayoutModule,
     ClickOutsideModule,
     MatTooltipModule,
-    ToastrModule.forRoot({ progressBar: true }),
+    ToastrModule.forRoot({
+      progressBar: true,
+      positionClass: 'toast-top-center' // Put this in center so it isn't in the way of anything
+    }),
     NgxMyDatePickerModule.forRoot(),
     NgProgressModule.forRoot(),
     NgProgressHttpClientModule,
