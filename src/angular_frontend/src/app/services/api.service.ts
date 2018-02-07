@@ -105,6 +105,10 @@ export class ApiService {
     return this.http.get<ILatestImageAndPage>(`api/photos/upload-info/${albumID}`);
   }
 
+  getTags(): Observable<IForeignKey[]> {
+    return this.http.get<IForeignKey[]>(`api/tags/`);
+  }
+
   toggleOrderCompleted(order: IOrder): Observable<IOrder> {
     return this.http.put<IOrder>(`api/orders/${order.id}/`, order);
   }

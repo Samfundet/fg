@@ -56,9 +56,13 @@ export class UploadComponent implements OnInit {
       on_home_page: [false, [Validators.required]],
       splash: [false, [Validators.required]]
     });
+
+    this.uploadForm.get('album').valueChanges.subscribe(a => {
+      this.updateForm(a);
+    });
   }
 // Do this in backend instead?
-  updateForm(album: number) {
+  updateForm(album: number, item?: FileItem) {
       this.api.getLatestPageAndImageNumber(album).subscribe(e => {
         this.uploadInfo = e;
         // Add in if/else do check if page/image number exceeds max
@@ -76,6 +80,9 @@ export class UploadComponent implements OnInit {
             page: this.uploadInfo.latest_page,
             image_number: this.uploadInfo.latest_image_number + 1
           });
+        }
+        if (item) {
+          this.uploadItem(item);
         }
       });
   }
@@ -102,7 +109,6 @@ export class UploadComponent implements OnInit {
           item.isUploading = false;
           console.error(error);
         });
-      this.updateForm(this.uploadForm['album']);
     }
   }
 
@@ -117,7 +123,7 @@ export class UploadComponent implements OnInit {
     console.log('Uploading all');
     if (this.uploadForm.valid) {
       for (const item of this.uploader.queue.filter(i => !i.isSuccess)) {
-        this.uploadItem(item);
+        this.updateForm(this.uploadForm.value['album'], item);
       }
     }
   }
