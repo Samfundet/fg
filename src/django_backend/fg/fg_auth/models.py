@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, Group
 from django.utils import timezone
+from ..api.models import Photo
 
 
 class FGUserManager(BaseUserManager):
@@ -27,13 +28,23 @@ class FGUserManager(BaseUserManager):
         user.save()
         return user
 
+
 class Job(models.Model):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=256)
+    date_created = models.DateTimeField(blank=True, default=timezone.now)
 
     def __str__(self):
         return self.name
 
+
+class UserDownloadedPhoto(models.Model):
+    photo = models.ForeignKey(Photo)
+    user = models.ForeignKey('User')
+    date_downloaded = models.DateTimeField(blank=True, default=timezone.now)
+
+    def __str__(self):
+        return '[' + str(self.user) + '] downloaded ' + str(self.photo)
 
 
 class User(AbstractUser):
@@ -51,12 +62,11 @@ class User(AbstractUser):
     uker = models.CharField(max_length=255, blank=True)
     fg_kallenavn = models.CharField(max_length=255, blank=True)
     bilde = models.ImageField(
-        max_length=255, blank=True, upload_to='alle/fg_profile_images')  # TODO?
+        max_length=255, blank=True, upload_to='alle/fg_profile_images')
     aktiv_pang = models.BooleanField(default=False)
     comments = models.CharField(max_length=255, blank=True)
 
-    downloaded_images = models.ManyToManyField(
-        "api.Photo", blank=True, through='DownloadedImages')
+    downloaded_photos = models.ManyToManyField(Photo, through='UserDownloadedPhoto')
 
     objects = FGUserManager()
 
@@ -64,13 +74,3 @@ class User(AbstractUser):
 
     def __str__(self):
         return '%s %s - (%s)' % (self.first_name, self.last_name, self.username)
-
-
-
-class DownloadedImages(models.Model):
-    image = models.ForeignKey("api.Photo")
-    user = models.ForeignKey(User)
-    date_downloaded = models.DateField(auto_now_add=True, blank=True)
-
-    class Meta:
-        verbose_name_plural = 'Downloaded images'

@@ -1,6 +1,6 @@
-Django==1.11
+Django==1.11.9
 Pillow==4.1.0
-djangorestframework==3.6.2
+djangorestframework==3.6.4
 uWSGI==2.0
 psycopg2==2.6
 docutils==0.12
@@ -9,4 +9,4 @@ django-versatileimagefield==1.7.1
 requests==2.13.0
 django-rest-framework-roles==0.5
 djangorestframework-filters==0.10.2
-djangorestframework-jwt==1.11.0
+python-dateutil==2.6.1

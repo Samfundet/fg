@@ -1,8 +1,10 @@
 import os
 from .. import settings
 from django.db import models
+from django.utils import timezone
 from versatileimagefield.fields import VersatileImageField, PPOIField
 from django.contrib.auth import get_user_model
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True, db_index=True)
@@ -30,8 +32,9 @@ class Media(models.Model):
 
 class Album(models.Model):
     name = models.CharField(max_length=5, unique=True, db_index=True)
-    date_created = models.DateTimeField(blank=True, auto_now_add=True)
+    date_created = models.DateTimeField(blank=True, default=timezone.now)
     description = models.CharField(max_length=32)
+    type = models.PositiveSmallIntegerField(null=True)
 
     def __str__(self):
         return self.name
@@ -72,7 +75,8 @@ class Photo(models.Model):
     # height = models.IntegerField()
     # width = models.IntegerField()
     motive = models.CharField(max_length=256, db_index=True, blank=True, verbose_name='motiv')
-    date_taken = models.DateTimeField()  # TODO removed auto_now_add
+    description = models.CharField(max_length=2048, blank=True, null=True, verbose_name='beskrivelse')
+    date_taken = models.DateTimeField()
     date_modified = models.DateTimeField(auto_now=True)
     photo_ppoi = PPOIField()
 
@@ -92,8 +96,6 @@ class Photo(models.Model):
     media = models.ForeignKey(Media)
     album = models.ForeignKey(Album)
     place = models.ForeignKey(Place)
-
-    users_that_has_downloaded_me = models.ManyToManyField(get_user_model(), blank=True)
 
     def __str__(self):
         if self.photo.name:
@@ -174,11 +176,8 @@ class Order(models.Model):
 
 class OrderPhoto(models.Model):
     photo = models.ForeignKey(Photo)
-    # photo = models.IntegerField()
     order = models.ForeignKey(Order, related_name='order_photos')
     format = models.CharField(max_length=16)
 
     def __str__(self):
         return str(self.photo) + ' - ' + self.order.email + ' - ' + self.format
-
-

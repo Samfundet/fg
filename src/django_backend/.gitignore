@@ -17,7 +17,7 @@ tests/.coverage
 build/
 tests/report/
 
+foo.json
+db.json
 # TODO temporary
-api/migrations
-fg_auth/migrations
 **/migrations/**
