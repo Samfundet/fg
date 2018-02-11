@@ -13,7 +13,7 @@ import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/f
   }]
 })
 export class ChipsComponent implements ControlValueAccessor, OnChanges {
-  @Input() chips: string[];
+  @Input() chips: string[] = [];
   @ViewChild('chipInput') chipInput: ElementRef;
 
   tags: string[] = [];
@@ -28,6 +28,7 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
       });
       this.filteredTags = this.tags;
     });
+    console.log('constructor');
   }
 
   writeValue(chips: string[]) {
@@ -38,7 +39,7 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
 
   registerOnChange(fn) {
     this.propagateChange = fn;
-    console.log('hei');
+    console.log(this.tags);
   }
 
   registerOnTouched() { }
@@ -46,7 +47,6 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
   ngOnChanges(inputs) {
     if (inputs.chips) {
       this.propagateChange(this.chips);
-      console.log('inputs');
     }
   }
 
@@ -56,7 +56,7 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
   }
 
   addChip(value) {
-    if (value && this.chips.indexOf(value) === -1) {
+    if (value && (this.chips.indexOf(value) === -1)) {
       this.chips.push(value);
       this.chipInput.nativeElement.value = '';
       this.filteredTags = this.tags;

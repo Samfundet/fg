@@ -27,7 +27,6 @@ export class UploadComponent implements OnInit {
   mediums: IForeignKey[];
   places: IForeignKey[];
   securityLevels: IForeignKey[];
-  filteredTags: string[] = [];
 
   constructor(private store: StoreService, private api: ApiService, private fb: FormBuilder) {
     // TODO - change this to use storeservice instead of API?
