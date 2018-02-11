@@ -229,6 +229,7 @@ export class StoreService {
     const formData = new FormData();
     for (const key of Object.keys(data)) {
       formData.append(key, data[key]);
+      console.log(key, data[key]);
     }
     return this.api.postPhoto(formData);
   }

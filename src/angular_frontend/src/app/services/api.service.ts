@@ -27,6 +27,10 @@ export class ApiService {
     return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
   }
 
+  getAllMotives(): Observable<any> {
+    return null;
+  }
+
   getPhotosFromIds(ids: string[]): Observable<IResponse<IPhoto>> {
     const params = new HttpParams().set('ids', ids.join());
     return this.http.get<IResponse<IPhoto>>(`/api/photos/list-from-ids`, { params });
@@ -103,10 +107,6 @@ export class ApiService {
 
   getLatestPageAndImageNumber(albumID: number): Observable<ILatestImageAndPage> {
     return this.http.get<ILatestImageAndPage>(`api/photos/upload-info/${albumID}`);
-  }
-
-  getTags(): Observable<IForeignKey[]> {
-    return this.http.get<IForeignKey[]>(`api/tags/`);
   }
 
   toggleOrderCompleted(order: IOrder): Observable<IOrder> {

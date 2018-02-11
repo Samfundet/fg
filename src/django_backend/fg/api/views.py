@@ -333,3 +333,6 @@ class StatisticsViewSet(ViewSet):
         )
         serializer = serializers.StatisticsSerializer(statistics)
         return Response(serializer.data)
+
+
+

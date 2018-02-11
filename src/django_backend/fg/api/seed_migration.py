@@ -133,6 +133,7 @@ def populate_users(apps, schema_editor):
         #fg_group.user_set.add(test_user)
 
 
+
 class Migration(migrations.Migration):
     dependencies = [
         ('api', '0001_initial'),

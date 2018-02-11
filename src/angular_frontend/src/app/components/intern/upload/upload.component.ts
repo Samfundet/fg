@@ -1,9 +1,10 @@
+import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { INgxMyDpOptions, IMyDate } from 'ngx-mydatepicker';
 import { HttpEvent } from '@angular/common/http';
 import { StoreService, ApiService } from 'app/services';
-import { IForeignKey, ILatestImageAndPage } from 'app/model';
+import { IForeignKey, ILatestImageAndPage, IFilters } from 'app/model';
 import { DATE_OPTIONS } from 'app/config';
 import { FileUploader, FileUploaderOptions, FileItem } from 'angular-file';
 
@@ -26,11 +27,11 @@ export class UploadComponent implements OnInit {
   mediums: IForeignKey[];
   places: IForeignKey[];
   securityLevels: IForeignKey[];
+  filteredTags: string[] = [];
 
   constructor(private store: StoreService, private api: ApiService, private fb: FormBuilder) {
     // TODO - change this to use storeservice instead of API?
-    // TODO - get only digital albums
-    api.getAlbums().subscribe(x => this.albums = x);
+    this.albums = store.getFilteredAlbumsAction('DIG');
     api.getCategories().subscribe(x => this.categories = x);
     api.getMediums().subscribe(x => this.mediums = x);
     api.getPlaces().subscribe(x => this.places = x);
@@ -44,6 +45,7 @@ export class UploadComponent implements OnInit {
       image_number: [, [Validators.required]],
       motive: ['Motive_test', [Validators.required]],
       tags: [['foo', 'bar', 'idiot'], []],
+      test_tags: [, []],
       date_taken: [{ jsdate: new Date() }, [Validators.required]],
 
       category: [1, [Validators.required]],
@@ -127,5 +129,4 @@ export class UploadComponent implements OnInit {
       }
     }
   }
-
 }

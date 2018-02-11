@@ -181,3 +181,11 @@ class OrderPhoto(models.Model):
 
     def __str__(self):
         return str(self.photo) + ' - ' + self.order.email + ' - ' + self.format
+
+
+class Person(models.Model):
+    name = models.CharField(max_length=32)
+    age = models.IntegerField()
+
+    def __str__(self):
+        return name

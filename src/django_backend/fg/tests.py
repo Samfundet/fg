@@ -8,7 +8,7 @@ from rest_framework import status
 from .api import models
 from .api.views import (
     PhotoViewSet, LatestSplashPhotoView, OrderViewSet, AlbumViewSet,
-    get_latest_image_number_and_page_number,
+    get_latest_image_number_and_page_number
 )
 from .fg_auth.views import FgUsersView, PowerUsersView
 from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, SECURITY_LEVELS
@@ -112,7 +112,6 @@ def seed_users ():
         is_active=True
     )
     admin.save()
-
 
 def get_default_image ():
     return {'name': 'default.jpg', 'file': open(MEDIA_ROOT + 'default.jpg', 'rb')}
@@ -624,3 +623,6 @@ class UserTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         power_user_count = User.objects.filter(groups__name="POWER").count()
         self.assertEqual(power_user_count, len(response.data))
+
+
+

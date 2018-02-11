@@ -105,8 +105,11 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
         tags = validated_data.pop('tags')
 
         photo = models.Photo.objects.create(**validated_data)
-        for tag_name in tags:
+        for tag_name in tags[0].split(','):
+            if not len(tag_name):
+                continue
             tag, _ = models.Tag.objects.get_or_create(name=tag_name)
+            print(tag)
             photo.tags.add(tag)
         photo.save()
 
@@ -220,3 +223,4 @@ class StatisticsSerializer(serializers.Serializer):
     orders = serializers.IntegerField(read_only=True)
     photos_by_year = serializers.ListField(child=serializers.ListField())
     photos_per_album = serializers.ListField(child=serializers.DictField(child=serializers.CharField(read_only=True)))
+

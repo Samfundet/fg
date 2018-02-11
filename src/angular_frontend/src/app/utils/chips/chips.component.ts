@@ -1,3 +1,4 @@
+import { ApiService } from 'app/services';
 import { Component, Input, ViewChild, ElementRef, OnChanges } from '@angular/core';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -15,9 +16,19 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
   @Input() chips: string[];
   @ViewChild('chipInput') chipInput: ElementRef;
 
+  tags: string[] = [];
+  filteredTags: string[] = [];
+
   propagateChange: any = () => { };
 
-  constructor() { }
+  constructor(api: ApiService) {
+    api.getForeignKey('tags').subscribe(x => {
+      x['results'].forEach(t => {
+        this.tags.push(t.name);
+      });
+      this.filteredTags = this.tags;
+    });
+  }
 
   writeValue(chips: string[]) {
     if (chips) {
@@ -27,6 +38,7 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
 
   registerOnChange(fn) {
     this.propagateChange = fn;
+    console.log('hei');
   }
 
   registerOnTouched() { }
@@ -34,13 +46,22 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
   ngOnChanges(inputs) {
     if (inputs.chips) {
       this.propagateChange(this.chips);
+      console.log('inputs');
     }
   }
 
+  onInputChange() {
+    // this.filteredTags = this.tags.filter(tag => tag.startsWith(this.chipInput['nativeElement'].value));
+    this.filteredTags = this.tags.filter(tag => tag.toLowerCase().indexOf(this.chipInput['nativeElement'].value) !== -1);
+  }
+
   addChip(value) {
-    if (value) {
+    if (value && this.chips.indexOf(value) === -1) {
       this.chips.push(value);
       this.chipInput.nativeElement.value = '';
+      this.filteredTags = this.tags;
+    } else {
+      this.chipInput['nativeElement'].value = '';
     }
   }
 
@@ -51,6 +72,7 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
   removeChipIfEmpty(value) {
     if (!value) {
       this.chips.pop();
+      this.filteredTags = this.tags;
     }
   }
 }

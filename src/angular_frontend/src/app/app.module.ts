@@ -10,7 +10,7 @@ import { ClickOutsideModule } from 'ng-click-outside';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressHttpClientModule } from '@ngx-progressbar/http-client';
 import { registerLocaleData } from '@angular/common';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltipModule, MatAutocompleteModule } from '@angular/material';
 import { ToastrModule } from 'ngx-toastr';
 import localeNb from '@angular/common/locales/nb';
 registerLocaleData(localeNb);
@@ -72,7 +72,7 @@ import {
   ChipsComponent,
   ChipComponent,
   RadioButtonsComponent,
-  BarchartComponent
+  BarchartComponent,
 } from 'app/utils';
 
 @NgModule({
@@ -128,7 +128,7 @@ import {
     BarchartComponent,
     AnalogUploadComponent,
     RegisterFilmComponent,
-    UploadScannedComponent
+    UploadScannedComponent,
   ],
   imports: [
     BrowserModule,
@@ -141,6 +141,7 @@ import {
     FlexLayoutModule,
     ClickOutsideModule,
     MatTooltipModule,
+    MatAutocompleteModule,
     ToastrModule.forRoot({
       progressBar: true,
       positionClass: 'toast-top-center' // Put this in center so it isn't in the way of anything

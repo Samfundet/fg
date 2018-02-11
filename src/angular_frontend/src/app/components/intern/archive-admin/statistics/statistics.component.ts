@@ -16,11 +16,11 @@ export class StatisticsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.getStatisticsAction().subscribe(s => this.statistics = s);
-    // Timeout because we have to wait for statistics to be loaded async
-    setTimeout(() => {
-      // TODO same thing for analog and digital images
+    this.store.getStatisticsAction().subscribe(s => {
+      this.statistics = s;
       this.chartData = this.statistics.photos_by_year;
-    }, 1000);
+    });
+    // Timeout because we have to wait for statistics to be loaded async
+      // TODO same thing for analog and digital images
   }
 }
