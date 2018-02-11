@@ -430,6 +430,7 @@ class PhotoCRUDTestCase(APITestCase):
             self.assertEqual(data['on_home_page'], latest_photo.on_home_page, msg=latest_photo.on_home_page)
             self.assertEqual(data['splash'], latest_photo.splash, msg=latest_photo.splash)
             self.assertEqual(data['lapel'], latest_photo.lapel, msg=latest_photo.lapel)
+            print(latest_photo.tags.all())
             for tag in tags:
                 self.assertIn(tag, [t.name for t in latest_photo.tags.all()])
 
