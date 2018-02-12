@@ -15,7 +15,7 @@
         <div fxLayout="row" fxLayoutGap="15px">
           <div class="search-input-group" fxLayout="column" fxFlex="<grow>">
             <label>Tittel</label>
-            <input type="text" formControlName="motive">
+            <input matInput [matAutocomplete]="motive" type="text" formControlName="motive">
           </div>
           <div class="search-input-group" fxLayout="column">
             <label>Sortering</label>
@@ -63,3 +63,9 @@
   <h4 class="p-l-2" *ngIf="!photos?.length && searching">Ingen treff</h4>
   <fg-photo-masonry [photos]="photos"></fg-photo-masonry>
 </div>
+
+<mat-autocomplete #motive="matAutocomplete">
+  <mat-option *ngFor="let motive of filteredMotives" [value]="motive">
+    {{ motive }}
+  </mat-option>
+</mat-autocomplete>

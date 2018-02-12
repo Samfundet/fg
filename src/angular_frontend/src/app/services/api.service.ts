@@ -29,6 +29,7 @@ export class ApiService {
 
   getAllMotives(): Observable<IResponse<string>> {
     // Will not get motives on photos you don't have clearance for (see api/views in backend)
+    // Also has teh capability to add more data to /api/searchdata/ (see SearchAutocompleteDataViewSet)
     return this.http.get<IResponse<string>>(`/api/searchdata/`);
   }
 

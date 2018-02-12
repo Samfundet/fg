@@ -39,6 +39,9 @@ export class PhotosComponent implements OnInit, OnDestroy {
   mediums: IForeignKey[];
   places: IForeignKey[];
 
+  motives: string[] = [];
+  filteredMotives: string[] = [];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -51,11 +54,17 @@ export class PhotosComponent implements OnInit, OnDestroy {
     api.getCategories().subscribe(x => this.categories = [{ id: null, name: '-- Alle --' }, ...x]);
     api.getMediums().subscribe(x => this.mediums = [{ id: null, name: '-- Alle --' }, ...x]);
     api.getPlaces().subscribe(x => this.places = [{ id: null, name: '-- Alle --' }, ...x]);
+    api.getAllMotives().subscribe(x => {
+      this.motives = x['motives'];
+      this.filteredMotives = x['motives'];
+    });
   }
 
   ngOnInit() {
     this.store.photoRouteActive$.next(true);
-
+    this.searchForm.get('motive').valueChanges.subscribe(m => {
+      this.filteredMotives = this.motives.filter(motive => motive.toLowerCase().indexOf(m) !== -1);
+    });
   }
 
   ngOnDestroy() {
