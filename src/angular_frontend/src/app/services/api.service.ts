@@ -27,8 +27,9 @@ export class ApiService {
     return this.http.get<IResponse<IPhoto>>(`/api/photos/`, { params: params });
   }
 
-  getAllMotives(): Observable<any> {
-    return null;
+  getAllMotives(): Observable<IResponse<string>> {
+    // Will not get motives on photos you don't have clearance for (see api/views in backend)
+    return this.http.get<IResponse<string>>(`/api/searchdata/`);
   }
 
   getPhotosFromIds(ids: string[]): Observable<IResponse<IPhoto>> {

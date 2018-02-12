@@ -130,6 +130,7 @@ def populate_users(apps, schema_editor):
         test_user.groups.add(
             Group.objects.get_or_create(name="FG" if random.random() > 0.3 else "POWER")[0]
         )
+        Group.objects.get_or_create(name="HUSFOLK")
         #fg_group.user_set.add(test_user)
 
 

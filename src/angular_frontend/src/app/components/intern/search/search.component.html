@@ -9,7 +9,7 @@
     </div>
     <div fxLayout="column">
       <label>Motiv</label>
-      <input type="text" formControlName="motive">
+      <input type="text" formControlName="motive" matInput [matAutocomplete]="motive">
     </div>
     <div fxLayout="column">
       <label>Tag</label>
@@ -134,3 +134,10 @@
     </table>
   </div>
 </div>
+
+
+<mat-autocomplete #motive="matAutocomplete">
+  <mat-option *ngFor="let motive of filteredMotives" [value]="motive">
+    {{ motive }}
+  </mat-option>
+</mat-autocomplete>

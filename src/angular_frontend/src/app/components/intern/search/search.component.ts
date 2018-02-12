@@ -23,6 +23,9 @@ export class SearchComponent implements OnInit {
   places: IForeignKey[];
   securityLevels: IForeignKey[];
 
+  motives: string[];
+  filteredMotives: string[] = [];
+
   truthies = [
     { name: '-- Alle --', value: null },
     { name: 'Sant', value: true },
@@ -41,6 +44,10 @@ export class SearchComponent implements OnInit {
     api.getMediums().subscribe(x => this.mediums = [{ id: null, name: '-- Alle --' }, ...x]);
     api.getPlaces().subscribe(x => this.places = [{ id: null, name: '-- Alle --' }, ...x]);
     api.getSecurityLevels().subscribe(x => this.securityLevels = [{ id: null, name: '-- Alle --' }, ...x]);
+    api.getAllMotives().subscribe(x => {
+      this.motives = x['motives'];
+      this.filteredMotives = x['motives'];
+    });
   }
 
   ngOnInit() {
@@ -59,6 +66,9 @@ export class SearchComponent implements OnInit {
       lapel: [, []],
       on_home_page: [, []],
       splash: [, []]
+    });
+    this.searchForm.get('motive').valueChanges.subscribe(m => {
+      this.filteredMotives = this.motives.filter(motive => motive.toLowerCase().indexOf(m) !== -1);
     });
   }
 

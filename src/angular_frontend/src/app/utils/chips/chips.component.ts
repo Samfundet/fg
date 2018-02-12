@@ -28,7 +28,6 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
       });
       this.filteredTags = this.tags;
     });
-    console.log('constructor');
   }
 
   writeValue(chips: string[]) {
@@ -39,7 +38,6 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
 
   registerOnChange(fn) {
     this.propagateChange = fn;
-    console.log(this.tags);
   }
 
   registerOnTouched() { }

@@ -13,7 +13,7 @@ from django.db.models import Count, Max
 from django.db.models.functions import TruncYear
 
 from ..paginations import UnlimitedPagination
-from ..permissions import IsFGOrReadOnly, IsFG, IsFgOrPostOnly
+from ..permissions import IsFGOrReadOnly, IsFG, IsFgOrPostOnly, IsFgOrHusfolk
 from rest_framework.permissions import AllowAny
 from . import models, serializers, filters
 
@@ -21,6 +21,16 @@ from . import models, serializers, filters
 Statistics = namedtuple(
     'Statistics',
     ('photos', 'tags', 'scanned', 'albums', 'splash', 'orders', 'photos_by_year', 'photos_per_album')
+)
+
+SearchData = namedtuple(
+    'SearchData',
+    ('motives',)
+)
+
+IDInfo = namedtuple(
+    'IDInfo',
+    ('photo_ids',)
 )
 
 
@@ -245,12 +255,6 @@ class PhotoListFromIds(ListAPIView):
         return models.Photo.objects.none()
 
 
-IDInfo = namedtuple(
-    'IDInfo',
-    ('photo_ids',)
-)
-
-
 class PhotoListFromAlbumPageAndImageNumber(ViewSet):
     permission_classes = [IsFG]
 
@@ -335,4 +339,24 @@ class StatisticsViewSet(ViewSet):
         return Response(serializer.data)
 
 
+class SearchAutocompleteDataViewSet(ViewSet):
+    permission_classes = [IsFGOrReadOnly]
 
+    def extra_permission(self):
+        user = self.request.user
+        if user.has_perm(IsFG):
+            return 3
+        elif user.has_perm(IsFgOrHusfolk):
+            return 2
+        return 1
+
+    def get_queryset(self):
+        max_sec = self.extra_permission()
+        data = SearchData(
+            motives=models.Photo.objects.values_list('motive', flat=True).exclude(security_level_id__gt=max_sec),
+        )
+        return data
+
+    def list ( self, request ):
+        serializer = serializers.SearchAutocompleteDataSerializer(self.get_queryset())
+        return Response(serializer.data)

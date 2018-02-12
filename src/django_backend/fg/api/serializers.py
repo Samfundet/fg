@@ -226,3 +226,6 @@ class StatisticsSerializer(serializers.Serializer):
     photos_by_year = serializers.ListField(child=serializers.ListField())
     photos_per_album = serializers.ListField(child=serializers.DictField(child=serializers.CharField(read_only=True)))
 
+
+class SearchAutocompleteDataSerializer(serializers.Serializer):
+    motives = serializers.ListField(child=serializers.CharField())
