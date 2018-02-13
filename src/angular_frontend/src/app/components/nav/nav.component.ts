@@ -40,7 +40,7 @@ export class NavComponent implements OnInit {
 
   onInputChange() {
     this.filteredStrings = this.motives.concat(this.tags, this.categories).filter(str => str !== undefined);
-    this.filteredStrings = this.filteredStrings.filter(str => str.toLowerCase().indexOf(this.searchInput.nativeElement.value) !== -1)
+    this.filteredStrings = this.filteredStrings.filter(str => str.toLowerCase().indexOf(this.searchInput.nativeElement.value) !== -1);
   }
 
   toggleMenu() {

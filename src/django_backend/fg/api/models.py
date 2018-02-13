@@ -158,6 +158,9 @@ class Photo(models.Model):
     class Meta:
         get_latest_by = 'date_taken'
 
+        # throws a django.db.utils.IntegrityError if you try to add a duplicate
+        unique_together = ('page', 'image_number', 'album')
+
 
 class Order(models.Model):
     name = models.CharField(max_length=64)
