@@ -32,7 +32,8 @@ export class PhotosComponent implements OnInit, OnDestroy {
   searching = false;
   searchForm: FormGroup;
   isAdvanced = false;
-  photos: any[];
+  public photos: IPhoto[];
+  photosAreLoaded = false;
 
   albums: IForeignKey[];
   categories: IForeignKey[];
@@ -82,6 +83,8 @@ export class PhotosComponent implements OnInit, OnDestroy {
     this.api.getPhotos(filter).subscribe(response => {
       this.photos = response.results;
       this.searching = false;
+      console.log(this.photos);
+      this.photosAreLoaded = true;
     });
   }
 

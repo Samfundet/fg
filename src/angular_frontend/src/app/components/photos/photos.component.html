@@ -61,8 +61,11 @@
 <div fxFlexFill fxLayout="column" fxLayoutAlign="center">
   <hr>
   <h4 class="p-l-2" *ngIf="!photos?.length && searching">Ingen treff</h4>
-  <fg-photo-masonry [photos]="photos"></fg-photo-masonry>
+  <fg-photo-masonry *ngIf="photosAreLoaded" [photos]="photos"></fg-photo-masonry>
 </div>
+
+<p>{{searchForm.value | json}}</p>
+
 
 <mat-autocomplete #motive="matAutocomplete">
   <mat-option *ngFor="let motive of filteredMotives" [value]="motive">

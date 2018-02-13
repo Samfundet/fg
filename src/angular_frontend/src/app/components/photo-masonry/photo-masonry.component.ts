@@ -3,6 +3,7 @@ import { trigger, transition, query, style, stagger, keyframes, animate } from '
 import { MasonryLayoutDirective } from 'app/directives';
 import { IPhoto, IFilters, IMasonryOptions } from 'app/model';
 import { StoreService } from 'app/services/store.service';
+import { OnInit, AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'fg-photo-masonry',
@@ -27,8 +28,9 @@ import { StoreService } from 'app/services/store.service';
     ])
   ]
 })
-export class PhotoMasonryComponent {
+export class PhotoMasonryComponent implements OnInit {
   @Input() photos: IPhoto[];
+  inCartPhotos: number[];
 
   masonryOptions: IMasonryOptions = {
     itemSelector: '.grid-item',
@@ -36,15 +38,29 @@ export class PhotoMasonryComponent {
     stagger: 50
   };
 
-  constructor(private store: StoreService) { }
+  constructor(private store: StoreService) {
+    store.photoShoppingCart$.subscribe(ps => this.inCartPhotos = ps.map(x => x.id));
+  }
 
   onPhotoClick(photo: IPhoto) {
     this.store.photoModal$.next(photo);
   }
 
+  ngOnInit() { // Trying AfterViewInit because there is problems on search
+    this.photos.forEach(p => {
+      if (this.inCartPhotos.indexOf(p.id) !== -1) {
+        p.addedToCart = true;
+      }
+    });
+    /* This doesn't work in search because this.photo does not contain pid always
+      this.inCartPhotos.forEach(pid => {
+      this.photos.find(p => p.id === pid).addedToCart = true;
+    }); */
+  }
+
   addToShoppingCart(photo: IPhoto) {
     this.store.addPhotoToCartAction(photo);
-    console.log(this.photos);
+    // console.log(this.photos);
   }
 
   removeFromShoppingCart(photo: IPhoto) {
