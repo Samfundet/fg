@@ -2,13 +2,14 @@ import random, os, string, tempfile
 from datetime import datetime
 from time import sleep
 from django.test import TestCase
+from django.db import transaction, IntegrityError
 from django.db.models import Max
 from rest_framework.test import APIRequestFactory, force_authenticate, APITestCase
 from rest_framework import status
 from .api import models
 from .api.views import (
     PhotoViewSet, LatestSplashPhotoView, OrderViewSet, AlbumViewSet,
-    get_latest_image_number_and_page_number
+    get_latest_image_number_and_page_number,
 )
 from .fg_auth.views import FgUsersView, PowerUsersView
 from .settings import VERSATILEIMAGEFIELD_SETTINGS, MEDIA_ROOT, SECURITY_LEVELS
@@ -45,9 +46,9 @@ def seed_foreign_keys ():
                 obj = Mod(name="TEST_" + get_rand_string(4))
                 if model_name == 'Album':
                     if i % 2 == 0:
-                        obj.name = 'DIG' + str(i*2)
+                        obj.name = 'DIG' + str(i * 2)
                     else:
-                        obj.name = 'ANA' + str(i*2)
+                        obj.name = 'ANA' + str(i * 2)
                 obj.save()
 
 
@@ -71,8 +72,8 @@ def seed_photos ():
             place=get_random_object("api", "Place"),
             media=get_random_object("api", "Media"),
             category=get_random_object("api", "Category"),
-            page=i*2,
-            image_number=i*4,
+            page=i * 2,
+            image_number=i * 4,
             security_level=get_random_object("api", "SecurityLevel"),
             on_home_page=True if random.random() > 0.5 else False,
             lapel=True if random.random() > 0.5 else False,
@@ -112,6 +113,7 @@ def seed_users ():
         is_active=True
     )
     admin.save()
+
 
 def get_default_image ():
     return {'name': 'default.jpg', 'file': open(MEDIA_ROOT + 'default.jpg', 'rb')}
@@ -227,7 +229,7 @@ class PhotoTestCase(TestCase):
         user = User.objects.get(username="FG")
 
         expected_album = models.Photo.objects.filter(
-                album__name__startswith='DIG').latest('date_taken').album
+            album__name__startswith='DIG').latest('date_taken').album
         expected_page = models.Photo.objects.filter(
             album__name=expected_album.name).aggregate(Max('page'))['page__max']
         expected_image_number = (models.Photo.objects.filter(
@@ -277,6 +279,7 @@ class PhotoTestCase(TestCase):
         # expected_image_number = models.Photo.objects.filter(
         #     album__name=expected_album.name, page=expected_page).aggregate(Max('image_number'))['image_number__max']
         # self.assertEqual(response.data['latest_album'], expected_image_number)
+
 
 class UserPermissionTestCase(APITestCase):
     """
@@ -532,6 +535,26 @@ class PhotoCRUDTestCase(APITestCase):
     def test_anon_user_cannot_post ( self ):
         pass
 
+    def test_album_image_number_and_page_cannot_be_the_same_for_multiple_photos ( self ):
+        self.photos = seed_photos()
+
+        expected_photo = models.Photo.objects.latest()
+        with self.assertRaises(Exception) as raised:
+            with transaction.atomic() as atomic:
+                test_photo = models.Photo(
+                    album=expected_photo.album,
+                    place=get_random_object("api", "Place"),
+                    media=get_random_object("api", "Media"),
+                    category=get_random_object("api", "Category"),
+                    page=expected_photo.page,
+                    image_number=expected_photo.image_number,
+                    security_level=get_random_object("api", "SecurityLevel"),
+                    date_taken=datetime.now().astimezone()
+                )
+                self.assertEqual(transaction.TransactionManagementError, atomic)
+            test_photo.save()
+            self.assertEqual(IntegrityError, type(raised.exception))
+        self.assertEqual(expected_photo, models.Photo.objects.latest())
 
 class OrderTestCase(APITestCase):
     photos = []
@@ -624,6 +647,3 @@ class UserTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         power_user_count = User.objects.filter(groups__name="POWER").count()
         self.assertEqual(power_user_count, len(response.data))
-
-
-
