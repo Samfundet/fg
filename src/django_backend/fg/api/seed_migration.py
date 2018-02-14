@@ -109,7 +109,6 @@ def populate_users(apps, schema_editor):
         User = apps.get_model('fg_auth', 'User')
         Group = apps.get_model('auth', 'Group')
 
-
         img = generate_photo_file()
         fn = random.choice(FIRST_NAMES)
         ln = random.choice(LAST_NAMES)

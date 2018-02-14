@@ -1,3 +1,4 @@
+import { IForeignKey } from './../../model';
 import { ApiService } from 'app/services';
 import { Component, Input, ViewChild, ElementRef, OnChanges } from '@angular/core';
 import { FormControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -16,16 +17,14 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
   @Input() chips: string[] = [];
   @ViewChild('chipInput') chipInput: ElementRef;
 
-  tags: string[] = [];
-  filteredTags: string[] = [];
+  tags: IForeignKey[] = [];
+  filteredTags: IForeignKey[] = [];
 
   propagateChange: any = () => { };
 
   constructor(api: ApiService) {
     api.getForeignKey('tags').subscribe(x => {
-      x['results'].forEach(t => {
-        this.tags.push(t.name);
-      });
+      this.tags = x['results'];
       this.filteredTags = this.tags;
     });
   }
@@ -50,7 +49,7 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
 
   onInputChange() {
     // this.filteredTags = this.tags.filter(tag => tag.startsWith(this.chipInput['nativeElement'].value));
-    this.filteredTags = this.tags.filter(tag => tag.toLowerCase().indexOf(this.chipInput['nativeElement'].value) !== -1);
+    this.filteredTags = this.tags.filter(tag => tag.name.toLowerCase().indexOf(this.chipInput['nativeElement'].value) !== -1);
   }
 
   addChip(value) {

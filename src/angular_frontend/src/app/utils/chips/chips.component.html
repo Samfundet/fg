@@ -13,8 +13,8 @@
     >
 </div>
 <mat-autocomplete #auto="matAutocomplete">
-  <mat-option *ngFor="let tag of filteredTags" [value]="tag">
-    {{ tag }}
+  <mat-option *ngFor="let tag of filteredTags" [value]="tag.name">
+    {{ tag.name }}
   </mat-option>
 </mat-autocomplete>
 

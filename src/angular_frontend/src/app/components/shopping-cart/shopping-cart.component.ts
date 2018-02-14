@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StoreService, ApiService } from 'app/services';
-import { IPhoto, IResponse } from 'app/model';
+import { IPhoto, IResponse, IOrder } from 'app/model';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
@@ -12,7 +12,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ShoppingCartComponent implements OnInit {
   public cartForm: FormGroup;
-  public regretRemovalArray;
+  public regretRemovalArray: Array<IPhoto>;
+  public orderedPhotos: IPhoto[];
+  public orderdedOrder: IOrder;
 
   constructor(
     public store: StoreService,
@@ -25,10 +27,10 @@ export class ShoppingCartComponent implements OnInit {
     // console.log(this.cart);
     this.cartForm = this.fb.group({
       name: ['Mikkel', [Validators.required]],
-      email: ['m@m.com', [Validators.required]],
+      email: ['m@m.com', [Validators.required, Validators.email]],
       address: ['ingen', [Validators.required]],
       place: ['der borte', [Validators.required]],
-      zip_code: ['1472', [Validators.required]],
+      zip_code: ['1472', [Validators.required, Validators.min(0), Validators.max(9999)]],
       post_or_get: ['get-by-self', [Validators.required]],
       comment: ['nei', []],
       order_photos: this.createPhotoFormArray(this.store.getPhotoShoppingCartValue())
@@ -54,9 +56,18 @@ export class ShoppingCartComponent implements OnInit {
       this.cartForm.value.order_photos.forEach(p => {
         this.store.removePhotoFromCartAction(p);
       });
+      this.afterOrderedPhotos(formValue);
+      // this.regretRemovalArray = new Array<IPhoto>();
       // Use ngOnChanges instead?
       this.ngOnInit(); // Have to update cartform to not show text "ønsket format"
     }
+  }
+
+  afterOrderedPhotos(order: IOrder) {
+    const orderPhotos: string[] = [];
+    order.order_photos.forEach(op => orderPhotos.push(op.photo.toString()));
+    this.orderdedOrder = order;
+    this.api.getPhotosFromIds(orderPhotos).subscribe(p => this.orderedPhotos = p['results']);
   }
 
   onPhotoClick(photo: IPhoto) {

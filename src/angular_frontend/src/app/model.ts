@@ -39,7 +39,7 @@ export interface IPhoto {
   place: IMetaData;
   security_level: IMetaData;
   addedToCart?: boolean;
-  liked?: boolean;
+  liked?: boolean; // Why this?
   checkedForEdit?: boolean;
 }
 

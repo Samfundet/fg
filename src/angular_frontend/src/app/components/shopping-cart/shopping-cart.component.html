@@ -2,73 +2,68 @@
   <section class="wrapper style1">
     <div class="inner">
       <!-- mailing form -->
-      <h1>Handlekurv</h1>
-      <div fxLayout="row" fxLayoutGap="20px" fxFlexAlign="center" id="main container">
-        <form [formGroup]="cartForm" fxFill fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="30px">
-          <div fxLayout="column" fxFlex="30" fxLayoutGap="15px">
-            <div fxLayout="column">
-              <label>Navn</label>
-              <input type="text" formControlName="name">
-            </div>
+      <div *ngIf="(store.photoShoppingCart$ | async).length > 0">
 
-            <div fxLayout="column">
-              <label>Epost</label>
-              <input type="email" formControlName="email">
-            </div>
-
-            <div fxLayout="column">
-              <label>Addresse</label>
-              <input type="text" formControlName="address">
-            </div>
-
-            <div fxLayout="column">
-              <label>Sted</label>
-              <input type="text" formControlName="place">
-            </div>
-
-            <div fxLayout="column">
-              <label>Postnummer</label>
-              <input type="text" formControlName="zip_code">
-            </div>
-
-            <div fxLayout="column">
-
+        <h1>Handlekurv</h1>
+        <div fxLayout="row" fxLayoutGap="20px" fxFlexAlign="center" id="main container">
+          <form [formGroup]="cartForm" fxFill fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="30px">
+            <div fxLayout="column" fxFlex="30" fxLayoutGap="15px">
               <div fxLayout="column">
-                <label>Send i post</label>
-                <input type="radio" formControlName="post_or_get" value="send-in-post">
+                <label>Navn</label>
+                <input type="text" formControlName="name">
               </div>
 
               <div fxLayout="column">
-                <label>Hent selv</label>
-                <input type="radio" formControlName="post_or_get" value="get-by-self">
+                <label>Epost</label>
+                <input type="email" formControlName="email">
               </div>
 
-            </div>
+              <div fxLayout="column">
+                <label>Addresse</label>
+                <input type="text" formControlName="address">
+              </div>
 
-            <div fxLayout="column">
-              <label>Kommentar</label>
-              <input type="text" formControlName="comment">
-            </div>
+              <div fxLayout="column">
+                <label>Sted</label>
+                <input type="text" formControlName="place">
+              </div>
 
-            <div fxLayout="column">
-              <button class="btn btn-success" type="submit" (click)="onSubmit()" [disabled]="!cartForm.valid">
-                <i class="fa fa-check"></i> Bestill
-              </button>
-            </div>
-          </div>
-          <!-- Preview box -->
-          <div fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
-            <!-- NO IMAGES | BEGIN -->
-            <div *ngIf="(store.photoShoppingCart$ | async).length < 1" fxLayout="column" fxLayoutAlign="center start" class="alert">
-              <p class="alert--text">Ingen bilder i handlekurven!</p>
-              <p class="alert--text">
-                <a class="alert--text--link" routerLink="../foto">Klikk her</a> for å bla gjennom våre bilder
-              </p>
-            </div>
-            <!-- NO IMAGES | END -->
+              <div fxLayout="column">
+                <label>Postnummer</label>
+                <input type="number" formControlName="zip_code">
+              </div>
 
-            <!-- ORDER PHOTOS | BEGIN -->
-            <!-- <div formArrayName="order_photos">
+              <div fxLayout="column">
+
+                <div fxLayout="column">
+                  <label>Send i post</label>
+                  <input type="radio" formControlName="post_or_get" value="send-in-post">
+                </div>
+
+                <div fxLayout="column">
+                  <label>Hent selv</label>
+                  <input type="radio" formControlName="post_or_get" value="get-by-self">
+                </div>
+
+              </div>
+
+              <div fxLayout="column">
+                <label>Kommentar</label>
+                <input type="text" formControlName="comment">
+              </div>
+
+              <div fxLayout="column">
+                <button class="btn btn-success" type="submit" (click)="onSubmit()" [disabled]="!cartForm.valid">
+                  <i class="fa fa-check"></i> Bestill
+                </button>
+              </div>
+            </div>
+            <!-- Preview box -->
+            <div fxFlex="<grow>" fxLayout="column" fxLayoutGap="20px">
+
+
+              <!-- ORDER PHOTOS | BEGIN -->
+              <!-- <div formArrayName="order_photos">
               <ng-container *ngFor="let photo of (store.photoShoppingCart$ | async); let i = index">
                 <div [formGroupName]="i" class="shopping-card" fxLayout="row" fxLayoutAlign="space-between">
                   <div class="shopping-card--image">
@@ -85,44 +80,87 @@
               </ng-container>
             </div> -->
 
-            <table *ngIf="this.cartForm.value.order_photos.length > 0 || this.regretRemovalArray.length > 0" fxLayout="column" fxLayoutGap="10px" class="shopping-table">
-              <thead fxLayout="row" class="shopping-table--head">
-                <tr class="shopping-table--head--row">
-                  <th>
-                    <button class="btn btn-info" (click)="regretRemoval()">
-                      Angre sletting
-                    </button>
-                  </th>
-                  <th>Ønsket format</th>
-                </tr>
-              </thead>
-              <tbody formArrayName="order_photos" class="shopping-table--body">
-                <tr [formGroupName]="i" *ngFor="let photo of (store.photoShoppingCart$ | async); let i = index" class="shopping-table--body--row">
-                  <!-- IMAGE | BEGIN -->
-                  <td fxLayoutAlign="center center">
-                    <img class="shopping-table--img clickable hover-outline" [src]="photo?.photo?.small" (click)="onPhotoClick(photo)">
-                  </td>
-                  <!-- IMAGE | END -->
+              <table *ngIf="this.cartForm.value.order_photos.length > 0 || this.regretRemovalArray.length > 0" fxLayout="column" fxLayoutGap="10px"
+                class="shopping-table">
+                <thead fxLayout="row" class="shopping-table--head">
+                  <tr class="shopping-table--head--row">
+                    <th>
+                      <button class="btn btn-info" (click)="regretRemoval()">
+                        Angre sletting
+                      </button>
+                    </th>
+                    <th>Ønsket format</th>
+                  </tr>
+                </thead>
+                <tbody formArrayName="order_photos" class="shopping-table--body">
+                  <tr [formGroupName]="i" *ngFor="let photo of (store.photoShoppingCart$ | async); let i = index" class="shopping-table--body--row">
+                    <!-- IMAGE | BEGIN -->
+                    <td fxLayoutAlign="center center">
+                      <img class="shopping-table--img clickable hover-outline" [src]="photo?.photo?.small" (click)="onPhotoClick(photo)">
+                    </td>
+                    <!-- IMAGE | END -->
 
-                  <!-- BUTTONS | BEGIN -->
-                  <td class="shopping-card--details--formats">
-                    <fg-radio-buttons formControlName="format"></fg-radio-buttons>
-                  </td>
-                  <td>
-                    <button class="btn btn-danger" (click)="removePhotoFromCart(photo)">
-                      Fjern
-                    </button>
-                  </td>
-                  <!-- BUTTONS | BEGIN -->
+                    <!-- BUTTONS | BEGIN -->
+                    <td class="shopping-card--details--formats">
+                      <fg-radio-buttons formControlName="format"></fg-radio-buttons>
+                    </td>
+                    <td>
+                      <button class="btn btn-danger" (click)="removePhotoFromCart(photo)">
+                        Fjern
+                      </button>
+                    </td>
+                    <!-- BUTTONS | BEGIN -->
 
-                </tr>
-              </tbody>
-            </table>
+                  </tr>
+                </tbody>
+              </table>
+              {{ cartForm.value | json }}
 
-            <!-- ORDER PHOTOS | END -->
-          </div>
-        </form>
+              <!-- ORDER PHOTOS | END -->
+            </div>
+          </form>
+        </div>
       </div>
+
+      <!-- NO IMAGES | BEGIN -->
+        <div *ngIf="!orderedPhotos && (store.photoShoppingCart$ | async).length < 1" fxLayout="column" fxLayoutAlign="center start" class="alert">
+          <p class="alert--text">Ingen bilder i handlekurven!</p>
+          <p class="alert--text">
+            <a class="alert--text--link" routerLink="../foto">Klikk her</a> for å bla gjennom våre bilder
+          </p>
+        </div>
+      <!-- NO IMAGES | END -->
+
+      <div *ngIf="orderedPhotos" fxLayout="column">
+        <h3>Din bestilling:</h3>
+        <h4>Fotogjengen vil kontakte deg på epost</h4>
+        <h5>Bestillingsinfo:</h5>
+        <div class="card--header">
+          <div class="card" fxLayout="row" fxFlex="100" fxLayoutWrap>
+            <div class="card--xtra" fxFlex.gt-sm="49" fxFlex.lt-sm="100">
+              <p>Navn: {{ this.orderdedOrder.name }}</p>
+              <p>Epost: {{ this.orderdedOrder.email }}</p>
+              <p>Kommentar: {{ this.orderdedOrder.comment }}</p>
+            </div>
+            <div class="card--xtra" fxFlex.gt-sm="49" fxFlex.lt-sm="100">
+              <p>Addresse: {{ this.orderdedOrder.address }}</p>
+              <p>Postnummer: {{ this.orderdedOrder.zip_code }}</p>
+              <p>Sted: {{ this.orderdedOrder.place }}</p>
+            </div>
+
+          </div>
+        </div>
+        <h5>Bilder:</h5>
+        <div class="card--container" fxLayout="row" fxLayoutGap="20px" fxFlexAlign="center" fxLayoutWrap>
+          <div *ngFor="let photo of this.orderedPhotos; let i = index" fxFlex.lg="12" fxFlex.md="25" fxFlex.sm="28" fxFlex.xs="42"
+            fxFlex.lt-xs="100" fxLayout="column" class="card">
+            <div class="card--img">
+              <img fxFlex="100" class="clickable hover-outline" [src]="photo?.photo?.small" (click)="onPhotoClick(photo)">
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 </div>

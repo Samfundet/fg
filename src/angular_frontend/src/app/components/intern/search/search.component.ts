@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IForeignKey, IResponse, IPhoto } from 'app/model';
 import { DATE_OPTIONS } from 'app/config';

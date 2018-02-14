@@ -63,3 +63,17 @@
   }
 }
 
+.card {
+  padding: 10px 0;
+
+  &--container {
+    padding: 10px;
+  }
+
+  &--img {
+    object-fit: contain;
+    height: 150px;
+    max-width: 150px;
+  }
+}
+

@@ -73,6 +73,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
   }
 
   search(filter: IFilters) {
+    console.log(filter);
     if (filter.hasOwnProperty('search')) {
       this.searchInput = filter.search;
     }
