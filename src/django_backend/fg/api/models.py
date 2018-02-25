@@ -191,4 +191,4 @@ class Person(models.Model):
     age = models.IntegerField()
 
     def __str__(self):
-        return name
+        return self.name

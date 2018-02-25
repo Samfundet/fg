@@ -27,6 +27,7 @@ export class StoreService {
   private _userModal$ = new BehaviorSubject<IUser>(null);
   private _foreignKeyModal$ = new BehaviorSubject<IForeignKeyModal>(null);
   private _photoShoppingCart$ = new BehaviorSubject<IPhoto[]>(null);
+  private _searchTags$ = new BehaviorSubject<IForeignKey[]>(null);
 
   public photoRouteActive$ = new Subject<boolean>();
   public photoModal$ = new BehaviorSubject<IPhoto>(null);
@@ -66,6 +67,19 @@ export class StoreService {
   // Actions that can be dispatched (Must end with Action)
   setFiltersAction(filters: IFilters) {
     this._filters$.next(filters);
+  }
+
+  setSearchTagsAction(tag: IForeignKey): void {
+    const tags = this.getSearchTagsValue();
+    if (tags.find(p => p.id === tag.id)) {
+      return;
+    }
+    tags.push(tag);
+    this._searchTags$.next(tags);
+  }
+
+  getSearchTagsAction(): Observable<IForeignKey[]> {
+    return this._searchTags$.asObservable();
   }
 
   getHomePagePhotosAction(params: ParamMap) {
@@ -269,6 +283,10 @@ export class StoreService {
 
   getPhotoShoppingCartValue(): IPhoto[] {
     return this._photoShoppingCart$.getValue() || [];
+  }
+
+  getSearchTagsValue(): IForeignKey[] {
+    return this._searchTags$.getValue() || [];
   }
 
   // Private methods
