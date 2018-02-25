@@ -78,7 +78,7 @@ class Photo(models.Model):
     description = models.CharField(max_length=2048, blank=True, null=True, verbose_name='beskrivelse')
     date_taken = models.DateTimeField()
     date_modified = models.DateTimeField(auto_now=True)
-    photo_ppoi = PPOIField()
+    photo_ppoi = PPOIField()  # Point of interest dot, 2d vector
 
     # Meta information
     page = models.IntegerField(db_index=True)
