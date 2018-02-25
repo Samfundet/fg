@@ -1,3 +1,4 @@
+import { IForeignKey } from 'app/model';
 import { Component, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 @Component({
@@ -6,8 +7,8 @@ import { Component, Input, OnDestroy, Output, EventEmitter } from '@angular/core
   styleUrls: ['./chip.component.scss']
 })
 export class ChipComponent {
-  @Input() chip: string;
-  @Output() onRemoveChip: EventEmitter<string> = new EventEmitter<string>();
+  @Input() chip: IForeignKey;
+  @Output() onRemoveChip: EventEmitter<IForeignKey> = new EventEmitter<IForeignKey>();
 
   constructor() { }
 

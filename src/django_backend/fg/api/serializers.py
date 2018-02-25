@@ -1,5 +1,5 @@
+import json
 from rest_framework import serializers
-from django.core.exceptions import ObjectDoesNotExist
 from . import models
 from ..settings import VERSATILEIMAGEFIELD_SETTINGS
 from versatileimagefield.serializers import VersatileImageFieldSerializer
@@ -75,7 +75,7 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
         sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes'],
         required=False
     )
-    tags = TagListField(many=True)
+    tags = serializers.CharField()
 
     class Meta:
         model = models.Photo
@@ -101,13 +101,12 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
         tags = validated_data.pop('tags')
 
         photo = models.Photo.objects.create(**validated_data)
-        if len(tags) <= 1:
-            tags = tags[0].split(',')
+        tags = json.loads(tags)
+
         for tag_name in tags:
             if not len(tag_name):
                 continue
             tag, _ = models.Tag.objects.get_or_create(name=tag_name)
-            print(tag)
             photo.tags.add(tag)
         photo.save()
 
@@ -159,11 +158,12 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
         instance.on_home_page = validated_data.get('on_home_page', instance.on_home_page)
         instance.splash = validated_data.get('splash', instance.splash)
 
-        # print(validated_data.get('tags', instance.tags))
-        # for tag_name in validated_data.get('tags', instance.tags):
-        #     tag, _ = models.Tag.objects.get_or_create(name=tag_name)
-        #     instance.tags.add(tag)
-
+        tags = validated_data.get('tags')
+        if tags:
+            tags = json.loads(tags)
+            for tag_name in tags:
+                tag, _ = models.Tag.objects.get_or_create(name=tag_name)
+                instance.tags.add(tag)
 
         instance.save()
 

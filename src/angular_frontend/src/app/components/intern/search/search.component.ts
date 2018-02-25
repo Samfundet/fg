@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IForeignKey, IResponse, IPhoto } from 'app/model';
 import { DATE_OPTIONS } from 'app/config';
@@ -14,7 +14,6 @@ import * as moment from 'moment';
 export class SearchComponent implements OnInit {
   searchForm: FormGroup;
   photoResponse: IResponse<IPhoto>;
-
   options = DATE_OPTIONS;
 
   albums: IForeignKey[];
@@ -53,7 +52,7 @@ export class SearchComponent implements OnInit {
   ngOnInit() {
     this.searchForm = this.fb.group({
       motive: [, []],
-      tags: [, []],
+      tags: [[], []],
       date_taken_from: [, []],
       date_taken_to: [, []],
 
@@ -78,7 +77,25 @@ export class SearchComponent implements OnInit {
       moment(this.searchForm.value.date_taken_from.jsdate).format('YYYY-MM-DD') : null;
     const date_taken_to = this.searchForm.value.date_taken_to ?
       moment(this.searchForm.value.date_taken_to.jsdates).format('YYYY-MM-DD') : null;
-    this.api.getPhotos({...formValue, date_taken_from, date_taken_to}).subscribe(p => this.photoResponse = p);
+    // Have to fix how tags are sendt because they fuck this whole shit up big time
+    formValue.tags = [];
+    this.store.getSearchTagsValue().forEach(tag => {
+      formValue.tags.push(tag.id);
+    });
+    this.api.getPhotos({ ...formValue, date_taken_from, date_taken_to }).subscribe(p => {
+      this.photoResponse = p;
+      console.log(p);
+    });
+
+    /*
+    if (formValue.tags.length < 1) {
+      formValue.tags = null; // If this is an empty array search doesnt work
+      console.log('tags = null');
+    }
+    if (formValue.tags === null) {
+      formValue.tags = []; // This has to be set back to be an array not null for search to work later
+      console.log('tags = []');
+    } */
   }
 
   delete(photo: IPhoto) {
@@ -89,7 +106,7 @@ export class SearchComponent implements OnInit {
     const ids = this.photoResponse.results.filter(p => p.checkedForEdit).map(p => p.id);
     this.router.navigate(['../rediger'], {
       relativeTo: this.route,
-      queryParams: {id: ids}
+      queryParams: { id: ids }
     });
   }
 

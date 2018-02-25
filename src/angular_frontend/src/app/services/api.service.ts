@@ -20,6 +20,9 @@ export class ApiService {
     if (filters) {
       for (const key of Object.keys(filters)) {
         if (filters[key] !== null && filters[key] !== '') {
+          if (filters[key].length < 1) {
+            filters[key] = null;
+          }
           params = params.append(key, filters[key]);
         }
       }
