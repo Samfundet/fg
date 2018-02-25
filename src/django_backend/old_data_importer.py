@@ -40,11 +40,11 @@ def migrate(apps, schema_editor):
             "auth.permission",
         ])
 
-        here_models = {}
-        for item in cleaned_data:
-            here_models[item["model"]] = 'here'
-
-        print(here_models)
+        # here_models = {}
+        # for item in cleaned_data:
+        #     here_models[item["model"]] = 'here'
+        #
+        # print(here_models)
 
         load_data(cleaned_data, apps, schema_editor)
 
@@ -62,7 +62,8 @@ def load_data(data, apps, schema_editor):
     securitylevel_objects = [item for item in data if item["model"] == "api.securitylevel"]
     photo_objects = [item for item in data if item["model"] == "api.photo"]
     user_objects = [item for item in data if item["model"] == "fg_auth.user"]
-    job_objects = [item for item in data if item["model"] == "fg_auth.job"]
+    all_jobs = [item["fields"]["gjengjobber"] for item in data if item["model"] == "fg_auth.user"]
+    print(all_jobs)
 
     load_foreign_keys(tag_objects, "api", "Tag", apps)
     load_foreign_keys(media_objects, "api", "Media", apps)
@@ -74,8 +75,6 @@ def load_data(data, apps, schema_editor):
     load_photos(photo_objects[0:100], apps)
 
     create_groups(apps)
-
-    load_foreign_keys(job_objects, "fg_auth", "Job", apps)
 
     #load_users(user_objects[0:100], apps)
 
@@ -96,7 +95,11 @@ def create_groups(apps):
     husfolk.save()
 
 
+def load_jobs(apps):
+    pass
+
 def load_users(model_objects, apps):
+    Job = apps.get_model("fg_auth", "Job")
     User = apps.get_model("fg_auth", "User")
     Group = apps.get_model('auth', 'Group')
 
@@ -147,18 +150,6 @@ def load_photos(model_objects, apps):
         obj.save()
         for tag in tags:
             obj.tags.add(tag)
-
-
-def load_jobs(model_objects, apps):
-    Job = apps.get_model("fg_auth", "Job")
-    print("Here be jobs")
-    print(model_objects)
-
-    for item in model_objects:
-        obj = Job.objects.get_or_create(**item["fields"])
-        print(item["fields"])
-        obj.save()
-
 
 def load_foreign_keys(model_objects, app_name, model_name, apps):
     Mod = apps.get_model(app_name, model_name)
@@ -282,26 +273,12 @@ def convert_to_new_model(data):
             item["fields"]["zip_code"] = str(item["fields"]["zip_code"]).zfill(4)
             for it in data:
                 if it["model"] == "fg_auth.fginfo" and it["pk"] == fg_info_pk:
-                    # item["fields"]['gjengjobb1'] = it["fields"]["gjengjobb1"]
-                    # item["fields"]['gjengjobb2'] = it["fields"]["gjengjobb2"]
-                    # item["fields"]['gjengjobb3'] = it["fields"]["gjengjobb3"]
-                    job_list = [it["fields"]["gjengjobb1"], it["fields"]["gjengjobb2"], it["fields"]["gjengjobb2"]]
-                    job_pk_list = []
-                    for job in job_list:
-                        if len(job) > 1:
-                            new_job = {
-                                "pk": job_pk,
-                                "model": "fg_auth.job",
-                                "fields": {
-                                    "name": job,
-                                    "description": "PLACEHOLDER"
-                                }
-                            }
-                            data.append(new_job)
-                            job_pk_list.append(new_job["pk"])
-                            job_pk += 1
 
-                    item["fields"]['gjengjobber'] = job_pk_list
+                    item["fields"]['gjengjobber'] = [
+                        it["fields"]["gjengjobb1"],
+                        it["fields"]["gjengjobb2"],
+                        it["fields"]["gjengjobb2"],
+                    ]
                     item["fields"]['aktiv_pang'] = it["fields"]["aktiv_pang"]
                     item["fields"]['fg_kallenavn'] = it["fields"]["fg_kallenavn"]
                     item["fields"]['comments'] = it["fields"]["comments"]
@@ -312,6 +289,9 @@ def convert_to_new_model(data):
 
                     # Cleanup
                     del item["fields"]["fg_info"]
+                    del it["fields"]["gjengjobb1"]
+                    del it["fields"]["gjengjobb2"]
+                    del it["fields"]["gjengjobb2"]
                     break
 
         elif item["model"] == "fg_auth.user" and item["fields"]["fg_info"] is None:

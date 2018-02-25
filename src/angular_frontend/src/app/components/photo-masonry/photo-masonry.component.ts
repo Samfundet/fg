@@ -39,7 +39,7 @@ export class PhotoMasonryComponent implements OnInit {
   };
 
   constructor(private store: StoreService) {
-    store.photoShoppingCart$.subscribe(ps => this.inCartPhotos = ps.map(x => x.id));
+    store.photoShoppingCart$.filter(p => !!p).subscribe(ps => this.inCartPhotos = ps.map(x => x.id));
   }
 
   onPhotoClick(photo: IPhoto) {
