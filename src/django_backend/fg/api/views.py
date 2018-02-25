@@ -17,7 +17,6 @@ from ..permissions import IsFGOrReadOnly, IsFG, IsFgOrPostOnly, IsFgOrHusfolk
 from rest_framework.permissions import AllowAny
 from . import models, serializers, filters
 
-
 Statistics = namedtuple(
     'Statistics',
     ('photos', 'tags', 'scanned', 'albums', 'splash', 'orders', 'photos_by_year', 'photos_per_album')
@@ -111,11 +110,11 @@ class PhotoViewSet(ModelViewSet):
     ordering = ('-date_taken',)
     filter_class = filters.PhotoFilter
 
-    def retrieve ( self, request, *args, **kwargs ):
+    def retrieve(self, request, *args, **kwargs):
         self.serializer_class = serializers.PhotoSerializer
         return super(PhotoViewSet, self).retrieve(request, *args, **kwargs)
 
-    def list ( self, request, *args, **kwargs ):
+    def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(queryset)
         self.serializer_class = serializers.PhotoSerializer
@@ -123,29 +122,29 @@ class PhotoViewSet(ModelViewSet):
 
         return self.get_paginated_response(serialized_list.data)
 
-    def create ( self, request, *args, **kwargs ):
+    def create(self, request, *args, **kwargs):
         self.serializer_class = serializers.PhotoCreateSerializer
         self.permission_classes = [IsFG]
         return super().create(request, *args, **kwargs)
 
-    def destroy ( self, request, *args, **kwargs ):
+    def destroy(self, request, *args, **kwargs):
         self.serializer_class = serializers.PhotoSerializer
         return super().destroy(request, *args, **kwargs)
 
     # Use partial update if you want to send partial objects (verb: PATCH instead of PUT)
-    def update ( self, request, *args, **kwargs ):
+    def update(self, request, *args, **kwargs):
         self.serializer_class = serializers.PhotoUpdateSerializer
         return super().update(request, *args, **kwargs)
 
-    def partial_update ( self, request, *args, **kwargs ):
+    def partial_update(self, request, *args, **kwargs):
         self.serializer_class = serializers.PhotoUpdateSerializer
         return super().partial_update(request, *args, **kwargs)
 
-    def options ( self, request, *args, **kwargs ):
+    def options(self, request, *args, **kwargs):
         self.serializer_class = serializers.PhotoSerializer
         return super().options(request, *args, **kwargs)
 
-    def get_queryset ( self ):
+    def get_queryset(self):
         user = self.request.user
 
         # Filter the photos based on user group
@@ -163,12 +162,12 @@ class PhotoViewSet(ModelViewSet):
 
 
 @api_view()
-def get_latest_image_number_and_page_number ( request, album_id='', analog=False ):
+def get_latest_image_number_and_page_number(request, album_id='', analog=False):
     try:
         if album_id:
             latest_album = models.Photo.objects.filter(
                 album=album_id.strip()).latest('date_taken').album
-        elif analog: # TODO or FIX: currently no need for this
+        elif analog:  # TODO or FIX: currently no need for this
             latest_album = models.Photo.objects.exclude(
                 album__name__startswith='DIG').latest('date_taken').album
         else:
@@ -211,7 +210,7 @@ class LatestSplashPhotoView(RetrieveAPIView):
     serializer_class = serializers.PhotoSerializer
     permission_classes = [IsFGOrReadOnly]
 
-    def get_object ( self ):
+    def get_object(self):
         try:
             latest = self.get_queryset().filter(splash=True).latest('date_taken')
         except ObjectDoesNotExist:
@@ -221,7 +220,7 @@ class LatestSplashPhotoView(RetrieveAPIView):
         else:
             return None
 
-    def get_queryset ( self ):
+    def get_queryset(self):
         user = self.request.user
 
         # Filter the photos based on user group
@@ -245,7 +244,7 @@ class PhotoListFromIds(ListAPIView):
     serializer_class = serializers.PhotoSerializer
     permission_classes = [IsFGOrReadOnly]
 
-    def get_queryset ( self ):
+    def get_queryset(self):
         user = self.request.user
 
         if (user.groups.exists() and user.is_active and 'FG' in user.groups.all()) or user.is_superuser:
@@ -258,7 +257,7 @@ class PhotoListFromIds(ListAPIView):
 class PhotoListFromAlbumPageAndImageNumber(ViewSet):
     permission_classes = [IsFG]
 
-    def get_queryset ( self ):
+    def get_queryset(self):
         user = self.request.user
         if (user.groups.exists() and user.is_active and 'FG' in user.groups.all()) or user.is_superuser:
             album = self.request.query_params.get('album')
@@ -272,7 +271,7 @@ class PhotoListFromAlbumPageAndImageNumber(ViewSet):
 
         return []
 
-    def list ( self, request ):
+    def list(self, request):
         ids = IDInfo(self.get_queryset())
         serializer = serializers.PhotoByIDSerializer(ids)
         return Response(serializer.data)
@@ -304,7 +303,7 @@ class StatisticsViewSet(ViewSet):
     """
     permission_classes = [IsFG]
 
-    def list ( self, request ):
+    def list(self, request):
         # Puts photos per year in list, 0-index = newest year
         photos_per_year = models.Photo.objects.annotate(
             year=TruncYear('date_taken')
@@ -357,6 +356,6 @@ class SearchAutocompleteDataViewSet(ViewSet):
         )
         return data
 
-    def list ( self, request ):
+    def list(self, request):
         serializer = serializers.SearchAutocompleteDataSerializer(self.get_queryset())
         return Response(serializer.data)

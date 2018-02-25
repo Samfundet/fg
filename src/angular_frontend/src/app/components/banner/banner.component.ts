@@ -18,12 +18,12 @@ export class BannerComponent {
 
   constructor(private store: StoreService, private sanitizer: DomSanitizer) {
     this.sanitizedImage = this.sanitizer.bypassSecurityTrustStyle(`url(${this.backgroundImageUrl}`);
-    if (window.screen.width > 600) {
+    // if (window.screen.width > 600) {
       this.store.getSplashPhotoAction().subscribe(p => {
         this.photo = p;
         this.setBackgroundImage(p);
       });
-    }
+    // }
   }
 
   setBackgroundImage(p: IPhoto)  {

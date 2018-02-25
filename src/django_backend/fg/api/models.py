@@ -3,7 +3,6 @@ from .. import settings
 from django.db import models
 from django.utils import timezone
 from versatileimagefield.fields import VersatileImageField, PPOIField
-from django.contrib.auth import get_user_model
 
 
 class Tag(models.Model):
@@ -85,7 +84,7 @@ class Photo(models.Model):
     image_number = models.PositiveIntegerField(db_index=True)
     lapel = models.BooleanField(default=False, db_index=True)
     scanned = models.BooleanField(default=False, db_index=True)
-    on_home_page = models.BooleanField(default=True, db_index=True)
+    on_home_page = models.BooleanField(default=False, db_index=True)
     splash = models.BooleanField(default=False)
 
     # Foreign keys describing meta-data
@@ -184,11 +183,3 @@ class OrderPhoto(models.Model):
 
     def __str__(self):
         return str(self.photo) + ' - ' + self.order.email + ' - ' + self.format
-
-
-class Person(models.Model):
-    name = models.CharField(max_length=32)
-    age = models.IntegerField()
-
-    def __str__(self):
-        return name
