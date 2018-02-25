@@ -1,12 +1,17 @@
 import { StoreService, ApiService } from 'app/services';
 import { INgxMyDpOptions, IMyDate } from 'ngx-mydatepicker';
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import {
+  FormControl,
+  FormGroup,
+  FormBuilder,
+  Validators
+} from '@angular/forms';
 import { DATE_OPTIONS } from 'app/config';
 import { IForeignKey, ILatestImageAndPage } from 'app/model';
 import { HttpResponse } from '@angular/common/http/src/response';
 import { DISABLED } from '@angular/forms/src/model';
-
 
 @Component({
   selector: 'fg-register-film',
@@ -14,7 +19,6 @@ import { DISABLED } from '@angular/forms/src/model';
   styleUrls: ['./register-film.component.scss']
 })
 export class RegisterFilmComponent implements OnInit {
-
   uploadForm: FormGroup;
   options = DATE_OPTIONS;
   uploadInfo: ILatestImageAndPage;
@@ -27,15 +31,19 @@ export class RegisterFilmComponent implements OnInit {
   places: IForeignKey[];
   securityLevels: IForeignKey[];
 
-
-  constructor(private store: StoreService, private api: ApiService, private fb: FormBuilder) {
+  constructor(
+    private store: StoreService,
+    private api: ApiService,
+    private fb: FormBuilder,
+    private toastr: ToastrService
+  ) {
     // TODO - change this to use storeservice instead of API?
     // TODO - get only analog albums
     this.albums = store.getFilteredAlbumsAction('ANA');
-    api.getCategories().subscribe(c => this.categories = c);
-    api.getMediums().subscribe(m => this.mediums = m);
-    api.getPlaces().subscribe(p => this.places = p);
-    api.getSecurityLevels().subscribe(s => this.securityLevels = s);
+    api.getCategories().subscribe(c => (this.categories = c));
+    api.getMediums().subscribe(m => (this.mediums = m));
+    api.getPlaces().subscribe(p => (this.places = p));
+    api.getSecurityLevels().subscribe(s => (this.securityLevels = s));
   }
 
   ngOnInit() {
@@ -72,18 +80,26 @@ export class RegisterFilmComponent implements OnInit {
         image_number: n
       });
     });
-    this.uploadForm.get('number_of_images').valueChanges.subscribe(n => this.numberOfImages = n);
+    this.uploadForm
+      .get('number_of_images')
+      .valueChanges.subscribe(n => (this.numberOfImages = n));
   }
 
   upload(): void {
     console.log(this.uploadForm.value);
-    const date_taken = this.uploadForm.value['date_taken']['jsdate'].toISOString();
+    const date_taken = this.uploadForm.value['date_taken'][
+      'jsdate'
+    ].toISOString();
     for (let i = 0; i < this.numberOfImages; i++) {
       if (this.uploadForm.valid) {
-        this.store.postPhotoAction({
-          ...this.uploadForm.value,
-          date_taken
-        }).subscribe(e => console.log(e));
+        this.store
+          .postPhotoAction({
+            ...this.uploadForm.value,
+            date_taken
+          })
+          .subscribe(e => {
+            this.toastr.success(null, 'Opplasting vellykket kanskje?');
+          });
         this.uploadForm.patchValue({
           image_number: this.uploadForm.value['image_number'] + 1
         });

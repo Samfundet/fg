@@ -80,7 +80,7 @@ def load_data(data, apps, schema_editor):
 
 
 def create_groups(apps):
-    """"
+    """
     {"pk": 1, "model": "fg_auth.securitylevel", "fields": {"name": "FG"}},
     {"pk": 2, "model": "fg_auth.securitylevel", "fields": {"name": "Power"}},
     {"pk": 3, "model": "fg_auth.securitylevel", "fields": {"name": "Husfolk"}},

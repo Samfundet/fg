@@ -108,6 +108,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
 if 'test' in sys.argv or 'test_coverage' in sys.argv or 'TRAVIS' in os.environ:
     DATABASES['default']['ENGINE'] = 'django.db.backends.sqlite3'
 

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { StoreService, ApiService } from 'app/services';
 import { IForeignKey, ILatestImageAndPage, PartialPhoto, IPhoto, IResponse } from 'app/model';
 import { FileUploader, FileUploaderOptions, FileItem } from 'angular-file';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class UploadScannedComponent implements OnInit {
   validComboDrag = false;
   invalidComboDrag = false;
 
-  constructor(private store: StoreService, private api: ApiService, private fb: FormBuilder) {
+  constructor(private store: StoreService, private api: ApiService, private fb: FormBuilder, private toastr: ToastrService) {
     this.albums = store.getFilteredAlbumsAction('ANA');
   }
 
@@ -59,7 +60,7 @@ export class UploadScannedComponent implements OnInit {
         error => {
           item.isError = true;
           item.isUploading = false;
-          console.error(error, 'hehehe');
+          this.toastr.error(null, 'Opplasting feilet 😢');
         });
     }
   }

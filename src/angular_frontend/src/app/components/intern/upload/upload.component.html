@@ -75,7 +75,7 @@
       <input id="splash" type="checkbox" formControlName="splash">
     </div>
 
-    <button class="btn btn-primary" type="button" [disabled]="!uploadForm.valid">
+    <button class="btn btn-primary" type="button" (click)="uploadAll()" [disabled]="!uploadForm.valid">
         <i class="fa fa-upload"></i> Start alle
     </button>
 
