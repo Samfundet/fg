@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { trigger, state, style, transition, animate } from '@angular/animations';
@@ -72,14 +73,57 @@ export class PhotosComponent implements OnInit, OnDestroy {
     this.store.photoRouteActive$.next(false);
   }
 
-  search(filter: IFilters) {
-    console.log(filter);
+  /* search() {
+    const searchVal = this.searchForm.value;
+    searchVal.tags = [];
+    this.store.getSearchTagsValue().forEach(t => searchVal.tags.push(t.id));
+    if (searchVal.tags.length < 1) {
+      searchVal.tags = null;
+    }
+
+    let filter: IFilters;
+    for (const key in searchVal) {
+      if (searchVal.hasOwnProperty(key) && searchVal[key] !== null) {
+        if (key === 'tags') {
+
+        }else {
+          filter.search += key + searchVal[key];
+        }
+      }
+    }
+
     if (filter.hasOwnProperty('search')) {
       this.searchInput = filter.search;
     }
     this.router.navigate([], {
-      queryParams: filter
+      queryParams: params
     });
+
+    this.searching = true;
+    this.api.getPhotos({...searchVal}).subscribe(response => {
+      this.photos = response.results;
+      this.searching = false;
+      console.log(this.photos);
+      this.photosAreLoaded = true;
+    });
+  } */
+
+  search(filter: IFilters) {
+    // console.log(filter);
+    const searchVal = this.searchForm.value;
+    searchVal.tags = [];
+    this.store.getSearchTagsValue().forEach(t => searchVal.tags.push(t.id));
+    for (const key in searchVal) {
+      if (searchVal.hasOwnProperty(key)) {
+        if (searchVal[key] !== null && searchVal[key].length < 1) {
+          searchVal[key].length = null;
+        }
+      }
+    }
+    this.router.navigate([], {
+      queryParams: searchVal
+    });
+    console.log(searchVal);
     this.searching = true;
     this.api.getPhotos(filter).subscribe(response => {
       this.photos = response.results;
