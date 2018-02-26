@@ -1,5 +1,5 @@
+import json
 from rest_framework import serializers
-from django.core.exceptions import ObjectDoesNotExist
 from . import models
 from ..settings import VERSATILEIMAGEFIELD_SETTINGS
 from versatileimagefield.serializers import VersatileImageFieldSerializer
@@ -55,20 +55,18 @@ class PhotoSerializer(serializers.ModelSerializer):
     album = AlbumSerializer()
     place = PlaceSerializer()
 
-
     class Meta:
         model = models.Photo
         fields = '__all__'
         depth = 2
 
-class PhotoByIDSerializer(serializers.Serializer):
 
+class PhotoByIDSerializer(serializers.Serializer):
     photo_ids = serializers.ListField(child=serializers.IntegerField(read_only=True))
 
 
-
 class TagListField(serializers.StringRelatedField):
-    def to_internal_value ( self, value ):
+    def to_internal_value(self, value):
         return value
 
 
@@ -77,8 +75,7 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
         sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes'],
         required=False
     )
-    tags = TagListField(many=True)
-
+    tags = serializers.CharField()
 
     class Meta:
         model = models.Photo
@@ -100,18 +97,16 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
             'lapel'
         )
 
-
-    def create ( self, validated_data ):
+    def create(self, validated_data):
         tags = validated_data.pop('tags')
 
         photo = models.Photo.objects.create(**validated_data)
-        if len(tags) <= 1:
-            tags = tags[0].split(',')
+        tags = json.loads(tags)
+
         for tag_name in tags:
             if not len(tag_name):
                 continue
             tag, _ = models.Tag.objects.get_or_create(name=tag_name)
-            print(tag)
             photo.tags.add(tag)
         photo.save()
 
@@ -124,7 +119,6 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
         required=False
     )
     tags = TagListField(many=True)
-
 
     # image_number = serializers.IntegerField(required=False)
     # page = serializers.IntegerField(required=False)
@@ -149,8 +143,8 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
             'lapel'
         )
 
-
-    def update ( self, instance, validated_data ):
+    def update(self, instance, validated_data):
+        instance.photo = validated_data.get('photo', instance.photo)
         instance.motive = validated_data.get('motive', instance.motive)
         instance.image_number = validated_data.get('image_number', instance.image_number)
         instance.page = validated_data.get('page', instance.page)
@@ -164,9 +158,12 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
         instance.on_home_page = validated_data.get('on_home_page', instance.on_home_page)
         instance.splash = validated_data.get('splash', instance.splash)
 
-        for tag_name in validated_data.get('tags', instance.tags):
-            tag, _ = models.Tag.objects.get_or_create(name=tag_name)
-            instance.tags.add(tag)
+        tags = validated_data.get('tags')
+        if tags:
+            tags = json.loads(tags)
+            for tag_name in tags:
+                tag, _ = models.Tag.objects.get_or_create(name=tag_name)
+                instance.tags.add(tag)
 
         instance.save()
 
@@ -176,7 +173,6 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
 class OrderPhotoSerializer(serializers.ModelSerializer):
     photo_url = serializers.CharField(source='photo.photo.url', read_only=True)
 
-
     class Meta:
         model = models.OrderPhoto
         fields = ('photo', 'format', 'photo_url')
@@ -185,13 +181,11 @@ class OrderPhotoSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     order_photos = OrderPhotoSerializer(many=True)
 
-
     class Meta:
         model = models.Order
         fields = '__all__'
 
-
-    def create ( self, validated_data ):
+    def create(self, validated_data):
         order_photos = validated_data.pop('order_photos')
 
         if len(order_photos) < 1:
@@ -210,7 +204,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
             return order
 
-    def update ( self, instance, validated_data ):
+    def update(self, instance, validated_data):
         instance.order_completed = validated_data.get("order_completed")
         instance.save()
         return instance

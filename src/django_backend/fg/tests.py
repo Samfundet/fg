@@ -623,7 +623,6 @@ class UserTestCase(APITestCase):
         seed_users()
         self.factory = APIRequestFactory()
 
-
     def test_fg_users_can_get_all_fg_users ( self ):
         view = FgUsersView.as_view()
 

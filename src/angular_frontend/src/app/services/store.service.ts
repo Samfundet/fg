@@ -242,8 +242,11 @@ export class StoreService {
   postPhotoAction(data) {
     const formData = new FormData();
     for (const key of Object.keys(data)) {
-      formData.append(key, data[key]);
-      console.log(key, data[key]);
+      if (key === 'tags') {
+        formData.append(key, JSON.stringify(data[key]));
+      } else {
+        formData.append(key, data[key]);
+      }
     }
     return this.api.postPhoto(formData);
   }
