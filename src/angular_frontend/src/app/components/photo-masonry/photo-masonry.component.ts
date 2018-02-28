@@ -48,10 +48,16 @@ export class PhotoMasonryComponent implements OnInit {
 
   ngOnInit() { // Trying AfterViewInit because there is problems on search
     this.photos.forEach(p => {
-      if (this.inCartPhotos.indexOf(p.id) !== -1) {
+      /*if (this.inCartPhotos.indexOf(p.id) !== -1) {
         p.addedToCart = true;
       }
-    });
+      */
+     if (this.inCartPhotos.forEach(pid => {
+      this.photos.find(p => p.id === pid).addedToCart = true;
+     }))
+       
+    }); // UPDATE: wat is this? - Sindre
+
     /* This doesn't work in search because this.photo does not contain pid always
       this.inCartPhotos.forEach(pid => {
       this.photos.find(p => p.id === pid).addedToCart = true;
