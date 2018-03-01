@@ -73,62 +73,54 @@ export class PhotosComponent implements OnInit, OnDestroy {
     this.store.photoRouteActive$.next(false);
   }
 
-  /* search() {
-    const searchVal = this.searchForm.value;
-    searchVal.tags = [];
-    this.store.getSearchTagsValue().forEach(t => searchVal.tags.push(t.id));
-    if (searchVal.tags.length < 1) {
-      searchVal.tags = null;
-    }
-
-    let filter: IFilters;
-    for (const key in searchVal) {
-      if (searchVal.hasOwnProperty(key) && searchVal[key] !== null) {
-        if (key === 'tags') {
-
-        }else {
-          filter.search += key + searchVal[key];
-        }
-      }
-    }
-
-    if (filter.hasOwnProperty('search')) {
-      this.searchInput = filter.search;
-    }
-    this.router.navigate([], {
-      queryParams: params
-    });
-
-    this.searching = true;
-    this.api.getPhotos({...searchVal}).subscribe(response => {
-      this.photos = response.results;
-      this.searching = false;
-      console.log(this.photos);
-      this.photosAreLoaded = true;
-    });
-  } */
-
-  search(filter: IFilters) {
+  search(filter: IFilters, isinit?: boolean) {
     // console.log(filter);
+    let searchBool = true;
     const searchVal = this.searchForm.value;
     searchVal.tags = [];
     this.store.getSearchTagsValue().forEach(t => searchVal.tags.push(t.id));
     for (const key in searchVal) {
       if (searchVal.hasOwnProperty(key)) {
         if (searchVal[key] !== null && searchVal[key].length < 1) {
-          searchVal[key].length = null;
+          searchVal[key] = null;
+        }
+        if (searchBool && searchVal[key] !== null) {
+          console.log(searchVal[key], key);
+          searchBool = false;
         }
       }
     }
+    if (filter.hasOwnProperty('search')) {
+      this.searchInput = filter.search;
+      console.log(this.searchInput);
+    }
     this.router.navigate([], {
-      queryParams: searchVal
+      queryParams: isinit ? this.searchInput : searchVal
     });
-    console.log(searchVal);
+
     this.searching = true;
-    this.api.getPhotos(filter).subscribe(response => {
-      this.photos = response.results;
+  }
+
+  searchWithParams(params) {
+    this.api.getPhotos(params).subscribe(res => {
+      this.photos = res.results;
       this.searching = false;
-      console.log(this.photos);
+      this.photosAreLoaded = true;
+    });
+  }
+
+  searchWithForm(searchFilter) {
+    this.api.getPhotos(searchFilter).subscribe(res => {
+      this.photos = res.results;
+      this.searching = false;
+      this.photosAreLoaded = true;
+    });
+  }
+
+  searchAll() {
+    this.api.getAllPhotos().subscribe(res => {
+      this.photos = res.results;
+      this.searching = false;
       this.photosAreLoaded = true;
     });
   }
@@ -145,7 +137,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
       album: [filter.album, []],
       place: [filter.place, []]
     });
-    this.search(filter);
+    this.search(filter, true);
   }
 
   toggleAdvanced() {

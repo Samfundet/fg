@@ -78,6 +78,15 @@ export class StoreService {
     this._searchTags$.next(tags);
   }
 
+  removeSearchTagAction(tag: IForeignKey): void {
+    const tags = this.getSearchTagsValue();
+    if (!tags.find(p => p.id === tag.id)) {
+      return;
+    }
+    tags.splice(tags.indexOf(tag), 1);
+    this._searchTags$.next(tags);
+  }
+
   getSearchTagsAction(): Observable<IForeignKey[]> {
     return this._searchTags$.asObservable();
   }
