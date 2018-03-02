@@ -77,17 +77,13 @@ export class PhotosComponent implements OnInit, OnDestroy {
     const searchVal = this.searchForm.value;
     searchVal.tags = [];
     this.store.getSearchTagsValue().forEach(t => searchVal.tags.push(t.id));
+    this.searchHasOwnProperty(filter);
 
-    if (filter.hasOwnProperty('search')) {
-      this.searchInput = filter.search;
-      console.log(this.searchInput);
-    }
     this.router.navigate([], {
       queryParams: filter
     });
 
     this.searching = true;
-    this.searchHasOwnProperty(filter);
     this.searchWithParams(filter);
   }
 
@@ -113,7 +109,6 @@ export class PhotosComponent implements OnInit, OnDestroy {
     tagNames = Array.isArray(tagNames) ? tagNames : [tagNames];
     const tags: string[] = [];
     this.api.getForeignKey('tags').subscribe(ts => {
-      console.log(tagNames);
       ts['results'].forEach(tag => {
         if (tagNames.includes(tag.id.toString())) {
           tags.push(tag.name);
@@ -137,7 +132,6 @@ export class PhotosComponent implements OnInit, OnDestroy {
       place: [filter.place, []]
     });
     this.search(filter);
-    console.log(this.searchForm.value.tags);
   }
 
   toggleAdvanced() {
