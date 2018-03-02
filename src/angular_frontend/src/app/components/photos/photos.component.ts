@@ -73,32 +73,32 @@ export class PhotosComponent implements OnInit, OnDestroy {
     this.store.photoRouteActive$.next(false);
   }
 
-  search(filter: IFilters, isinit?: boolean) {
-    // console.log(filter);
-    let searchBool = true;
+  search(filter: IFilters) {
     const searchVal = this.searchForm.value;
     searchVal.tags = [];
     this.store.getSearchTagsValue().forEach(t => searchVal.tags.push(t.id));
-    for (const key in searchVal) {
-      if (searchVal.hasOwnProperty(key)) {
-        if (searchVal[key] !== null && searchVal[key].length < 1) {
-          searchVal[key] = null;
-        }
-        if (searchBool && searchVal[key] !== null) {
-          console.log(searchVal[key], key);
-          searchBool = false;
-        }
-      }
-    }
+
     if (filter.hasOwnProperty('search')) {
       this.searchInput = filter.search;
       console.log(this.searchInput);
     }
     this.router.navigate([], {
-      queryParams: isinit ? this.searchInput : searchVal
+      queryParams: filter
     });
 
     this.searching = true;
+    this.searchHasOwnProperty(filter);
+    this.searchWithParams(filter);
+  }
+
+  searchHasOwnProperty(valObj) {
+    for (const key in valObj) {
+      if (valObj.hasOwnProperty(key)) {
+        if (valObj[key] !== null && valObj[key].length < 1) {
+          valObj[key] = null;
+        }
+      }
+    }
   }
 
   searchWithParams(params) {
@@ -109,26 +109,25 @@ export class PhotosComponent implements OnInit, OnDestroy {
     });
   }
 
-  searchWithForm(searchFilter) {
-    this.api.getPhotos(searchFilter).subscribe(res => {
-      this.photos = res.results;
-      this.searching = false;
-      this.photosAreLoaded = true;
+  initTags(tagNames): string[] {
+    tagNames = Array.isArray(tagNames) ? tagNames : [tagNames];
+    const tags: string[] = [];
+    this.api.getForeignKey('tags').subscribe(ts => {
+      console.log(tagNames);
+      ts['results'].forEach(tag => {
+        if (tagNames.includes(tag.id.toString())) {
+          tags.push(tag.name);
+          this.store.setSearchTagsAction(tag);
+        }
+      });
     });
-  }
-
-  searchAll() {
-    this.api.getAllPhotos().subscribe(res => {
-      this.photos = res.results;
-      this.searching = false;
-      this.photosAreLoaded = true;
-    });
+    return tags;
   }
 
   initialize(filter: any) {
     this.searchForm = this.fb.group({
       motive: [filter.motive, []],
-      tags: [filter.tags ? (Array.isArray(filter.tags) ? filter.tags : [filter.tags]) : [], []],
+      tags: [filter.tags ? this.initTags(filter.tags) : [], []],
       sort: [filter.sort, []],
       date_taken_from: [filter.date_taken_from, []],
       date_taken_to: [filter.date_taken_to, []],
@@ -137,7 +136,8 @@ export class PhotosComponent implements OnInit, OnDestroy {
       album: [filter.album, []],
       place: [filter.place, []]
     });
-    this.search(filter, true);
+    this.search(filter);
+    console.log(this.searchForm.value.tags);
   }
 
   toggleAdvanced() {
