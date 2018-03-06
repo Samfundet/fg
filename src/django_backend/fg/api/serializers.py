@@ -225,3 +225,6 @@ class StatisticsSerializer(serializers.Serializer):
 
 class SearchAutocompleteDataSerializer(serializers.Serializer):
     motives = serializers.ListField(child=serializers.CharField())
+
+class PhotoMetadataSerializer(serializers.Serializer):
+    metadata = serializers.DictField()

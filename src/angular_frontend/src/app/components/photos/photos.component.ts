@@ -29,7 +29,6 @@ import 'rxjs/add/operator/take';
 
 })
 export class PhotosComponent implements OnInit, OnDestroy {
-  searchInput;
   searching = false;
   searchForm: FormGroup;
   isAdvanced = false;

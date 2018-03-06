@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^api/photos/list-from-info', api_views.PhotoListFromAlbumPageAndImageNumber.as_view({'get':'list'}), name='list-from-info'),
     url(r'^api/photos/list-from-ids', api_views.PhotoListFromIds.as_view(), name="list-from-ids"),
     url(r'^api/photos/upload-info/(?P<album_id>\d+)', api_views.get_latest_image_number_and_page_number, name="upload-info"),
+    url(r'^api/photos/metadata/(?P<photo_id>\d+)', api_views.PhotoMetadataViewSet.as_view({'get': 'list'}), name="metadata"),
     url(r'^api/users/fg', auth_views.FgUsersView.as_view(), name="fg-users"),
     url(r'^api/users/power', auth_views.PowerUsersView.as_view(), name="fg-users")
 ]
