@@ -12,7 +12,7 @@ from collections import namedtuple
 from django.db.models import Count, Max
 from django.db.models.functions import TruncYear
 
-from ..paginations import UnlimitedPagination
+from ..paginations import UnlimitedPagination, UpgradedPageNumberPagination
 from ..permissions import IsFGOrReadOnly, IsFG, IsFgOrPostOnly, IsFgOrHusfolk, IsFgOrHusfolkPostOnly
 from rest_framework.permissions import AllowAny
 from . import models, serializers, filters
@@ -107,7 +107,7 @@ class PhotoViewSet(ModelViewSet):
     """
     permission_classes = [IsFGOrReadOnly]
     serializer_class = None
-    pagination_class = CursorPagination
+    pagination_class = UpgradedPageNumberPagination #CursorPagination
 
     # Filters and search
     filter_backends = (OrderingFilter, SearchFilter, DjangoFilterBackend)

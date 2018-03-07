@@ -54,6 +54,7 @@ class PhotoSerializer(serializers.ModelSerializer):
     media = MediaSerializer()
     album = AlbumSerializer()
     place = PlaceSerializer()
+    description = serializers.CharField()
 
     class Meta:
         model = models.Photo

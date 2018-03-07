@@ -6,6 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ngfModule } from 'angular-file';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxMyDatePickerModule } from 'ngx-mydatepicker';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressHttpClientModule } from '@ngx-progressbar/http-client';
@@ -151,6 +152,7 @@ import {
     NgxMyDatePickerModule.forRoot(),
     NgProgressModule.forRoot(),
     NgProgressHttpClientModule,
+    NgxPaginationModule
   ],
   providers: [
     {

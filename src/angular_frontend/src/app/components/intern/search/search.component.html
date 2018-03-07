@@ -130,6 +130,14 @@
             <input type="checkbox" (click)="check($event, photo)">
           </td>
         </tr>
+        <div>
+          <button *ngIf="photoResponse?.next" (click)="navigatePage(1)" class="btn btn-primary">
+            Neste side
+          </button>
+          <button *ngIf="photoResponse?.previous" (click)="navigatePage(-1)" class="btn btn-primary">
+            Forrige side
+          </button>
+        </div>
       </tbody>
     </table>
   </div>

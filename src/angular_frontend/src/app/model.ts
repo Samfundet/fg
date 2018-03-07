@@ -41,6 +41,7 @@ export interface IPhoto {
   addedToCart?: boolean;
   liked?: boolean; // Why this?
   checkedForEdit?: boolean;
+  description?: string;
 }
 
 export class PartialPhoto {

@@ -71,6 +71,15 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  navigatePage(navNum: number) {
+    if (navNum === 1) {
+    } else if (navNum === -1) {
+    }
+    this.api.getPhotos({}).subscribe(p => {
+      this.photoResponse = p;
+    });
+  }
+
   search() {
     const formValue = this.searchForm.value;
     const date_taken_from = this.searchForm.value.date_taken_from ?
@@ -82,10 +91,14 @@ export class SearchComponent implements OnInit {
     this.store.getSearchTagsValue().forEach(tag => {
       formValue.tags.push(tag.id);
     });
-    this.api.getPhotos({ ...formValue, date_taken_from, date_taken_to }).subscribe(p => {
+    this.api.getPhotos({}).subscribe(p => {
+      console.log(p);
+      this.photoResponse = p;
+    });
+    /* this.api.getPhotos({ ...formValue, date_taken_from, date_taken_to }).subscribe(p => {
       this.photoResponse = p;
       console.log(p);
-    });
+    }); */
 
     /*
     if (formValue.tags.length < 1) {
