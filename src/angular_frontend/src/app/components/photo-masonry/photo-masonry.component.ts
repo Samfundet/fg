@@ -38,7 +38,7 @@ export class PhotoMasonryComponent implements OnInit {
     stagger: 50
   };
 
-  constructor(private store: StoreService) {
+  constructor(protected store: StoreService) {
     store.photoShoppingCart$.filter(p => !!p).subscribe(ps => this.inCartPhotos = ps.map(x => x.id));
   }
 

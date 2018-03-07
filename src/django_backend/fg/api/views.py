@@ -13,7 +13,7 @@ from django.db.models import Count, Max
 from django.db.models.functions import TruncYear
 
 from ..paginations import UnlimitedPagination
-from ..permissions import IsFGOrReadOnly, IsFG, IsFgOrPostOnly, IsFgOrHusfolk
+from ..permissions import IsFGOrReadOnly, IsFG, IsFgOrPostOnly, IsFgOrHusfolk, IsFgOrHusfolkPostOnly
 from rest_framework.permissions import AllowAny
 from . import models, serializers, filters
 from PIL import Image
@@ -288,7 +288,7 @@ class OrderViewSet(ModelViewSet):
     API endpoint that allows for viewing and editing orders
     """
     serializer_class = serializers.OrderSerializer
-    permission_classes = [IsFgOrPostOnly]
+    permission_classes = [IsFgOrHusfolkPostOnly]
     queryset = models.Order.objects.all()
 
     filter_backends = (OrderingFilter, DjangoFilterBackend)
@@ -298,8 +298,13 @@ class OrderViewSet(ModelViewSet):
 
 
 class OrderPhotoViewSet(ModelViewSet):
+    """
+    Serializer_class er hvilken serializer som gjøre data fra queryset om til json
+    Permission sier om den har lov til dette
+    queryset er en datamengde
+    """
     serializer_class = serializers.OrderPhotoSerializer
-    permission_classes = [IsFgOrPostOnly]
+    permission_classes = [IsFgOrHusfolkPostOnly]
     queryset = models.OrderPhoto.objects.all()
 
 

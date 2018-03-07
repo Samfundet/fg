@@ -24,7 +24,7 @@ export class NavComponent implements OnInit {
     private api: ApiService
   ) {
     api.getForeignKey('tags').subscribe(x => {
-      x['results'].forEach(t => {
+      x.forEach(t => {
         this.tags.push(t);
       });
     });

@@ -55,6 +55,17 @@ class IsFgOrHusfolk(BasePermission):
 
     def has_permission ( self, request, view ):
         return request.user and is_authenticated(request.user) and (
-            request.user.groups.filter(name__in=['FG', 'HUSFOLK']).exists()
+            request.user.groups.filter(name__in=['FG', 'HUSFOLK', 'POWER']).exists()
             or request.user.is_superuser
         )
+
+
+class IsFgOrHusfolkPostOnly(BasePermission):
+    """Object level permission only allowing FG users and Husfolk users"""
+    message = "You must be in the FG or HUSFOLK group in order to Post, only FG can get"
+
+    def has_permission ( self, request, view ):
+        return (request.user and is_authenticated(request.user)
+                and (
+                (request.user.groups.filter(name__in=['HUSFOLK', 'POWER']).exists() and request.method == 'POST')
+                or request.user.groups.filter(name='FG').exists()))

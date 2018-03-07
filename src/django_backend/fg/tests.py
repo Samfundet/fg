@@ -572,6 +572,38 @@ class OrderTestCase(APITestCase):
             delete_photos(self.photos)
 
     def test_order_is_created ( self ):
+        user = User.objects.get(username="FG")
+        view = OrderViewSet.as_view({'post': 'create'})
+
+        data = {
+            'name': 'nameyName',
+            'email': 'mail@mail.com',
+            'address': 'addressy',
+            'place': 'placey',
+            'zip_code': '1234',
+            'post_or_get': 'get',
+            'comment': 'i really like turtles',
+            'order_photos': [
+                {'photo': 1, 'format': 'bigAF'},
+                {'photo': 2, 'format': 'smallAF'}
+            ]
+        }
+
+        request = self.factory.post(path='/api/orders', format='json', data=data)
+        force_authenticate(request, user=user)
+        response = view(request)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED, msg=response.data)
+        order = models.Order.objects.all()[0]
+        self.assertEqual(order.name, data['name'])
+        order_photo_count = models.OrderPhoto.objects.count()
+        self.assertEqual(order_photo_count, 2)
+        order_photos = models.OrderPhoto.objects.all()
+
+        for op in order_photos:
+            self.assertEqual(op.order.pk, order.pk)
+
+    def test_order_cant_be_created_if_not_logged_in(self):
         view = OrderViewSet.as_view({'post': 'create'})
 
         data = {
@@ -590,16 +622,7 @@ class OrderTestCase(APITestCase):
 
         request = self.factory.post(path='/api/orders', format='json', data=data)
         response = view(request)
-
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED, msg=response.data)
-        order = models.Order.objects.all()[0]
-        self.assertEqual(order.name, data['name'])
-        order_photo_count = models.OrderPhoto.objects.count()
-        self.assertEqual(order_photo_count, 2)
-        order_photos = models.OrderPhoto.objects.all()
-
-        for op in order_photos:
-            self.assertEqual(op.order.pk, order.pk)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED, msg=response.data)
 
 
 class AlbumTestCase(APITestCase):

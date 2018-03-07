@@ -50,7 +50,7 @@
         <i class="fa fa-address-card-o"></i>
       </a>
     </li>
-    <li>
+    <li *ngIf="store.getUsernameAction()">
       <a routerLink="handlekurv" (click)="toggleMenu()">Handlekurv
         <i class="fa fa-shopping-cart"></i>
       </a>

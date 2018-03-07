@@ -41,7 +41,7 @@ export class StoreService {
   public orders$: { [type: string]: BehaviorSubject<IOrder[]>; } = {};
 
 
-  // TODO
+
   private returnUrl;
 
   constructor(private api: ApiService, private router: Router, private toastr: ToastrService) {
@@ -191,8 +191,14 @@ export class StoreService {
     const encodedCredentials = 'Basic ' + btoa(`${data.username}:${data.password}`);
     this.api.login(encodedCredentials).subscribe(res => {
       this.storeEncodedCredentials(res.username, res.groups, encodedCredentials);
-      if (this.returnUrl) {
-        this.router.navigateByUrl(this.returnUrl);
+      /*
+      navigation after login based on group
+      TODO?: make this more dynamic instead of hardcoding routes here.
+      */
+      if (res.groups.indexOf('FG') !== -1) {
+        this.router.navigateByUrl('/intern/opplasting');
+      } else if (res.groups.indexOf('POWER') !== -1 || res.groups.indexOf('HUSFOLK') !== -1) {
+        this.router.navigateByUrl('/intern/søk');
       }
       this._loginModal$.next(null);
       this.toastr.success(`Velkommen ${res.username} 😊`);
@@ -204,9 +210,11 @@ export class StoreService {
 
   logoutAction() {
     this.toastr.info(null, `På gjensyn ${localStorage.getItem('username')}! 👋`);
+    // removes localstorage
     localStorage.removeItem('Authorization');
     localStorage.removeItem('username');
     localStorage.removeItem('groups');
+    this.router.navigateByUrl('/'); // navigates back to root
   }
 
   getUsernameAction() {
