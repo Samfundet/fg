@@ -7,10 +7,10 @@
       #photoSearchBox
       class="photo-search-input"
       id="photo-search-input" type="text"
-      [(ngModel)]="searchInput"
       (keyup.enter)="search(photoSearchBox.value)"
       />
-
+      <!-- [(ngModel)]="searchInput" -->
+      
       <form [formGroup]="searchForm" (ngSubmit)="search(searchForm.value)" *ngIf="isAdvanced" [@slideDown]="isAdvanced" fxFlex="90%" fxLayout="column" fxLayoutGap="10px">
         <div fxLayout="row" fxLayoutGap="15px">
           <div class="search-input-group" fxLayout="column" fxFlex="<grow>">
