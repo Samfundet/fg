@@ -1,3 +1,4 @@
+import { IForeignKey } from './../../model';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { StoreService, AuthGuardService, ApiService } from 'app/services';
@@ -12,7 +13,7 @@ export class NavComponent implements OnInit {
   // searchInput = '';
   @ViewChild('searchBox') searchInput: ElementRef;
   filteredStrings: string[] = [];
-  tags: string[] = [];
+  tags: IForeignKey[] = [];
   motives: string[] = [];
   categories: string[] = [];
 
@@ -24,7 +25,7 @@ export class NavComponent implements OnInit {
   ) {
     api.getForeignKey('tags').subscribe(x => {
       x['results'].forEach(t => {
-        this.tags.push(t.name);
+        this.tags.push(t);
       });
     });
     api.getAllMotives().subscribe(x => {
@@ -39,17 +40,40 @@ export class NavComponent implements OnInit {
   }
 
   onInputChange() {
-    this.filteredStrings = this.motives.concat(this.tags, this.categories).filter(str => str !== undefined);
+    this.filteredStrings = this.motives.concat(this.fkToStringArray(this.tags), this.categories).filter(str => str !== undefined);
     this.filteredStrings = this.filteredStrings.filter(str => str.toLowerCase().indexOf(this.searchInput.nativeElement.value) !== -1);
+  }
+
+  fkToStringArray(arr: IForeignKey[]): string[] {
+    const stringArr: string[] = [];
+    arr.forEach(e => {
+      stringArr.push(e.name);
+    });
+    return stringArr;
   }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
+  createParams(value: string) {
+    let params = {};
+    if (value.length > 0) {
+      this.tags.forEach(tag => {
+        if (value === tag.name) {
+          params = { tags: tag.id };
+        }
+      });
+      if (params === {}) {
+        params = { motive: value };
+      }
+    }
+    return params;
+  }
+
   onSearchEnter(value: string) {
     this.router.navigate(['/foto'], {
-      queryParams: { search: value }
+      queryParams: this.createParams(value)
     });
   }
 

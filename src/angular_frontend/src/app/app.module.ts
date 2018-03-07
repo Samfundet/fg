@@ -65,7 +65,8 @@ import {
   OldOrdersComponent,
   AnalogUploadComponent,
   RegisterFilmComponent,
-  UploadScannedComponent
+  UploadScannedComponent,
+  MetadataModalComponent
 } from 'app/components';
 
 import {
@@ -129,6 +130,7 @@ import {
     AnalogUploadComponent,
     RegisterFilmComponent,
     UploadScannedComponent,
+    MetadataModalComponent
   ],
   imports: [
     BrowserModule,

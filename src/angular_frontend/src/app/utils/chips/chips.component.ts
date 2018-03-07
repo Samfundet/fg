@@ -68,6 +68,9 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
 
   removeChip(value) {
     this.chips.splice(this.chips.indexOf(value), 1);
+    if (this.search) {
+      this.store.removeSearchTagAction(this.store.getSearchTagsValue().filter(tag => tag.name === value.trim())[0]);
+    }
   }
 
   removeChipIfEmpty(value) {

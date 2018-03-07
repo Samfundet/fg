@@ -75,7 +75,7 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
         sizes=VERSATILEIMAGEFIELD_SETTINGS['sizes'],
         required=False
     )
-    tags = serializers.CharField()
+    tags = TagListField(many=True)
 
     class Meta:
         model = models.Photo
@@ -99,9 +99,10 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         tags = validated_data.pop('tags')
-
         photo = models.Photo.objects.create(**validated_data)
-        tags = json.loads(tags)
+
+        #tags = json.loads(tags) doesnt work
+        tags = tags if isinstance(tags, list) else [tags] # works
 
         for tag_name in tags:
             if not len(tag_name):
@@ -160,7 +161,8 @@ class PhotoUpdateSerializer(serializers.ModelSerializer):
 
         tags = validated_data.get('tags')
         if tags:
-            tags = json.loads(tags)
+            # tags = json.loads(tags) Doesnt work
+            tags = tags if isinstance(tags, list) else [tags] # works
             for tag_name in tags:
                 tag, _ = models.Tag.objects.get_or_create(name=tag_name)
                 instance.tags.add(tag)
@@ -223,3 +225,6 @@ class StatisticsSerializer(serializers.Serializer):
 
 class SearchAutocompleteDataSerializer(serializers.Serializer):
     motives = serializers.ListField(child=serializers.CharField())
+
+class PhotoMetadataSerializer(serializers.Serializer):
+    metadata = serializers.DictField()

@@ -110,6 +110,10 @@ export class ApiService {
     }
   }
 
+  getPhotoExif(id: number) {
+    return this.http.get<any>(`api/photos/metadata/${id}`);
+  }
+
   getLatestPageAndImageNumber(albumID: number): Observable<ILatestImageAndPage> {
     return this.http.get<ILatestImageAndPage>(`api/photos/upload-info/${albumID}`);
   }

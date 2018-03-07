@@ -16,6 +16,7 @@ from ..paginations import UnlimitedPagination
 from ..permissions import IsFGOrReadOnly, IsFG, IsFgOrPostOnly, IsFgOrHusfolk
 from rest_framework.permissions import AllowAny
 from . import models, serializers, filters
+from PIL import Image
 
 Statistics = namedtuple(
     'Statistics',
@@ -32,6 +33,10 @@ IDInfo = namedtuple(
     ('photo_ids',)
 )
 
+Metadata = namedtuple(
+    'Metadata',
+    ('metadata',)
+)
 
 class TagViewSet(ModelViewSet):
     """
@@ -40,6 +45,7 @@ class TagViewSet(ModelViewSet):
     queryset = models.Tag.objects.all().order_by('name')
     serializer_class = serializers.TagSerializer
     permission_classes = [IsFGOrReadOnly]
+    pagination_class = UnlimitedPagination
 
 
 class CategoryViewSet(ModelViewSet):
@@ -358,4 +364,12 @@ class SearchAutocompleteDataViewSet(ViewSet):
 
     def list(self, request):
         serializer = serializers.SearchAutocompleteDataSerializer(self.get_queryset())
+        return Response(serializer.data)
+
+class PhotoMetadataViewSet(ViewSet):
+
+    def list(self, request, photo_id):
+        photo = Image.open(models.Photo.objects.get(pk=photo_id).photo)
+        data = Metadata(metadata=photo._getexif())
+        serializer = serializers.PhotoMetadataSerializer(data)
         return Response(serializer.data)

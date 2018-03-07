@@ -74,6 +74,7 @@ def load_photos(apps, schema_editor):
             media=get_random_object(apps, "api", "Media"),
             category=get_random_object(apps, "api", "Category"),
             splash=True if random.random() > 0.5 else False,
+            on_home_page=True if random.random() > 0.5 else False,
             page=i,
             image_number=i,
             security_level=get_random_object(apps, "api", "SecurityLevel"),

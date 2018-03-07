@@ -6,9 +6,11 @@
   border-radius: 1rem;
   border: 0;
   padding: 2px 10px;
+  margin-bottom: 5px;
   font-size: smaller;
 
   & span {
     white-space: nowrap;
+    display: inline-block;
   }
 }

@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { trigger, state, style, transition, animate } from '@angular/animations';
@@ -28,7 +29,6 @@ import 'rxjs/add/operator/take';
 
 })
 export class PhotosComponent implements OnInit, OnDestroy {
-  searchInput;
   searching = false;
   searchForm: FormGroup;
   isAdvanced = false;
@@ -73,26 +73,55 @@ export class PhotosComponent implements OnInit, OnDestroy {
   }
 
   search(filter: IFilters) {
-    console.log(filter);
-    if (filter.hasOwnProperty('search')) {
-      this.searchInput = filter.search;
-    }
+    const searchVal = this.searchForm.value;
+    searchVal.tags = [];
+    this.store.getSearchTagsValue().forEach(t => searchVal.tags.push(t.id));
+    this.searchHasOwnProperty(filter);
+
     this.router.navigate([], {
       queryParams: filter
     });
+
     this.searching = true;
-    this.api.getPhotos(filter).subscribe(response => {
-      this.photos = response.results;
+    this.searchWithParams(filter);
+  }
+
+  searchHasOwnProperty(valObj) {
+    for (const key in valObj) {
+      if (valObj.hasOwnProperty(key)) {
+        if (valObj[key] !== null && valObj[key].length < 1) {
+          valObj[key] = null;
+        }
+      }
+    }
+  }
+
+  searchWithParams(params) {
+    this.api.getPhotos(params).subscribe(res => {
+      this.photos = res.results;
       this.searching = false;
-      console.log(this.photos);
       this.photosAreLoaded = true;
     });
+  }
+
+  initTags(tagNames): string[] {
+    tagNames = Array.isArray(tagNames) ? tagNames : [tagNames];
+    const tags: string[] = [];
+    this.api.getForeignKey('tags').subscribe(ts => {
+      ts['results'].forEach(tag => {
+        if (tagNames.includes(tag.id.toString())) {
+          tags.push(tag.name);
+          this.store.setSearchTagsAction(tag);
+        }
+      });
+    });
+    return tags;
   }
 
   initialize(filter: any) {
     this.searchForm = this.fb.group({
       motive: [filter.motive, []],
-      tags: [filter.tags ? (Array.isArray(filter.tags) ? filter.tags : [filter.tags]) : [], []],
+      tags: [filter.tags ? this.initTags(filter.tags) : [], []],
       sort: [filter.sort, []],
       date_taken_from: [filter.date_taken_from, []],
       date_taken_to: [filter.date_taken_to, []],
