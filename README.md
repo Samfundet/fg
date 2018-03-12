@@ -17,4 +17,6 @@ The database is seeded using migrations defined in
 ```./src/django_backend/fg/api/seed_migration.py```.
 Simply bring the docker containers up and run ```droprecreatedb.sh```.
 
-## TODO documentation
+# New architecture (TODO)
+![alt text](docs/new_arch_diagram.png "New arch")
+

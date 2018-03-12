@@ -23,7 +23,7 @@ export class NavComponent implements OnInit {
     public guard: AuthGuardService,
     private api: ApiService
   ) {
-    api.getForeignKey('tags').subscribe(x => {
+    api.getForeignKey('tags').filter(t => !!t).subscribe(x => {
       x.forEach(t => {
         this.tags.push(t);
       });
