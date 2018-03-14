@@ -4,6 +4,7 @@ export interface IResponse<T> {
   count: number;
   next: string;
   previous: any;
+  total_pages: number;
   results: T[];
 }
 
@@ -84,12 +85,14 @@ export class PhotoResponse implements IResponse<IPhoto> {
   count: number;
   next: string;
   previous: string;
+  total_pages: number;
   results: IPhoto[];
 
   constructor(response: IResponse<IPhoto>) {
     this.count = response.count;
     this.next = response.next;
     this.previous = response.previous ? response.previous : undefined;
+    this.total_pages = response.total_pages;
     this.results = response.results;
   }
 }
@@ -183,8 +186,8 @@ export interface IOrderPhoto {
 // }
 
 export interface IFilters {
-  cursor?: string;
   search?: string;
+  page?: string;
 }
 
 export enum ChangeEnum {
@@ -197,6 +200,7 @@ export const testData: IResponse<IPhoto> = {
   count: 1,
   next: null,
   previous: null,
+  total_pages: 1,
   results: [
     {
       id: 1,

@@ -92,7 +92,7 @@ export class StoreService {
   }
 
   getHomePagePhotosAction(params: ParamMap) {
-    const filter: IFilters = params.get('cursor') ? { cursor: params.get('cursor') } : null;
+    const filter: IFilters = params.get('page') ? { page: params.get('page') } : null;
     this.api.getHomePagePhotos(filter).subscribe(
       pr => this._photos$.next(pr),
       err => this.toastr.error('Feil', JSON.parse(err.error).detail)
@@ -102,7 +102,7 @@ export class StoreService {
 
   getMoreHomePagePhotosAction() {
     if (this._photos$.getValue() && this._photos$.getValue().next) {
-      const filters = { cursor: this.getQueryParamValue(this._photos$.getValue().next, 'cursor') };
+      const filters = { page: this.getQueryParamValue(this._photos$.getValue().next, 'page') };
       this.setFiltersAction(filters);
       const currentPhotoList = this._photos$.getValue().results;
       this.api.getPhotos(filters).subscribe(pr => {

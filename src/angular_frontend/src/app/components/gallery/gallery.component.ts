@@ -26,6 +26,7 @@ export class GalleryComponent {
   ) {
     route.queryParamMap.first().subscribe(params => {
       this.store.getHomePagePhotosAction(params);
+      console.log(params);
     });
   }
 

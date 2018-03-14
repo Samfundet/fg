@@ -1,0 +1,8 @@
+<div>
+  <button
+  *ngFor="let page of this.makeArrayFromNumber(numberOfPages)"
+  (click)="onClick(page.valueOf())"
+  >
+  {{ page }}
+</button>
+</div>

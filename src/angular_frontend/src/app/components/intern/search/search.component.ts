@@ -71,14 +71,14 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  navigatePage(navNum: number) {
+  /* navigatePage(navNum: number) {
     if (navNum === 1) {
     } else if (navNum === -1) {
     }
     this.api.getPhotos({}).subscribe(p => {
       this.photoResponse = p;
     });
-  }
+  } */
 
   search() {
     const formValue = this.searchForm.value;

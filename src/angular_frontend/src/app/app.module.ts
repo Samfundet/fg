@@ -75,6 +75,7 @@ import {
   ChipComponent,
   RadioButtonsComponent,
   BarchartComponent,
+  PaginatorComponent
 } from 'app/utils';
 
 @NgModule({
@@ -131,7 +132,8 @@ import {
     AnalogUploadComponent,
     RegisterFilmComponent,
     UploadScannedComponent,
-    MetadataModalComponent
+    MetadataModalComponent,
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,

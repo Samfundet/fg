@@ -34,6 +34,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
   isAdvanced = false;
   public photos: IPhoto[];
+  public pages: number;
   photosAreLoaded = false;
 
   albums: IForeignKey[];
@@ -99,6 +100,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
   searchWithParams(params) {
     this.api.getPhotos(params).subscribe(res => {
+      this.pages = res.total_pages;
       this.photos = res.results;
       this.searching = false;
       this.photosAreLoaded = true;
@@ -137,4 +139,5 @@ export class PhotosComponent implements OnInit, OnDestroy {
   toggleAdvanced() {
     this.isAdvanced = !this.isAdvanced;
   }
+
 }

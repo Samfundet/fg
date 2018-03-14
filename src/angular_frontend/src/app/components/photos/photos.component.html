@@ -10,7 +10,7 @@
       (keyup.enter)="search(photoSearchBox.value)"
       />
       <!-- [(ngModel)]="searchInput" -->
-      
+
       <form [formGroup]="searchForm" (ngSubmit)="search(searchForm.value)" *ngIf="isAdvanced" [@slideDown]="isAdvanced" fxFlex="90%" fxLayout="column" fxLayoutGap="10px">
         <div fxLayout="row" fxLayoutGap="15px">
           <div class="search-input-group" fxLayout="column" fxFlex="<grow>">
@@ -62,6 +62,7 @@
   <hr>
   <h4 class="p-l-2" *ngIf="!photos?.length && searching">Ingen treff</h4>
   <fg-photo-masonry *ngIf="photosAreLoaded" [photos]="photos"></fg-photo-masonry>
+  <fg-paginator [numberOfPages]="this.pages"></fg-paginator>
 </div>
 
 <p>{{searchForm.value | json}}</p>
