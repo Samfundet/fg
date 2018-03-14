@@ -44,7 +44,6 @@
     "ng-animate": "^0.3.1",
     "ng-click-outside": "^2.4.1",
     "ngx-mydatepicker": "^2.4.0",
-    "ngx-pagination": "^3.1.0",
     "ngx-toastr": "^8.1.0",
     "normalize.css": "^7.0.0",
     "rxjs": "^5.5.6",

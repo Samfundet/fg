@@ -4,7 +4,7 @@ import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { ApiService, StoreService } from 'app/services';
-import { IForeignKey, IResponse, IFilters, IPhoto } from 'app/model';
+import { IForeignKey, IFilters, IPhoto, IResponse } from 'app/model';
 
 import 'rxjs/add/operator/take';
 
@@ -34,8 +34,9 @@ export class PhotosComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
   isAdvanced = false;
   public photos: IPhoto[];
-  public pages: number;
   photosAreLoaded = false;
+
+  public response: IResponse<IPhoto>;
 
   albums: IForeignKey[];
   categories: IForeignKey[];
@@ -100,7 +101,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
   searchWithParams(params) {
     this.api.getPhotos(params).subscribe(res => {
-      this.pages = res.total_pages;
+      this.response = res;
       this.photos = res.results;
       this.searching = false;
       this.photosAreLoaded = true;
@@ -111,12 +112,14 @@ export class PhotosComponent implements OnInit, OnDestroy {
     tagNames = Array.isArray(tagNames) ? tagNames : [tagNames];
     const tags: string[] = [];
     this.api.getForeignKey('tags').subscribe(ts => {
-      ts['results'].forEach(tag => {
-        if (tagNames.includes(tag.id.toString())) {
-          tags.push(tag.name);
-          this.store.setSearchTagsAction(tag);
-        }
-      });
+      if (ts['results']) {
+        ts['results'].forEach(tag => {
+          if (tagNames.includes(tag.id.toString())) {
+            tags.push(tag.name);
+            this.store.setSearchTagsAction(tag);
+          }
+        });
+      }
     });
     return tags;
   }
@@ -138,6 +141,15 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
   toggleAdvanced() {
     this.isAdvanced = !this.isAdvanced;
+  }
+
+  newParams(params: string) {
+    console.log(params);
+    const paramObj = {};
+    params.split('&').forEach(param => {
+      paramObj[param.split('=')[0]] = param.split('=')[1];
+    });
+    this.search(paramObj);
   }
 
 }

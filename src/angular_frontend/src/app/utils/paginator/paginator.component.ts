@@ -1,4 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { IResponse, ISearchParams, PhotoResponse, IPhoto } from 'app/model';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 
 @Component({
@@ -7,22 +9,49 @@ import * as _ from 'lodash';
   styleUrls: ['./paginator.component.scss']
 })
 export class PaginatorComponent implements OnInit {
-  @Input() numberOfPages;
-  @Input() currentPage;
+  /*
+    Want to know response data from parent so we use Input to get that data to create the paginator
+   */
+  @Input() response: IResponse<IPhoto>;
+  /*
+    Want parent to listen for clicks on next/prev page to run search method with new correct params
+    We do this by adding an eventemitter to child which emits events, and we have a listener method in
+    photoscomponent which is also called newParams (for ease of understanding). This method executes search method
+    with new params it also creates depening on what response.previous/next is (and also will add something)
+    with changePage
+    https://angular.io/guide/component-interaction gives really good explenation about child -> parent communication
+   */
+  @Output() newParams = new EventEmitter();
+  private params = {};
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-    const test = _.range(5);
-    console.log(test);
+    console.log(this.response);
   }
 
-  onClick(page: number): void {
+  changePage(page: number): void {
     console.log(page);
   }
 
+  previousPage() {
+    this.newParams.emit(this.response.previous.split('?')[1]);
+  }
+
+  nextPage() {
+    const params = this.createParams(this.response.next.split('?')[1]);
+    // this.emitter('hey');
+    this.newParams.emit(this.response.next.split('?')[1]);
+  }
+
+  createParams(params: string) {
+    params.split('&').forEach(param => {
+      this.params[param.split('=')[0]] = param.split('=')[1];
+    });
+  }
+
   makeArrayFromNumber(num: number): Array<number> {
-    return _.range(num);
+    return _.range(1, num + 1);
   }
 
 }

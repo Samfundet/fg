@@ -13,5 +13,6 @@ class UpgradedPageNumberPagination(PageNumberPagination):
             'previous': self.get_previous_link(),
             'count': self.page.paginator.count,
             'total_pages': self.page.paginator.num_pages,
+            'current_page': int(self.request.query_params.get('page', 1)), # Looks better to do in backend than in frontend
             'results': data,
         })

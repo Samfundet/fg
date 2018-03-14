@@ -5,6 +5,7 @@ export interface IResponse<T> {
   next: string;
   previous: any;
   total_pages: number;
+  current_page: number;
   results: T[];
 }
 
@@ -81,11 +82,16 @@ export class PartialPhoto {
   }
 }
 
+export interface ISearchParams {
+
+}
+
 export class PhotoResponse implements IResponse<IPhoto> {
   count: number;
   next: string;
   previous: string;
   total_pages: number;
+  current_page: number;
   results: IPhoto[];
 
   constructor(response: IResponse<IPhoto>) {
@@ -93,6 +99,7 @@ export class PhotoResponse implements IResponse<IPhoto> {
     this.next = response.next;
     this.previous = response.previous ? response.previous : undefined;
     this.total_pages = response.total_pages;
+    this.current_page = response.current_page;
     this.results = response.results;
   }
 }
@@ -190,6 +197,15 @@ export interface IFilters {
   page?: string;
 }
 
+export interface ISearchParams {
+  motive: string;
+  tags: number[];
+  category: number;
+  media: number;
+  album: number;
+  place: number;
+}
+
 export enum ChangeEnum {
   Edit,
   Delete,
@@ -201,6 +217,7 @@ export const testData: IResponse<IPhoto> = {
   next: null,
   previous: null,
   total_pages: 1,
+  current_page: 1,
   results: [
     {
       id: 1,

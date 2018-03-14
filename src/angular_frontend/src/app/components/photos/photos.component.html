@@ -2,16 +2,12 @@
 <section class="wrapper" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
   <div class="search" class="p-t-1" fxFlexFill fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
     <div fxLayout="column" fxFlex="60%" fxLayoutGap="20px" fxLayoutAlign="center">
-      <input
-      [disabled]="isAdvanced"
-      #photoSearchBox
-      class="photo-search-input"
-      id="photo-search-input" type="text"
-      (keyup.enter)="search(photoSearchBox.value)"
+      <input [disabled]="isAdvanced" #photoSearchBox class="photo-search-input" id="photo-search-input" type="text" (keyup.enter)="search(photoSearchBox.value)"
       />
       <!-- [(ngModel)]="searchInput" -->
 
-      <form [formGroup]="searchForm" (ngSubmit)="search(searchForm.value)" *ngIf="isAdvanced" [@slideDown]="isAdvanced" fxFlex="90%" fxLayout="column" fxLayoutGap="10px">
+      <form [formGroup]="searchForm" (ngSubmit)="search(searchForm.value)" *ngIf="isAdvanced" [@slideDown]="isAdvanced" fxFlex="90%"
+        fxLayout="column" fxLayoutGap="10px">
         <div fxLayout="row" fxLayoutGap="15px">
           <div class="search-input-group" fxLayout="column" fxFlex="<grow>">
             <label>Tittel</label>
@@ -35,19 +31,19 @@
           <div class="search-input-group" fxLayout="column" fxFlex="<grow>">
             <label>Media</label>
             <select formControlName="media">
-            <option [ngValue]="media.id" *ngFor="let media of mediums">{{media.name}}</option>
+              <option [ngValue]="media.id" *ngFor="let media of mediums">{{media.name}}</option>
             </select>
           </div>
           <div class="search-input-group" fxLayout="column" fxFlex="<grow>">
             <label>Kategori</label>
             <select formControlName="category">
-            <option [ngValue]="category.id" *ngFor="let category of categories">{{category.name}}</option>
+              <option [ngValue]="category.id" *ngFor="let category of categories">{{category.name}}</option>
             </select>
           </div>
           <div class="search-input-group" fxLayout="column" fxFlex="<grow>">
             <label>Sted</label>
             <select formControlName="place">
-            <option [ngValue]="place.id" *ngFor="let place of places">{{place.name}}</option>
+              <option [ngValue]="place.id" *ngFor="let place of places">{{place.name}}</option>
             </select>
           </div>
         </div>
@@ -62,7 +58,9 @@
   <hr>
   <h4 class="p-l-2" *ngIf="!photos?.length && searching">Ingen treff</h4>
   <fg-photo-masonry *ngIf="photosAreLoaded" [photos]="photos"></fg-photo-masonry>
-  <fg-paginator [numberOfPages]="this.pages"></fg-paginator>
+  <div *ngIf="this.response">
+    <fg-paginator (newParams)="newParams($event)" [response]="this.response"></fg-paginator>
+  </div>
 </div>
 
 <p>{{searchForm.value | json}}</p>

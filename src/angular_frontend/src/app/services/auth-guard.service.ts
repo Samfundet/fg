@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { StoreService } from 'app/services/store.service';
 import { Observable } from 'rxjs/Observable';
-import * as JwtDecode from 'jwt-decode';
 import { IToken } from 'app/model';
 import 'rxjs/add/observable/of';
 
