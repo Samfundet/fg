@@ -31,7 +31,7 @@ export class PaginatorComponent implements OnInit {
   }
 
   changePage(page: number): void {
-    console.log(page);
+    this.newParams.emit(page.toString());
   }
 
   previousPage() {

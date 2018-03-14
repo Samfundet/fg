@@ -35,6 +35,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
   isAdvanced = false;
   public photos: IPhoto[];
   photosAreLoaded = false;
+  oldParams = {};
 
   public response: IResponse<IPhoto>;
 
@@ -102,6 +103,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
   searchWithParams(params) {
     this.api.getPhotos(params).subscribe(res => {
       this.response = res;
+      this.oldParams = params; // saving old params to use later when changing page
       this.photos = res.results;
       this.searching = false;
       this.photosAreLoaded = true;
@@ -144,12 +146,17 @@ export class PhotosComponent implements OnInit, OnDestroy {
   }
 
   newParams(params: string) {
-    console.log(params);
-    const paramObj = {};
-    params.split('&').forEach(param => {
-      paramObj[param.split('=')[0]] = param.split('=')[1];
-    });
-    this.search(paramObj);
+    if (params.indexOf('=') === -1) {
+      this.search({...this.oldParams, page: params}); // unpacking old params and adding in new page param
+      // doing this to avoid passing all params from paginator.component
+    } else {
+      console.log(params);
+      const paramObj = {};
+      params.split('&').forEach(param => {
+        paramObj[param.split('=')[0]] = param.split('=')[1];
+      });
+      this.search(paramObj);
+    }
   }
 
 }
