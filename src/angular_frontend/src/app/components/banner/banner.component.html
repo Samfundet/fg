@@ -1,5 +1,5 @@
 <section id="banner" [style.background-image]="sanitizedImage">
-  <div class="inner" *ngIf="photo; else default">
+  <div class="inner" *ngIf="photo; else default"  (click)="onPhotoClick(photo)">
     <header class="p-b-2">
       <h2>{{photo.motive}}</h2>
       <sub>{{photo.place.name}}</sub>

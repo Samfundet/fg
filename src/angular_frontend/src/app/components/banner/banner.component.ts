@@ -33,4 +33,8 @@ export class BannerComponent {
     }
     this.sanitizedImage = this.sanitizer.bypassSecurityTrustStyle(`url(${this.backgroundImageUrl}`);
   }
+
+  onPhotoClick(photo: IPhoto) {
+      this.store.photoModal$.next(photo);
+  }
 }
