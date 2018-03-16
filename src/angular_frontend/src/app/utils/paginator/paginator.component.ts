@@ -39,8 +39,6 @@ export class PaginatorComponent implements OnInit {
   }
 
   nextPage() {
-    const params = this.createParams(this.response.next.split('?')[1]);
-    // this.emitter('hey');
     this.newParams.emit(this.response.next.split('?')[1]);
   }
 
