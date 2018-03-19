@@ -82,10 +82,6 @@ export class PartialPhoto {
   }
 }
 
-export interface ISearchParams {
-
-}
-
 export class PhotoResponse implements IResponse<IPhoto> {
   count: number;
   next: string;
