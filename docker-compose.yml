@@ -20,7 +20,7 @@ services:
     build: ./src/django_backend
     container_name: django
     expose:
-      - "8000"
+      - "5069"
     networks:
       - webserver_network
       - database_network

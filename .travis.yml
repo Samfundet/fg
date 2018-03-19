@@ -1,69 +1,70 @@
 sudo: required
 language: node_js
 node_js:
-  - 8
+- 8
 services:
-  - docker
-
+- docker
 cache:
   directories:
-    - src/angular_frontend/node_modules
-
+  - src/angular_frontend/node_modules
 addons:
   ssh_known_hosts:
-    - 146.185.181.250
-    - fg@fgbeta.samfundet.no
-
+  - 146.185.181.250
+  - fg@fgbeta.samfundet.no
+  
 jobs:
   include:
-    - stage: test django
-      env:
-        - DOCKER_COMPOSE_VERSION=1.14.0
-      install:
-        - docker -v
-        - sudo rm /usr/local/bin/docker-compose
-        - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-        - chmod +x docker-compose
-        - sudo mv docker-compose /usr/local/bin
-        - docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.travis.yml down
-        - docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.travis.yml build
-        - docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.travis.yml up -d
-        - docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.travis.yml ps
-      script:
-        - sleep 5
-        - bash django-tests.sh
+  - stage: test django
+    env:
+    - DOCKER_COMPOSE_VERSION=1.18.0
+    install:
+    - docker -v
+    - sudo rm /usr/local/bin/docker-compose
+    - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname
+      -s`-`uname -m` > docker-compose
+    - chmod +x docker-compose
+    - sudo mv docker-compose /usr/local/bin
+    - docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.travis.yml
+      down
+    - docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.travis.yml
+      build
+    - docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.travis.yml
+      up -d
+    - docker-compose -f docker-compose.yml -f docker-compose.override.yml -f docker-compose.travis.yml
+      ps
+    script:
+    - sleep 5
+    - bash django-tests.sh
+  - stage: test angular
+    install:
+    - npm install -g @angular/cli@1.6.3
+    - openssl aes-256-cbc -K $encrypted_f56fe3551327_key -iv $encrypted_f56fe3551327_iv
+      -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+    - eval "$(ssh-agent -s)"
+    - chmod 600 /tmp/deploy_rsa
+    - ssh-add /tmp/deploy_rsa
+    - cd src/angular_frontend && npm install
+    script:
+    - ng lint
+    - ng build --prod
+    - rsync -r dist/* fg@fgbeta.samfundet.no:./fg/src/angular_frontend/dist
+  - stage: deploy
+    script: echo "Deploying to staging..."
+    before_deploy:
+    - openssl aes-256-cbc -K $encrypted_f56fe3551327_key -iv $encrypted_f56fe3551327_iv
+      -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+    - eval "$(ssh-agent -s)"
+    - chmod 600 /tmp/deploy_rsa
+    - ssh-add /tmp/deploy_rsa
+    deploy:
+      skip_cleanup: true
+      provider: script
+      script: bash $TRAVIS_BUILD_DIR/travis_deploy.sh
+      on:
+        branch: development
 
-    - stage: test angular
-      install:
-        - npm install -g @angular/cli@1.6.3
-        - openssl aes-256-cbc -K $encrypted_f56fe3551327_key -iv $encrypted_f56fe3551327_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
-        - eval "$(ssh-agent -s)"
-        - chmod 600 /tmp/deploy_rsa
-        - ssh-add /tmp/deploy_rsa
-#        - export CHROME_BIN=/usr/bin/google-chrome
-#        - export DISPLAY=:99.0
-#        - sh -e /etc/init.d/xvfb start
-#        - sudo apt-get update
-#        - sudo apt-get install -y libappindicator1 fonts-liberation
-#        - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-#        - sudo dpkg -i google-chrome*.deb
-        - cd src/angular_frontend && npm install
-      script:
-        - ng lint
-        - ng build --prod
-        - rsync -r dist/* fg@fgbeta.samfundet.no:./fg/src/angular_frontend/dist
-        #- ng test --watch=false
-
-    - stage: deploy
-      script: echo "Deploying to staging..."
-      before_deploy:
-        - openssl aes-256-cbc -K $encrypted_f56fe3551327_key -iv $encrypted_f56fe3551327_iv -in deploy_rsa.enc -out /tmp/deploy_rsa -d
-        - eval "$(ssh-agent -s)"
-        - chmod 600 /tmp/deploy_rsa
-        - ssh-add /tmp/deploy_rsa
-      deploy:
-        skip_cleanup: true
-        provider: script
-        script: bash $TRAVIS_BUILD_DIR/travis_deploy.sh
-        on:
-          branch: development
+notifications:
+  slack:
+    rooms:
+      - secure: "CTQ8MVYEolu/J1jlpNYyaF4HkoFTr6JfCPk0BEMfANcE79CybG/5GAvvusVuD9s1dbFsat9TAH9Ra5fWLevQFr8qvM6oDbMqACFYVj6lEAXzdg/6jUdwb7oA4bdbS5V4zw3d7BS33hH9Uspi0r/SV4ee3CwAWcgsfeFfuViaRj7QKXJwk4XMFltO6yMK6aSK1wO/l3Mt6iu2e1gSgmQsgk6GGrwGiNu4yEHjoCArytOVQo+PvYwAqjnXcEEWEqm0YPM74E9xy8vsXcx2N+c9UhEatDFUD288yNezHtXhITz2lZooJ7SxzGDN7tC4Zg3rGGrqBfXYTH6KSr/zC4V9QpPLtAr7Sifq15hWiRamLcAPIiSVI6H1HtLeA9oPjM+HjiwDfpod1OUgnonHp6IHATPpcnGIslkav9FzhJaLPSAnbd+A6TUaLVD5cy4263mNbYI3TMrmjkxesnEeL8NUjVyo2Pq67fdtkt6H+Bc4fIfbWXKnraa1eoxWUBqjWf06016f7uGxXI3/YXcjW9rcTAzvIPjo9i9Pc8xPZD3nN1IfIThscA07rlXq/knDJmpzmdINkpAhMcMkMd+O+VjD0KbkG2dlm84CbMOfI7ZGjxCa+3q4NCSjrHx06vJoJkNyx5SPFvFjR5JmBwGqupmJ+d4dQVl4DiS/Yj+RvFZcdDA="
+    on_failure: always
