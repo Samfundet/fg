@@ -4,8 +4,8 @@
     <div fxLayout="column">
       <label>Album</label>
       <select formControlName="album">
-      <option [ngValue]="album.id" *ngFor="let album of albums">{{album.name}}</option>
-    </select>
+        <option [ngValue]="album.id" *ngFor="let album of albums">{{album.name}}</option>
+      </select>
     </div>
     <div fxLayout="column">
       <label>Motiv</label>
@@ -19,8 +19,8 @@
       <label>Fra Dato</label>
       <!-- <input type="text" formControlName="date_taken"> -->
       <div fxLayout="row" fxLayoutAlign="start">
-        <input fxFlex="100" (click)="dpFrom.toggleCalendar()" class="datepicker clickable right-edge" ngx-mydatepicker [options]="options" #dpFrom="ngx-mydatepicker"
-          formControlName="date_taken_from">
+        <input fxFlex="100" (click)="dpFrom.toggleCalendar()" class="datepicker clickable right-edge" ngx-mydatepicker [options]="options"
+          #dpFrom="ngx-mydatepicker" formControlName="date_taken_from">
         <button type="button" class="btn btn-info" (click)="dpFrom.toggleCalendar()">
           <i class="fa fa-calendar"></i>
         </button>
@@ -30,8 +30,8 @@
       <label>Til Dato</label>
       <!-- <input type="text" formControlName="date_taken"> -->
       <div fxLayout="row" fxLayoutAlign="start">
-        <input fxFlex="100" (click)="dpTo.toggleCalendar()" class="datepicker clickable right-edge" ngx-mydatepicker [options]="options" #dpTo="ngx-mydatepicker"
-          formControlName="date_taken_to">
+        <input fxFlex="100" (click)="dpTo.toggleCalendar()" class="datepicker clickable right-edge" ngx-mydatepicker [options]="options"
+          #dpTo="ngx-mydatepicker" formControlName="date_taken_to">
         <button type="button" class="btn btn-info" (click)="dpTo.toggleCalendar()">
           <i class="fa fa-calendar"></i>
         </button>
@@ -40,26 +40,26 @@
     <div fxLayout="column">
       <label>Media</label>
       <select formControlName="media">
-      <option [ngValue]="media.id" *ngFor="let media of mediums">{{media.name}}</option>
-    </select>
+        <option [ngValue]="media.id" *ngFor="let media of mediums">{{media.name}}</option>
+      </select>
     </div>
     <div fxLayout="column">
       <label>Kategori</label>
       <select formControlName="category">
-      <option [ngValue]="category.id" *ngFor="let category of categories">{{category.name}}</option>
-    </select>
+        <option [ngValue]="category.id" *ngFor="let category of categories">{{category.name}}</option>
+      </select>
     </div>
     <div fxLayout="column">
       <label>Sted</label>
       <select formControlName="place">
-      <option [ngValue]="place.id" *ngFor="let place of places">{{place.name}}</option>
-    </select>
+        <option [ngValue]="place.id" *ngFor="let place of places">{{place.name}}</option>
+      </select>
     </div>
     <div fxLayout="column">
       <label>Sikkerhetsnivå</label>
       <select formControlName="security_level">
-      <option [ngValue]="securityLevel.id" *ngFor="let securityLevel of securityLevels">{{securityLevel.name}}</option>
-    </select>
+        <option [ngValue]="securityLevel.id" *ngFor="let securityLevel of securityLevels">{{securityLevel.name}}</option>
+      </select>
     </div>
 
     <div fxLayout="column">
@@ -114,7 +114,7 @@
         </tr>
       </thead>
       <tbody class="search-table--body">
-        <tr *ngFor="let photo of photoResponse?.results" class="search-table--body--row">
+        <tr *ngFor="let photo of response?.results" class="search-table--body--row">
           <td>{{photo?.album.name}}</td>
           <td>{{photo?.motive}}</td>
           <td>{{photo?.date_taken | date:'dMy'}}</td>
@@ -123,24 +123,21 @@
           <td>{{photo?.lapel}}</td>
           <td>{{photo?.scanned}}</td>
           <td>{{photo?.security_level.name}}</td>
-          <td><img class="search-table--img clickable hover-outline" (click)="onPhotoClick(photo)" [src]="photo?.photo?.small" ></td>
+          <td>
+            <img class="search-table--img clickable hover-outline" (click)="onPhotoClick(photo)" [src]="photo?.photo?.small">
+          </td>
           <td fxLayout="column">
             <a class="search-table--link" [routerLink]="['../rediger']" [queryParams]="{id: photo.id}">Endre</a>
             <a class="search-table--link" (click)="delete(photo)">Slett</a>
             <input type="checkbox" (click)="check($event, photo)">
           </td>
         </tr>
-        <div>
-          <button *ngIf="photoResponse?.next" (click)="navigatePage(1)" class="btn btn-primary">
-            Neste side
-          </button>
-          <button *ngIf="photoResponse?.previous" (click)="navigatePage(-1)" class="btn btn-primary">
-            Forrige side
-          </button>
-        </div>
       </tbody>
     </table>
   </div>
+</div>
+<div *ngIf="this.response">
+  <fg-paginator (newParams)="newParams($event)" [response]="this.response"></fg-paginator>
 </div>
 
 

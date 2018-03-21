@@ -63,9 +63,6 @@
   </div>
 </div>
 
-<p>{{searchForm.value | json}}</p>
-
-
 <mat-autocomplete #motive="matAutocomplete">
   <mat-option *ngFor="let motive of filteredMotives" [value]="motive">
     {{ motive }}

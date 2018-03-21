@@ -146,11 +146,12 @@ export class PhotosComponent implements OnInit, OnDestroy {
   }
 
   newParams(params: string) {
-    if (params.indexOf('=') === -1) {
+    if (!params) { // if last page were without any params (page 1, no tags etc)
+      this.search({});
+    } else if (params.indexOf('=') === -1) {
       this.search({...this.oldParams, page: params}); // unpacking old params and adding in new page param
       // doing this to avoid passing all params from paginator.component
     } else {
-      console.log(params);
       const paramObj = {};
       params.split('&').forEach(param => {
         paramObj[param.split('=')[0]] = param.split('=')[1];

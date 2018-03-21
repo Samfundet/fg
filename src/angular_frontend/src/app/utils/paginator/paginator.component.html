@@ -1,12 +1,22 @@
 <div class="align-center paginator-wrapper">
-  <button class="btn btn-info" (click)="previousPage()" *ngIf="this.response.previous">Forrige</button>
+  <button class="btn btn-info" (click)="changePage(1)" *ngIf="this.response.current_page !== 1">
+      <i class="fa fa-angle-double-left"></i>
+  </button>
+  <button class="btn btn-info" (click)="previousPage()" *ngIf="this.response.previous">
+      <i class="fa fa-angle-left"></i>
+  </button>
   <button
-  *ngFor="let page of this.makeArrayFromNumber(this.response.total_pages)"
+  *ngFor="let page of this.makePaginator(this.response.total_pages, this.response.current_page)"
   [ngClass]="[page.valueOf() === this.response.current_page ? 'current-page':'']"
   (click)="changePage(page.valueOf())"
   class="btn"
   >
   {{ page }}
 </button>
-<button class="btn btn-info" (click)="nextPage()" *ngIf="this.response.next">Neste</button>
+<button class="btn btn-info" (click)="nextPage()" *ngIf="this.response.next">
+  <i class="fa fa-angle-right"></i>
+</button>
+<button class="btn btn-info" (click)="changePage(this.response.total_pages)" *ngIf="this.response.current_page !== this.response.total_pages">
+  <i class="fa fa-angle-double-right"></i>
+</button>
 </div>

@@ -12,6 +12,7 @@ import { DELTA } from 'app/config';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
 import { ToastrService } from 'ngx-toastr';
+import * as _ from 'lodash';
 
 interface IForeignKeyModal {
   fk: IForeignKey;
@@ -260,7 +261,9 @@ export class StoreService {
     const formData = new FormData();
     for (const key of Object.keys(data)) {
       if (key === 'tags') {
-        formData.append(key, JSON.stringify(data[key]));
+        data[key].forEach(tag => {
+          formData.append(key, _.replace(tag, ' ', ''));
+        });
       } else {
         formData.append(key, data[key]);
       }

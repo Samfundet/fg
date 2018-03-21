@@ -25,7 +25,7 @@ export class ChipsComponent implements ControlValueAccessor, OnChanges {
 
   constructor(private api: ApiService, private store: StoreService) {
     api.getForeignKey('tags').subscribe(x => {
-      this.tags = x['results'];
+      this.tags = x;
       this.filteredTags = this.tags;
     });
   }

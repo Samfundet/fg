@@ -102,7 +102,6 @@ class PhotoCreateSerializer(serializers.ModelSerializer):
         tags = validated_data.pop('tags')
         photo = models.Photo.objects.create(**validated_data)
 
-        #tags = json.loads(tags) doesnt work
         tags = tags if isinstance(tags, list) else [tags] # works
 
         for tag_name in tags:
