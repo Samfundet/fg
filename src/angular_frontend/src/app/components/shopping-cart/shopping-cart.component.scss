@@ -68,12 +68,17 @@
 
   &--container {
     padding: 10px;
+    width: 100%;
+    border: 10px solid $outline;
+    border-radius: 3px;
   }
 
   &--img {
     object-fit: contain;
-    height: 150px;
-    max-width: 150px;
+
+    & > img {
+      width: 200px;
+    }
   }
 }
 

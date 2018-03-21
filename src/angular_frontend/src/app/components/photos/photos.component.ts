@@ -12,29 +12,28 @@ import 'rxjs/add/operator/take';
   selector: 'fg-photos',
   templateUrl: './photos.component.html',
   styleUrls: ['./photos.component.scss'],
-  animations: [
-    trigger('slideDown', [
-      state('*', style({
-        opacity: 1,
-        height: '*'
-      })),
-      state('void', style({
-        opacity: 0,
-        height: 0
-      })),
-      transition('* => void', animate('400ms ease')),
-      transition('void => *', animate('400ms ease'))
-    ])
-  ],
+  // animations: [ FUCK ANIMATIONS YO
+  //   trigger('slideDown', [
+  //     state('*', style({
+  //       opacity: 1,
+  //       height: '*'
+  //     })),
+  //     state('void', style({
+  //       opacity: 0,
+  //       height: 0
+  //     })),
+  //     transition('* => void', animate('400ms ease')),
+  //     transition('void => *', animate('400ms ease'))
+  //   ])
+  // ],
 
 })
 export class PhotosComponent implements OnInit, OnDestroy {
   // searchInput;
-  searching = false;
   searchForm: FormGroup;
   isAdvanced = false;
   public photos: IPhoto[];
-  photosAreLoaded = false;
+  loading = false;
   oldParams = {};
 
   public response: IResponse<IPhoto>;
@@ -86,7 +85,6 @@ export class PhotosComponent implements OnInit, OnDestroy {
       queryParams: filter
     });
 
-    this.searching = true;
     this.searchWithParams(filter);
   }
 
@@ -101,12 +99,12 @@ export class PhotosComponent implements OnInit, OnDestroy {
   }
 
   searchWithParams(params) {
+    this.loading = true;
     this.api.getPhotos(params).subscribe(res => {
       this.response = res;
       this.oldParams = params; // saving old params to use later when changing page
       this.photos = res.results;
-      this.searching = false;
-      this.photosAreLoaded = true;
+      this.loading = false;
     });
   }
 
@@ -147,7 +145,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
   newParams(params: string) {
     if (params.indexOf('=') === -1) {
-      this.search({...this.oldParams, page: params}); // unpacking old params and adding in new page param
+      this.search({ ...this.oldParams, page: params }); // unpacking old params and adding in new page param
       // doing this to avoid passing all params from paginator.component
     } else {
       console.log(params);
