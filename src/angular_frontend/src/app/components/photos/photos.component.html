@@ -6,7 +6,7 @@
       />
       <!-- [(ngModel)]="searchInput" -->
 
-      <form [formGroup]="searchForm" (ngSubmit)="search(searchForm.value)" *ngIf="isAdvanced" [@slideDown]="isAdvanced" fxFlex="90%"
+      <form [formGroup]="searchForm" (ngSubmit)="search(searchForm.value)" *ngIf="isAdvanced" fxFlex="90%"
         fxLayout="column" fxLayoutGap="10px">
         <div fxLayout="row" fxLayoutGap="15px">
           <div class="search-input-group" fxLayout="column" fxFlex="<grow>">
@@ -56,8 +56,8 @@
 </section>
 <div fxFlexFill fxLayout="column" fxLayoutAlign="center">
   <hr>
-  <h4 class="p-l-2" *ngIf="!photos?.length && searching">Ingen treff</h4>
-  <fg-photo-masonry *ngIf="photosAreLoaded" [photos]="photos"></fg-photo-masonry>
+  <h4 class="p-l-2" *ngIf="!photos?.length && !loading">Ingen treff</h4>
+  <fg-photo-masonry *ngIf="!loading" [photos]="photos"></fg-photo-masonry>
   <div *ngIf="this.response">
     <fg-paginator (newParams)="newParams($event)" [response]="this.response"></fg-paginator>
   </div>

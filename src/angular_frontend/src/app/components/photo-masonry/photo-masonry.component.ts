@@ -9,24 +9,24 @@ import { OnInit, AfterViewInit } from '@angular/core/src/metadata/lifecycle_hook
   selector: 'fg-photo-masonry',
   templateUrl: './photo-masonry.component.html',
   styleUrls: ['./photo-masonry.component.scss'],
-  animations: [
-    trigger('photosAnimation', [
-      transition('* => *', [
-        query(
-          ':enter',
-          style({ opacity: 0, transform: 'translateY(-20%)' }),
-          { optional: true }
-        ),
-        query(
-          ':enter',
-          stagger('100ms', [
-            animate('100ms', style({ opacity: 1, transform: 'translateY(0)' }))
-          ]),
-          { optional: true }
-        )
-      ])
-    ])
-  ]
+  // animations: [ FUCK ANIMATIONS M8
+  //   trigger('photosAnimation', [
+  //     transition('* => *', [
+  //       query(
+  //         ':enter',
+  //         style({ opacity: 0, transform: 'translateY(-20%)' }),
+  //         { optional: true }
+  //       ),
+  //       query(
+  //         ':enter',
+  //         stagger('100ms', [
+  //           animate('100ms', style({ opacity: 1, transform: 'translateY(0)' }))
+  //         ]),
+  //         { optional: true }
+  //       )
+  //     ])
+  //   ])
+  // ]
 })
 export class PhotoMasonryComponent implements OnInit {
   @Input() photos: IPhoto[];

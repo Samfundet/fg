@@ -123,12 +123,13 @@
       </div>
 
       <!-- NO IMAGES | BEGIN -->
-        <div *ngIf="!orderedPhotos && (store.photoShoppingCart$ | async).length < 1" fxLayout="column" fxLayoutAlign="center start" class="alert">
-          <p class="alert--text">Ingen bilder i handlekurven!</p>
-          <p class="alert--text">
-            <a class="alert--text--link" routerLink="../foto">Klikk her</a> for å bla gjennom våre bilder
-          </p>
-        </div>
+      <div *ngIf="!orderedPhotos && (store.photoShoppingCart$ | async).length < 1" fxLayout="column" fxLayoutAlign="center start"
+        class="alert">
+        <p class="alert--text">Ingen bilder i handlekurven!</p>
+        <p class="alert--text">
+          <a class="alert--text--link" routerLink="../foto">Klikk her</a> for å bla gjennom våre bilder
+        </p>
+      </div>
       <!-- NO IMAGES | END -->
 
       <div *ngIf="orderedPhotos" fxLayout="column">
@@ -151,13 +152,15 @@
           </div>
         </div>
         <h5>Bilder:</h5>
-        <div class="card--container" fxLayout="row" fxLayoutGap="20px" fxFlexAlign="center" fxLayoutWrap>
-          <div *ngFor="let photo of this.orderedPhotos; let i = index" fxFlex.lg="12" fxFlex.md="25" fxFlex.sm="28" fxFlex.xs="42"
-            fxFlex.lt-xs="100" fxLayout="column" class="card">
+        <!-- fxFlex.lg="12" fxFlex.md="25" fxFlex.sm="28" fxFlex.lt-xs="100"  fxFlex.xs="42" -->
+        <div class="card--container" fxLayout="row" fxLayoutGap="20px" fxFlexAlign="start" fxLayoutWrap>
+          <fg-photo-masonry [photos]="this.orderedPhotos"></fg-photo-masonry>
+          <!-- <div *ngFor="let photo of this.orderedPhotos; let i = index"
+           fxLayout="column" class="card">
             <div class="card--img">
-              <img fxFlex="100" class="clickable hover-outline" [src]="photo?.photo?.small" (click)="onPhotoClick(photo)">
+              <img class="clickable hover-outline" [src]="photo?.photo?.small" (click)="onPhotoClick(photo)">
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
 
