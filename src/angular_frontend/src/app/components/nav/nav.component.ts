@@ -61,11 +61,11 @@ export class NavComponent implements OnInit {
     if (value.length > 0) {
       this.tags.forEach(tag => {
         if (value === tag.name) {
-          params = { tags: tag.id };
+          params = { 'tags': tag.id };
         }
       });
-      if (params === {}) {
-        params = { motive: value };
+      if (this.motives.indexOf(value) !== -1) {
+        params = { 'motive': value };
       }
     }
     return params;
