@@ -43,6 +43,7 @@ export interface IPhoto {
   addedToCart?: boolean;
   liked?: boolean; // Why this?
   checkedForEdit?: boolean;
+  // TODO gjør dette obligatorisk?
   description?: string;
 }
 

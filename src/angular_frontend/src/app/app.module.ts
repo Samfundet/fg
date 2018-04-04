@@ -43,6 +43,7 @@ import {
   PhotosComponent,
   PhotoMasonryComponent,
   PhotoModalComponent,
+  PhotoInfoModalComponent,
   NotFoundComponent,
   SearchComponent,
   EditComponent,
@@ -104,6 +105,7 @@ import {
     PhotosComponent,
     PhotoMasonryComponent,
     PhotoModalComponent,
+    PhotoInfoModalComponent,
     NotFoundComponent,
     SearchComponent,
     EditComponent,
@@ -133,7 +135,8 @@ import {
     RegisterFilmComponent,
     UploadScannedComponent,
     MetadataModalComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    PhotoInfoModalComponent
   ],
   imports: [
     BrowserModule,
