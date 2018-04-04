@@ -44,7 +44,9 @@ export class PhotosComponent implements OnInit, OnDestroy {
   places: IForeignKey[];
 
   motives: string[] = [];
+  tags: IForeignKey[] = [];
   filteredMotives: string[] = [];
+  filteredImbecileSearch: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -58,6 +60,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
     api.getCategories().subscribe(x => this.categories = [{ id: null, name: '-- Alle --' }, ...x]);
     api.getMediums().subscribe(x => this.mediums = [{ id: null, name: '-- Alle --' }, ...x]);
     api.getPlaces().subscribe(x => this.places = [{ id: null, name: '-- Alle --' }, ...x]);
+    api.getForeignKey('tags').subscribe(x => this.tags = x);
     api.getAllMotives().subscribe(x => {
       this.motives = x['motives'];
       this.filteredMotives = x['motives'];
@@ -75,14 +78,20 @@ export class PhotosComponent implements OnInit, OnDestroy {
     this.store.photoRouteActive$.next(false);
   }
 
+  // for nonadvanced search
+  imbecileSearch(filter: IFilters) {
+
+  }
+
   search(filter: IFilters) {
     if (this.isAdvanced) {
       const searchVal = this.searchForm.value;
       searchVal.tags = [];
       this.store.getSearchTagsValue().forEach(t => searchVal.tags.push(t.id));
-    }else {
+    } else {
       console.log('todo');
     }
+    console.log(filter);
     this.searchHasOwnProperty(filter);
 
     this.router.navigate([], {
@@ -151,7 +160,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
     if (!params) { // if last page were without any params (page 1, no tags etc)
       this.search({});
     } else if (params.indexOf('=') === -1) {
-      this.search({...this.oldParams, page: params}); // unpacking old params and adding in new page param
+      this.search({ ...this.oldParams, page: params }); // unpacking old params and adding in new page param
       // doing this to avoid passing all params from paginator.component
     } else {
       const paramObj = {};
