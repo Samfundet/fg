@@ -76,9 +76,13 @@ export class PhotosComponent implements OnInit, OnDestroy {
   }
 
   search(filter: IFilters) {
-    const searchVal = this.searchForm.value;
-    searchVal.tags = [];
-    this.store.getSearchTagsValue().forEach(t => searchVal.tags.push(t.id));
+    if (this.isAdvanced) {
+      const searchVal = this.searchForm.value;
+      searchVal.tags = [];
+      this.store.getSearchTagsValue().forEach(t => searchVal.tags.push(t.id));
+    }else {
+      console.log('todo');
+    }
     this.searchHasOwnProperty(filter);
 
     this.router.navigate([], {

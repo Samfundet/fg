@@ -2,12 +2,11 @@
 <section class="wrapper" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
   <div class="search" class="p-t-1" fxFlexFill fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
     <div fxLayout="column" fxFlex="60%" fxLayoutGap="20px" fxLayoutAlign="center">
-      <input [disabled]="isAdvanced" #photoSearchBox class="photo-search-input" id="photo-search-input" type="text" (keyup.enter)="search(photoSearchBox.value)"
+      <input [disabled]="isAdvanced" [matAutocomplete]="inputOption" #photoSearchBox class="photo-search-input" id="photo-search-input" type="text" (keyup.enter)="search(photoSearchBox.value)"
       />
       <!-- [(ngModel)]="searchInput" -->
 
-      <form [formGroup]="searchForm" (ngSubmit)="search(searchForm.value)" *ngIf="isAdvanced" fxFlex="90%"
-        fxLayout="column" fxLayoutGap="10px">
+      <form [formGroup]="searchForm" (ngSubmit)="search(searchForm.value)" *ngIf="isAdvanced" fxFlex="90%" fxLayout="column" fxLayoutGap="10px">
         <div fxLayout="row" fxLayoutGap="15px">
           <div class="search-input-group" fxLayout="column" fxFlex="<grow>">
             <label>Tittel</label>
@@ -68,3 +67,10 @@
     {{ motive }}
   </mat-option>
 </mat-autocomplete>
+
+<!-- Add to non advanced search box -->
+<mat-autocomplete #inputOption="matAutocomplete">
+    <mat-option *ngFor="let inputOption of filteredMotives" [value]="inputOption">
+      {{ inputOption }}
+    </mat-option>
+  </mat-autocomplete>
