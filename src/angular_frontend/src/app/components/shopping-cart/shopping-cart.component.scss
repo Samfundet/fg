@@ -7,9 +7,6 @@
     height: inherit;
     max-height: 12rem;    
   }
-
-  &--details > div div {
-  }
 }
 
 .alert {
@@ -39,8 +36,6 @@
   }
 
   &--body {
-    &--row > td {
-    }
     background-color: transparent;
   }
 

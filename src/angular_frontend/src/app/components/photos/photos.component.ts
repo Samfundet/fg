@@ -11,22 +11,7 @@ import 'rxjs/add/operator/take';
 @Component({
   selector: 'fg-photos',
   templateUrl: './photos.component.html',
-  styleUrls: ['./photos.component.scss'],
-  // animations: [ FUCK ANIMATIONS YO
-  //   trigger('slideDown', [
-  //     state('*', style({
-  //       opacity: 1,
-  //       height: '*'
-  //     })),
-  //     state('void', style({
-  //       opacity: 0,
-  //       height: 0
-  //     })),
-  //     transition('* => void', animate('400ms ease')),
-  //     transition('void => *', animate('400ms ease'))
-  //   ])
-  // ],
-
+  styleUrls: ['./photos.component.scss']
 })
 export class PhotosComponent implements OnInit, OnDestroy {
   // searchInput;
