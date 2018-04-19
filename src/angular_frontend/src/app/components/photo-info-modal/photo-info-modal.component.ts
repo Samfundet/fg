@@ -21,4 +21,5 @@ export class PhotoInfoModalComponent implements OnInit {
   }
   openDescription(): void {
     // TODO
-    });
+    }
+  }

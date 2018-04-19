@@ -2,8 +2,6 @@
 <section class="wrapper" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
   <div class="search" class="p-t-1" fxFlexFill fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
     <div fxLayout="column" fxFlex="60%" fxLayoutGap="20px" fxLayoutAlign="center">
-      <input [disabled]="isAdvanced" [matAutocomplete]="inputOption" #photoSearchBox class="photo-search-input" id="photo-search-input" type="text" (keyup.enter)="search(photoSearchBox.value)"
-      />
       <!-- [(ngModel)]="searchInput" -->
 
       <form [formGroup]="searchForm" (ngSubmit)="search(searchForm.value)" *ngIf="isAdvanced" fxFlex="90%" fxLayout="column" fxLayoutGap="10px">

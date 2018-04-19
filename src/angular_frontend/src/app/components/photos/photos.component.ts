@@ -63,10 +63,6 @@ export class PhotosComponent implements OnInit, OnDestroy {
     this.store.photoRouteActive$.next(false);
   }
 
-  // for nonadvanced search
-  imbecileSearch(filter: IFilters) {
-
-  }
 
   search(filter: IFilters) {
     if (this.isAdvanced) {
