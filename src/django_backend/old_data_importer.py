@@ -29,22 +29,16 @@ def migrate(apps, schema_editor):
 
         convert_to_new_model(data)
         cleaned_data = remove_models(data, [
-            "south.migrationhistory",
-            "fg_auth.fginfo",
-            "admin.logentry",
-            "contenttypes.contenttype",
+            # "fg_auth.fginfo",
             "sessions.session",
-            "sites.site",
-            "thumbnail.kvstore",
-            "info.site",
-            "auth.permission",
+            "info.site"
         ])
 
-        # here_models = {}
-        # for item in cleaned_data:
-        #     here_models[item["model"]] = 'here'
-        #
-        # print(here_models)
+        here_models = {}
+        for item in cleaned_data:
+            here_models[item["model"]] = 'here'
+
+        print(here_models)
 
         load_data(cleaned_data, apps, schema_editor)
 
@@ -62,21 +56,21 @@ def load_data(data, apps, schema_editor):
     securitylevel_objects = [item for item in data if item["model"] == "api.securitylevel"]
     photo_objects = [item for item in data if item["model"] == "api.photo"]
     user_objects = [item for item in data if item["model"] == "fg_auth.user"]
-    all_jobs = [item["fields"]["gjengjobber"] for item in data if item["model"] == "fg_auth.user"]
-    print(all_jobs)
-
-    load_foreign_keys(tag_objects, "api", "Tag", apps)
-    load_foreign_keys(media_objects, "api", "Media", apps)
-    load_foreign_keys(place_objects, "api", "Place", apps)
-    load_foreign_keys(category_objects, "api", "Category", apps)
-    load_foreign_keys(album_objects, "api", "Album", apps)
-    load_foreign_keys(securitylevel_objects, "api", "SecurityLevel", apps)
-
-    load_photos(photo_objects[0:100], apps)
+    info_objects = [item for item in data if item["model"] == "fg_auth.fginfo"]
+    # all_jobs = [item["fields"]["gjengjobber"] for item in data if item["model"] == "fg_auth.user"]
+    # print(all_jobs)
+    #
+    # load_foreign_keys(tag_objects, "api", "Tag", apps)
+    # load_foreign_keys(media_objects, "api", "Media", apps)
+    # load_foreign_keys(place_objects, "api", "Place", apps)
+    # load_foreign_keys(category_objects, "api", "Category", apps)
+    # load_foreign_keys(album_objects, "api", "Album", apps)
+    # load_foreign_keys(securitylevel_objects, "api", "SecurityLevel", apps)
+    #
+    # load_photos(photo_objects[0:100], apps)
 
     create_groups(apps)
-
-    #load_users(user_objects[0:100], apps)
+    load_users(user_objects[0:100], apps, info_objects)
 
 
 def create_groups(apps):
@@ -98,24 +92,37 @@ def create_groups(apps):
 def load_jobs(apps):
     pass
 
-def load_users(model_objects, apps):
-    Job = apps.get_model("fg_auth", "Job")
+
+def load_users(user_objects, apps, info_objects):
+    # Job = apps.get_model("fg_auth", "Job")
     User = apps.get_model("fg_auth", "User")
     Group = apps.get_model('auth', 'Group')
 
-    for item in model_objects:
+    for item in user_objects:
         item["fields"]["pk"] = item["pk"]
         security_level = item["fields"]["security_level"]
-        gjengjobber = item["fields"]["gjengjobber"]
+        # gjengjobber = item["fields"]["gjengjobber"]
         del item["fields"]["security_level"]
-        del item["fields"]["gjengjobber"]
+        # del item["fields"]["gjengjobber"]
         del item["fields"]["groups"]
         del item["fields"]["user_permissions"]
 
+        print(info_objects)
+        fg_info = [inf["fields"] for inf in info_objects if inf["pk"] == item["fields"]["fg_info"]][0]
+        del item["fields"]["fg_info"]
+        item["fields"]["aktiv_pang"] = fg_info["aktiv_pang"]
+        item["fields"]["fg_kallenavn"] = fg_info["fg_kallenavn"]
+        item["fields"]["comments"] = fg_info["comments"]
+        item["fields"]["hjemmeside"] = fg_info["hjemmeside"]
+        item["fields"]["bilde"] = fg_info["bilde"]
+        item["fields"]["opptaksaar"] = fg_info["opptaksaar"]
+        item["fields"]["uker"] = fg_info["uker"]
+
+        print(item["fields"])
         obj = User(**item["fields"])
         obj.save()
-        for jobb in gjengjobber:
-            obj.gjengjobber.add(jobb)
+        # for jobb in gjengjobber:
+        #     obj.gjengjobber.add(jobb)
 
         if security_level in [1, 2, 3]:
             obj.groups.add(
@@ -151,6 +158,7 @@ def load_photos(model_objects, apps):
         for tag in tags:
             obj.tags.add(tag)
 
+
 def load_foreign_keys(model_objects, app_name, model_name, apps):
     Mod = apps.get_model(app_name, model_name)
     obj_list = []
@@ -167,7 +175,6 @@ def remove_models(data, model_list):
 
 
 def convert_to_new_model(data):
-    job_pk = 0
     items_to_delete = []
     for item in data:
         if item["model"] == "archive.imagemodel":
@@ -214,7 +221,6 @@ def convert_to_new_model(data):
                     "Lene Bakke (H-70), " \
                     "Leif Erik Ødegaard (09/10), " \
                     "Øyvind Aass (07/08), Foran i stolen: Mari Haukaas Normann (10/11)"
-
 
         elif item["model"] == "archive.tag":
             new_value = conversion_dict["archive.tag"]
@@ -268,31 +274,31 @@ def convert_to_new_model(data):
             item["fields"]["photo"] = item["fields"]["image"]
             del item["fields"]["image"]
 
-        elif item["model"] == "fg_auth.user" and item["fields"]["fg_info"] is not None:
-            fg_info_pk = item["fields"]["fg_info"]
-            item["fields"]["zip_code"] = str(item["fields"]["zip_code"]).zfill(4)
-            for it in data:
-                if it["model"] == "fg_auth.fginfo" and it["pk"] == fg_info_pk:
-
-                    item["fields"]['gjengjobber'] = [
-                        it["fields"]["gjengjobb1"],
-                        it["fields"]["gjengjobb2"],
-                        it["fields"]["gjengjobb2"],
-                    ]
-                    item["fields"]['aktiv_pang'] = it["fields"]["aktiv_pang"]
-                    item["fields"]['fg_kallenavn'] = it["fields"]["fg_kallenavn"]
-                    item["fields"]['comments'] = it["fields"]["comments"]
-                    item["fields"]['hjemmeside'] = it["fields"]["hjemmeside"]
-                    item["fields"]['bilde'] = it["fields"]["bilde"]
-                    item["fields"]['opptaksaar'] = it["fields"]["opptaksaar"]
-                    item["fields"]['uker'] = it["fields"]["uker"]
-
-                    # Cleanup
-                    del item["fields"]["fg_info"]
-                    del it["fields"]["gjengjobb1"]
-                    del it["fields"]["gjengjobb2"]
-                    del it["fields"]["gjengjobb2"]
-                    break
+        # elif item["model"] == "fg_auth.user" and item["fields"]["fg_info"] is not None:
+        #     fg_info_pk = item["fields"]["fg_info"]
+        #     item["fields"]["zip_code"] = str(item["fields"]["zip_code"]).zfill(4)
+            # for it in data:
+            #     if it["model"] == "fg_auth.fginfo" and it["pk"] == fg_info_pk:
+            #         item["fields"]['gjengjobber'] = [
+            #             it["fields"]["gjengjobb1"],
+            #             it["fields"]["gjengjobb2"],
+            #             it["fields"]["gjengjobb2"],
+            #         ]
+            #         item["fields"]['aktiv_pang'] = it["fields"]["aktiv_pang"]
+            #         item["fields"]['fg_kallenavn'] = it["fields"]["fg_kallenavn"]
+            #         item["fields"]['comments'] = it["fields"]["comments"]
+            #         item["fields"]['hjemmeside'] = it["fields"]["hjemmeside"]
+            #         item["fields"]['bilde'] = it["fields"]["bilde"]
+            #         item["fields"]['opptaksaar'] = it["fields"]["opptaksaar"]
+            #         item["fields"]['uker'] = it["fields"]["uker"]
+            #
+            #         # Cleanup
+            #         print()
+            #         del item["fields"]["fg_info"]
+            #         del it["fields"]["gjengjobb1"]
+            #         del it["fields"]["gjengjobb2"]
+            #         del it["fields"]["gjengjobb2"]
+            #         break
 
         elif item["model"] == "fg_auth.user" and item["fields"]["fg_info"] is None:
             del item["fields"]["fg_info"]

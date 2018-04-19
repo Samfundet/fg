@@ -106,9 +106,16 @@ def populate_users(apps, schema_editor):
     new_job = Job(name='foo', description='boo')
     new_job.save()
 
+    # User and group models
+    User = apps.get_model('fg_auth', 'User')
+    Group = apps.get_model('auth', 'Group')
+
+    # Add User fg to group FG
+    fg_user = User.objects.get(username='fg')
+    fg_user.groups.add(Group.objects.get_or_create(name="FG")[0])
+    fg_user.save()
+
     for i in range(30):
-        User = apps.get_model('fg_auth', 'User')
-        Group = apps.get_model('auth', 'Group')
 
         img = generate_photo_file()
         fn = random.choice(FIRST_NAMES)
@@ -132,6 +139,8 @@ def populate_users(apps, schema_editor):
         )
         Group.objects.get_or_create(name="HUSFOLK")
         #fg_group.user_set.add(test_user)
+
+
 
 
 

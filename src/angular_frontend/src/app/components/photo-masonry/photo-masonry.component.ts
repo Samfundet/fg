@@ -8,25 +8,7 @@ import { OnInit, AfterViewInit } from '@angular/core/src/metadata/lifecycle_hook
 @Component({
   selector: 'fg-photo-masonry',
   templateUrl: './photo-masonry.component.html',
-  styleUrls: ['./photo-masonry.component.scss'],
-  // animations: [ FUCK ANIMATIONS M8
-  //   trigger('photosAnimation', [
-  //     transition('* => *', [
-  //       query(
-  //         ':enter',
-  //         style({ opacity: 0, transform: 'translateY(-20%)' }),
-  //         { optional: true }
-  //       ),
-  //       query(
-  //         ':enter',
-  //         stagger('100ms', [
-  //           animate('100ms', style({ opacity: 1, transform: 'translateY(0)' }))
-  //         ]),
-  //         { optional: true }
-  //       )
-  //     ])
-  //   ])
-  // ]
+  styleUrls: ['./photo-masonry.component.scss']
 })
 export class PhotoMasonryComponent implements OnInit {
   @Input() photos: IPhoto[];
@@ -56,7 +38,6 @@ export class PhotoMasonryComponent implements OnInit {
 
   addToShoppingCart(photo: IPhoto) {
     this.store.addPhotoToCartAction(photo);
-    // console.log(this.photos);
   }
 
   removeFromShoppingCart(photo: IPhoto) {
