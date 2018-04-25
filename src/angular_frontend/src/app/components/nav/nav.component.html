@@ -11,7 +11,7 @@
 
 
   <div fxLayout="row" fxLayoutAlign="center center">
-    <div  fxLayout="row">
+    <div  fxLayout="row" *ngIf="!(store.photoRouteActive$ | async)">
       <label class="search-icon-button" for="search-input" (click)="onSearchEnter(searchBox.value)">
         <i class="fa fa-search" aria-hidden="true"></i>
       </label>
