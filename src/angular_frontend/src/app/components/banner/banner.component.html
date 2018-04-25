@@ -1,7 +1,8 @@
+<div class="banner">
 <section id="banner" [style.background-image]="sanitizedImage">
-  <div class="inner" *ngIf="photo; else default"  (click)="onPhotoClick(photo)">
+  <div class="inner" *ngIf="photo; else default">
     <header class="p-b-2">
-      <h2>{{photo.motive}}</h2>
+      <h3>{{photo.motive}}</h3>
       <sub>{{photo.place.name}}</sub>
     </header>
     <div><a routerLink="/foto" [queryParams]="{'motive': photo.motive}" class="big-button">Se flere bilder</a></div>
@@ -16,3 +17,4 @@
     </div>
   </ng-template>
 </section>
+</div>
