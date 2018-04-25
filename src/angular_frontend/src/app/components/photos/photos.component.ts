@@ -1,20 +1,22 @@
 import { HttpParams } from '@angular/common/http';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { ApiService, StoreService } from 'app/services';
 import { IForeignKey, IFilters, IPhoto, IResponse } from 'app/model';
+import { NavComponent} from 'app/components/nav/nav.component'; // import simple search from nav
 
 import 'rxjs/add/operator/take';
+import { values } from 'd3';
 
 @Component({
   selector: 'fg-photos',
   templateUrl: './photos.component.html',
-  styleUrls: ['./photos.component.scss']
+  styleUrls: ['./photos.component.scss'],
+  providers: [NavComponent] // use nav.component as proved for simpleSearch
 })
 export class PhotosComponent implements OnInit, OnDestroy {
-  // searchInput;
   searchForm: FormGroup;
   isAdvanced = false;
   public photos: IPhoto[];
@@ -38,7 +40,9 @@ export class PhotosComponent implements OnInit, OnDestroy {
     private router: Router,
     private api: ApiService,
     private store: StoreService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private nav: NavComponent // for simple search
+
   ) {
     route.queryParams.take(1).subscribe(params => this.initialize(params as IFilters));
     api.getAlbums().subscribe(x => this.albums = [{ id: null, name: '-- Alle --' }, ...x]);
@@ -63,22 +67,24 @@ export class PhotosComponent implements OnInit, OnDestroy {
     this.store.photoRouteActive$.next(false);
   }
 
+  // for nonadvanced search
+  imbecileSearch(filter: IFilters) {
 
-  search(filter: IFilters) {
+  }
+  search(filter) {
     if (this.isAdvanced) {
       const searchVal = this.searchForm.value;
       searchVal.tags = [];
       this.store.getSearchTagsValue().forEach(t => searchVal.tags.push(t.id));
     } else {
-      console.log('todo');
+       filter = this.nav.createParams(filter);
     }
-    console.log(filter);
     this.searchHasOwnProperty(filter);
-
+    // setter URL-en for søk
     this.router.navigate([], {
       queryParams: filter
     });
-
+    // faktiske søket
     this.searchWithParams(filter);
   }
 

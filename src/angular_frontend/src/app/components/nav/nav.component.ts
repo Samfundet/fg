@@ -71,7 +71,7 @@ export class NavComponent implements OnInit {
     return params;
   }
 
-  onSearchEnter(value: string) {
+ onSearchEnter(value: string) {
     this.router.navigate(['/foto'], {
       queryParams: this.createParams(value)
     });
