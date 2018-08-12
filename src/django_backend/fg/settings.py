@@ -48,7 +48,8 @@ INSTALLED_APPS = [
 
     # Own apps
     'fg.api',
-    'fg.fg_auth'
+    'fg.fg_auth',
+    'fg.legacy'
 ]
 
 REST_FRAMEWORK = {
@@ -102,6 +103,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.environ.get('POSTGRES_DB'),
+        'PASSWORD': 'qwer1234',
+        'USER': 'fg',
+        'HOST': 'postgres',
+        'PORT': '5432',
+    },
+    'old_db': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'old_fg',
         'PASSWORD': 'qwer1234',
         'USER': 'fg',
         'HOST': 'postgres',
