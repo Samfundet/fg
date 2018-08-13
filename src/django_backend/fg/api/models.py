@@ -71,10 +71,8 @@ class Photo(models.Model):
     )
 
     # Information describing the photo
-    # height = models.IntegerField()
-    # width = models.IntegerField()
-    motive = models.CharField(max_length=256, db_index=True, blank=True, verbose_name='motiv')
-    description = models.CharField(max_length=2048, blank=True, null=True, verbose_name='beskrivelse')
+    motive = models.CharField(max_length=256, db_index=True, blank=True, verbose_name='motives')
+    description = models.CharField(max_length=2048, blank=True, null=True, verbose_name='descriptions')
     date_taken = models.DateTimeField()
     date_modified = models.DateTimeField(auto_now=True)
     photo_ppoi = PPOIField()  # Point of interest dot, 2d vector
