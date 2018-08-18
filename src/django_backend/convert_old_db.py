@@ -12,6 +12,7 @@ from fg.legacy import models as old_models
 from fg.fg_auth.models import User
 from versatileimagefield.fields import VersatileImageField
 
+
 def convert_SecurityLevel():
     print("Converting security_levels")
     old_security_levels = old_models.FgAuthSecuritylevel.objects.using(
@@ -19,7 +20,6 @@ def convert_SecurityLevel():
 
     obj_list = []
     for item in old_security_levels:
-        print(item.name)
         new_item = models.SecurityLevel(name=item.name, pk=item.pk)
         obj_list.append(new_item)
 
@@ -32,7 +32,6 @@ def convert_Tag():
 
     obj_list = []
     for item in old_tags:
-        print(item.name)
         new_item = models.Tag(name=item.name, pk=item.pk)
         obj_list.append(new_item)
 
@@ -45,7 +44,6 @@ def convert_Category():
 
     obj_list = []
     for item in old_categories:
-        print(item.category)
         new_item = models.Category(name=item.category, pk=item.pk)
         obj_list.append(new_item)
 
@@ -69,8 +67,8 @@ def convert_Album():
 
     obj_list = []
     for item in old_albums_cleaned:
-        print(item.name)
-        new_item = models.Album(name=item.name, description=item.description, pk=item.pk)
+        new_item = models.Album(
+            name=item.name, description=item.description, pk=item.pk)
         obj_list.append(new_item)
 
     models.Album.objects.bulk_create(obj_list)
@@ -82,7 +80,6 @@ def convert_Media():
 
     obj_list = []
     for item in old_mediums:
-        print(item.medium)
         new_item = models.Media(name=item.medium, pk=item.pk)
         obj_list.append(new_item)
 
@@ -95,7 +92,6 @@ def convert_Place():
 
     obj_list = []
     for item in old_places:
-        print(item.place)
         new_item = models.Place(name=item.place, pk=item.pk)
         obj_list.append(new_item)
 
@@ -104,32 +100,56 @@ def convert_Place():
 
 def convert_Photo():
     print("Converting Photos")
-    old_Photos = old_models.ArchiveImagemodel.objects.using('old_db').all()
+    chunksize = 1000
+    old_photo_set = old_models.ArchiveImagemodel.objects.using('old_db').order_by('pk')
 
-    obj_list = []
-    for item in old_Photos[:10]:
-        print(item.image_prod)
-        new_item = models.Photo(
-            photo=VersatileImageField(item.image_prod),
-            motive=item.motive,
-            scanned=item.scanned,
-            on_home_page=item.on_home_page,
-            lapel=item.lapel,
-            splash=False,
-            page=item.page,
-            image_number=item.image_number,
-            date_taken=item.date,
+    key_dict = {}
+    dupes = []
+    # obj_list = []
 
-            security_level=models.SecurityLevel.objects.get(
-                pk=item.security_level.pk),
-            category=models.Category.objects.get(pk=item.category.pk),
-            media=models.Media.objects.get(pk=item.media.pk),
-            album=models.Album.objects.get(pk=item.album.pk),
-            place=models.Place.objects.get(pk=item.place.pk)
-        )
-        obj_list.append(new_item)
+    for item in old_photo_set.iterator():
+        key = '{}#{}-{}-{}'.format(item.pk, item.page, item.image_number, item.album.pk)
+        if key in key_dict:
+            dupes.append(key)
+        else:
+            key_dict[key] = item
+    print(dupes)
 
-    models.Photo.objects.bulk_create(obj_list)
+
+    # for item in old_Photos[:100]:
+
+    #     key = '{}-{}-{}'.format(item.page, item.image_number, item.album.pk)
+    #     if key in key_dict:
+    #         dupes.append(key)
+    #         item.page = 99
+    #         item.image_number = 99
+    #     else:
+    #         key_dict[key] = item
+
+    #     new_item = models.Photo(
+    #         photo=item.image_prod,
+    #         motive=item.motive,
+    #         scanned=item.scanned,
+    #         on_home_page=item.on_home_page,
+    #         lapel=item.lapel,
+    #         splash=False,
+    #         page=item.page,
+    #         image_number=item.image_number,
+    #         date_taken=item.date,
+
+    #         security_level=models.SecurityLevel.objects.get(
+    #             pk=item.security_level.pk),
+    #         category=models.Category.objects.get(pk=item.category.pk),
+    #         media=models.Media.objects.get(pk=item.media.pk),
+    #         album=models.Album.objects.get(pk=item.album.pk),
+    #         place=models.Place.objects.get(pk=item.place.pk)
+    #     )
+    #     obj_list.append(new_item)
+
+    # print("Bulk insert photos")
+    # models.Photo.objects.bulk_create(obj_list)
+
+    # print(dupes)
 
 
 def convert():
@@ -141,7 +161,8 @@ def convert():
     convert_Place()
     convert_Photo()
 
-    user = User.objects.create_superuser(username='fg',email='',password='qwer1234')
+    User.objects.create_superuser(
+        username='fg', email='', password='qwer1234')
 
     print("Done!")
 

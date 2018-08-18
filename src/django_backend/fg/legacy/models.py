@@ -11,6 +11,8 @@ from django.db import models
 
 
 class ArchiveAlbum(models.Model):
+    objects = models.Manager()
+
     name = models.CharField(max_length=5)
     description = models.CharField(max_length=80)
 
@@ -20,6 +22,8 @@ class ArchiveAlbum(models.Model):
 
 
 class ArchiveCategory(models.Model):
+    objects = models.Manager()
+
     category = models.CharField(max_length=80)
 
     class Meta:
@@ -28,6 +32,8 @@ class ArchiveCategory(models.Model):
 
 
 class ArchiveImagemodel(models.Model):
+    objects = models.Manager()
+
     image_prod = models.CharField(max_length=100)
     image_web = models.CharField(max_length=100)
     image_thumb = models.CharField(max_length=100)
@@ -50,6 +56,8 @@ class ArchiveImagemodel(models.Model):
 
 
 class ArchiveImagemodelTag(models.Model):
+    objects = models.Manager()
+
     imagemodel = models.ForeignKey(ArchiveImagemodel, models.DO_NOTHING)
     tag = models.ForeignKey('ArchiveTag', models.DO_NOTHING)
 
@@ -60,6 +68,8 @@ class ArchiveImagemodelTag(models.Model):
 
 
 class ArchiveMedia(models.Model):
+    objects = models.Manager()
+
     medium = models.CharField(max_length=80)
 
     class Meta:
@@ -68,6 +78,8 @@ class ArchiveMedia(models.Model):
 
 
 class ArchivePlace(models.Model):
+    objects = models.Manager()
+
     place = models.CharField(max_length=80)
 
     class Meta:
@@ -76,6 +88,8 @@ class ArchivePlace(models.Model):
 
 
 class ArchiveTag(models.Model):
+    objects = models.Manager()
+
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=50)
 
@@ -85,6 +99,8 @@ class ArchiveTag(models.Model):
 
 
 class AuthGroup(models.Model):
+    objects = models.Manager()
+
     name = models.CharField(unique=True, max_length=80)
 
     class Meta:
@@ -93,6 +109,8 @@ class AuthGroup(models.Model):
 
 
 class AuthGroupPermissions(models.Model):
+    objects = models.Manager()
+
     group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
     permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
 
@@ -103,6 +121,8 @@ class AuthGroupPermissions(models.Model):
 
 
 class AuthPermission(models.Model):
+    objects = models.Manager()
+
     name = models.CharField(max_length=50)
     content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
     codename = models.CharField(max_length=100)
@@ -114,6 +134,8 @@ class AuthPermission(models.Model):
 
 
 class DjangoAdminLog(models.Model):
+    objects = models.Manager()
+
     action_time = models.DateTimeField()
     user_id = models.IntegerField()
     content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
@@ -128,6 +150,8 @@ class DjangoAdminLog(models.Model):
 
 
 class DjangoContentType(models.Model):
+    objects = models.Manager()
+
     name = models.CharField(max_length=100)
     app_label = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
@@ -139,6 +163,8 @@ class DjangoContentType(models.Model):
 
 
 class DjangoSelect2Keymap(models.Model):
+    objects = models.Manager()
+
     key = models.CharField(unique=True, max_length=40)
     value = models.CharField(max_length=100)
     accessed_on = models.DateTimeField()
@@ -149,6 +175,8 @@ class DjangoSelect2Keymap(models.Model):
 
 
 class DjangoSession(models.Model):
+    objects = models.Manager()
+
     session_key = models.CharField(primary_key=True, max_length=40)
     session_data = models.TextField()
     expire_date = models.DateTimeField()
@@ -159,6 +187,8 @@ class DjangoSession(models.Model):
 
 
 class DjangoSite(models.Model):
+    objects = models.Manager()
+
     domain = models.CharField(max_length=100)
     name = models.CharField(max_length=50)
 
@@ -168,6 +198,8 @@ class DjangoSite(models.Model):
 
 
 class FgAuthDownloadedimages(models.Model):
+    objects = models.Manager()
+
     image = models.ForeignKey(ArchiveImagemodel, models.DO_NOTHING)
     user = models.ForeignKey('FgAuthUser', models.DO_NOTHING)
     date_downloaded = models.DateField()
@@ -178,6 +210,8 @@ class FgAuthDownloadedimages(models.Model):
 
 
 class FgAuthFginfo(models.Model):
+    objects = models.Manager()
+
     opptaksaar = models.IntegerField(blank=True, null=True)
     gjengjobb1 = models.CharField(max_length=255)
     gjengjobb2 = models.CharField(max_length=255)
@@ -195,6 +229,8 @@ class FgAuthFginfo(models.Model):
 
 
 class FgAuthSecuritylevel(models.Model):
+    objects = models.Manager()
+
     name = models.CharField(max_length=50)
 
     class Meta:
@@ -203,6 +239,8 @@ class FgAuthSecuritylevel(models.Model):
 
 
 class FgAuthUser(models.Model):
+    objects = models.Manager()
+
     password = models.CharField(max_length=128)
     last_login = models.DateTimeField()
     is_superuser = models.BooleanField()
@@ -227,6 +265,8 @@ class FgAuthUser(models.Model):
 
 
 class FgAuthUserGroups(models.Model):
+    objects = models.Manager()
+
     user = models.ForeignKey(FgAuthUser, models.DO_NOTHING)
     group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
 
@@ -237,6 +277,8 @@ class FgAuthUserGroups(models.Model):
 
 
 class FgAuthUserUserPermissions(models.Model):
+    objects = models.Manager()
+
     user = models.ForeignKey(FgAuthUser, models.DO_NOTHING)
     permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
 
@@ -247,6 +289,8 @@ class FgAuthUserUserPermissions(models.Model):
 
 
 class InfoSite(models.Model):
+    objects = models.Manager()
+
     title = models.CharField(unique=True, max_length=80)
     slug = models.CharField(unique=True, max_length=50)
     intro = models.TextField()
@@ -259,6 +303,8 @@ class InfoSite(models.Model):
 
 
 class SouthMigrationhistory(models.Model):
+    objects = models.Manager()
+
     app_name = models.CharField(max_length=255)
     migration = models.CharField(max_length=255)
     applied = models.DateTimeField()
@@ -269,6 +315,8 @@ class SouthMigrationhistory(models.Model):
 
 
 class ThumbnailKvstore(models.Model):
+    objects = models.Manager()
+
     key = models.CharField(primary_key=True, max_length=200)
     value = models.TextField()
 
