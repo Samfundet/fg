@@ -103,19 +103,19 @@ def convert_Place():
 def get_latest_image_number_and_page_number(album_pk):
     latest_page = models.Photo.objects.filter(
         album=album_pk
-    ).aggregate(db.models.Max('page')).page__max
+    ).aggregate(db.models.Max('page'))['page__max']
 
     latest_image_number = models.Photo.objects.filter(
         album=album_pk, page=latest_page
-    ).aggregate(db.models.Max('image_number')).image_number__max
+    ).aggregate(db.models.Max('image_number'))['image_number__max']
 
     new_image_number = latest_image_number + 1
     new_page = latest_page
-    if new_image_number > 99 and new_page < 99:
+    if new_image_number > 99:
         new_image_number = 1
         new_page = latest_page + 1
     else:
-        return False
+        raise IndexError("Out of image_number and page range!")
 
     return {
         'new_image_number': new_image_number,
@@ -179,37 +179,29 @@ def convert_Photo():
         models.Photo.objects.bulk_create(obj_list)
 
     print("{} duplicates found".format(len(dupes)))
-    left_over_dupes = []
     for item in dupes:
         resp = get_latest_image_number_and_page_number(item.album.pk)
-        if resp:
-            new_item = models.Photo(
-                pk=item.pk,
-                photo=item.image_prod,
-                motive=item.motive,
-                scanned=item.scanned,
-                on_home_page=item.on_home_page,
-                lapel=item.lapel,
-                splash=False,
-                page=resp.new_page,
-                image_number=resp.new_image_number,
-                date_taken=item.date,
+        new_item = models.Photo(
+            pk=item.pk,
+            photo=item.image_prod,
+            motive=item.motive,
+            scanned=item.scanned,
+            on_home_page=item.on_home_page,
+            lapel=item.lapel,
+            splash=False,
+            page=resp['new_page'],
+            image_number=resp['new_image_number'],
+            date_taken=item.date,
 
-                security_level=models.SecurityLevel.objects.get(
-                    pk=item.security_level.pk),
-                category=models.Category.objects.get(pk=item.category.pk),
-                media=models.Media.objects.get(pk=item.media.pk),
-                album=models.Album.objects.get(pk=item.album.pk),
-                place=models.Place.objects.get(pk=item.place.pk)
-            )
-        else:
-            left_over_dupes.append(item)
+            security_level=models.SecurityLevel.objects.get(
+                pk=item.security_level.pk),
+            category=models.Category.objects.get(pk=item.category.pk),
+            media=models.Media.objects.get(pk=item.media.pk),
+            album=models.Album.objects.get(pk=item.album.pk),
+            place=models.Place.objects.get(pk=item.place.pk)
+        )
+        new_item.save()
         print(resp)
-        # For item album.pk, get highest page and image number
-        # store in db with that
-        # ???
-        # profit
-        pass
 
 
 def attach_Tags_to_photos():
