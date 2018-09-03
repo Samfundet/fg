@@ -24,12 +24,16 @@ class FGUserManager(BaseUserManager):
         user.is_staff = True
         user.is_active = True
         user.is_superuser = True
-        user.groups.add(Group.objects.get_or_create(name="FG"))
         user.save()
+
+        group, created = Group.objects.get_or_create(name="FG")
+        group.user_set.add(user)
         return user
 
 
 class Job(models.Model):
+    objects = models.Manager()
+
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=256)
     date_created = models.DateTimeField(blank=True, default=timezone.now)
@@ -39,8 +43,10 @@ class Job(models.Model):
 
 
 class UserDownloadedPhoto(models.Model):
-    photo = models.ForeignKey(Photo)
-    user = models.ForeignKey('User')
+    objects = models.Manager()
+
+    photo = models.ForeignKey(Photo, on_delete=models.PROTECT)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
     date_downloaded = models.DateTimeField(blank=True, default=timezone.now)
 
     def __str__(self):

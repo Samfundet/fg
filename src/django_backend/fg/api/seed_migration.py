@@ -89,7 +89,7 @@ def load_photos(apps, schema_editor):
 
 def generate_photo_file():
     image = Image.new(
-        'RGBA', size=(200, 200),
+        'RGB', size=(200, 200),
         color=(
             random.randint(0,255),
             random.randint(0,255),

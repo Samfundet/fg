@@ -379,7 +379,7 @@ class PhotoCRUDTestCase(APITestCase):
 
     @staticmethod
     def generate_photo_file ():
-        image = Image.new('RGBA', size=(50, 50), color=(155, 0, 0))
+        image = Image.new('RGB', size=(50, 50), color=(155, 0, 0))
         file = tempfile.NamedTemporaryFile(suffix='.jpg')
         image.save(file)
         return file

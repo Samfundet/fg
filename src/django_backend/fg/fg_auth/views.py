@@ -14,6 +14,7 @@ from . import models, serializers
 from ..paginations import UnlimitedPagination
 from ..permissions import IsFGOrReadOnly, IsFG
 
+
 class JobViewSet(viewsets.ModelViewSet):
     queryset = models.Job.objects.all()
     serializer_class = serializers.JobSerializer
@@ -57,7 +58,8 @@ def login_user(request):
     print(request.META)
     auth_header = request.META['HTTP_AUTHORIZATION']
     encoded_credentials = auth_header.split(' ')[1]
-    decoded_credentials = base64.b64decode(encoded_credentials).decode("utf-8").split(':')
+    decoded_credentials = base64.b64decode(
+        encoded_credentials).decode("utf-8").split(':')
     username = decoded_credentials[0]
     password = decoded_credentials[1]
     user = authenticate(username=username, password=password)

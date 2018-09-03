@@ -20,7 +20,8 @@ from PIL import Image
 
 Statistics = namedtuple(
     'Statistics',
-    ('photos', 'tags', 'scanned', 'albums', 'splash', 'orders', 'photos_by_year', 'photos_per_album')
+    ('photos', 'tags', 'scanned', 'albums', 'splash',
+     'orders', 'photos_by_year', 'photos_per_album')
 )
 
 SearchData = namedtuple(
@@ -37,6 +38,7 @@ Metadata = namedtuple(
     'Metadata',
     ('metadata',)
 )
+
 
 class TagViewSet(ModelViewSet):
     """
@@ -107,14 +109,14 @@ class PhotoViewSet(ModelViewSet):
     """
     permission_classes = [IsFGOrReadOnly]
     serializer_class = None
-    pagination_class = UpgradedPageNumberPagination #CursorPagination
+    pagination_class = UpgradedPageNumberPagination  # CursorPagination
 
     # Filters and search
     filter_backends = (OrderingFilter, SearchFilter, DjangoFilterBackend)
     ordering_fields = '__all__'
     search_fields = ('motive', 'tags__name', 'album__name')
     ordering = ('-date_taken',)
-    filter_class = filters.PhotoFilter
+    filterset_class = filters.PhotoFilter
 
     def retrieve(self, request, *args, **kwargs):
         self.serializer_class = serializers.PhotoSerializer
@@ -268,8 +270,10 @@ class PhotoListFromAlbumPageAndImageNumber(ViewSet):
         if (user.groups.exists() and user.is_active and 'FG' in user.groups.all()) or user.is_superuser:
             album = self.request.query_params.get('album')
             page = self.request.query_params.get('page')
-            image_numbers = self.request.query_params.get('image_numbers', []).split(',')
-            photos = models.Photo.objects.filter(album=album, page=page, image_number__in=image_numbers)
+            image_numbers = self.request.query_params.get(
+                'image_numbers', []).split(',')
+            photos = models.Photo.objects.filter(
+                album=album, page=page, image_number__in=image_numbers)
             pids = []
             for photo in photos:
                 pids.append(photo.id)
@@ -294,7 +298,7 @@ class OrderViewSet(ModelViewSet):
     filter_backends = (OrderingFilter, DjangoFilterBackend)
     ordering_fields = '__all__'
     ordering = ('order_completed',)
-    filter_class = filters.OrderFilter
+    filterset_class = filters.OrderFilter
 
 
 class OrderPhotoViewSet(ModelViewSet):
@@ -328,11 +332,13 @@ class StatisticsViewSet(ViewSet):
         photo_per_year_list = []
         for year in photos_per_year:
             y = year.get('year').year
-            photo_per_year_list.append([str(year.get('year').year), year.get('count')])
+            photo_per_year_list.append(
+                [str(year.get('year').year), year.get('count')])
         photo_per_year_list.sort()
 
         # TODO sort amount of photos in each album
-        photos_per_album = models.Photo.objects.values('album__name').annotate(Count('album')).order_by('album__name')
+        photos_per_album = models.Photo.objects.values(
+            'album__name').annotate(Count('album')).order_by('album__name')
 
         # Puts data into named tuple to send to serializer
         statistics = Statistics(
@@ -363,13 +369,16 @@ class SearchAutocompleteDataViewSet(ViewSet):
     def get_queryset(self):
         max_sec = self.extra_permission()
         data = SearchData(
-            motives=models.Photo.objects.values_list('motive', flat=True).exclude(security_level_id__gt=max_sec),
+            motives=models.Photo.objects.values_list(
+                'motive', flat=True).exclude(security_level_id__gt=max_sec),
         )
         return data
 
     def list(self, request):
-        serializer = serializers.SearchAutocompleteDataSerializer(self.get_queryset())
+        serializer = serializers.SearchAutocompleteDataSerializer(
+            self.get_queryset())
         return Response(serializer.data)
+
 
 class PhotoMetadataViewSet(ViewSet):
 

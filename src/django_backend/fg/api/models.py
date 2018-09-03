@@ -4,8 +4,9 @@ from django.db import models
 from django.utils import timezone
 from versatileimagefield.fields import VersatileImageField, PPOIField
 
-
 class Tag(models.Model):
+    objects = models.Manager()
+
     name = models.CharField(max_length=50, unique=True, db_index=True)
 
     def __str__(self):
@@ -13,6 +14,8 @@ class Tag(models.Model):
 
 
 class Category(models.Model):
+    objects = models.Manager()
+
     name = models.CharField(max_length=80, unique=True, db_index=True)
 
     class Meta:
@@ -23,6 +26,8 @@ class Category(models.Model):
 
 
 class Media(models.Model):
+    objects = models.Manager()
+
     name = models.CharField(max_length=80, unique=True, db_index=True)
 
     def __str__(self):
@@ -30,6 +35,8 @@ class Media(models.Model):
 
 
 class Album(models.Model):
+    objects = models.Manager()
+
     name = models.CharField(max_length=5, unique=True, db_index=True)
     date_created = models.DateTimeField(blank=True, default=timezone.now)
     description = models.CharField(max_length=32)
@@ -40,6 +47,8 @@ class Album(models.Model):
 
 
 class Place(models.Model):
+    objects = models.Manager()
+
     name = models.CharField(max_length=80, unique=True, db_index=True)
 
     def __str__(self):
@@ -47,6 +56,8 @@ class Place(models.Model):
 
 
 class SecurityLevel(models.Model):
+    objects = models.Manager()
+
     name = models.CharField(max_length=16, unique=True, db_index=True)
 
     def __str__(self):
@@ -63,6 +74,8 @@ def path_and_rename(instance, filename):
 
 
 class Photo(models.Model):
+    objects = models.Manager()
+
     # The actual photo object
     photo = VersatileImageField(
         upload_to=path_and_rename,
@@ -71,10 +84,8 @@ class Photo(models.Model):
     )
 
     # Information describing the photo
-    # height = models.IntegerField()
-    # width = models.IntegerField()
-    motive = models.CharField(max_length=256, db_index=True, blank=True, verbose_name='motiv')
-    description = models.CharField(max_length=2048, blank=True, null=True, verbose_name='beskrivelse')
+    motive = models.CharField(max_length=256, db_index=True, blank=True, verbose_name='motives')
+    description = models.CharField(max_length=2048, blank=True, null=True, verbose_name='descriptions')
     date_taken = models.DateTimeField()
     date_modified = models.DateTimeField(auto_now=True)
     photo_ppoi = PPOIField()  # Point of interest dot, 2d vector
@@ -88,13 +99,13 @@ class Photo(models.Model):
     splash = models.BooleanField(default=False)
 
     # Foreign keys describing meta-data
+    # models.PROTECT protects against cascading deletion. You cant delete a security level that has photos
     security_level = models.ForeignKey(SecurityLevel, on_delete=models.PROTECT)
-    # models.Protect protects against cascading deletion. You cant delete a security level that has photos
     tags = models.ManyToManyField(Tag, blank=True)
-    category = models.ForeignKey(Category)
-    media = models.ForeignKey(Media)
-    album = models.ForeignKey(Album)
-    place = models.ForeignKey(Place)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    media = models.ForeignKey(Media, on_delete=models.PROTECT)
+    album = models.ForeignKey(Album, on_delete=models.PROTECT)
+    place = models.ForeignKey(Place, on_delete=models.PROTECT)
 
     def __str__(self):
         if self.photo.name:
@@ -162,6 +173,8 @@ class Photo(models.Model):
 
 
 class Order(models.Model):
+    objects = models.Manager()
+
     name = models.CharField(max_length=64)
     email = models.EmailField(max_length=32)
     address = models.CharField(max_length=64)
@@ -177,8 +190,10 @@ class Order(models.Model):
 
 
 class OrderPhoto(models.Model):
-    photo = models.ForeignKey(Photo)
-    order = models.ForeignKey(Order, related_name='order_photos')
+    objects = models.Manager()
+
+    photo = models.ForeignKey(Photo, on_delete=models.PROTECT)
+    order = models.ForeignKey(Order, related_name='order_photos', on_delete=models.PROTECT)
     format = models.CharField(max_length=16)
 
     def __str__(self):
