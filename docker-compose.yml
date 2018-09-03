@@ -38,6 +38,16 @@ services:
     volumes:
       - postgres_volume:/var/lib/postgresql/data
 
+  angular:
+      restart: always
+      image: fg_frontend
+      container_name: frontend
+      networks:
+          - webserver_network
+          - database_network
+      volumes:
+          - ./src/angular_frontend/:/src/
+
 volumes:
   django_volume:
   static_volume:
