@@ -169,6 +169,7 @@ def convert_Photo():
 
     if len(dupes) > 0:
         logging.warning("{} duplicates found".format(len(dupes)))
+        dupe_obj_list = []
         for item in dupes:
             resp = get_latest_image_number_and_page_number(item.album.pk)
             new_item = models.Photo(
@@ -189,8 +190,11 @@ def convert_Photo():
                 album_id=item.album.pk,
                 place_id=item.place.pk
             )
-            new_item.save()
+            dupe_obj_list.append(new_item)
             logging.info(resp)
+
+        logging.info("Bulk inserting dupes")
+        models.Photo.objects.bulk_create(dupe_obj_list)
 
 
 def attach_Tags_to_photos():
