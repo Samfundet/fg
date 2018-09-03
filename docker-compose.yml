@@ -3,7 +3,9 @@ version: '3'
 services:
   nginx:
     restart: always
-    build: ./nginx
+    build:
+      context: .
+      dockerfile: ./nginx/Dockerfile
     container_name: nginx
     ports:
       - "80:80"
@@ -12,7 +14,6 @@ services:
       - webserver_network
     volumes:
       - ./nginx:/etc/nginx/conf.d
-      - ./src/angular_frontend:/static/angular:ro # read only: ro
       - ./src/django_backend:/django
 
   django:
