@@ -40,7 +40,7 @@ services:
 
   angular:
       restart: always
-      image: fg_frontend
+      image: nikzy/fg_frontend
       container_name: frontend
       networks:
           - webserver_network
