@@ -4,12 +4,15 @@ FROM node:10.9.0
 RUN mkdir /src/
 WORKDIR /src/
 
-# ENV PATH './src/angular_frontend/node_modules/.bin' to $PATH
+ENV PATH /src/node_modules/.bin' to $PATH
 
  # insatl and cache app dependencies
  COPY './package.json' '/src/package.json'
  RUN npm install
- RUN npm install -g @angular/cli@1.7.3
+ RUN npm install -g @angular/cli@1.6.3
+ # RUN npm install node-sass
+ # RUN npm rebuild node-sass
+
 
 # add app
  COPY ./ /src/
