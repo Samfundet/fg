@@ -40,11 +40,14 @@ services:
 
   angular:
       restart: always
-      image: nikzy/fg_frontend:1.0
-      container_name: frontend
+      #image: nikzy/fg_frontend:1.0
+      build: src/angular_frontend
+      container_name: angular
       networks:
           - webserver_network
           - database_network
+      expose:
+          - "4200"
       volumes:
           - ./src/angular_frontend/:/src/
 
