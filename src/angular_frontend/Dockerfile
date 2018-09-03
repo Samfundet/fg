@@ -9,6 +9,7 @@ WORKDIR /src/
  # insatl and cache app dependencies
  COPY './package.json' '/src/package.json'
  RUN npm install
+ RUN npm install -g @angular/cli@1.7.3
 
 # add app
  COPY ./ /src/
