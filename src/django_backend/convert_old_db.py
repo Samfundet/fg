@@ -1,6 +1,8 @@
 import os
 import sys
 import json
+import logging
+logging.basicConfig(level=logging.DEBUG)
 sys.path.append('/django')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fg.settings")
 import django
@@ -12,11 +14,10 @@ from django import db
 from fg.api import models, views
 from fg.legacy import models as old_models
 from fg.fg_auth.models import User
-from versatileimagefield.fields import VersatileImageField
 
 
 def convert_SecurityLevel():
-    print("Converting security_levels")
+    logging.info("Converting security_levels")
     old_security_levels = old_models.FgAuthSecuritylevel.objects.using(
         'old_db').all()
 
@@ -29,7 +30,7 @@ def convert_SecurityLevel():
 
 
 def convert_Tag():
-    print("Converting tags")
+    logging.info("Converting tags")
     old_tags = old_models.ArchiveTag.objects.using('old_db').all()
 
     obj_list = []
@@ -41,7 +42,7 @@ def convert_Tag():
 
 
 def convert_Category():
-    print("Converting categories")
+    logging.info("Converting categories")
     old_categories = old_models.ArchiveCategory.objects.using('old_db').all()
 
     obj_list = []
@@ -53,7 +54,7 @@ def convert_Category():
 
 
 def convert_Album():
-    print("Converting albums")
+    logging.info("Converting albums")
     old_albums = old_models.ArchiveAlbum.objects.using('old_db').all()
 
     old_albums_cleaned = []
@@ -77,7 +78,7 @@ def convert_Album():
 
 
 def convert_Media():
-    print("Converting mediums")
+    logging.info("Converting mediums")
     old_mediums = old_models.ArchiveMedia.objects.using('old_db').all()
 
     obj_list = []
@@ -89,7 +90,7 @@ def convert_Media():
 
 
 def convert_Place():
-    print("Converting places")
+    logging.info("Converting places")
     old_places = old_models.ArchivePlace.objects.using('old_db').all()
 
     obj_list = []
@@ -114,73 +115,35 @@ def get_latest_image_number_and_page_number(album_pk):
     if new_image_number > 99:
         new_image_number = 1
         new_page = latest_page + 1
-    else:
-        raise IndexError("Out of image_number and page range!")
 
     return {
         'new_image_number': new_image_number,
         'new_page': new_page
     }
 
-
 def convert_Photo():
-    print("Converting Photos")
-    chunksize = 1000
-    queryset = old_models.ArchiveImagemodel.objects.using('old_db')
+    logging.info("Converting Photos")
+    old_photo_set = old_models.ArchiveImagemodel.objects.using('old_db')
 
     key_dict = {}
     dupes = []
-    pk = 0
-    last_pk = queryset.order_by('-pk')[0].pk
-    old_photo_set = queryset.order_by('pk')
 
-    while pk < last_pk:
-        obj_list = []
+    obj_list = []
 
-        for item in old_photo_set.filter(pk__gt=pk)[:chunksize]:
-            sys.stdout.write(".")
-            pk = item.pk
+    for item in old_photo_set:
+        logging.debug("Reading item pk#{} from photoset".format(item.pk))
+        key = '{}-{}-{}'.format(item.page,
+                                item.image_number, item.album.pk)
+        if key in key_dict:
+            dupes.append(item)
+            continue
+        else:
+            key_dict[key] = item
 
-            key = '{}-{}-{}'.format(item.page,
-                                    item.image_number, item.album.pk)
-            if key in key_dict:
-                dupes.append(item)
-                continue
-            else:
-                key_dict[key] = item
+        if len(item.motive) >= 256:
+            item.description = item.motive
+            item.motive = item.motive[:255]
 
-            if len(item.motive) >= 256:
-                item.description = item.motive
-                item.motive = item.motive[:255]
-
-            new_item = models.Photo(
-                pk=item.pk,
-                photo=item.image_prod,
-                motive=item.motive,
-                scanned=item.scanned,
-                on_home_page=item.on_home_page,
-                lapel=item.lapel,
-                splash=False,
-                page=item.page,
-                image_number=item.image_number,
-                date_taken=item.date,
-
-                security_level=models.SecurityLevel.objects.get(
-                    pk=item.security_level.pk),
-                category=models.Category.objects.get(pk=item.category.pk),
-                media=models.Media.objects.get(pk=item.media.pk),
-                album=models.Album.objects.get(pk=item.album.pk),
-                place=models.Place.objects.get(pk=item.place.pk)
-            )
-            obj_list.append(new_item)
-
-        print("#")
-        print("Bulk inserting {} photos".format(len(obj_list)))
-        models.Photo.objects.bulk_create(obj_list)
-
-    print("{} duplicates found".format(len(dupes)))
-    for item in dupes:
-        resp = get_latest_image_number_and_page_number(item.album.pk)
         new_item = models.Photo(
             pk=item.pk,
             photo=item.image_prod,
@@ -189,22 +152,49 @@ def convert_Photo():
             on_home_page=item.on_home_page,
             lapel=item.lapel,
             splash=False,
-            page=resp['new_page'],
-            image_number=resp['new_image_number'],
+            page=item.page,
+            image_number=item.image_number,
             date_taken=item.date,
 
-            security_level=models.SecurityLevel.objects.get(
-                pk=item.security_level.pk),
-            category=models.Category.objects.get(pk=item.category.pk),
-            media=models.Media.objects.get(pk=item.media.pk),
-            album=models.Album.objects.get(pk=item.album.pk),
-            place=models.Place.objects.get(pk=item.place.pk)
+            security_level_id=item.security_level.pk,
+            category_id=item.category.pk,
+            media_id=item.media.pk,
+            album_id=item.album.pk,
+            place_id=item.place.pk
         )
-        new_item.save()
-        print(resp)
+        obj_list.append(new_item)
+
+    logging.info("Bulk inserting {} photos".format(len(obj_list)))
+    models.Photo.objects.bulk_create(obj_list)
+
+    if len(dupes) > 0:
+        logging.warning("{} duplicates found".format(len(dupes)))
+        for item in dupes:
+            resp = get_latest_image_number_and_page_number(item.album.pk)
+            new_item = models.Photo(
+                pk=item.pk,
+                photo=item.image_prod,
+                motive=item.motive,
+                scanned=item.scanned,
+                on_home_page=item.on_home_page,
+                lapel=item.lapel,
+                splash=False,
+                page=resp['new_page'],
+                image_number=resp['new_image_number'],
+                date_taken=item.date,
+
+                security_level_id=item.security_level.pk,
+                category_id=item.category.pk,
+                media_id=item.media.pk,
+                album_id=item.album.pk,
+                place_id=item.place.pk
+            )
+            new_item.save()
+            logging.info(resp)
 
 
 def attach_Tags_to_photos():
+    logging.info("attaching tags to photos")
     old_tag2photo_set = old_models.ArchiveImagemodelTag.objects.using(
         'old_db').order_by('imagemodel')
 
@@ -216,6 +206,8 @@ def attach_Tags_to_photos():
             photo.tags.add(tag)
             photo.save()
         except ObjectDoesNotExist:
+            logging.exception(
+                "{} photo and/or {} tag not does not exist".format(photo, tag))
             continue
 
 
@@ -232,7 +224,7 @@ def convert():
     User.objects.create_superuser(
         username='fg', email='', password='qwer1234')
 
-    print("Done!")
 
-
+logging.info("Starting conversion")
 convert()
+logging.info("Conversion complete")
