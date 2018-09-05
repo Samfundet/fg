@@ -42,17 +42,6 @@ class Job(models.Model):
         return self.name
 
 
-class UserDownloadedPhoto(models.Model):
-    objects = models.Manager()
-
-    photo = models.ForeignKey(Photo, on_delete=models.PROTECT)
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
-    date_downloaded = models.DateTimeField(blank=True, default=timezone.now)
-
-    def __str__(self):
-        return '[' + str(self.user) + '] downloaded ' + str(self.photo)
-
-
 class User(AbstractUser):
     """fields in AbstractUser username, first_name, last_name, email"""
     # Personal info
@@ -80,3 +69,14 @@ class User(AbstractUser):
 
     def __str__(self):
         return '%s %s - (%s)' % (self.first_name, self.last_name, self.username)
+
+
+class UserDownloadedPhoto(models.Model):
+    objects = models.Manager()
+
+    photo = models.ForeignKey(Photo, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_downloaded = models.DateTimeField(blank=True, default=timezone.now)
+
+    def __str__(self):
+        return '[' + str(self.user) + '] downloaded ' + str(self.photo)

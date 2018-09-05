@@ -60,6 +60,7 @@ class CategoryViewSet(ModelViewSet):
     pagination_class = UnlimitedPagination
 
 
+@ACL_FG_or_read_only
 class MediaViewSet(ModelViewSet):
     """
     API endpoint that allows mediums to be viewed or edited
