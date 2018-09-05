@@ -102,7 +102,7 @@ export class UploadComponent implements OnInit {
       this.store.postPhotoAction({
         ...this.uploadForm.value,
         photo: item._file,
-        date_taken
+        date_taken,
       }).subscribe(event => {
         console.log('Completed: ' + item._file.name);
         this.toastr.success(null, 'Opplasting fullført 🔥');
@@ -117,6 +117,10 @@ export class UploadComponent implements OnInit {
           console.error(error);
         });
     }
+  }
+
+  makeSplash(id: number) {
+
   }
 
   removeItem(item: FileItem) {

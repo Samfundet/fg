@@ -103,6 +103,15 @@
           <button type="button" [disabled]="item.isUploading || item.isSuccess || !uploadForm.valid" class="btn btn-primary" (click)="uploadItem(item)">
             <i class="fa fa-upload"></i> Start
           </button>
+
+          <div fxLayout="column">
+            <div fxLayout="row">
+              <label for="splash">Sett som bannerbilde</label>
+              <div class="chip"><i class="fa fa-certificate"></i> Ny!</div>
+            </div>
+            <input id="item.index" type="checkbox" (click)="makeSplash(item.index)">
+          </div>
+
           <button type="button" class="btn btn-danger" (click)="removeItem(item)" [disabled]="!uploadForm.valid">
             <i class="fa fa-times"></i>Fjern
           </button>

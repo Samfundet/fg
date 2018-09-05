@@ -60,7 +60,6 @@ class CategoryViewSet(ModelViewSet):
     pagination_class = UnlimitedPagination
 
 
-@ACL_FG_or_read_only
 class MediaViewSet(ModelViewSet):
     """
     API endpoint that allows mediums to be viewed or edited
@@ -170,7 +169,6 @@ class PhotoViewSet(ModelViewSet):
             return models.Photo.objects.filter(security_level__name="ALLE")
 
 
-@api_view()
 def get_latest_image_number_and_page_number(request, album_id='', analog=False):
     try:
         if album_id:
