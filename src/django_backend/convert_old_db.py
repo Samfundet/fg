@@ -226,7 +226,7 @@ def convert():
     convert_Place()
     convert_Photo()
 
-    # attach_Tags_to_photos()
+    attach_Tags_to_photos()
     # TODO move users and user_photo_downloaded in as well
 
 
