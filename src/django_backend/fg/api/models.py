@@ -1,7 +1,9 @@
 import os
+import logging
 from .. import settings
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist
 from versatileimagefield.fields import VersatileImageField, PPOIField
 
 class Tag(models.Model):
@@ -113,7 +115,7 @@ class Photo(models.Model):
         return str(self.id)
 
     def save(self, *args, **kwargs):
-        if self.pk is not None:
+        try:
             orig = Photo.objects.get(pk=self.pk)
             if orig.album != self.album:
                 self.move_image_file_location()
@@ -123,6 +125,9 @@ class Photo(models.Model):
                 self.move_image_file_location()
             elif orig.image_number != self.image_number:
                 self.move_image_file_location()
+        except ObjectDoesNotExist as e:
+            logging.warning("move not required, photo instance does not already exist!")
+            logging.warning(e)
 
         super(Photo, self).save(*args, **kwargs)
 

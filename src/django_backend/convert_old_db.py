@@ -1,8 +1,8 @@
 import os
+import time
 import sys
 import json
 import logging
-logging.basicConfig(level=logging.DEBUG)
 sys.path.append('/django')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fg.settings")
 import django
@@ -14,6 +14,8 @@ from django import db
 from fg.api import models, views
 from fg.legacy import models as old_models
 from fg.fg_auth.models import User
+
+logging.basicConfig(level=logging.INFO)
 
 
 def convert_SecurityLevel():
@@ -121,9 +123,10 @@ def get_latest_image_number_and_page_number(album_pk):
         'new_page': new_page
     }
 
+
 def convert_Photo():
     logging.info("Converting Photos")
-    old_photo_set = old_models.ArchiveImagemodel.objects.using('old_db')
+    old_photo_set = old_models.ArchiveImagemodel.objects.using('old_db').all()
 
     key_dict = {}
     dupes = []
@@ -169,7 +172,6 @@ def convert_Photo():
 
     if len(dupes) > 0:
         logging.warning("{} duplicates found".format(len(dupes)))
-        dupe_obj_list = []
         for item in dupes:
             resp = get_latest_image_number_and_page_number(item.album.pk)
             new_item = models.Photo(
@@ -190,17 +192,14 @@ def convert_Photo():
                 album_id=item.album.pk,
                 place_id=item.place.pk
             )
-            dupe_obj_list.append(new_item)
+            new_item.save()
             logging.info(resp)
-
-        logging.info("Bulk inserting dupes")
-        models.Photo.objects.bulk_create(dupe_obj_list)
 
 
 def attach_Tags_to_photos():
     logging.info("attaching tags to photos")
     old_tag2photo_set = old_models.ArchiveImagemodelTag.objects.using(
-        'old_db').order_by('imagemodel')
+        'old_db').order_by('imagemodel')[::1]
 
     for item in old_tag2photo_set:
         try:
@@ -209,13 +208,16 @@ def attach_Tags_to_photos():
 
             photo.tags.add(tag)
             photo.save()
-        except ObjectDoesNotExist:
-            logging.exception(
-                "{} photo and/or {} tag not does not exist".format(photo, tag))
+        except StopIteration as e:
+            logging.exception("Photo or tag does not exist")
+            logging.exception(e)
             continue
 
 
 def convert():
+    User.objects.create_superuser(
+        username='fg', email='', password='qwer1234')
+
     convert_SecurityLevel()
     convert_Tag()
     convert_Category()
@@ -223,12 +225,14 @@ def convert():
     convert_Media()
     convert_Place()
     convert_Photo()
-    attach_Tags_to_photos()
 
-    User.objects.create_superuser(
-        username='fg', email='', password='qwer1234')
+    # attach_Tags_to_photos()
+    # TODO move users and user_photo_downloaded in as well
 
 
 logging.info("Starting conversion")
+start_time = time.monotonic()
 convert()
+elapsed_time = time.monotonic() - start_time
 logging.info("Conversion complete")
+logging.info(time.strftime("%H:%M:%S", time.gmtime(elapsed_time)))
