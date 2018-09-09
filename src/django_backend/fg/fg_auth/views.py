@@ -5,10 +5,15 @@ from rest_framework import serializers
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
+from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login
+from rest_framework.authentication import SessionAuthentication
+
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.forms.models import model_to_dict
+from django.utils.decorators import decorator_from_middleware
+from .middlewares import ProxyRemoteUserMiddleware
 
 from . import models, serializers
 from ..paginations import UnlimitedPagination
@@ -47,25 +52,8 @@ class PowerUsersView(ListAPIView):
     def get_queryset(self):
         return models.User.objects.filter(groups__name="POWER").all()
 
-
+@decorator_from_middleware(ProxyRemoteUserMiddleware)
 def login_user(request):
-    print(request.META)
-    auth_header = request.META['HTTP_AUTHORIZATION']
-    encoded_credentials = auth_header.split(' ')[1]
-    decoded_credentials = base64.b64decode(encoded_credentials).decode("utf-8").split(':')
-    username = decoded_credentials[0]
-    password = decoded_credentials[1]
-    user = authenticate(username=username, password=password)
-
-    if user:
-        if user.is_active:
-            login(request, user)
-            groups = []
-            for g in user.groups.all():
-                groups.append(g.name)
-            return JsonResponse({"username": user.username, "groups": groups})
-        else:
-            return JsonResponse({"error": "User is inactive"}, status=403)
-    else:
-        sleep(1)
-        return JsonResponse({"error": "User with username/password not found"}, status=403)
+    user = request.user
+    token, created = Token.objects.get_or_create(user=user)
+    return JsonResponse({"username": request.user.username, "token": token.key})

@@ -9,35 +9,33 @@ class IsFGOrReadOnly(BasePermission):
     """Object-level permission to only allow read-only operations."""
 
     def has_permission ( self, request, view ):
-        # HTTP Remote user is set as username@AD.SAMFUNDET.NO
-        # remove @AD.SAMFUNDET.NO to make ITKACL happy
-        user = request.META.get('HTTP_REMOTE_USER').split('@')[0]
-        return itkacl.check('/web/fg', user)
+        user = request.user
+        return itkacl.check('/web/fg', user.username)
 
 class IsFgOrPostOnly(BasePermission):
     """Object-level permission to only allow post-only operations by anon users"""
 
     def has_permission ( self, request, view ):
-        user = request.META.get('HTTP_REMOTE_USER').split('@')[0]
-        return itkacl.check('/web/fg', request.META.get('REMOTE_USER'))
+        user = request.user
+        return itkacl.check('/web/fg', user.username)
 
 class IsFG(BasePermission):
     """Object level permission only allowing FG users"""
 
     def has_permission ( self, request, view ):
-        user = request.META.get('HTTP_REMOTE_USER').split('@')[0]
-        return itkacl.check('/web/fg', request.META.get('REMOTE_USER'))
+        user = request.user
+        return itkacl.check('/web/fg', user.username)
 
 class IsFgOrHusfolk(BasePermission):
     """Object level permission only allowing FG users and Husfolk users"""
 
     def has_permission ( self, request, view ):
-        user = request.META.get('HTTP_REMOTE_USER').split('@')[0]
-        return itkacl.check('/web/fg', request.META.get('REMOTE_USER'))
+        user = request.user
+        return itkacl.check('/web/fg', user.username)
 
 class IsFgOrHusfolkPostOnly(BasePermission):
     """Object level permission only allowing FG users and Husfolk users"""
 
     def has_permission ( self, request, view ):
-        user = request.META.get('HTTP_REMOTE_USER').split('@')[0]
-        return itkacl.check('/web/fg', request.META.get('REMOTE_USER'))
+        user = request.user
+        return itkacl.check('/web/fg', user.username)

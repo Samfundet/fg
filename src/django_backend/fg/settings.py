@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'versatileimagefield',
     'rest_framework_filters',
     'django_filters',
+    'rest_framework.authtoken',
+
 
     # Own apps
     'fg.api',
@@ -54,8 +56,9 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         #'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        #'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
 #        'rest_framework.authentication.BasicAuthentication',
+	
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -71,6 +74,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.RemoteUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -219,14 +223,11 @@ VERSATILEIMAGEFIELD_SETTINGS = {
     ]
 }
 
-# AUTH SETTINGS
+AUTHENTICATION_BACKENDS = [
+    'fg.fg_auth.backends.AdRemoteUserBackend'
+]
+
 AUTH_USER_MODEL = 'fg_auth.User'
-LOGIN_URL = '/login'
-LOGIN_REDIRECT_URL = '/'
-AUTHENTICATION_BACKENDS = (
-    'fg.fg_auth.auth.KerberosBackend',
-    'django.contrib.auth.backends.ModelBackend'
-)
 
 # Groups
 GROUPS = {
