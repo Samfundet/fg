@@ -1,7 +1,6 @@
 import { IResponse, ISearchParams, PhotoResponse, IPhoto } from 'app/model';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'fg-paginator',
