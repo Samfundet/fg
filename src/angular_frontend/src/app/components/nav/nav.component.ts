@@ -1,7 +1,7 @@
-import { IForeignKey } from './../../model';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { StoreService, AuthGuardService, ApiService } from 'app/services';
+import {IForeignKey} from './../../model';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {Router, ActivatedRoute} from '@angular/router';
+import {StoreService, AuthGuardService, ApiService} from 'app/services';
 
 @Component({
   selector: 'fg-nav',
@@ -74,11 +74,11 @@ export class NavComponent implements OnInit {
     if (value.length > 0) {
       this.tags.forEach(tag => {
         if (value === tag.name) {
-          params = { 'tags': tag.id };
+          params = {'tags': tag.id};
         }
       });
       if (this.motives.indexOf(value) !== -1) {
-        params = { 'motive': value };
+        params = {'motive': value};
       }
     }
     return params;

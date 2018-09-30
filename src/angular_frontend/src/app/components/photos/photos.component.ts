@@ -1,14 +1,11 @@
-import { HttpParams } from '@angular/common/http';
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-import { ApiService, StoreService } from 'app/services';
-import { IForeignKey, IFilters, IPhoto, IResponse } from 'app/model';
-import { NavComponent} from 'app/components/nav/nav.component'; // import simple search from nav
+import {Component, OnInit, OnDestroy, Input} from '@angular/core';
+import {FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
+import {ActivatedRoute, Router, ParamMap} from '@angular/router';
+import {ApiService, StoreService} from 'app/services';
+import {IForeignKey, IFilters, IPhoto, IResponse} from 'app/model';
+import {NavComponent} from 'app/components/nav/nav.component'; // import simple search from nav
 
 import 'rxjs/add/operator/take';
-import { values } from 'd3';
 
 @Component({
   selector: 'fg-photos',
@@ -33,7 +30,17 @@ export class PhotosComponent implements OnInit, OnDestroy {
   motives: string[] = [];
   tags: IForeignKey[] = [];
   filteredMotives: string[] = [];
-  filteredImbecileSearch: string[] = [];
+
+  // Helper method for validating JSON
+  static searchHasOwnProperty(valObj) {
+    for (const key in valObj) {
+      if (valObj.hasOwnProperty(key)) {
+        if (valObj[key] !== null && valObj[key].length < 1) {
+          valObj[key] = null;
+        }
+      }
+    }
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -45,10 +52,10 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
   ) {
     route.queryParams.take(1).subscribe(params => this.initialize(params as IFilters));
-    api.getAlbums().subscribe(x => this.albums = [{ id: null, name: '-- Alle --' }, ...x]);
-    api.getCategories().subscribe(x => this.categories = [{ id: null, name: '-- Alle --' }, ...x]);
-    api.getMediums().subscribe(x => this.mediums = [{ id: null, name: '-- Alle --' }, ...x]);
-    api.getPlaces().subscribe(x => this.places = [{ id: null, name: '-- Alle --' }, ...x]);
+    api.getAlbums().subscribe(x => this.albums = [{id: null, name: '-- Alle --'}, ...x]);
+    api.getCategories().subscribe(x => this.categories = [{id: null, name: '-- Alle --'}, ...x]);
+    api.getMediums().subscribe(x => this.mediums = [{id: null, name: '-- Alle --'}, ...x]);
+    api.getPlaces().subscribe(x => this.places = [{id: null, name: '-- Alle --'}, ...x]);
     api.getForeignKey('tags').subscribe(x => this.tags = x);
     api.getAllMotives().subscribe(x => {
       this.motives = x['motives'];
@@ -67,35 +74,23 @@ export class PhotosComponent implements OnInit, OnDestroy {
     this.store.photoRouteActive$.next(false);
   }
 
-  // for nonadvanced search
-  imbecileSearch(filter: IFilters) {
-
-  }
   search(filter) {
     if (this.isAdvanced) {
       const searchVal = this.searchForm.value;
       searchVal.tags = [];
       this.store.getSearchTagsValue().forEach(t => searchVal.tags.push(t.id));
-    } else {
-       filter = this.nav.createParams(filter);
     }
-    this.searchHasOwnProperty(filter);
-    // setter URL-en for søk
+    if (typeof filter === 'string') {
+      // If were using normal search we have to convert the params to object not string as it is passed in as
+      filter = this.nav.createParams(filter);
+    }
+    PhotosComponent.searchHasOwnProperty(filter);
+    // Set URL
     this.router.navigate([], {
       queryParams: filter
     });
-    // faktiske søket
+    // Search
     this.searchWithParams(filter);
-  }
-
-  searchHasOwnProperty(valObj) {
-    for (const key in valObj) {
-      if (valObj.hasOwnProperty(key)) {
-        if (valObj[key] !== null && valObj[key].length < 1) {
-          valObj[key] = null;
-        }
-      }
-    }
   }
 
   searchWithParams(params) {
@@ -145,17 +140,20 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
   newParams(params: string) {
     if (!params) { // if last page were without any params (page 1, no tags etc)
+      console.log('no params');
       this.search({});
     } else if (params.indexOf('=') === -1) {
-      this.search({ ...this.oldParams, page: params }); // unpacking old params and adding in new page param
+      console.log('new params');
+      this.search({...this.oldParams, page: params}); // unpacking old params and adding in new page param
       // doing this to avoid passing all params from paginator.component
     } else {
       const paramObj = {};
+      console.log('more params');
       params.split('&').forEach(param => {
         paramObj[param.split('=')[0]] = param.split('=')[1];
       });
       this.search(paramObj);
     }
   }
-
 }
+

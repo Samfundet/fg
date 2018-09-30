@@ -30,29 +30,27 @@ export class PaginatorComponent implements OnInit {
     console.log(this.response);
   }
 
-  changePage(page: number): void {
+  changePage(page: number): void { // Change page based on which page number is clicked
     this.newParams.emit(page.toString());
   }
 
-  previousPage() {
+  previousPage() { // Go to previous page
     this.newParams.emit(this.response.previous.split('?')[1]);
   }
 
-  nextPage() {
+  nextPage() { // Go to next page
+    console.log(this.response.next.split('?')[1]);
     this.newParams.emit(this.response.next.split('?')[1]);
   }
 
-  createParams(params: string) {
+  createParams(params: string) { // Create params for new page
     params.split('&').forEach(param => {
       this.params[param.split('=')[0]] = param.split('=')[1];
     });
   }
 
-  makeArrayFromNumber(num: number): Array<number> {
-    return _.range(1, num + 1);
-  }
-
   makePaginator(totalPages: number, currentPage: number, pageSize: number = 10): Array<number> {
+    // Builds a paginator based on available pages. Centers the chosen page in the middle of available pages to show (max 10 at a time)
     let startPage: number;
     let endPage: number;
 
@@ -75,7 +73,7 @@ export class PaginatorComponent implements OnInit {
     }
 
     // create an array of pages to ng-repeat in the pager control
-    const pages = _.range(startPage, endPage + 1);
+    const pages = Array.from({length: endPage}, (_, i) => i + startPage);
 
     // return object with all pager properties required by the view
     return pages;
