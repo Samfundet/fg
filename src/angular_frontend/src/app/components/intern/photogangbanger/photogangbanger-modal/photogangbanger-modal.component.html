@@ -5,35 +5,35 @@
       <div class="scrollable" fxLayout="column" fxLayoutAlign="stretch center" fxLayoutGap="20px" fxFlex="<grow>">
         <div class="input-group">
           <label>Fornavn</label>
-          <input type="text" formControlName="first_name">
+          <input type="text" formControlName="first_name" required>
         </div>
         <div class="input-group">
           <label>Etternavn</label>
-          <input type="text" formControlName="last_name">
+          <input type="text" formControlName="last_name" required>
         </div>
         <div class="input-group">
           <label>E-post</label>
-          <input type="text" formControlName="email">
+          <input type="email" formControlName="email" email required>
         </div>
         <div class="input-group">
           <label>Adresse</label>
-          <input type="text" formControlName="address">
+          <input type="text" formControlName="address" required>
         </div>
         <div class="input-group">
           <label>Postnummer</label>
-          <input type="text" formControlName="zip_code">
+          <input type="number" formControlName="zip_code" pattern="[0-9]{4,4}" required>
         </div>
         <div class="input-group">
           <label>Sted</label>
-          <input type="text" formControlName="city">
+          <input type="text" formControlName="city" required>
         </div>
         <div class="input-group">
           <label>Tlf</label>
-          <input type="number" formControlName="phone">
+          <input type="number" formControlName="phone" pattern="[0-9]{8,8}" required>
         </div>
         <div class="input-group">
           <label>Opptaksår</label>
-          <input type="number" formControlName="opptaksaar">
+          <input type="number" formControlName="opptaksaar" pattern="[0-9]{4,4}" required>
         </div>
         <div class="input-group">
           <label>Gjengjobb 1</label>
