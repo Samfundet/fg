@@ -3,7 +3,7 @@ import { trigger, transition, useAnimation } from '@angular/animations';
 import { Router } from '@angular/router';
 import { StoreService, ApiService } from 'app/services';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { shake } from 'ng-animate/lib';
+import {shake} from 'ng-animate';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
