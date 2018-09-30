@@ -27,7 +27,7 @@ export class StoreService {
   private _loginModal$ = new BehaviorSubject<ILoginRequest>(null);
   private _userModal$ = new BehaviorSubject<IUser>(null);
   private _foreignKeyModal$ = new BehaviorSubject<IForeignKeyModal>(null);
-  private _photoShoppingCart$ = new BehaviorSubject<IPhoto[]>(null);
+  private _photoShoppingCart$ = new BehaviorSubject<IPhoto[]>([]);
   private _searchTags$ = new BehaviorSubject<IForeignKey[]>(null);
 
   public photoRouteActive$ = new Subject<boolean>();

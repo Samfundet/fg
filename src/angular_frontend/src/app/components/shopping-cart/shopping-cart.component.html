@@ -5,7 +5,7 @@
       <div *ngIf="(store.photoShoppingCart$ | async).length > 0">
 
         <h1>Handlekurv</h1>
-        <div fxLayout="row" fxLayoutGap="20px" fxFlexAlign="center" id="main container">
+        <div fxLayout="row" fxLayoutGap="20px" fxFlexAlign="center" >
           <form [formGroup]="cartForm" fxFill fxLayout.gt-md="row" fxLayout.lt-md="column" fxLayoutGap="30px">
             <div fxLayout="column" fxFlex="30" fxLayoutGap="15px">
               <div fxLayout="column">

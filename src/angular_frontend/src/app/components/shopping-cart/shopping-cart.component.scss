@@ -15,7 +15,7 @@
     font-size: 1.5rem;
     margin: 1rem;
 
-    @include linx($link, $visit, $hover, $active);
+    @include linx($warning);
   }
 }
 
@@ -42,19 +42,6 @@
   &--img {
     object-fit: contain;
     width: 100px;
-  }
-
-  &--link {
-    text-decoration: underline;
-  }
-  &--link:link {
-    color: #58C5FF;
-  }
-  &--link:visited {
-    color: #58C5FF;
-  }
-  &--link:hover {
-    color: #A29DFF;
   }
 }
 
