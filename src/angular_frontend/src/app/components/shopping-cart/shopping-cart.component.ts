@@ -25,6 +25,7 @@ export class ShoppingCartComponent implements OnInit {
 
   ngOnInit() {
     // console.log(this.cart);
+    // TODO: Fjern dette. Skjønner hvorfor det er her tho. Lenge leve latskap
     this.cartForm = this.fb.group({
       name: ['Mikkel', [Validators.required]],
       email: ['m@m.com', [Validators.required, Validators.email]],

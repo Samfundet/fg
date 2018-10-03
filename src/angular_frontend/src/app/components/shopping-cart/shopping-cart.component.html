@@ -2,7 +2,7 @@
   <section class="wrapper style1">
     <div class="inner">
       <!-- mailing form -->
-      <div *ngIf="(store.photoShoppingCart$ | async).length > 0">
+      <div *ngIf="(store.photoShoppingCart$ | async) != null">
 
         <h1>Handlekurv</h1>
         <div fxLayout="row" fxLayoutGap="20px" fxFlexAlign="center" >
@@ -123,7 +123,7 @@
       </div>
 
       <!-- NO IMAGES | BEGIN -->
-      <div *ngIf="!orderedPhotos && (store.photoShoppingCart$ | async).length < 1" fxLayout="column" fxLayoutAlign="center start"
+      <div *ngIf="!orderedPhotos && (store.photoShoppingCart$ | async) == null" fxLayout="column" fxLayoutAlign="center start"
         class="alert">
         <p class="alert--text">Ingen bilder i handlekurven!</p>
         <p class="alert--text">
